@@ -1,8 +1,8 @@
 {
-  "name": "thinhda",
+  "name": "thinhdanggroup.github.io",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://thinhdanggroup.github.io/thinhdanggroup.github.io",
+  "homepage": "https://thinhdanggroup.github.io/thinhdanggroup.github.io/",
   "dependencies": {
     "axios": "^0.16.2",
     "bootstrap": "^4.0.0-alpha.6",
