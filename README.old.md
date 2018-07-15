@@ -1,0 +1,13 @@
+# thinhda
+
+# Install
+
+## Bootstrap 
+
+npm install bootstrap@4.0.0-alpha.6 --save
+npm install --save reactstrap react-addons-transition-group react-addons-css-transition-group react react-dom
+
+```
+// Import default Bootstrap 4 CSS
+import 'bootstrap/dist/css/bootstrap.css';
+```
