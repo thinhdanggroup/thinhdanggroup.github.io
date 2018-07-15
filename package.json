@@ -2,7 +2,7 @@
   "name": "thinhda",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://thinhdanggroup.github.io",
+  "homepage": "http://thinhdanggroup.github.io/thinhdanggroup.github.io",
   "dependencies": {
     "axios": "^0.16.2",
     "bootstrap": "^4.0.0-alpha.6",
