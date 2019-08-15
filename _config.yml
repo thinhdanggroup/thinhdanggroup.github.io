@@ -1,9 +1,9 @@
 # Site
 name: 'Thinhda's Blog'
 description: 'I am a software engineer.'
-logo: 'assets/images/logo.png'
+logo: 'assets/images/avatar.jpg'
 favicon: 'assets/images/favicon.ico'
-baseurl: ''
+baseurl: 'https://thinhdanggroup.github.io/'
 disqus: 'demowebsite'
 email: 'thinhdang206@gmail.com'
 mailchimp-list: 'https://wowthemes.us11.list-manage.com/subscribe/post?u=8aeb20a530e124561927d3bd8&amp;id=8c3d2d214b'
