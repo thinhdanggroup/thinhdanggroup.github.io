@@ -19,7 +19,7 @@ plugins:
   - jekyll-seo-tag
   
 authors:
-    sal:
+    thinhda:
       name:           ThinhDA
       site:           https://thinhdanggroup.github.io
       avatar:         /assets/images/avatar1.jpg
