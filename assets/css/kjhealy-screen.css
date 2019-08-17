@@ -61,6 +61,11 @@ body {
 	margin-left: 1em;
 }
 
+.site-content {
+	margin-top:50px;
+	min-height:400px;
+}
+
 p {
 	position: relative;
 	left: 33%;
