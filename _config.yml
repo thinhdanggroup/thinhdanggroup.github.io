@@ -1,7 +1,7 @@
 # Site
-name: 'Thinhda Blog'
-description: 'I am a software engineer.'
-logo: 'assets/images/avatar.jpg'
+name: 'thinhda Blog'
+description: 'Mundana is a free Jekyll theme for awesome people like you, Medium like.'
+logo: 'assets/images/logo.png'
 favicon: 'assets/images/favicon.ico'
 baseurl: 'https://thinhdanggroup.github.io/'
 disqus: 'demowebsite'
