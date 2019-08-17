@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Prepared Statement Deep Dive"
-author: thinhda
+author: ThinhDA
 categories: [ statement, database ]
 image: assets/images/client-db.jpg
 tags: [Prepared Statement]
