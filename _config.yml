@@ -49,7 +49,7 @@ highlighter: rouge
 
 # Paginate
 paginate: 10
-
+style:  kjhealy
 
 # Exclude metadata and development time dependencies (like Grunt plugins)
 exclude: [README.markdown, package.json, grunt.js, Gruntfile.js, Gruntfile.coffee, node_modules]
