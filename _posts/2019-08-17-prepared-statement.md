@@ -3,7 +3,7 @@ layout: post
 title:  "Prepared Statement Deep Dive"
 author: thinhda
 categories: [ statement, database ]
-image: assets/images/client-db.png
+image: assets/images/client-db.jpg
 tags: [Prepared Statement]
 ---
 
