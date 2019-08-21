@@ -104,4 +104,4 @@ Kiểm tra Http Api với Postman:
 
 ## Kết luận
 
-Một service cung cấp cả hai đầu API Http và GRpc mang lại rất nhiều lợi ích khi hệ thống khác muốn tích hợp với service của bạn, vừa cung cấp tốc độ truyền tải nhanh và nhẹ nhờ giao tiếp qua GRpc và cũng có thể giao tiếp một cách đơn giản hơn qua giao thức Http truyền thống.
+Một service cung cấp cả hai đầu API Http và GRpc mang lại rất nhiều lợi ích khi người dùng muốn gọi vào service của bạn, họ có thể lựa chọn tốc độ truyền tải nhanh và nhẹ khi giao tiếp với GRpc hoặc cũng có thể lựa chọn cách đơn giản, dễ hiện thực bằng Http. Còn ở phía của bạn, không hề có dòng `duplicate code` dư thừa nào. Thật tuyệt phải không nào.
