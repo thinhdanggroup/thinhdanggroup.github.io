@@ -11,9 +11,9 @@ Nếu bạn đã từng xây dựng một ứng dụng với GRpc thì chắc ch
 
 ## 1. Giới thiệu
 
-[GRpc Gateway](https://github.com/grpc-ecosystem/grpc-gateway) là một giải pháp cho vấn đề này nhưng nó yêu cầu ta phải triển khai một service `side car`. Tôi đã từng thử nó ở thực tế và đã gặp rất nhiều vấn đề xuất hiện với `GRpc Gateway` này như authenticate, streaming data, bảo mật đường truyền, lỗi networking giữa gateway và service,... Lúc này, cách duy nhất để giải quyết vấn đề là ta phải vào thay đổi code của `Grpc Gateway` và không phải ai cũng biết về golang. Bên cạnh, một khuyết điểm của việc sử dụng nó là gói tin sẽ tốn thời gian đi qua thêm một `hop`, điều này cũng ảnh hưởng đến hiệu năng.
+[GRpc Gateway](https://github.com/grpc-ecosystem/grpc-gateway) là một giải pháp cho vấn đề này nhưng nó yêu cầu ta phải triển khai một service `side car`. Tôi đã từng thử nó cho một sản phẩm thực tế nhưng đã có rất nhiều vấn đề xuất hiện với `GRpc Gateway` này như authenticate, streaming data, bảo mật đường truyền, lỗi networking giữa gateway và service,... Lúc này, cách duy nhất để giải quyết vấn đề là ta phải vào thay đổi code của `Grpc Gateway` nhưng không phải ai cũng biết về golang. Cùng với đó, một khuyết điểm chung của gateway là gói tin sẽ tốn thời gian đi qua thêm một `hop`, điều này cũng ảnh hưởng một phần đến độ trễ của tin nhắn.
 
-Vậy tại sao không tạo một service mà có thể hỗ trợ cả hai loại API này? Với `Spring Boot`, mọi thứ ta cần làm chỉ là cấu hình. Lúc này, service của chúng ta sẽ có cả hai đầu API sử dụng chung `data transfer object` là object được tạo ra từ file `proto`.
+Đó là lúc chúng ta cần một service hỗ trợ cả hai đầu API Grpc và Http. Với `Spring Boot`, mọi thứ đều trở nên dễ dàng khi ta chỉ cần thêm vài cấu hình. Lúc này, service của chúng ta sẽ có cả hai đầu API sử dụng chung `data transfer object` là object được tạo ra từ file `proto`.
 
 Trước khi đến với phần 2, mình hi vọng các bạn đã có kiến thức cơ bản về Spring Boot, GRpc, Protobuf, ...
 
