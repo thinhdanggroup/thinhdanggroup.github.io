@@ -102,6 +102,6 @@ Kiểm tra Http Api với Postman:
 
 ![http](../assets/images/http_test.jpg)
 
-## Kết luận
+## 3. Kết luận
 
 Một service cung cấp cả hai đầu API Http và GRpc mang lại rất nhiều lợi ích khi người dùng muốn gọi vào service của bạn, họ có thể lựa chọn tốc độ truyền tải nhanh và nhẹ khi giao tiếp với GRpc hoặc cũng có thể lựa chọn cách đơn giản, dễ hiện thực bằng Http. Còn ở phía của bạn, không hề có dòng `duplicate code` dư thừa nào. Thật tuyệt phải không nào.
