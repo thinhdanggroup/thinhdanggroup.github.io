@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  "Xây dựng Spring service với API HTTP và GRpc"
+title:  "Xây dựng Service cung cấp HTTP và GRpc API bằng Spring"
 author: thinhda
 categories: [ Spring, Grpc ]
-image: assets/images/client-db.jpg
+image: assets/images/grpc-json.png
 tags: [Spring,GRpc]
 ---
 
