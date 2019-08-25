@@ -4,7 +4,7 @@ title:  "Xây dựng Service cung cấp HTTP và GRpc API bằng Spring"
 author: thinhda
 categories: [ Spring, Grpc ]
 image: assets/images/grpc-json.png
-tags: [Spring,GRpc]
+tags: featured
 ---
 
 Nếu bạn đã từng xây dựng một ứng dụng với GRpc thì chắc chắn bạn đã biết được những ưu điểm của GRpc là khả năng truyền tải nhanh(lên tới 8 lần) và tối ưu hoá nội dung tin nhắn gửi đi. Nhưng hẳn là bạn cũng biết được khuyết điểm lớn nhất của nó là không phải ứng dụng nào cũng hỗ trợ giao thức GRpc. Ví dụ như browser không thể gọi trực tiếp một service bằng GRpc. Vậy tại sao chúng ta không xây dựng một service mà có thể hỗ trợ API cho GRpc và Http?

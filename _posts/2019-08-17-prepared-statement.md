@@ -4,7 +4,7 @@ title:  "Prepared Statement Deep Dive"
 author: thinhda
 categories: [ statement, database ]
 image: assets/images/client-db.jpg
-tags: [Prepared Statement]
+tags: featured
 ---
 
 Để tối ưu hiệu năng của hệ thống, có rất nhiều cách để thực hiện nhưng hiệu quả nhất vẫn là tối ưu các câu truy vấn database. Một trong số này đó là sử dụng prepared statement để truy vấn. 
