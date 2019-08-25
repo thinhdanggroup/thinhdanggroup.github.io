@@ -1,10 +1,10 @@
 # Site
 name: 'ThinhDA'
 description: "This is a ThinhDA's blog"
-logo: 'assets/images/logo.png'
+logo: 'assets/images/page_icon.png'
 favicon: 'assets/images/favicon.ico'
-# baseurl: 'https://thinhdanggroup.github.io'
-baseurl: ''
+baseurl: 'https://thinhdanggroup.github.io'
+# baseurl: ''
 disqus: 'thinhda'
 email: 'thinhdang206@gmail.com'
 # mailchimp-list: 'https://wowthemes.us11.list-manage.com/subscribe/post?u=8aeb20a530e124561927d3bd8&amp;id=8c3d2d214b'
@@ -24,7 +24,7 @@ authors:
       name:           ThinhDA
       site:           https://thinhdanggroup.github.io
       avatar:         /assets/images/avatar.png
-      bio:            "Hi, I am Thinhda, Software Enginneer"
+      bio:            "Hi, I am Thinhda. If you want to know about me, Please view my profile: https://www.linkedin.com/in/thinh-dang/"
       email:          thinhda@gmail.com
  
 # Defaults
