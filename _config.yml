@@ -2,7 +2,7 @@
 name: 'ThinhDA'
 description: "This is a ThinhDA's blog"
 logo: 'assets/images/page_icon.png'
-favicon: 'assets/images/favicon.ico'
+favicon: 'assets/images/page_icon.png'
 baseurl: 'https://thinhdanggroup.github.io'
 # baseurl: ''
 disqus: 'thinhda'
