@@ -7,7 +7,7 @@ image: assets/images/grpc-comparison.png
 tags: featured
 ---
 
-Bạn đang có một service sử dụng gRPC để đảm bảo vấn đề hiệu năng khi giao tiếp. Nhưng rồi một ngày, bạn muốn xây một admin web cho nó nhưng trình duyệt lại không hỗ trợ giao thức HTTP/2, hay đơn giản là service khác muốn gọi qua HTTP. Và bạn tìm đến hai giải pháp grpc-gateway và grpc-web nhưng lại không biết nên dùng cái nào. Bài viết này sẽ cho bạn cái nhìn tổng quát về hai giải pháp này.
+Bạn đang có một service sử dụng gRPC để đảm bảo vấn đề hiệu năng khi giao tiếp. Nhưng rồi một ngày, bạn muốn xây một admin web cho nó nhưng trình duyệt lại không hỗ trợ giao thức HTTP/2, hay đơn giản là service khác muốn gọi qua HTTP. Và bạn tìm đến hai giải pháp grpc-gateway và gRPC-Web nhưng lại không biết nên dùng cái nào. Bài viết này sẽ cho bạn cái nhìn tổng quát về hai giải pháp này.
 
 ## 1. Khái niệm cơ bản
 
