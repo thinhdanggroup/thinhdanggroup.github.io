@@ -23,7 +23,7 @@ grpc-gateway đã cung cấp công cụ `protoc-gen-grpc-gateway` để tạo ra
 
 ![grpc-web-model](/assets/images/grpc-web-model.png)
 
-[gRPC-Web](https://github.com/grpc/grpc-web) là một thư viện Javascript để người dùng trình duyệt giao tiếp được với gRPC service. Hiện taị, gRPC-Web đang được sử dụng rộng rãi và có thể sử dụng cho production. gRPC-Web giao tiếp với gRPC services qua một gateway proxy (mặc định là [Envoy](https://www.envoyproxy.io/)).
+[gRPC-Web](https://github.com/grpc/grpc-web) là một thư viện Javascript để người dùng trình duyệt giao tiếp được với gRPC service. Hiện taị, gRPC-Web đang được sử dụng rộng rãi và có thể sử dụng cho production. gRPC-Web giao tiếp với gRPC service qua một gateway proxy (mặc định là [Envoy](https://www.envoyproxy.io/)).
 
 gRPC-Web hỗ trợ hai dạng gửi tin nhắn:
 
