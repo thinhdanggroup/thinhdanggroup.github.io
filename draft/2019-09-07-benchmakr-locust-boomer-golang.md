@@ -32,9 +32,30 @@ Locust là một công cụ load testing mà có thể tính toán được có 
 - Hỗ trợ rate limit.
 - Có thể custom output.
 
-# Cơ chế hoạt động
+# Chế độ phân tán của Locust
 
-Mô hình deploy ví dụ: ping service, boomer client, locust master.
+Khi mà một máy đơn không thể tạo đủ số lượng người dùng mà bạn cần thì lúc này cơ chế phân tán sẽ chạy load test trên nhiều máy khác nhau. Locust sẽ hoạt động gồm 2 thành phần: master và slave.
+
+- Master: Khi ta khởi chạy một instance Locust dưới chế độ master thì nó sẽ cung cấp một giao diện web để xem các giá trị thống kê, nó cũng sẽ không giả lập bất kì người dùng nào để load test mà chỉ đảm bảo nhiệm vụ cung cấp UI.
+- Slave: Có thể được viết bằng nhiều ngôn ngữ Python, Java hoặc Golang. Slave sẽ hoạt động độc lập nhau, nhận lệnh điều khiển từ Locust master. Slave sẽ giả lập người dùng và gửi yêu cầu cho service, sau đó nó ghi nhận thông tin như latency rồi trả cho master.
+
+![]()
+
+# Boomer
+
+Trong phần này chúng ta sẽ đi sâu vào cơ chế hoạt động master slave của Locust thông qua thư viện boomer. Thư viện boomer cung cấp khả năng giả lập số người dùng gửi yêu cầu vào hệ thống. Nhờ vào việc sử dụng goroutine nên boomer mang lại hiệu năng vượt trội so với các ngôn ngữ khác. Có một lưu ý là hãy sử dụng boomer như thư viện chứ không phải một công cụ benchmark.
+
+Để dễ hiểu hơn về cách sử dụng boomer. Mình sẽ tạo ra một ví dụ đơn giản như sau: mình sẽ load test một `ping pong service` bằng locust và boomer. Mô hình triển khai và hoạt động như hình bên dưới.
+
+![]()
+
+Khi ta thực hiện việc tạo một bài test mới trên Locust UI thì chuyện gì sẻ xảy ra?
+
+- Người dùng sẽ tạo ra một bài kiểm tra gồm lượng người dùng cần mô phỏng (Number of users to simulate) và số lượng request mỗi giây (Hatch rate).
+- Hai thông số cấu hình bài test trên sẽ được gửi đến từng slave của locust. Với boomer, mỗi người cần mô phỏng là một goroutine. Số lượng người dùng cần tạo ra để mô phỏng sẽ được chia đều cho số slave, ví dụ bạn có 4 slave và cần tạo 10000 người dùng thì mỗi slave sẽ tọa 2500 người dùng để bắn request.
+- Sao khi mỗi goroutine được khởi tạo, nó sẽ thực hiện một `Task` được định nghĩa sẵn từ trước. `Task` sẽ thực hiện một business logic của bạn. Như ví dụ ở đây, Task sẽ là thực hiện một request gọi vào API ping. Ngoài ra, Boomer hỗ trợ việc đặt trọng số cho từng task, tính năng này khá hữu hiệu khi bạn cần test nhiều API cùng lúc.
+- Ở mỗi `Task`, ta cần ghi nhận trạng thái của request là thành công hay thất bại và các meta data cho nó. Như ví dụ dưới đây là mình đã tính latency cho việc request vào API /ping sau đó ghi nhận kết quả về Locust thông qua hàm `TBD`. Trong trường hợp lỗi xảy ra, chúng ta cũng cần ghi nhận các kết quả để hỗ trợ thống kê.
+- Ở trên giao diện của Locust, ta sẽ thấy được các thông số cần thiết 
 
 Cơ chế master slave của locust.
 
