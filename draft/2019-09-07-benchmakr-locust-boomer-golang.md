@@ -55,13 +55,29 @@ Khi ta thực hiện việc tạo một bài test mới trên Locust UI thì chu
 - Hai thông số cấu hình bài test trên sẽ được gửi đến từng slave của locust. Với boomer, mỗi người cần mô phỏng là một goroutine. Số lượng người dùng cần tạo ra để mô phỏng sẽ được chia đều cho số slave, ví dụ bạn có 4 slave và cần tạo 10000 người dùng thì mỗi slave sẽ tọa 2500 người dùng để bắn request.
 - Sao khi mỗi goroutine được khởi tạo, nó sẽ thực hiện một `Task` được định nghĩa sẵn từ trước. `Task` sẽ thực hiện một business logic của bạn. Như ví dụ ở đây, Task sẽ là thực hiện một request gọi vào API ping. Ngoài ra, Boomer hỗ trợ việc đặt trọng số cho từng task, tính năng này khá hữu hiệu khi bạn cần test nhiều API cùng lúc.
 - Ở mỗi `Task`, ta cần ghi nhận trạng thái của request là thành công hay thất bại và các meta data cho nó. Như ví dụ dưới đây là mình đã tính latency cho việc request vào API /ping sau đó ghi nhận kết quả về Locust thông qua hàm `TBD`. Trong trường hợp lỗi xảy ra, chúng ta cũng cần ghi nhận các kết quả để hỗ trợ thống kê.
-- Ở trên giao diện của Locust, ta sẽ thấy được các thông số cần thiết 
-
-Cơ chế master slave của locust.
-
-Simple client.
+- Ở trên giao diện của Locust, ta sẽ thấy được các thông số cần thiết như về latency như giá trị trung bình, min, max, p95. Ngoài ra, các bạn có thể thêm nhiều metric khác như p99 ở phần thống kê.
 
 # Load testing với rate limit
 
+Tại sao load test lại cân `rate limit`?
+
+- Hãy nhớ lại khái niệm load test, ta cần phải hiểu rõ hệ thống trong những điều kiện tải khác nhau. Thông thường, ta sử dụng rate limit để đo được trạng thái giá trị latency và throughput của hệ thống trong điều kiện tải bình thường, với mục đích là tạo ra một cam kết SLA chính xác.
+- Cùng với việc sử dụng rate limit, ta có thể tìm ra được giá trị tối đa của throughput mà việc load test bình thường không thể hiện được. Khi có rate limit, tỉ lệ xung đột tải nguyên sẽ giảm, ở một mức độ nào đó, ta sẽ tìm được lượng tải tối đa mà hệ thống hoạt động ở mức hiệu quả nhất. Từ đó, ta có thể giới hạn lượng request để hệ thống không hoạt động quá tải và phí tài nguyên cho `context switch`.
+- Giả sử, bạn nói rằng service của bạn có thể xử lý đồng thời 100000 req/s. Nhưng nó vẫn chưa đủ, bạn vẫn chưa nói về latency khi có 100000 req/s. Nếu p99 lúc đó là 60 giây thì thật không thể chấp nhận được. Vì vậy, khi một cam kết nào đó ta luôn phải ưu tiên latency hay cụ thể là p99 ở ngưỡng nào đó với throughtput là bao nhiêu. Ví dụ: service của tôi có khả năng xử lý 10000 req/s với p99 < 10ms.
+- Từ lý do đó, ta phải sử dụng `rate limit` để tìm ra throughput phù hợp với p99 mà ta mong đợi.
+
+Lưu ý về cách đặt giá trị rate limit:
+
+- Chúng ta thường chọn tham số rate limit với đơn vị là `req/s`. Đây có thể là một sai lầm lớn khi load test một service mà sử dụng rate limit. Nó sẽ không có vấn đề gì nếu số lượng request được phân bố trong một giây. Nhưng với boomer, nếu bạn chọn sai cấu hình rate limit thì bài test sẽ không đánh giá đúng chất lượng của service. Tại sao mình lại đưa ra nhận định này? Cùng tìm hiểu cách boomer hiện thực rate limiter.
+- Khi hết một chu kì, boomer sẽ làm đầy số request còn được phép bắn vào service. Ví dụ: ta cấu hình số rate limit là 100 req/s thì cứ mỗi 1s sẽ có tối đa 100 request được phép bắn tới service. Và boomer sẽ cố gắng bắn số request này nhanh nhất có thể, dẫn đến hiện tượng toàn bộ request tập trung ở phần đầu chu kì, còn phần sau thì không có request nào được bắn nữa. Lúc này, hiện tượng nút thắc cỗ chai diễn ra, và ta sẽ đánh giá sai năng lực của service. Vì vậy, hãy lun cân nhất chọn cấu hình với chu kì nhỏ để phù hợp hơn, 100req/s thành 1req/10ms.
+
+Vậy làm sao sử dụng được rate limit trong boomer? Bommer hỗ trợ hai cơ chế rate limit như sau:
+
+- Standard ratelimiter:
+- Rampup rate limiter:
+
+Cả hai cách đều có cách khởi tạo và truyền vào boomer
+
+[](TBD)
 
 # Tổng kết
