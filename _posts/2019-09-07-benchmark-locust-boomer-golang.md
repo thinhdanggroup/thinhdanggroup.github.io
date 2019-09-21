@@ -3,7 +3,7 @@ layout: post
 title:  "Load testing với Locust và Boomer"
 author: thinhda
 categories: [ gRPC ]
-image: assets/images/load-test.png
+image: assets/images/load-testing.png
 tags: featured
 ---
 
