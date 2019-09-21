@@ -34,7 +34,7 @@ Locust là một công cụ load testing mà có thể tính toán được có 
 
 # Chế độ phân tán của Locust
 
-Khi mà một máy đơn không thể tạo đủ số lượng người dùng mà bạn cần thì lúc này cơ chế phân tán sẽ chạy load test trên nhiều máy khác nhau. Locust sẽ hoạt động gồm 2 thành phần: master và slave.
+Khi mà một máy đơn không thể tạo đủ số lượng người dùng mà bạn cần, thì lúc này cơ chế phân tán sẽ giúp ta chạy load test trên nhiều máy khác nhau. Locust sẽ hoạt động gồm 2 thành phần: master và slave.
 
 - Master: Khi ta khởi chạy một instance Locust dưới chế độ master thì nó sẽ cung cấp một giao diện web để xem các giá trị thống kê, nó cũng sẽ không giả lập bất kì người dùng nào để load test mà chỉ đảm bảo nhiệm vụ cung cấp UI.
 - Slave: Có thể được viết bằng nhiều ngôn ngữ Python, Java hoặc Golang. Slave sẽ hoạt động độc lập nhau, nhận lệnh điều khiển từ Locust master. Slave sẽ giả lập người dùng và gửi yêu cầu cho service, sau đó nó ghi nhận thông tin như latency rồi trả cho master.
@@ -56,6 +56,53 @@ Khi ta thực hiện việc tạo một bài test mới trên Locust UI thì chu
 - Sao khi mỗi goroutine được khởi tạo, nó sẽ thực hiện một `Task` được định nghĩa sẵn từ trước. `Task` sẽ thực hiện một business logic của bạn. Như ví dụ ở đây, Task sẽ là thực hiện một request gọi vào API ping. Ngoài ra, Boomer hỗ trợ việc đặt trọng số cho từng task, tính năng này khá hữu hiệu khi bạn cần test nhiều API cùng lúc.
 - Ở mỗi `Task`, ta cần ghi nhận trạng thái của request là thành công hay thất bại và các meta data cho nó. Như ví dụ dưới đây là mình đã tính latency cho việc request vào API /ping sau đó ghi nhận kết quả về Locust thông qua hàm `TBD`. Trong trường hợp lỗi xảy ra, chúng ta cũng cần ghi nhận các kết quả để hỗ trợ thống kê.
 - Ở trên giao diện của Locust, ta sẽ thấy được các thông số cần thiết như về latency như giá trị trung bình, min, max, p95. Ngoài ra, các bạn có thể thêm nhiều metric khác như p99 ở phần thống kê.
+
+Đi sâu một tí về cách hiện thực, ở đây mình dùng ví dụ có sẵn ở trang chủ [client.go](https://github.com/myzhan/boomer/blob/master/examples/http/client.go). Ta sẽ gửi thông tin về cho master thông qua 2 hàm:
+
+- `RecordFailure`: ghi nhận các giá trị lỗi.
+- `RecordSuccess`: ghi nhận các giá trị thành công. Lưu ý: locust chỉ tính throughput và latency cho các record success.
+
+```go
+func worker() {
+	request, err := http.NewRequest(method, url, bytes.NewBuffer(postBody))
+	if err != nil {
+		log.Fatalf("%v\n", err)
+	}
+
+	request.Header.Set("Content-Type", contentType)
+
+	startTime := time.Now()
+	response, err := client.Do(request)
+	elapsed := time.Since(startTime)
+
+	if err != nil {
+		if verbose {
+			log.Printf("%v\n", err)
+		}
+		boomer.RecordFailure("http", "error", 0.0, err.Error())
+	} else {
+		boomer.RecordSuccess("http", strconv.Itoa(response.StatusCode),
+			elapsed.Nanoseconds()/int64(time.Millisecond), response.ContentLength)
+
+		if verbose {
+			body, err := ioutil.ReadAll(response.Body)
+			if err != nil {
+				log.Printf("%v\n", err)
+			} else {
+				log.Printf("Status Code: %d\n", response.StatusCode)
+				log.Println(string(body))
+			}
+
+		} else {
+			io.Copy(ioutil.Discard, response.Body)
+		}
+
+		response.Body.Close()
+	}
+}
+```
+
+
 
 # Load testing với rate limit
 
