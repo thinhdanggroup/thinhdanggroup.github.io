@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  "Load testing with Locust and Boomer"
+title:  "Load testing với Locust và Boomer"
 author: thinhda
 categories: [ gRPC ]
-image: assets/images/grpc-comparison.png
+image: assets/images/load-test.png
 tags: featured
 ---
 
