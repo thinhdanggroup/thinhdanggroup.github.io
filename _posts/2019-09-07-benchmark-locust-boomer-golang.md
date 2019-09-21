@@ -39,7 +39,7 @@ Khi mà một máy đơn không thể tạo đủ số lượng người dùng m
 - Master: Khi ta khởi chạy một instance Locust dưới chế độ master thì nó sẽ cung cấp một giao diện web để xem các giá trị thống kê, nó cũng sẽ không giả lập bất kì người dùng nào để load test mà chỉ đảm bảo nhiệm vụ cung cấp UI.
 - Slave: Có thể được viết bằng nhiều ngôn ngữ Python, Java hoặc Golang. Slave sẽ hoạt động độc lập nhau, nhận lệnh điều khiển từ Locust master. Slave sẽ giả lập người dùng và gửi yêu cầu cho service, sau đó nó ghi nhận thông tin như latency rồi trả cho master.
 
-![]()
+![locust_deployment](../assets/images/locust_deployment.png)
 
 # Boomer
 
@@ -47,7 +47,7 @@ Trong phần này chúng ta sẽ đi sâu vào cơ chế hoạt động master s
 
 Để dễ hiểu hơn về cách sử dụng boomer. Mình sẽ tạo ra một ví dụ đơn giản như sau: mình sẽ load test một `ping pong service` bằng locust và boomer. Mô hình triển khai và hoạt động như hình bên dưới.
 
-![]()
+![ping_pong_deploy](../assets/images/ping_pong_deploy.png)
 
 Khi ta thực hiện việc tạo một bài test mới trên Locust UI thì chuyện gì sẻ xảy ra?
 
