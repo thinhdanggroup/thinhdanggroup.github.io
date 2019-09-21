@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Load testting service "
+title:  "Load testing with Locust and Boomer"
 author: thinhda
 categories: [ gRPC ]
 image: assets/images/grpc-comparison.png
