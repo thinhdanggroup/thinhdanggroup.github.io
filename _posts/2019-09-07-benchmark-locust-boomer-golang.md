@@ -120,11 +120,12 @@ Lưu ý về cách đặt giá trị rate limit:
 
 Vậy làm sao sử dụng được rate limit trong boomer? Bommer hỗ trợ hai cơ chế rate limit như sau:
 
-- Standard ratelimiter:
-- Rampup rate limiter:
+- Standard ratelimiter: số lượng request bắn đi sẽ được cấu hình đúng với mức tối đa. Điều này có thể tạo ra hiện tượng tăng vọt về latency lúc mới bắt đầu test và nó sẽ ổn định về sau khi. Nhưng những kết quả lúc ban đầu này làm ảnh hưởng tới các kết quả trung bình hay p99 nếu bài test của bạn quá ngắn.
+- Rampup rate limiter: số lượng request sẽ tăng đều cho đến khi đạt giá trị giới hạn. Nó giúp service có thời gian `warn-up`, giúp ta có những số liệu thống kê chính xác hơn.
 
-Cả hai cách đều có cách khởi tạo và truyền vào boomer
 
-[](TBD)
+Cách thiết lập rate limit cực kì đơn giản khi trang chủ đã có ngay [hai ví dụ](https://github.com/myzhan/boomer/tree/master/examples/ratelimit) về hai rate limiter này.
 
 # Tổng kết
+
+Nhờ các công cụ như locust và boomer thì việc load testing nay đã dễ dàng hơn rất nhiều. Từ việc tạo ra các ngữ cảnh test, vận hành các công cụ test đến các số liệu thống kê và hiển thị, chúng ta có thể có tất cả chúng một cách dễ dàng. Vậy còn chờ gì nữa mà không tạo ra một bài test cho chính service của bạn ngay bây giờ. 
