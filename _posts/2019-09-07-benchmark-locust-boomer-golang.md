@@ -45,7 +45,7 @@ Khi mà một máy đơn không thể tạo đủ số lượng người dùng m
 
 Trong phần này chúng ta sẽ đi sâu vào cơ chế hoạt động master slave của Locust thông qua thư viện boomer. Thư viện boomer cung cấp khả năng giả lập số người dùng gửi yêu cầu vào hệ thống. Nhờ vào việc sử dụng goroutine nên boomer mang lại hiệu năng vượt trội so với các ngôn ngữ khác. Có một lưu ý là hãy sử dụng boomer như thư viện chứ không phải một công cụ benchmark.
 
-Để dễ hiểu hơn về cách sử dụng boomer. Mình sẽ tạo ra một ví dụ đơn giản như sau: mình sẽ load test một `ping pong service` bằng locust và boomer. Mô hình triển khai và hoạt động như hình bên dưới.
+Để dễ hiểu hơn về cách sử dụng boomer. Mình sẽ tạo ra một ví dụ đơn giản như sau: mình sẽ load test một `ping pong service` bằng locust và boomer (Source code có thể tham khảo ở [example_locust_boomer](https://github.com/thinhdanggroup/example_locust_boomer)). Mô hình triển khai và hoạt động như hình bên dưới:
 
 ![ping_pong_deploy](../assets/images/ping_pong_deploy.png)
 
@@ -54,7 +54,7 @@ Khi ta thực hiện việc tạo một bài test mới trên Locust UI thì chu
 - Người dùng sẽ tạo ra một bài kiểm tra gồm lượng người dùng cần mô phỏng (Number of users to simulate) và số lượng request mỗi giây (Hatch rate).
 - Hai thông số cấu hình bài test trên sẽ được gửi đến từng slave của locust. Với boomer, mỗi người cần mô phỏng là một goroutine. Số lượng người dùng cần tạo ra để mô phỏng sẽ được chia đều cho số slave, ví dụ bạn có 4 slave và cần tạo 10000 người dùng thì mỗi slave sẽ tọa 2500 người dùng để bắn request.
 - Sao khi mỗi goroutine được khởi tạo, nó sẽ thực hiện một `Task` được định nghĩa sẵn từ trước. `Task` sẽ thực hiện một business logic của bạn. Như ví dụ ở đây, Task sẽ là thực hiện một request gọi vào API ping. Ngoài ra, Boomer hỗ trợ việc đặt trọng số cho từng task, tính năng này khá hữu hiệu khi bạn cần test nhiều API cùng lúc.
-- Ở mỗi `Task`, ta cần ghi nhận trạng thái của request là thành công hay thất bại và các meta data cho nó. Như ví dụ dưới đây là mình đã tính latency cho việc request vào API /ping sau đó ghi nhận kết quả về Locust thông qua hàm `TBD`. Trong trường hợp lỗi xảy ra, chúng ta cũng cần ghi nhận các kết quả để hỗ trợ thống kê.
+- Ở mỗi `Task`, ta cần ghi nhận trạng thái của request là thành công hay thất bại và các meta data cho nó. Như ví dụ dưới đây là mình đã tính latency cho việc request vào API /ping sau đó ghi nhận kết quả về Locust thông qua hàm `RecordSuccess`. Trong trường hợp lỗi xảy ra, chúng ta cũng cần ghi nhận các kết quả để hỗ trợ thống kê qua `RecordFailure`.
 - Ở trên giao diện của Locust, ta sẽ thấy được các thông số cần thiết như về latency như giá trị trung bình, min, max, p95. Ngoài ra, các bạn có thể thêm nhiều metric khác như p99 ở phần thống kê.
 
 Đi sâu một tí về cách hiện thực, ở đây mình dùng ví dụ có sẵn ở trang chủ [client.go](https://github.com/myzhan/boomer/blob/master/examples/http/client.go). Ta sẽ gửi thông tin về cho master thông qua 2 hàm:
@@ -101,8 +101,6 @@ func worker() {
 	}
 }
 ```
-
-
 
 # Load testing với rate limit
 
