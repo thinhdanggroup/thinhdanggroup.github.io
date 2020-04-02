@@ -9,7 +9,7 @@ tags: featured
 
 The purpose of creating this library is because golang's existing libraries have not yet features such as flexibility with the definition of job running, limiting the number of jobs executed over a period of time. In the past, I created and repeated the code based on the idea of the Worker Pool and know the trouble when reimplemented but never generalized to create a complete library. In the end, I stopped and created Executor.
 
-# Introduce
+# Overview
 
 [Executor](https://github.com/thinhdanggroup/executor) is a simple Worker Pool library with features:
 
@@ -50,7 +50,7 @@ func validateFunc(handler interface{}, nArgs int) (interface{}, error) {
 }
 ```
 
-# Ví dụ
+# Example
 
 Config:
 
