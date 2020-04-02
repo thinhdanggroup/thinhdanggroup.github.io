@@ -113,7 +113,7 @@ func sum(a int, b int) {
 
 ```
 
-Sau khi khởi tạo Executor, hãy nhớ Close resource. Ở trong hàm Close, thư viện sẽ đợi các Job thành công và đóng Channel.
+Sau khi khởi tạo Executor, hãy nhớ Close resource. Ở trong hàm Close, thư viện sẽ đợi các Job hoàn thành và đóng Channel.
 
 Như bạn đã thấy, ta chỉ việc đưa vào hàm thực thi và tham số, worker sẽ làm phần còn lại cho chúng ta. Quá đơn giản phải không nào!
 
