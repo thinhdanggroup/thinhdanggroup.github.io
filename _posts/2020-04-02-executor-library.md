@@ -25,7 +25,7 @@ Nguyên lý khá đơn giản:
 
 Executor sẽ đẩy các Job vào một Channel. Channel sẽ làm trung gian để trung chuyển Job cho các Worker và cũng đảm bảo các Worker không quá tải.
 
-Phần thú vị nhất vẫn là làm sao tổng quát hoá các Job. Lúc này, mình bắt đầu tìm hiểu về "reflect" của golang, mình đã thấy ta có thể thực thi một function chỉ bằng *interface* cung cấp, hàm "Call" sẽ thực thi một function. Nhưng còn tham số đầu vào thì sao. Lúc này, *Variadic Functions* phát huy lợi thế của mình. Và cuối cùng, mình chỉ cần validate các thông tin của đầu vào:
+Phần thú vị nhất vẫn là làm sao tổng quát hoá các Job. Lúc này, mình bắt đầu tìm hiểu về "reflect" của golang, mình đã thấy ta có thể thực thi một function chỉ bằng *interface* cung cấp, "Call" sẽ làm điều đó. Nhưng còn tham số đầu vào thì sao. Lúc này, *Variadic Functions* phát huy lợi thế của mình. Và cuối cùng, mình chỉ cần validate các thông tin của đầu vào:
 
 ```golang
 func validateFunc(handler interface{}, nArgs int) (interface{}, error) {
