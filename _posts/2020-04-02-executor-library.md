@@ -2,7 +2,7 @@
 layout: post
 title:  "Executor: Worker Pool cho Golang"
 author: thinhda
-categories: [ golang , reflect]
+categories: [ golang , reflect, workerPool]
 image: assets/images/executor/banner.jpeg
 tags: featured
 ---
