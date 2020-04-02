@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Thư viện Executor cho Golang"
+title:  "Executor: Worker Pool in Golang"
 author: thinhda
 categories: [ golang , reflect]
 image: assets/images/executor/banner.jpeg
