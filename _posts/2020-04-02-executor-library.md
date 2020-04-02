@@ -3,13 +3,13 @@ layout: post
 title:  "Thư viện Executor cho Golang"
 author: thinhda
 categories: [ golang , reflect]
-image: assets/images/executor/banner.png
+image: assets/images/executor/banner.jpeg
 tags: featured
 ---
 
 # Giới thiệu
 
-Mục đích mình tạo ra thư viện này vì các thư viện hiện tại của golang chưa có ai đáp ứng đủ nhu cầu Worker Pool của mình như linh hoạt với cách định nghĩa job chạy, giới hạn số job thực thi trong một khoảng thời gian. Trong quá khứ mình tạo làm đi làm lại đoạn code dựa trên ý tưởng của Worker Pool và biết sự rắc rối mỗi khi hiện thực lại nhưng chưa bao giờ tổng quát hoá để tạo ra một thư viện hoàn chỉnh. Cuối cùng, mình đã ngừng lại và tạo ra **Executor** như là một thư viện Worker Pool đơn giản với các tính năng:
+Mục đích mình tạo ra thư viện này vì các thư viện hiện tại của golang chưa có ai đáp ứng đủ nhu cầu Worker Pool của mình như linh hoạt với cách định nghĩa job chạy, giới hạn số job thực thi trong một khoảng thời gian. Trong quá khứ mình tạo làm đi làm lại đoạn code dựa trên ý tưởng của Worker Pool và biết sự rắc rối mỗi khi hiện thực lại nhưng chưa bao giờ tổng quát hoá để tạo ra một thư viện hoàn chỉnh. Cuối cùng, mình đã ngừng lại và tạo ra [Executor](https://github.com/thinhdanggroup/executor) như là một thư viện Worker Pool đơn giản với các tính năng:
 
 - Job có hàm thực thi với đa dạng về params truyền vào bằng reflection
 - Worker được tạo ra bằng Goroutine
