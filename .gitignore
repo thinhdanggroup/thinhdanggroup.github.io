@@ -8,3 +8,5 @@ vendor
 .jekyll-cache/**
 .bundle/**
 .bundle/config
+
+**/.DS_Store
