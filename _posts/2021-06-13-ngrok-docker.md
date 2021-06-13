@@ -3,7 +3,7 @@ layout: post
 title:  "Hướng dẫn public service lên internet với ngrok và docker-compose"
 author: thinhda
 categories: [ ngrok, docker-compose, nginx]
-image: assets/images/executor/banner.jpeg
+image: assets/images/ngrok/banner.jpeg
 tags: featured
 ---
 
