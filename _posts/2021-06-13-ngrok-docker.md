@@ -38,7 +38,7 @@ Bắt đầu sử dùng nào:
 - Khi cluster khởi động thành công, ta sẽ thấy log sau:
 	![log-docker](/assets/images/ngrok/log-docker.png)
 - Có 2 tunnel đã được tạo là:
-  - HTTP: truy cập vào domain https://4db6390a9f3c.ngrok.io
+  - HTTP: truy cập vào domain trên console
         ![http](/assets/images/ngrok/http-example.png)
   - SSH: với ssh ta chạy lệnh `ssh -p 14693 root@2.tcp.ngrok.io`
         ![ssh](/assets/images/ngrok/ssh-example.png)
