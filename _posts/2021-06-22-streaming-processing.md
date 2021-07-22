@@ -3,7 +3,7 @@ layout: post
 title:  "Nhật ký làm quen với Streaming Data"
 author: thinhda
 categories: [streaming, kafka, avro, spark]
-image: assets/images/streaming/banner-part1.png
+image: assets/images/streaming/banner-part1.jpeg
 tags: featured
 ---
 
