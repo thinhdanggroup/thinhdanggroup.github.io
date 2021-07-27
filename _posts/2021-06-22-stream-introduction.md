@@ -38,6 +38,36 @@ Những nâng cấp bắt đầu, mình chuyển sang xử lý từng batch nh�
 Qua những bài học trên, mình nhận ra nên bắt đầu mọi thứ chuẩn chỉ hơn bằng cách:
 
 - Hiểu rõ data mình đang làm việc bằng batch processing, làm rõ hết các business flow (`make the right thing first`) rồi hãy ứng dụng stream processing.
-- Sử dụng các technical stack của big data: CDC, spark, kafka, spark streaming, kafka streaming.
+- Sử dụng các technical stack của big data: Spring Batch, CDC, spark, kafka, spark streaming, kafka streaming.
 
-Trong loạt bài viết này mình sẽ dùng ứng dụng đơn giản về báo cáo tài chính để làm quen với các công nghệ trên. Đợi part 2 nhé.
+Để dễ dàng hiểu rõ các công nghệ trên, mình sẽ sử dụng một ví dụ cực kì thú vị đó là tính báo của [Bảng cân đối thử](https://vietnambiz.vn/bang-can-doi-thu-trial-balance-la-gi-yeu-cau-doi-voi-bang-can-doi-thu-20200406180315126.htm) dựa trên lịch sử giao dịch của người dùng.
+
+Trong lĩnh vực accounting, chúng ta sẽ dùng debit hoặc credit để thể hiện ý nghĩa của bút toán. Mình sẽ xem bút toán debit là giảm tiền user và credit là tăng tiền. Báo cáo bảng cân đối thử này sẽ tính theo kỳ là 1 ngày. Một điều quan trọng của báo cáo cân đối đó là số dư đầu kỳ (open) và cuối kỳ (close). Số close của kỳ T sẽ là open của kỳ T+1.
+
+Công thức tính close sẽ như sau:
+close = open - debit + credit
+
+Dữ liệu log sẽ có dữ liệu mẫu như sau:
+
+|user|time (time in microseconds)|amount|debit|
+|-|-|-|-|
+|u1|1622480400000|1000|true|
+|u1|1622480400000|2000|false|
+|u2|1622480400000|1000|false|
+|u1|1622566800000|3000|true|
+
+Ý nghĩa record 1 thì u1 thực hiện giao dịch vào lúc 1622480400000 (ngày 01/06/2021) với debit 1000đ.
+
+Kết quả mong đợi của Bảng cân đói thử sẽ như sau:
+
+|user|date|open|debit|credit|close|
+|-|-|-|-|-|-|
+|u1|20210601|0|1000|2000|1000|
+|u2|20210601|0|0|1000|1000|
+|u1|20210602|1000|3000|0|-2000|
+
+Với user u1, ta thấy cuối kỳ ngày 01/06/2021 là 1000 nên số đầu kỳ của ngày 02/06/2021 là 1000. Vào ngày 2/6/2021, có giao dịch phát sinh debit 3000, sau khi áp dụng công thức tính close thì ta được số cuối kỳ là -2000. Cũng dễ hiểu phải không nào.
+
+Mình muốn sử dụng ví dụ này vì nó sẽ phải sử dụng khá nhiều thứ như transform, group, sum, map, ... Mình hi vọng qua ví dụ này thì mọi người sẽ hiểu rõ các công nghệ trên.
+
+Đoán chờ part 2 của series này nhé, chúng ta sẽ bắt đầu với Spring Batch.
