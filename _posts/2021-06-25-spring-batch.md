@@ -34,6 +34,41 @@ Mình cũng sẽ giới thiệu sơ vể kiến trúc của Spring Batch như sa
 
 # Ví dụ tính toán trial balance report 
 
-Trong phần 1, mình đã giới thiệu về ví dụ mình sẽ làm cho xuyện suốt series. Nếu các bạn có bỏ qua phần 1 thì trở về đọc lại trước nhé. Giờ thì cùng mình bắt đầu trải nghiệm Spring Batch nào.
+Trong phần 1, mình đã giới thiệu về ví dụ mình sẽ làm cho xuyện suốt series. Nếu các bạn có bỏ qua phần 1 thì trở về đọc lại trước nhé. Giờ thì cùng mình bắt đầu trải nghiệm Spring Batch nào. 
 
-![anh spring] 
+Để giải bài toán `Bảng cân đối thử`, mình sẽ chia job ra 2 step như sau:
+
+![example-design](../../assets/images/streaming/example-design.png)
+
+Thiết kế khá dễ hiểu phải không nào? 
+
+- Step1: mình sẽ tính tổng debit,credit theo từng ngày của từng user
+- Step2: mình sẽ tính open, close của từng ngày bằng cách sort sau đó loop trên tập data để lấy `close = open + credit - debit` và `open ngày T` = `close ngày T-1`
+
+Vậy còn code thì như nào? 
+
+1. Bắt đầu với `pom.xml`
+
+    ```xml
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>2.3.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-batch</artifactId>
+            <version>2.3.1.RELEASE</version>
+        </dependency>
+    </dependencies>
+
+    ```
+
+2. Enable Spring Batch bằng annotation @EnableBatchProcessing và định nghĩa pipeline như [BatchConfiguration](https://github.com/thinhdanggroup/kafka-stream-financial-report-example/blob/main/spring-batch/src/main/java/io/github/thinhdanggroup/config/BatchConfiguration.java)
+3. Còn lại là tập trung vào hiện thực business logic trong [processor](https://github.com/thinhdanggroup/kafka-stream-financial-report-example/tree/main/spring-batch/src/main/java/io/github/thinhdanggroup/processor)
+
+Nếu bạn muốn xem chi tiết, có thể tham khảo ở repo [kafka-stream-financial-report-example](https://github.com/thinhdanggroup/kafka-stream-financial-report-example)
+
+Thế là đã xong phần 2, hướng dẫn batch processing với Spring Batch. Chờ đợi series tiếp theo về một stack phổ biến xử lý batch là `Spark` nhé.
