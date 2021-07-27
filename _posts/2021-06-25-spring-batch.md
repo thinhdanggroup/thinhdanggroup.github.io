@@ -3,7 +3,7 @@ layout: post
 title:  "Spring Batch: Xử lý dữ liệu dạng batch đơn giản"
 author: thinhda
 categories: [batch processing, sprint, spring batch]
-image: assets/images/streaming/banner-part1.jpeg
+image: assets/images/streaming/spring-batch-banner.png
 tags: featured
 ---
 
