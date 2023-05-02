@@ -8,11 +8,11 @@ tags: featured
 ---
 
 
-## Overview
-
 Artificial intelligence (AI) has been advancing rapidly in recent years, thanks to the development of large language models (LLMs) such as ChatGPT. These models are capable of generating natural language texts for various purposes, such as writing essays, code, lyrics, and more. However, ChatGPT and other LLMs still rely on human input and guidance to perform their tasks. They need to be prompted with specific requests or queries, and they cannot learn or improve by themselves.
 
-This is where Autonomous GPT-4 comes in. Autonomous GPT-4 is a new generation of AI that can generate text and code in a more general sense and self-improve without needing additional input or prompts from the user. It can also interact with other AI models and systems to achieve complex goals and tasks. Autonomous GPT-4 is not a single model or platform, but a collective term for various AI agents that are built upon or inspired by ChatGPT and its underlying technology, GPT-4.
+## Overview
+
+Autonomous GPT-4 is a new generation of AI that can generate text and code in a more general sense and self-improve without needing additional input or prompts from the user. It can also interact with other AI models and systems to achieve complex goals and tasks. Autonomous GPT-4 is not a single model or platform, but a collective term for various AI agents that are built upon or inspired by ChatGPT and its underlying technology, GPT-4.
 
 Some examples of Autonomous GPT-4 agents are:
 
