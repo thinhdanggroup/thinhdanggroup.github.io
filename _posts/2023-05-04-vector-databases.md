@@ -71,75 +71,72 @@ To give you an idea of how I use Pinecone for my projects, I will share with you
 
 Here are the steps that I followed to complete this project:
 
-1. Create vectors from questions: I used the OpenAI Embedding API to generate vector embeddings of the questions using their Ada 002 model. This model can produce 1536-dimensional vectors from any text input. 
+1. Create vectors from questions: I used the OpenAI Embedding API to generate vector embeddings of the questions using their Ada 002 model. This model can produce 368-dimensional vectors from any text input. 
    
    I used the following commands to create vectors from questions:
 
-   ```python
-   import openai
-   openai.api_key = "YOUR_API_KEY" # get API key from top-right dropdown on OpenAI website
-   MODEL = "text-embedding-ada-002"
-   res = openai.Embedding.create(
-       input=["Sample question text goes here"],
-       engine=MODEL
-   )
-   # extract embeddings to a list
-   embeds = [record['embedding'] for record in res['data']]
-   ```
+    ```python
+    from sentence_transformers import SentenceTransformer
+    import torch
+
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    model = SentenceTransformer('all-MiniLM-L6-v2', device=device)
+    query = 'which city is the most populated in the world?'
+    xq = model.encode(query)
+    ```
 
 2. Create an index in Pinecone: I used the Pinecone Python client to create an index named "trec" that performs approximate nearest-neighbor search using the cosine similarity metric for 1536-dimensional vectors. I used the following commands to create an index in Pinecone:
 
     ```python
     import pinecone
-    pinecone.init(api_key="YOUR_API_KEY", environment="YOUR_ENV") # get API key from app.pinecone.io
-    # check if 'trec' index already exists (only create index if not)
-    if 'trec' not in pinecone.list_indexes():
-        pinecone.create_index('trec',
-            dimension=len(embeds[0]),
-            metric="cosine")
-    # connect to index
-    index = pinecone.Index('trec')
+    pinecone_key = os.getenv("PINECONE_KEY")
+    pinecone_env = os.getenv("PINECONE_ENV")
+    pinecone.init(api_key=pinecone_key, environment=pinecone_env) 
     ```
 
 3. Insert vectors and metadata into the index: I used the upsert operation to insert the vectors and the corresponding question texts and categories into the index. I used the following commands to insert vectors and metadata into the index:
 
     ```python
     # Upsert sample data (5 1536-dimensional vectors with question texts and categories)
+    data = [
+        {"text": "What is the capital of France?", "category": "LOC"},
+        {"text": "Who wrote Hamlet?", "category": "HUM"},
+        {"text": "How many planets are there in the solar system?", "category": "NUM"},
+        {"text": "What does AIDS stand for?", "category": "ABBR"},
+        {"text": "What is the largest animal in the world?", "category": "ENTY"}
+    ]
+
+    i = 0
+    vectors = []
+    for v in data:
+        i+=1
+        xq = model.encode(v["text"])
+        vectors.append(("Q"+ str(i), xq.tolist(), v))
+    index = pinecone.Index('test')
+
     index.upsert(
-        items=[
-            ("Q1", [0.1, 0.2, ..., 0.9], {"text": "What is the capital of France?", "category": "LOC"}),
-            ("Q2", [0.2, 0.3, ..., 0.8], {"text": "Who wrote Hamlet?", "category": "HUM"}),
-            ("Q3", [0.3, 0.4, ..., 0.7], {"text": "How many planets are there in the solar system?", "category": "NUM"}),
-            ("Q4", [0.4, 0.5, ..., 0.6], {"text": "What does AIDS stand for?", "category": "ABBR"}),
-            ("Q5", [0.5, 0.6, ..., 0.5], {"text": "What is the largest animal in the world?", "category": "ENTY"})
-        ]
+        vectors=vectors,
     )
     ```
 
 4. Query the index and get similar vectors: I used the query operation to query the index with a given question or text and get back semantically similar questions based on their vector similarity. I used the following commands to query the index and get similar vectors:
 
     ```python
-    # Query sample data (1 1536-dimensional vector with question text)
-    res = index.query(
-        queries=[
-            ("Q6", [0.6, 0.7, ..., 0.4], {"text": "What is the name of Shakespeare's wife?"})
-        ],
-        top_k=3
-    )
+    question = "What is the name of Shakespeare's wife?"
+    xq =  model.encode(question).tolist()
+    res = index.query(xq, top_k=3,  include_metadata=True)
+
     # Print results
-    for query_id, results in res.items():
-        print(f"Query: {query_id} - {results['metadata']['text']}")
-        for rank, item in enumerate(results['matches']):
-            print(f"Rank {rank+1}: {item['id']} - {item['metadata']['text']} - Score: {item['score']}")
+    for result in res['matches']:
+        print(f"{round(result['score'], 2)}: {result['metadata']['text']} - category {result['metadata']['category']}")
     ```
 
     The output of the query operation should look something like this:
 
     ```md
-    Query: Q6 - What is the name of Shakespeare's wife?
-    Rank 1: Q2 - Who wrote Hamlet? - Score: 0.987654321
-    Rank 2: Q5 - What is the largest animal in the world? - Score: 0.87654321
-    Rank 3: Q4 - What does AIDS stand for? - Score: 0.7654321
+    0.56: Who wrote Hamlet? - category HUM
+    0.24: What is the capital of France? - category LOC
+    0.18: What does AIDS stand for? - category ABBR
     ```
 
     As you can see, the query operation returns a ranked list of questions that have the highest vector similarity with the query question based on their category and content.
@@ -148,7 +145,7 @@ Here are the steps that I followed to complete this project:
 
     ```python
     # Delete index
-    pinecone.delete_index('trec')
+    pinecone.delete_index('test')
     ```
 
 This was one of my projects that involved using vector database with Pinecone and OpenAI for semantic search and retrieval of questions. I was very impressed by how easy and fast it was to create and use a vector database with Pinecone and OpenAI, and how accurate and relevant the results were.
