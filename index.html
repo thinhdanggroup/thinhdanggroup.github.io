@@ -175,7 +175,7 @@
                     {% elsif page == 1 %}
                     <li class="page-item"><a class="page-link" href="{{site.baseurl}}/">{{ page }}</a></li>
                     {% else %}
-                    <li class="page-item"><a class="page-link" href="{{ prepend: site.baseurl replace: ':num', page }}">{{ page }}</a></li>
+                    <li class="page-item"><a class="page-link" href="{{ prepend: site.baseurl | replace: ':num', page }}">{{ page }}</a></li>
                     {% endif %} {% endfor %} {% if paginator.next_page %}
                     <li class="page-item"><a class="page-link" href="{{ prepend: site.baseurl }}">Next &raquo;</a></li>
                     {% else %}
