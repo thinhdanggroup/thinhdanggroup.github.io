@@ -3,7 +3,7 @@ layout: post
 title:  "The Power of Vector Database: How It Transformed My Data Projects"
 author: thinhda
 categories: [vector database, PineCone]
-image: assets/images/graphql/vectordb.jpeg
+image: assets/images/vectordb/vectordb.jpeg
 tags: featured
 ---
 
