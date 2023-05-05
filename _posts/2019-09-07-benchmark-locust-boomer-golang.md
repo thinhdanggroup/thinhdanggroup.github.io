@@ -4,7 +4,7 @@ title:  "Load testing với Locust và Boomer"
 author: thinhda
 categories: [ gRPC ]
 image: assets/images/load-testing.png
-tags: featured
+tags: software
 ---
 
 Một bước mà chúng ta thường xuyên bỏ qua và coi thường khi xây dựng một service mới đó là load test nó. Load test là một quá trình quan trọng trước khi đưa sản phẩm vào thực tế. Load test mang lại rất nhiều lợi ích: cho ta biết khả năng phục vụ bao nhiêu người dùng cùng lúc của service, chất lượng dịch vụ trong các tình trạng tải khác nhau, phát hiện được những `bug` chỉ xảy ra trong môi trường multi-threading, ...
