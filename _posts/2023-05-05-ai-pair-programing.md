@@ -4,7 +4,7 @@ title:  "GitHub Copilot: A Review and Guide for Beginners"
 author: thinhda
 categories: [github copilot]
 image: assets/images/copilot/copilot.jpeg
-tags: featured
+tags: 
 ---
 
 Have you ever wished you had a smart and helpful partner who could assist you with coding? Someone who could suggest code snippets, functions, or solutions based on the context of your code? Someone who could help you learn new skills, perspectives, and approaches from the code they suggest? Someone who could make coding faster and easier for you?
