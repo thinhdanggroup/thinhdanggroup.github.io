@@ -7,10 +7,6 @@ image: assets/images/vectordb/vectordb.jpeg
 tags: featured
 ---
 
-In this blog post, I share my experience of working with complex data and how I discovered the power of vector database and how it transformed my data projects. I also introduce Pinecone as a fully managed vector database service that I use for my projects.
-
----
-
 As a data enthusiast and a software developer, I have always been fascinated by the challenges and opportunities of working with complex and unstructured data. These are the kinds of data that include text, images, audio, video, and other forms of information that are not easily organized or analyzed by traditional databases.
 
 I have worked on various projects that required me to process and index such data, and to find meaningful and usable information from them. For instance, I have built semantic search engines that can find relevant documents based on their topic and sentiment, recommendation systems that can suggest products or content based on user preferences and behavior, natural language processing applications that can generate coherent and accurate text based on a query or a context, and computer vision applications that can recognize faces, objects, or scenes in images or videos.
@@ -159,3 +155,5 @@ Vector database is a powerful tool for working with complex data that enables fa
 However, vector database also has some challenges and limitations that you need to be aware of and deal with when using it. You have to find the best combination of methods, parameters, and tools that works for your specific application and data.
 
 I hope this blog post has given you some insights into what vector database is and why you need one. If you have any questions or comments about vector database or Pinecone, feel free to leave them below or contact me directly. I would love to hear from you.
+
+<!-- In this blog post, I share my experience of working with complex data and how I discovered the power of vector database and how it transformed my data projects. I also introduce Pinecone as a fully managed vector database service that I use for my projects. -->
