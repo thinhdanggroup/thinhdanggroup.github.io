@@ -231,13 +231,13 @@ As we look to the future, we can expect prompt engineering to continue to evolve
 
 # References
 
-[^1^]: [Enterprise DNA](https://blog.enterprisedna.co/what-is-prompt-engineering/)
-[^2^]: [Tech Target](https://www.techtarget.com/searchenterpriseai/definition/prompt-engineering)
-[^3^]: [Prompt Engineering](https://www.promptengineering.org/what-is-prompt-engineering/)
-[^4^]: [Free Code Camp](https://www.freecodecamp.org/news/how-to-communicate-with-ai-tools-prompt-engineering/)
-[^5^]: [Digital Commons](https://digitalcommons.lindenwood.edu/faculty-research-papers/477/)
-[^6^]: [Time](https://time.com/6272103/ai-prompt-engineer-job/)
-[^6^]: [Foundation Inc](https://foundationinc.co/lab/prompt-engineering-guide-marketers/)
-[^7^]: [CMS Wire](https://www.cmswire.com/digital-marketing/prompt-engineering-basics-for-marketers-advertisers-and-content-producers/)
-[^8^]: [Microsoft](https://learn.microsoft.com/en-us/ai-builder/azure-openai-textgen)
-[^9^]: [HBR](https://hbr.org/2023/06/ai-prompt-engineering-isnt-the-future
+1. [Enterprise DNA](https://blog.enterprisedna.co/what-is-prompt-engineering/)
+2. [Tech Target](https://www.techtarget.com/searchenterpriseai/definition/prompt-engineering)
+3. [Prompt Engineering](https://www.promptengineering.org/what-is-prompt-engineering/)
+4. [Free Code Camp](https://www.freecodecamp.org/news/how-to-communicate-with-ai-tools-prompt-engineering/)
+5. [Digital Commons](https://digitalcommons.lindenwood.edu/faculty-research-papers/477/)
+6. [Time](https://time.com/6272103/ai-prompt-engineer-job/)
+7. [Foundation Inc](https://foundationinc.co/lab/prompt-engineering-guide-marketers/)
+8. [CMS Wire](https://www.cmswire.com/digital-marketing/prompt-engineering-basics-for-marketers-advertisers-and-content-producers/)
+9. [Microsoft](https://learn.microsoft.com/en-us/ai-builder/azure-openai-textgen)
+10. [HBR](https://hbr.org/2023/06/ai-prompt-engineering-isnt-the-future)
