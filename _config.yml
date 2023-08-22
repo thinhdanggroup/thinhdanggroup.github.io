@@ -56,4 +56,3 @@ style:  kjhealy
 
 # Exclude metadata and development time dependencies (like Grunt plugins)
 exclude: [README.markdown, package.json, grunt.js, Gruntfile.js, Gruntfile.coffee, node_modules]
-remote_theme: "mmistakes/minimal-mistakes@4.24.0"
