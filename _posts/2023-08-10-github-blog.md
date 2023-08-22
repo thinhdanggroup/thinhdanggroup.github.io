@@ -1,10 +1,24 @@
 ---
-layout: post
+author:
+  name             : "Thinh Dang"
+  avatar           : "/assets/images/avatar.png"
+  bio              : "Experienced Fintech Software Engineer Driving High-Performance Solutions"
+  location         : "Viet Nam"
+  email            : "thinhdang206@gmail.com"
+  links:
+    - label: "Linkedin"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/thinh-dang/"
+toc: true
+toc_sticky: true
 title:  "A Guideline to Building Your Blog Using GitHub Pages"
-author: thinhda
-categories: [AGI]
-image: assets/images/github-pages/banner.jpeg
-tags: featured
+header:
+  image: /assets/images/github-pages/banner.jpeg
+  op_image: /assets/images/github-pages/banner.jpeg
+tags: 
+- Layout
+- Uncategorized
+
 ---
 
 Ever thought of creating your own blog? This blog post will guide you through the process of building a blog using GitHub Pages, a platform that allows you to host and publish webpages for free. I will start from scratch, walking you through the steps of creating a new GitHub repository, configuring your blog, adding content, and customizing the layout and design. I will also explore some popular Jekyll themes that you can use to make your blog look professional and appealing. This blog post will also discuss some best practices for building a blog on GitHub Pages, including tips on optimizing site performance, using custom domains, organizing content, and integrating social media and comments. Finally, I will show you how to leverage the features of GitHub Pages to manage your blog effectively. Whether you're a seasoned blogger or a newbie, this guide will provide you with the knowledge and tools to start your own blog on GitHub Pages.
@@ -77,31 +91,31 @@ In this section, I will showcase some popular Jekyll themes that you can use for
 ### Minimal Mistakes
 
 
-![Minimal Mistakes](../assets/images/github-pages/minimal-mistake.png)
+![Minimal Mistakes](/assets/images/github-pages/minimal-mistake.png)
 
 [Minimal Mistakes](https://github.com/mmistakes/minimal-mistakes) is a flexible two-column Jekyll theme that's perfect for building personal sites, project landing pages, and blogs. It's designed to be mobile-friendly and includes support for categories, posts, and pages. The theme also includes a number of customizable options, like color schemes and typography, so you can tailor the look of your blog to fit your personal style.
 
 ### Jekyll Now
 
-![Jekyll Now](../assets/images/github-pages/jekyll-now.jpeg)
+![Jekyll Now]({{ 'assets/images/github-pages/jekyll-now.jpeg' | relative_url }})
 
 [Jekyll Now](https://github.com/barryclark/jekyll-now) is a theme designed for simplicity and ease of use. It eliminates the need for setting up a local development environment, making it a great choice for beginners. With Jekyll Now, you can have a blog up and running in minutes, all without leaving your web browser.
 
 ### Beautiful Jekyll
 
-![Beautiful Jekyll](../assets/images/github-pages/beautiful-jekyll.png)
+![Beautiful Jekyll](/assets/images/github-pages/beautiful-jekyll.png)
 
 [Beautiful Jekyll](https://github.com/daattali/beautiful-jekyll#readme) is a clean, responsive theme that offers a range of features like Google Analytics integration, Disqus commenting, and social media icons. It's also customizable, allowing you to change the color scheme, font, and layout of your blog.
 
 ### Lanyon
 
-![Beautiful Jekyll](../assets/images/github-pages/lanyon.png)
+![Beautiful Jekyll](/assets/images/github-pages/lanyon.png)
 
 [Lanyon](https://github.com/poole/lanyon) is a theme that offers a unique, sidebar-based layout. It includes support for posts, pages, and custom navigation links. Lanyon also offers eight different color schemes, so you can choose the one that best fits your blog's aesthetic.
 
 ### Hyde
 
-![Hyde](../assets/images/github-pages/hyde.png)
+![Hyde](/assets/images/github-pages/hyde.png)
 
 [Hyde](https://github.com/poole/hyde) is a brazen two-column Jekyll theme that pairs a prominent sidebar with uncomplicated content. It's based on Poole, the Jekyll butler, and includes support for theme customization, custom navigation links, and posts.
 
