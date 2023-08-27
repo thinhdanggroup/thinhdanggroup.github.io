@@ -16,8 +16,7 @@ header:
   image: /assets/images/github-pages/banner.jpeg
   op_image: /assets/images/github-pages/banner.jpeg
 tags: 
-- Layout
-- Uncategorized
+- Github
 
 ---
 
