@@ -1,10 +1,24 @@
 ---
-layout: post
+author:
+  name             : "Thinh Dang"
+  avatar           : "/assets/images/avatar.png"
+  bio              : "Experienced Fintech Software Engineer Driving High-Performance Solutions"
+  location         : "Viet Nam"
+  email            : "thinhdang206@gmail.com"
+  links:
+    - label: "Linkedin"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/thinh-dang/"
+toc: true
+toc_sticky: true
+header:
+  overlay_image: /assets/images/2023-06-01-langchain-memories/banner.jpeg
+  overlay_filter: 0.5 
+  teaser: /assets/images/2023-06-01-langchain-memories/banner.jpeg
 title:  "LangChain Memory Types: A Comprehensive Guide for Engineers"
-author: thinhda
-categories: [llm, langchain]
-image: assets/images/2023-06-01-langchain-memories/banner.jpeg
-tags: featured
+tags:
+- llm
+- langchain 
 ---
 
 As an engineer working with conversational AI, understanding the different types of memory available in LangChain is crucial. This blog post will provide a detailed comparison of the various memory types in LangChain, their quality, use cases, performance, cost, storage, and accessibility. By the end of this post, you will have a clear understanding of which memory type is best suited for your specific needs.

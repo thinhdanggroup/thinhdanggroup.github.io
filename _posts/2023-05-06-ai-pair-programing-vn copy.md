@@ -1,10 +1,23 @@
 ---
-layout: post
+author:
+  name             : "Thinh Dang"
+  avatar           : "/assets/images/avatar.png"
+  bio              : "Experienced Fintech Software Engineer Driving High-Performance Solutions"
+  location         : "Viet Nam"
+  email            : "thinhdang206@gmail.com"
+  links:
+    - label: "Linkedin"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/thinh-dang/"
+toc: true
+toc_sticky: true
+header:
+  overlay_image: /assets/images/copilot/copilot.jpeg
+  overlay_filter: 0.5 
+  teaser: /assets/images/copilot/copilot.jpeg
 title:  "GitHub Copilot: Đánh giá và Hướng dẫn cho Người mới bắt đầu"
-author: thinhda
-categories: [github copilot]
-image: assets/images/copilot/copilot.jpeg
-tags: featured
+tags: 
+- github copilot
 ---
 
 Bạn đã bao giờ muốn có một đối tác thông minh và hữu ích có thể giúp bạn với việc lập trình? Một người có thể gợi ý đoạn mã, hàm hoặc giải pháp dựa trên ngữ cảnh của mã của bạn? Một người có thể giúp bạn học những kỹ năng, quan điểm và phương pháp mới từ những đoạn mã mà họ đề xuất? Một người có thể làm cho việc lập trình trở nên nhanh hơn và dễ dàng hơn cho bạn?

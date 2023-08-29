@@ -1,10 +1,23 @@
 ---
-layout: post
+author:
+  name             : "Thinh Dang"
+  avatar           : "/assets/images/avatar.png"
+  bio              : "Experienced Fintech Software Engineer Driving High-Performance Solutions"
+  location         : "Viet Nam"
+  email            : "thinhdang206@gmail.com"
+  links:
+    - label: "Linkedin"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/thinh-dang/"
+toc: true
+toc_sticky: true
+header:
+  overlay_image: /assets/images/event-loop/banner.jpeg
+  overlay_filter: 0.5 
+  teaser: /assets/images/event-loop/banner.jpeg
 title:  "Understanding the Event Loop in Python"
-author: thinhda
-categories: [python]
-image: assets/images/event-loop/banner.jpeg
-tags: featured
+tags: 
+- python
 ---
 
 The event loop is a fundamental concept in Python, particularly when dealing with asynchronous programming. It is the core of every asyncio application and plays a crucial role in managing and executing multiple tasks concurrently, without the need for multi-threading or multi-processing.

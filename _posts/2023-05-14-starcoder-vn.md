@@ -1,10 +1,24 @@
 ---
-layout: post
+author:
+  name             : "Thinh Dang"
+  avatar           : "/assets/images/avatar.png"
+  bio              : "Experienced Fintech Software Engineer Driving High-Performance Solutions"
+  location         : "Viet Nam"
+  email            : "thinhdang206@gmail.com"
+  links:
+    - label: "Linkedin"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/thinh-dang/"
+toc: true
+toc_sticky: true
+header:
+  overlay_image: /assets/images/starcoder/starcoder.jpeg
+  overlay_filter: 0.5 
+  teaser: /assets/images/starcoder/starcoder.jpeg
 title:  "Giới thiệu Starcoder: Một mô hình ngôn ngữ lớn cho lập trình"
-author: thinhda
-categories: [starcoder, code completion]
-image: assets/images/starcoder/starcoder.jpeg
-tags: featured
+tags:
+- starcoder
+- code completion
 ---
 
 Bạn có muốn viết code chỉ bằng cách nói ra ý tưởng của mình? Bạn có muốn có một người bạn đồng hành trong lập trình, luôn sẵn sàng giúp đỡ và tư vấn cho bạn? Bạn có muốn tận hưởng công nghệ AI tiên tiến nhất trong lĩnh vực code mà không tốn một xu nào? Nếu bạn gật đầu đồng ý, thì hãy cùng tôi khám phá Starcoder, một công cụ hỗ trợ lập trình đột phá.

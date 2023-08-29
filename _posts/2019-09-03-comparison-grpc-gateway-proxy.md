@@ -1,11 +1,26 @@
 ---
-layout: post
+author:
+  name             : "Thinh Dang"
+  avatar           : "/assets/images/avatar.png"
+  bio              : "Experienced Fintech Software Engineer Driving High-Performance Solutions"
+  location         : "Viet Nam"
+  email            : "thinhdang206@gmail.com"
+  links:
+    - label: "Linkedin"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/thinh-dang/"
+
+header:
+  overlay_image: /assets/images/grpc-comparison.png
+  overlay_filter: 0.5 
+  teaser: /assets/images/grpc-comparison.png
+toc: true
+toc_sticky: true
 title:  "So sánh grpc gateway với gRPC web"
-author: thinhda
-categories: [ gRPC ]
-image: assets/images/grpc-comparison.png
-tags: featured
+tags: 
+- gRPC
 ---
+
 
 Bạn đang có một service sử dụng gRPC để đảm bảo vấn đề hiệu năng khi giao tiếp. Nhưng rồi một ngày, bạn muốn xây một admin web cho nó nhưng trình duyệt lại không hỗ trợ giao thức HTTP/2, hay đơn giản là service khác muốn gọi qua HTTP. Và bạn tìm đến hai giải pháp grpc-gateway và gRPC-Web nhưng lại không biết nên dùng cái nào. Bài viết này sẽ cho bạn cái nhìn tổng quát về hai giải pháp này.
 

@@ -1,10 +1,24 @@
 ---
-layout: post
+author:
+  name             : "Thinh Dang"
+  avatar           : "/assets/images/avatar.png"
+  bio              : "Experienced Fintech Software Engineer Driving High-Performance Solutions"
+  location         : "Viet Nam"
+  email            : "thinhdang206@gmail.com"
+  links:
+    - label: "Linkedin"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/thinh-dang/"
+toc: true
+toc_sticky: true
+header:
+  overlay_image: /assets/images/ngrok/banner.png
+  overlay_filter: 0.5 
+  teaser: /assets/images/ngrok/banner.png
 title:  "Hướng dẫn public service lên internet với ngrok và docker-compose"
 author: thinhda
-categories: [ ngrok, docker-compose, nginx]
-image: assets/images/ngrok/banner.png
-tags: featured
+tags: 
+- ngrok
 ---
 
 Nếu bạn đang muốn public service chạy ở máy local ra mạng internet, hoặc là một ssh server hay ftp server thì Ngrok là một giải pháp hoàn hảo cho vấn đề này.

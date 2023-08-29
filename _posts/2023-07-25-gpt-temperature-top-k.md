@@ -1,10 +1,23 @@
 ---
-layout: post
+author:
+  name             : "Thinh Dang"
+  avatar           : "/assets/images/avatar.png"
+  bio              : "Experienced Fintech Software Engineer Driving High-Performance Solutions"
+  location         : "Viet Nam"
+  email            : "thinhdang206@gmail.com"
+  links:
+    - label: "Linkedin"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/thinh-dang/"
+toc: true
+toc_sticky: true
+header:
+  overlay_image: /assets/images/temperature-top-k/banner.jpeg
+  overlay_filter: 0.5 
+  teaser: /assets/images/temperature-top-k/banner.jpeg
 title:  "Mastering GPT Model Outputs: A Deep Dive into Temperature and Top-k"
-author: thinhda
-categories: [AGI]
-image: assets/images/temperature-top-k/banner.jpeg
-tags: featured
+tags: 
+- AGI
 ---
 
 In this blog post, we delve into the fascinating world of Generative Pre-trained Transformers (GPT) models, with a special focus on controlling their outputs using temperature and top-k. We start by understanding what GPT models are, how they work, their applications, advantages, disadvantages, and the latest advancements in the field. We then introduce the concept of temperature and top-k, two crucial parameters that control the creativity and diversity of GPT model outputs. We take a deep dive into these parameters, explaining their mathematical underpinnings and their impact on GPT model outputs. We provide a step-by-step guide on how to implement temperature and top-k in GPT models, discussing common issues and solutions, best practices, and tools and libraries for implementation. We also review case studies that demonstrate the application of temperature and top-k in controlling GPT model outputs. By the end of this post, you will have a solid understanding of how to effectively use temperature and top-k to control the outputs of your GPT models.

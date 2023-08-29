@@ -1,5 +1,20 @@
 ---
-layout: post
+author:
+  name             : "Thinh Dang"
+  avatar           : "/assets/images/avatar.png"
+  bio              : "Experienced Fintech Software Engineer Driving High-Performance Solutions"
+  location         : "Viet Nam"
+  email            : "thinhdang206@gmail.com"
+  links:
+    - label: "Linkedin"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/thinh-dang/"
+toc: true
+toc_sticky: true
+header:
+  overlay_image: /assets/images/starcoder/starcoder.jpeg
+  overlay_filter: 0.5 
+  teaser: /assets/images/github-pages/banner.jpeg
 title:  "How I Used Tree of Thought to Solve Real-World Problems"
 author: thinhda
 categories: [llm, langchain]

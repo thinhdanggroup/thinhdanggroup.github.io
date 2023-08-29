@@ -1,11 +1,31 @@
 ---
-layout: post
+author:
+  name             : "Thinh Dang"
+  avatar           : "/assets/images/avatar.png"
+  bio              : "Experienced Fintech Software Engineer Driving High-Performance Solutions"
+  location         : "Viet Nam"
+  email            : "thinhdang206@gmail.com"
+  links:
+    - label: "Linkedin"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/thinh-dang/"
+toc: true
+toc_sticky: true
+header:
+  overlay_image: /assets/images/prompt_engineering/banner.jpeg
+  overlay_filter: 0.5 
+  teaser: /assets/images/prompt_engineering/banner.jpeg
 title:  "Prompt Engineering"
-author: thinhda
-categories: [AGI, prompt engineering]
-image: assets/images/prompt_engineering/banner.jpeg
-tags: featured
+tags: 
+- AGI
+- prompt engineering
 ---
+
+Welcome to this blog where I'll be your guide into the fascinating world of prompt engineering! This emerging field is changing the way we interact with AI systems and I'm excited to share its ins and outs with you. I'll explore how prompt engineering plays a crucial role in content generation, the process it involves, and what it's like to be a prompt engineer. I'll also see how it stacks up against traditional content generation methods. 
+
+Next, I'll navigate through the various tools and technologies used in prompt engineering, including AI language models and integrated development environments. If you're considering a career in this rapidly growing field, I've got you covered! I'll discuss the promising opportunities, the skills you'll need, and even potential salary and growth prospects. 
+
+And of course, I'll take a peek into the future, discussing upcoming trends in prompt engineering tools and technologies. So, buckle up and let's dive in!
 
 ## Introduction
 

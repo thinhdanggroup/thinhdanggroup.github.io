@@ -1,10 +1,23 @@
 ---
-layout: post
+author:
+  name             : "Thinh Dang"
+  avatar           : "/assets/images/avatar.png"
+  bio              : "Experienced Fintech Software Engineer Driving High-Performance Solutions"
+  location         : "Viet Nam"
+  email            : "thinhdang206@gmail.com"
+  links:
+    - label: "Linkedin"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/thinh-dang/"
+toc: true
+toc_sticky: true
+header:
+  overlay_image: /assets/images/copilot/copilot.jpeg
+  overlay_filter: 0.5 
+  teaser: /assets/images/copilot/copilot.jpeg
 title:  "GitHub Copilot: A Review and Guide for Beginners"
-author: thinhda
-categories: [github copilot]
-image: assets/images/copilot/copilot.jpeg
 tags: 
+- github copilot
 ---
 
 Have you ever wished you had a smart and helpful partner who could assist you with coding? Someone who could suggest code snippets, functions, or solutions based on the context of your code? Someone who could help you learn new skills, perspectives, and approaches from the code they suggest? Someone who could make coding faster and easier for you?
