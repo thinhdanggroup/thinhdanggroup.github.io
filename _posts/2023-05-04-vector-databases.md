@@ -1,10 +1,24 @@
 ---
-layout: post
+author:
+  name             : "Thinh Dang"
+  avatar           : "/assets/images/avatar.png"
+  bio              : "Experienced Fintech Software Engineer Driving High-Performance Solutions"
+  location         : "Viet Nam"
+  email            : "thinhdang206@gmail.com"
+  links:
+    - label: "Linkedin"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/thinh-dang/"
+toc: true
+toc_sticky: true
+header:
+  overlay_image: /assets/images/vectordb/vectordb.jpeg
+  overlay_filter: 0.5 
+  teaser: /assets/images/vectordb/vectordb.jpeg
 title:  "The Power of Vector Database: How It Transformed My Data Projects"
-author: thinhda
-categories: [vector database, PineCone]
-image: assets/images/vectordb/vectordb.jpeg
-tags: featured
+tags: 
+- vector database
+- PineCone
 ---
 
 As a data enthusiast and a software developer, I have always been fascinated by the challenges and opportunities of working with complex and unstructured data. These are the kinds of data that include text, images, audio, video, and other forms of information that are not easily organized or analyzed by traditional databases.

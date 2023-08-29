@@ -1,10 +1,23 @@
 ---
-layout: post
+author:
+  name             : "Thinh Dang"
+  avatar           : "/assets/images/avatar.png"
+  bio              : "Experienced Fintech Software Engineer Driving High-Performance Solutions"
+  location         : "Viet Nam"
+  email            : "thinhdang206@gmail.com"
+  links:
+    - label: "Linkedin"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/thinh-dang/"
+toc: true
+toc_sticky: true
+header:
+  overlay_image: /assets/images/graphql/graphQL-blog.jpeg
+  overlay_filter: 0.5 
+  teaser: /assets/images/graphql/graphQL-blog.jpeg
 title:  "Navigating GraphQL in Production: Best Practices and Lessons Learned"
-author: thinhda
-categories: [graphql]
-image: assets/images/graphql/graphQL-blog.jpeg
-tags: featured
+tags: 
+- graphql
 ---
 
 Learn from the experiences of large companies like PayPal, Netflix, and Shopify on how to effectively implement GraphQL in production. Discover best practices for optimal performance and functionality, and how to overcome common challenges when stitching multiple APIs together.

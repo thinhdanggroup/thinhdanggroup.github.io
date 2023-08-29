@@ -1,10 +1,23 @@
 ---
-layout: post
+author:
+  name             : "Thinh Dang"
+  avatar           : "/assets/images/avatar.png"
+  bio              : "Experienced Fintech Software Engineer Driving High-Performance Solutions"
+  location         : "Viet Nam"
+  email            : "thinhdang206@gmail.com"
+  links:
+    - label: "Linkedin"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/thinh-dang/"
+toc: true
+toc_sticky: true
+header:
+  overlay_image: /assets/images/load-testing.png
+  overlay_filter: 0.5 
+  teaser: /assets/images/load-testing.png
 title:  "Load testing với Locust và Boomer"
-author: thinhda
-categories: [ gRPC ]
-image: assets/images/load-testing.png
-tags: software
+tags: 
+- gRPC
 ---
 
 Một bước mà chúng ta thường xuyên bỏ qua và coi thường khi xây dựng một service mới đó là load test nó. Load test là một quá trình quan trọng trước khi đưa sản phẩm vào thực tế. Load test mang lại rất nhiều lợi ích: cho ta biết khả năng phục vụ bao nhiêu người dùng cùng lúc của service, chất lượng dịch vụ trong các tình trạng tải khác nhau, phát hiện được những `bug` chỉ xảy ra trong môi trường multi-threading, ...

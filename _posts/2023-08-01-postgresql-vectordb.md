@@ -11,9 +11,11 @@ author:
       url: "https://www.linkedin.com/in/thinh-dang/"
 toc: true
 toc_sticky: true
+header:
+  overlay_image: /assets/images/postgresql-vectordb/banner.jpeg
+  overlay_filter: 0.5 
+  teaser: /assets/images/postgresql-vectordb/banner.jpeg
 title:  "Harnessing PostgreSQL as a Vector Database with Python"
-author: thinhda
-image: assets/images/postgresql-vectordb/banner.jpeg
 ---
 
 Get ready to dive into the exciting world of vector databases! In this blog post, I'll show you how PostgreSQL can be used as a powerful vector database with the help of Python. I'll break down the concept of a vector database and explain how it can be used to your advantage in a variety of scenarios.

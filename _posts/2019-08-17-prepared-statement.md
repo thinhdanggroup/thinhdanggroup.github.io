@@ -1,10 +1,24 @@
 ---
-layout: post
-title:  "Prepared Statement Deep Dive"
-author: thinhda
-categories: [ statement, database ]
-image: assets/images/client-db.jpg
-tags: featured
+author:
+  name             : "Thinh Dang"
+  avatar           : "/assets/images/avatar.png"
+  bio              : "Experienced Fintech Software Engineer Driving High-Performance Solutions"
+  location         : "Viet Nam"
+  email            : "thinhdang206@gmail.com"
+  links:
+    - label: "Linkedin"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/thinh-dang/"
+toc: true
+toc_sticky: true
+header:
+  overlay_image: /assets/images/client-db.jpg
+  overlay_filter: 0.5 
+  teaser: /assets/images/client-db.jpg
+title: "Prepared Statement Deep Dive"
+tags: 
+- statement
+- database
 ---
 
 Để tối ưu hiệu năng của hệ thống, có rất nhiều cách để thực hiện nhưng hiệu quả nhất vẫn là tối ưu các câu truy vấn database. Một trong số này đó là sử dụng prepared statement để truy vấn. 

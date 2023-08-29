@@ -1,10 +1,24 @@
 ---
-layout: post
+author:
+  name             : "Thinh Dang"
+  avatar           : "/assets/images/avatar.png"
+  bio              : "Experienced Fintech Software Engineer Driving High-Performance Solutions"
+  location         : "Viet Nam"
+  email            : "thinhdang206@gmail.com"
+  links:
+    - label: "Linkedin"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/thinh-dang/"
+toc: true
+toc_sticky: true
+header:
+  overlay_image: /assets/images/grpc-json.png
+  overlay_filter: 0.5 
+  teaser: /assets/images/grpc-json.png
 title:  "Xây dựng Service cung cấp HTTP và gRPC API bằng Spring"
-author: thinhda
-categories: [ Spring, gRPC ]
-image: assets/images/grpc-json.png
-tags: featured
+tags: 
+- Spring
+- gRPC
 ---
 
 Nếu bạn đã từng xây dựng một ứng dụng với gRPC thì chắc chắn bạn đã biết được những ưu điểm của gRPC là khả năng truyền tải nhanh(lên tới 8 lần) và tối ưu hoá nội dung tin nhắn gửi đi. Nhưng hẳn là bạn cũng biết được khuyết điểm lớn nhất của nó là không phải ứng dụng nào cũng hỗ trợ giao thức gRPC. Ví dụ như browser không thể gọi trực tiếp một service bằng gRPC. Vậy tại sao chúng ta không xây dựng một service mà có thể hỗ trợ API cho gRPC và Http?

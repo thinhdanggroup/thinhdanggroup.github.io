@@ -11,10 +11,11 @@ author:
       url: "https://www.linkedin.com/in/thinh-dang/"
 toc: true
 toc_sticky: true
-title:  "A Guideline to Building Your Blog Using GitHub Pages"
 header:
-  image: /assets/images/github-pages/banner.jpeg
-  op_image: /assets/images/github-pages/banner.jpeg
+  overlay_image: /assets/images/starcoder/starcoder.jpeg
+  overlay_filter: 0.5 
+  teaser: /assets/images/github-pages/banner.jpeg
+title:  "A Guideline to Building Your Blog Using GitHub Pages"
 tags: 
 - Github
 

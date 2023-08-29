@@ -1,10 +1,26 @@
 ---
-layout: post
+author:
+  name             : "Thinh Dang"
+  avatar           : "/assets/images/avatar.png"
+  bio              : "Experienced Fintech Software Engineer Driving High-Performance Solutions"
+  location         : "Viet Nam"
+  email            : "thinhdang206@gmail.com"
+  links:
+    - label: "Linkedin"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/thinh-dang/"
+toc: true
+toc_sticky: true
+header:
+  overlay_image: /assets/images/streaming/banner-part1.jpeg
+  overlay_filter: 0.5 
+  teaser: /assets/images/streaming/banner-part1.jpeg
 title:  "Nhật ký làm quen với Streaming Data"
-author: thinhda
-categories: [streaming, kafka, avro, spark]
-image: assets/images/streaming/banner-part1.jpeg
-tags: featured
+tags: 
+- streaming
+- kafka
+- avro
+- spark
 ---
 
 Chào mọi người, không biết mọi người đã trải qua tính cảnh như mình chưa. Trước đây, mình là `Software Engineer` tại một công ty fintech và chuyên xây dựng hệ thống real-time với latency vài ms (hệ thống accounting). Và rồi một ngày, sếp mình đưa mình một project xây dựng hệ thống report `near real-time` (hệ thống report cho accounting). Mình kiểu "what the f**k" nhưng rồi vẫn nhận vì mình nghĩ sẽ học thêm được rất nhiều vì đây là hệ thống cần techstack hoàn toàn mới (thế giới của big data) so với những thứ mình đã biết trước đây. Và rồi, một thế giới mới đến thật, một hệ thống offline report khác hoàn toàn với hệ thống online transaction từ logic tính toán, cách monitoring, logging, công nghệ và cả mindset. Thời gian đầu nó gần như làm mình ngụp lặn với những kiến thức và vấn đề. Nếu các bạn cũng gặp tình huống như mình, lời khuyên chân thành hãy bắt đầu với quyền [Designing Data-Intensive Applications](https://www.amazon.com/Designing-Data-Intensive-Applications-Reliable-Maintainable/dp/1449373321), vì chưa có người hướng dẫn nên trước đây mình đã vấp ngã rất nhiều nhưng quyển sách này quả thật đã đưa mình tới chân trời mới. Giờ cùng mình làm quen với streaming data nhé.
