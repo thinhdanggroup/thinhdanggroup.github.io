@@ -38,3 +38,5 @@ _site
 .sass-cache
 node_modules
 Gemfile.lock
+**/.idea/**
+__pycache__
