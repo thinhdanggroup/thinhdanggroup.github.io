@@ -12,7 +12,7 @@ author:
 toc: true
 toc_sticky: true
 header:
-  overlay_image: /assets/images/starcoder/starcoder.jpeg
+  overlay_image: /assets/images/github-pages/starcoder.jpeg
   overlay_filter: 0.5 
   teaser: /assets/images/github-pages/banner.jpeg
 title:  "A Guideline to Building Your Blog Using GitHub Pages"
