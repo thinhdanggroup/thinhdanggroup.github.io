@@ -12,13 +12,13 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/function_calling/banner.jpeg
+    overlay_image: /assets/images/cython/banner.jpeg
     overlay_filter: 0.5
-    teaser: /assets/images/function_calling/banner.jpeg
+    teaser: /assets/images/cython/banner.jpeg
 title: "Securing Your Python Code with Cython: A Comprehensive Guide"
 tags:
-    - OpenAI
-    - Function Calling
+    - Cython
+    - Security
 
 ---
 
