@@ -306,7 +306,7 @@ In the next section, we will look at some real-world examples of function callin
 To truly understand the power and versatility of function calling in OpenAI, let's walk through a step-by-step example
 using Python. In this example, we will use OpenAI's GPT model to perform two tasks: translating text from English to
 Vietnamese and fetching current weather information for a specific location. We will be using the OpenAI API, along with
-two external APIs for translation and weather information. You can find the full code for this example on [GitHub](https://github.com/thinhdanggroup/thinhdanggroup.github.io/tree/master/playground/function_calling).
+two external APIs for translation and weather information. You can find the full code for this example on [GitHub](https://github.com/thinhdanggroup/thinhda_dev_blog/tree/main/function_calling).
 
 ### Setting Up the Environment
 
