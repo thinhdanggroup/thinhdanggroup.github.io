@@ -12,9 +12,9 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/alembic/banner.png
+    overlay_image: /assets/images/alembic/banner.jpeg
     overlay_filter: 0.5
-    teaser: /assets/images/alembic/banner.png
+    teaser: /assets/images/alembic/banner.jpeg
 title: "Mastering Alembic Migrations in Python: A Comprehensive Guide"
 tags:
     - Python
