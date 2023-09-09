@@ -30,7 +30,7 @@ Caching is a fundamental concept in software engineering that plays a vital role
 
 ### How Caching Works
 
-![flow](assets/images/caching/flow.png)
+![flow](/assets/images/caching/flow.png)
 
 Caching works by storing frequently accessed data in a high-speed storage layer, such as RAM, so that future requests for that data can be served faster. Here is a general overview of how caching works:
 
