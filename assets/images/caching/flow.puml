@@ -1,0 +1,14 @@
+@startuml
+actor User
+participant "Cache System" as Cache
+participant "Primary Storage" as Storage
+
+User -> Cache : Request data
+alt Data is in cache
+    Cache -> User : Return data
+else Data is not in cache
+    Cache -> Storage : Retrieve data
+    Storage -> Cache : Return data
+    Cache -> User : Return data
+end
+@enduml
