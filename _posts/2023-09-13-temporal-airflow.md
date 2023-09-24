@@ -232,13 +232,7 @@ In conclusion, both Temporal and Airflow are powerful tools for managing complex
 ## References
 
 - [Temporal Community](https://community.temporal.io/t/temporal-compared-to-airflow/4729) 
-- [Airflow Documentation](https://airflow.apache.org/docs/apache-airflow/stable/_api/airflow/triggers/temporal/index.html) 
-- [Temporal Community](https://community.temporal.io/t/temporal-compared-to-airflow/4729) 
-- [Airflow Documentation](https://airflow.apache.org/docs/apache-airflow/stable/_api/airflow/triggers/temporal/index.html) 
-- [Temporal Community](https://community.temporal.io/t/what-are-the-pros-and-cons-of-temporal-with-respect-to-prefect/5671) 
+- [Airflow Documentation](https://airflow.apache.org/docs/apache-airflow/stable/_api/airflow/triggers/temporal/index.html)  
 - [Hacker News](https://news.ycombinator.com/item?id=34164779) 
-- [Airflow Documentation](https://airflow.apache.org/docs/apache-airflow/stable/_modules/airflow/triggers/temporal.html) 
-- [Temporal Community](https://community.temporal.io/t/what-are-the-pros-and-cons-of-temporal-with-respect-to-prefect/5671) 
 - [Temporal Case Studies](https://temporal.io/case-studies/airbyte-case-study) 
-- [Airbyte Blog](https://airbyte.com/blog/scale-workflow-orchestration-with-temporal) 
-- [Airbyte Blog](https://airbyte.com/blog/scale-workflow-orchestration-with-temporal) 
+- [Airbyte Blog](https://airbyte.com/blog/scale-workflow-orchestration-with-temporal)  
