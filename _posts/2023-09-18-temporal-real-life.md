@@ -41,7 +41,7 @@ In the following sections, we will take a deep dive into how Temporal works, its
 
 ## Deep Dive into Temporal
 
-![temporal-system](assets/images/temporal-real-life/temporal-system-simple.svg)
+![temporal-system](/assets/images/temporal-real-life/temporal-system-simple.svg)
 
 ### How Temporal Works
 
