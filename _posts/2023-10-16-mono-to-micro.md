@@ -12,7 +12,7 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/mono_micro/banner.jpg
+    overlay_image: /assets/images/mono_micro/banner.jpeg
     overlay_filter: 0.5
     teaser: /assets/images/mono_micro/banner.jpeg
 title: "Navigating the Migration from Monolithic to Microservices Architecture"
