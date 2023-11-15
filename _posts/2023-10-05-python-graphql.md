@@ -14,7 +14,7 @@ toc_sticky: true
 header:
     overlay_image: /assets/images/graphql_fastapi/banner.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/graphql_fastapi/banner.jpeg
+    teaser: /assets/images/graphql_fastapi/banner.jpg
 title: "Building and Optimizing GraphQL and FastAPI with Python"
 tags:
     - Python
