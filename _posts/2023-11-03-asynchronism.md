@@ -12,9 +12,9 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/banner.jpeg/banner.jpeg
+    overlay_image: /assets/images/asynchronism/banner.jpeg
     overlay_filter: 0.5
-    teaser: /assets/images/banner.jpeg/banner.jpeg
+    teaser: /assets/images/asynchronism/banner.jpeg
 title: "Mastering Asynchronism Workflows in System Design and Architecture"
 tags:
     - System Design
