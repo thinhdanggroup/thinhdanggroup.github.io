@@ -22,7 +22,7 @@ tags:
 ---
 
 
-This comprehensive guide will delve into the world of LiteLLM Proxy, a crucial component in LLM applications. We'll start with an introduction to LiteLLM Proxy, exploring its purpose and the role it plays in LLM applications. We'll then take a deep dive into understanding the functions of LiteLLM Proxy, including its ability to handle requests for multiple LLM models, provide a consistent input/output format, error handling, logging, token usage & spend tracking, and streaming & async support. Real-world examples will be provided to illustrate how LiteLLM Proxy can be used in various scenarios. Next, we'll guide you through the process of setting up LiteLLM Proxy, including how to deploy it and run it with Docker compose. We'll also provide tips for troubleshooting common setup issues. The blog post will then explore the advanced usage of LiteLLM Proxy, discussing how to optimize it for performance, secure it, scale it for large applications, and what future developments and improvements are in store for LiteLLM Proxy. By the end of this guide, you'll have a thorough understanding of LiteLLM Proxy and its significant role in streamlining LLM applications.
+This comprehensive guide will delve into the world of LiteLLM Proxy, a crucial component in LLM applications. We'll start with an introduction to LiteLLM Proxy, exploring its purpose and the role it plays in LLM applications. We'll then take a deep dive into understanding the functions of LiteLLM Proxy, including its ability to handle requests for multiple LLM models, provide a consistent input/output format, error handling, logging, token usage & spend tracking, and streaming & async support. Real-world examples will be provided to illustrate how LiteLLM Proxy can be used in various scenarios. Next, we'll guide you through the process of setting up LiteLLM Proxy, including how to deploy it and run it with Docker. We'll also provide tips for troubleshooting common setup issues. The blog post will then explore the advanced usage of LiteLLM Proxy, discussing how to optimize it for performance, secure it, scale it for large applications, and what future developments and improvements are in store for LiteLLM Proxy. By the end of this guide, you'll have a thorough understanding of LiteLLM Proxy and its significant role in streamlining LLM applications.
 
 ## Introduction to LiteLLM Proxy
 
@@ -32,7 +32,7 @@ In LLM (Language Model Microservice) applications, LiteLLM Proxy plays a crucial
 
 Throughout this blog, we will explore how LiteLLM Proxy can handle cross-cutting concerns in LLM applications. We will delve into understanding the functions of LiteLLM Proxy, such as handling requests for multiple LLM models, providing a consistent input/output format, error handling, logging, token usage & spend tracking, and streaming & async support. We will also provide examples of how to use LiteLLM Proxy in different scenarios, such as making /chat/completions requests for different models.
 
-Furthermore, we will guide you on how to set up LiteLLM Proxy locally and deploy it. We will explain how to run LiteLLM Proxy with Docker compose. Lastly, we will discuss how LiteLLM Proxy can handle cross-cutting concerns like logging, error handling, and consistent input/output format. We will provide examples of how these cross-cutting concerns are handled in LiteLLM Proxy.
+Furthermore, we will guide you on how to set up LiteLLM Proxy locally and deploy it. We will explain how to run LiteLLM Proxy with Docker. Lastly, we will discuss how LiteLLM Proxy can handle cross-cutting concerns like logging, error handling, and consistent input/output format. We will provide examples of how these cross-cutting concerns are handled in LiteLLM Proxy.
 
 Stay with us as we embark on this journey to explore the capabilities of LiteLLM Proxy and how it can be a game-changer in your LLM applications.
 
@@ -82,7 +82,7 @@ In the next section, we will guide you on how to set up LiteLLM Proxy and get it
 
 ## Setting Up LiteLLM Proxy
 
-Setting up LiteLLM Proxy involves a few steps that require a basic understanding of command-line interfaces and Python. In this section, we will guide you through the process of setting up LiteLLM Proxy on your local machine, deploying it, and running it with Docker compose. We will also provide some tips for troubleshooting common setup issues.
+Setting up LiteLLM Proxy involves a few steps that require a basic understanding of command-line interfaces and Python. In this section, we will guide you through the process of setting up LiteLLM Proxy on your local machine, deploying it, and running it with Docker. We will also provide some tips for troubleshooting common setup issues.
 
 ### Setting Up LiteLLM Proxy Locally
 
@@ -134,9 +134,9 @@ Once you have set up LiteLLM Proxy locally, you might want to deploy it to a liv
 
 Choose the deployment option that best suits your needs and infrastructure.
 
-### Running LiteLLM Proxy with Docker Compose
+### Running LiteLLM Proxy with Docker
 
-If you prefer to use Docker, you can run LiteLLM Proxy using Docker Compose. Here's how:
+If you prefer to use Docker, you can run LiteLLM Proxy using Docker. Here's how:
 
 1. Pull the litellm ghcr docker image
 
@@ -258,7 +258,7 @@ In conclusion, LiteLLM Proxy is a powerful tool with a wide range of advanced fe
 
 ## Conclusion
 
-Throughout this blog, we have explored the various aspects of LiteLLM Proxy and its impact on LLM applications. We started with an introduction to LiteLLM Proxy, understanding its purpose, role, and the myriad of functionalities it offers. We then delved into the process of setting up LiteLLM Proxy locally, deploying it, and running it with Docker compose. Lastly, we explored the advanced usage of LiteLLM Proxy, focusing on performance optimization, security measures, scalability for large applications, and future developments and improvements.
+Throughout this blog, we have explored the various aspects of LiteLLM Proxy and its impact on LLM applications. We started with an introduction to LiteLLM Proxy, understanding its purpose, role, and the myriad of functionalities it offers. We then delved into the process of setting up LiteLLM Proxy locally, deploying it, and running it with Docker. Lastly, we explored the advanced usage of LiteLLM Proxy, focusing on performance optimization, security measures, scalability for large applications, and future developments and improvements.
 
 LiteLLM Proxy is a powerful tool that serves as a middleware between the client application and the language model API services. It simplifies the process of making API calls to various services by abstracting away the complexity and providing a unified interface. Its ability to handle requests for multiple LLM models, provide a consistent input/output format, handle errors, log data, track token usage and spend, and support streaming and async makes it an indispensable tool for any LLM application.
 
