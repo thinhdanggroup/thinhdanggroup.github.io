@@ -263,35 +263,35 @@ After setting up your Vercel account, the next step is to deploy a serverless fu
 
 1. First, install the Vercel CLI (Command Line Interface) on your local machine. You can do this by running the following command in your terminal:
 
-```bash
-npm install -g vercel
-```
+    ```bash
+    npm install -g vercel
+    ```
 
 2. Next, create a new directory for your project and navigate into it:
 
-```bash
-mkdir my-vercel-function && cd my-vercel-function
-```
+    ```bash
+    mkdir my-vercel-function && cd my-vercel-function
+    ```
 
 3. In your project directory, create a new file that will contain your serverless function. You can do this by running the following command:
 
-```bash
-touch api/hello.js
-```
+    ```bash
+    touch api/hello.js
+    ```
 
 4. Open the `hello.js` file in your favorite text editor and add the following code:
 
-```javascript
-module.exports = (req, res) => {
-  res.status(200).send("Hello, from Vercel!");
-};
-```
+    ```javascript
+    module.exports = (req, res) => {
+      res.status(200).send("Hello, from Vercel!");
+    };
+    ```
 
 5. Now, deploy your serverless function by running the following command in your terminal:
 
-```bash
-vercel
-```
+    ```bash
+    vercel
+    ```
 
 Vercel will automatically detect the serverless function and deploy it to a serverless platform. Once the deployment is complete, Vercel will provide you with a unique URL to access your function.
 
@@ -301,9 +301,9 @@ After you've deployed your serverless function, you can test it by sending an HT
 
 1. Open your terminal and run the following command:
 
-```bash
-curl https://my-vercel-function.vercel.app/api/hello
-```
+    ```bash
+    curl https://my-vercel-function.vercel.app/api/hello
+    ```
 
 Replace `https://my-vercel-function.vercel.app/api/hello` with the URL provided by Vercel after deployment.
 
