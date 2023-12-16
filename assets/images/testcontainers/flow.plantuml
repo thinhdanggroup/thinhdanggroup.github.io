@@ -1,0 +1,16 @@
+@startuml
+actor Developer
+participant "Test Code" as TC
+database "Docker Container" as DC
+
+Developer -> TC: Runs test
+activate TC
+TC -> DC: Starts Docker container
+activate DC
+TC -> DC: Interacts with the container
+DC --> TC: Returns test results
+TC -> DC: Stops Docker container
+deactivate DC
+TC --> Developer: Returns test results
+deactivate TC
+@enduml
