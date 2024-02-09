@@ -263,6 +263,7 @@ are easy to understand, maintain, and test.
 The project will be structured using Clean Architecture and Domain-Driven Design principles, with interfaces defined
 within the domain layer. The structure will consist of the following layers:
 
+```markdown
 - `app/`
     - `__init__.py` (initializes the application)
     - `domain/` (contains entities, value objects, and interfaces)
@@ -289,6 +290,7 @@ within the domain layer. The structure will consist of the following layers:
             - `__init__.py`
             - `third_party_service.py` (implementation of ThirdPartyService interface)
     - `main.py` (entry point for the FastAPI application)
+```
 
 #### Defining Interfaces
 
