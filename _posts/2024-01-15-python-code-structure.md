@@ -256,9 +256,9 @@ strategies. We have emphasized the importance of decoupling components and ensur
 By following the techniques discussed in this section, you can build robust and maintainable Python applications that
 are easy to understand, maintain, and test.
 
-### Example Project: Auctioning Platform with Clean Architecture and Domain-Driven Design in Python using FastAPI
+## Example Project: Auctioning Platform with Clean Architecture and Domain-Driven Design in Python using FastAPI
 
-#### Project Structure with Interfaces
+### Project Structure with Interfaces
 
 The project will be structured using Clean Architecture and Domain-Driven Design principles, with interfaces defined
 within the domain layer. The structure will consist of the following layers:
@@ -292,7 +292,7 @@ within the domain layer. The structure will consist of the following layers:
     - `main.py` (entry point for the FastAPI application)
 ```
 
-#### Defining Interfaces
+### Defining Interfaces
 
 Interfaces are defined in the `domain/interfaces/` directory and are used to establish contracts for repositories and
 services. Here's an example of an interface for a repository:
@@ -328,7 +328,7 @@ class IThirdPartyService(ABC):
         pass
 ```
 
-#### Implementing Interfaces
+### Implementing Interfaces
 
 Implementations of these interfaces are provided in the `infrastructure` layer. For example, the `AuctionRepository`
 class implements the `IAuctionRepository` interface:
@@ -370,7 +370,7 @@ class ThirdPartyService(IThirdPartyService):
             return response.json()
 ```
 
-#### FastAPI Implementation
+### FastAPI Implementation
 
 The `main.py` file serves as the entry point for the FastAPI application. It sets up the application and wires up the
 dependencies, including the implementations of the interfaces:
