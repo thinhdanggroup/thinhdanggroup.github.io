@@ -167,13 +167,11 @@ Architecture and Domain-Driven Design in Python.
 
 To compare Domain-Driven Design (DDD) and Clean Architecture (CA), let's start by understanding that DDD is a software design technique focused on the core domain and domain logic, while CA is a software architecture that emphasizes the decoupling of software components 2.
 
-### Common Elements
-
+**Common Elements:**
 
 - **Entities**: Both DDD and CA recognize the importance of entities, which are objects that hold state and identity. They are central to both paradigms, representing the fundamental building blocks of the system.
-
-
-### Differences
+ 
+**Differences**:
 
 - **Focus**: DDD focuses on the domain and domain logic, using patterns like Entities, Value Objects, Aggregates, and Repositories to model complex domains. CA, on the other hand, is more concerned with the overall structure of the software, ensuring that the dependencies between components point inwards, away from concrete implementations and frameworks.
 - **Use Cases**: In CA, use cases are considered the main features of the application. They encapsulate the business rules and orchestrate the flow of data to and from entities and value objects. In contrast, DDD uses Application Services for similar purposes, which can contain domain logic but are generally free of domain-specific logic.
