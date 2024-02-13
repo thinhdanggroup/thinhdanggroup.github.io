@@ -169,8 +169,10 @@ To compare Domain-Driven Design (DDD) and Clean Architecture (CA), let's start b
 
 ### Common Elements
 
+
 - **Entities**: Both DDD and CA recognize the importance of entities, which are objects that hold state and identity. They are central to both paradigms, representing the fundamental building blocks of the system.
--
+
+
 ### Differences
 
 - **Focus**: DDD focuses on the domain and domain logic, using patterns like Entities, Value Objects, Aggregates, and Repositories to model complex domains. CA, on the other hand, is more concerned with the overall structure of the software, ensuring that the dependencies between components point inwards, away from concrete implementations and frameworks.
