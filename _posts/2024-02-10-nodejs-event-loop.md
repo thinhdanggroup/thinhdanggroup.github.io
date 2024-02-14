@@ -440,7 +440,6 @@ It is important to avoid blocking the event loop in order to ensure the performa
 * Use error handling mechanisms, such as `try...catch` blocks, `Promise` rejection handlers, or `process.on('uncaughtException')` event listeners, to handle errors gracefully and prevent the event loop from crashing.
 * Avoid creating deadlocks by using proper synchronization mechanisms, such as locks, semaphores, or mutexes, or by avoiding circular dependencies between promises.
 
-### Conclusion
 
 In this section, we explored the relationship between the event loop and the JavaScript execution context. We discussed how events are executed in the context of the JavaScript execution context and how the event loop affects the performance of Node.js applications.
 
@@ -520,8 +519,6 @@ const server = net.createServer((socket) => {
 
 server.listen(3000);
 ```
-
-### Conclusion
 
 Non-JavaScript tasks, such as timers and I/O operations, are an important part of the Node.js event loop. These tasks are managed by the libuv library, which uses a polling mechanism to monitor for I/O events. Timers are used to schedule functions to be executed at a specific time or after a specified delay, while I/O operations are used to read from and write to files, communicate with network sockets, and perform other I/O-related tasks.
 
@@ -679,8 +676,6 @@ Some of the performance characteristics of macrotasks are:
 * Executed after microtasks: Macrotasks are executed after microtasks. This means that even if a microtask enqueues a macrotask, the macrotask will not be executed until the next event loop cycle. This prioritization helps ensure that higher-priority operations (microtasks) are executed before lower-priority operations (macrotasks).
 * Can block the event loop: Macrotasks can block the event loop, as they can take a long time to complete and prevent other events from being processed. This can affect the responsiveness of the application, as it may delay the processing of user input, timers, or I/O events. Therefore, macrotasks should be used carefully and for longer-running operations, as too many macrotasks can cause the event loop to lag or hang.
 
-### Conclusion
-
 In this section, we took a deeper dive into the microtask queue and the macrotask queue in Node.js. We discussed the differences between these two queues, their use cases, and how they can be used to improve the performance of Node.js applications.
 
 In the next section, we will discuss common pitfalls and misconceptions about using microtasks and macrotasks in Node.js. We will also provide some best practices for using these features effectively.
@@ -727,8 +722,6 @@ Here are some best practices for working with the event loop in Node.js:
 * **Use concurrency control mechanisms:** This includes using locks, mutexes, or semaphores to ensure that asynchronous operations are executed in a controlled manner.
 
 * **Design your code to be resilient to failures:** This includes handling errors gracefully and implementing retry mechanisms to ensure that asynchronous operations are eventually successful.
-
-### Conclusion
 
 In this section, we discussed common pitfalls and misconceptions about using microtasks and macrotasks in Node.js. We also provided some best practices for using these features effectively.
 
