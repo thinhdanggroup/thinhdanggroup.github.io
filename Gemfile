@@ -1,6 +1,5 @@
 source "https://rubygems.org"
 
-gem "github-pages"
 gem "minimal-mistakes-jekyll"
 gem "jekyll", "=3.9.3"
 gem "kramdown-parser-gfm"
