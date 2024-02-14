@@ -14,7 +14,7 @@ toc_sticky: true
 permalink: /about/
 title: "About"
 layout: single
-excerpt: "Minimal Mistakes is a flexible two-column Jekyll theme."
+#excerpt: "Minimal Mistakes is a flexible two-column Jekyll theme."
 layouts_gallery:
   - url: /assets/old_images/mm-layout-splash.png
     image_path: /assets/old_images/mm-layout-splash.png
