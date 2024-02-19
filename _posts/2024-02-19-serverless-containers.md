@@ -18,6 +18,8 @@ header:
 title: "Comparing Serverless vs. Containers: A Comprehensive Guide"
 tags:
     - Distributed Systems
+    - Serverless
+    - Containers
 
 ---
 
