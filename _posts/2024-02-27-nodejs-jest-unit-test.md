@@ -623,7 +623,6 @@ describe('Database', () => {
 - **Learn from others:** One of the best ways to improve your unit testing skills and confidence is to learn from others. You can read articles, books, or blogs about unit testing, watch videos or tutorials, or take courses or workshops. You can also look at the code and tests of other developers, either from open source projects or your own team, and see how they write and organize their tests, what tools and techniques they use, and what challenges and solutions they encounter. You can also ask for feedback or advice from your peers or mentors, or join online communities or forums where you can discuss and share your unit testing experiences and questions.
 
 
-```md
 ## Summary
 
 In this blog post, I share my insights and experiences on unit testing in Node.js and TypeScript, with a special focus on integrating Jest, a popular testing framework. My goal is to provide a comprehensive guide that not only introduces the basics of unit testing but also dives into advanced techniques and best practices to ensure your code is thoroughly tested and reliable.
