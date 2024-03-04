@@ -17,9 +17,9 @@ header:
     teaser: /assets/images/jest-nodejs-test/banner.jpeg
 title: "Unit Testing in Node.js and TypeScript: A Comprehensive Guide with Jest Integration"
 tags:
-    - Distributed Systems
-    - Serverless
-    - Containers
+    - Node.js
+    - TypeScript
+    - Jest
 
 ---
 
