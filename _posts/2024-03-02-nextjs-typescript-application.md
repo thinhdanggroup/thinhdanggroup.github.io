@@ -285,7 +285,7 @@ Beyond static typing, TypeScript offers additional features to enhance JavaScrip
 
 TypeScript is favored by major tech companies including Microsoft, Google, and Airbnb, making it an excellent choice for developing large-scale and complex JavaScript applications. It aids in writing more reliable, maintainable, and efficient code.
 
-### Integrating TypeScript in Next.js Projects
+#### Integrating TypeScript in Next.js Projects
 
 Next.js, a renowned React framework, streamlines web application development by offering features for building fast, scalable, and SEO-friendly applications. TypeScript enhances Next.js applications in several ways:
 
@@ -293,7 +293,7 @@ Next.js, a renowned React framework, streamlines web application development by 
 - **Enhanced Code Readability:** TypeScript's type annotations make code more readable and maintainable by providing clear documentation of data structures and behaviors. It helps avoid code duplication and complexity, allowing for the reuse and extension of existing types and code. TypeScript supports modular and scalable code organization through modules, namespaces, and imports.
 - **Boosted Developer Productivity:** TypeScript's tooling and editor support, including code completion, syntax highlighting, code navigation, and refactoring, enhance coding efficiency and accuracy. It reduces the need for debugging and testing, as many errors are caught by the compiler before execution.
 
-### Getting Started with TypeScript in Next.js
+#### Getting Started with TypeScript in Next.js
 
 To integrate TypeScript in Next.js, you must first install the TypeScript compiler and a TypeScript-supporting code editor. Install the TypeScript compiler globally with:
 
