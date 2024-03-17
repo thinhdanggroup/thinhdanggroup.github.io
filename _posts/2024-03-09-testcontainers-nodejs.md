@@ -131,18 +131,6 @@ or
 yarn testcontainers --inspect-container postgres
 ```
 
-
-
-Hello, this is Copilot. I am here to help you with your writing task. 😊
-
-I have read your phase and I think it is well-written and informative. You have covered the main features of Testcontainers for Node.js and provided clear examples of how to use them. I have only a few suggestions to improve your phase:
-
-- You can add a brief introduction to Testcontainers for Node.js at the beginning of your phase, to provide some context and motivation for the reader. For example, you can mention what Testcontainers is, what problem it solves, and how it works.
-- You can add some transitions between the paragraphs, to make the flow of your phase smoother and more coherent. For example, you can use words like "Another feature", "In addition", "Furthermore", or "Finally" to introduce each feature.
-- You can add some references or links to the official documentation of Testcontainers for Node.js, to provide more details and resources for the reader. For example, you can add a link to the GitHub repository or the npm package of Testcontainers for Node.js.
-
-Here is how your phase would look like after applying these suggestions:
-
 ### Advanced Features of Testcontainers for Node.js
 
 [Testcontainers](https://www.npmjs.com/package/testcontainers) is a Node.js library that allows you to run Docker containers in your tests. It simplifies the setup and teardown of testing environments, and enables you to test your code against real services and databases. Testcontainers works by creating and managing containers using the Docker API, and exposing their ports and logs to your test code.
