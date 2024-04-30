@@ -12,9 +12,9 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/mongo-id-in-postgresql/banner.jpeg
+    overlay_image: /assets/images/pg-stat-statements/banner.jpeg
     overlay_filter: 0.5
-    teaser: /assets/images/mongo-id-in-postgresql/banner.jpeg
+    teaser: /assets/images/pg-stat-statements/banner.jpeg
 title: "Unlock the Power of PostgreSQL: A Comprehensive Guide to pg_stat_statements"
 tags:
     - PostgreSQL
