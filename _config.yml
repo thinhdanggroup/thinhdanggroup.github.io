@@ -301,6 +301,8 @@ defaults:
       related: true
       show_date: true
       date_format: "%Y-%m-%d"
+      toc: true
+      toc_sticky: true
 
 # theme: minimal-mistakes-jekyll
 remote_theme: mmistakes/minimal-mistakes
