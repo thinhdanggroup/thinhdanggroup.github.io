@@ -251,11 +251,9 @@ Employing these diagnostic methods allows for the effective detection of slow qu
 
 ### Improve Postgres Performance by utilizing Wait Events
 
-## Analyzing Wait Events to Optimize Query Performance
-
 Wait event analysis is a powerful technique in PostgreSQL to identify why queries are slow. It helps in pinpointing the exact stage where a query is spending most of its time waiting, which can lead to targeted optimizations. Here's an example that demonstrates this process:
 
-### The Query
+**The Query**
 Consider a query that joins several large tables and performs complex calculations:
 ```sql
 SELECT a.*, b.total, c.average
@@ -265,7 +263,7 @@ JOIN table_c c ON a.id = c.a_id
 WHERE a.created_at > '2024-01-01';
 ```
 
-### Observing Wait Events
+**Observing Wait Events**
 To observe wait events for the query, we can use the `pg_stat_activity` view:
 ```sql
 SELECT pid, wait_event_type, wait_event
@@ -274,10 +272,10 @@ WHERE query = '<query_text>';
 ```
 Replace `<query_text>` with the actual query text to filter the results.
 
-### Predicting the Root Cause
+**Predicting the Root Cause**
 Upon running the above command, we might observe a high frequency of `LWLockNamed` wait events. This indicates that the query is frequently waiting for lightweight locks, which are typically used to manage memory or transaction log buffers.
 
-### Applying the Solution
+**Applying the Solution**
 Knowing that `LWLockNamed` events are related to contention on shared buffers, we can take several steps to mitigate this:
 
 1. **Increase Shared Buffers**: Allocate more memory to shared buffers if the system has available RAM.
@@ -316,6 +314,6 @@ The realm of PostgreSQL is in a perpetual state of flux, continually being enric
 9.  [en.wikipedia.org](https://en.wikipedia.org/wiki/PostgreSQL).
 10. [pg_stat_statements - PostgreSQL Documentation](https://www.postgresql.org/docs/current/pgstatstatements.html)
 11. [Performance - How to find cause of ClientRead wait_event in Postgresql](https://stackoverflow.com/questions/68649726/how-to-find-cause-of-clientread-wait-event-in-postgresql-pg-stat-activity)
-12. [Postgres Connection Tracing, Wait Event Analysis & Vacuum ...](https://pganalyze.com/blog/postgres-connection-tracing-wait-event-analysis-and-vacuum-monitoring)
-13. [Wait Events Overview | Redrock Postgres Documentation](https://doc.rockdata.net/waits/summary/)
-14. [Monitoring Wait Events in PostgreSQL 9.6 : Postgres Professional. ](https://postgrespro.com/blog/pgsql/111807)
+12. [Postgres Connection Tracing, Wait Event Analysis & Vacuum ](https://pganalyze.com/blog/postgres-connection-tracing-wait-event-analysis-and-vacuum-monitoring)
+13. [Wait Events Overview  Redrock Postgres Documentation](https://doc.rockdata.net/waits/summary/)
+14. [Monitoring Wait Events in PostgreSQL 9.6 : Postgres Professional](https://postgrespro.com/blog/pgsql/111807)
