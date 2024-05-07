@@ -21,13 +21,13 @@ tags:
 
 ---
 
-Ready to conquer the world of Node.js servers with Datadog? This guide is your treasure map. It's going to help you dodge sneaky pitfalls like hostname detection monsters, tangled webs of proxy configuration, and the ever-so-tricky API key setup puzzles.
+Ready to conquer the world of servers with Datadog? This guide is your treasure map. It's going to help you dodge sneaky pitfalls like hostname detection monsters, tangled webs of proxy configuration, and the ever-so-tricky API key setup puzzles.
 
 Each part of this guide is like a level in a video game, filled with practical power-ups (solutions) and real-world quests (examples). So strap in, power up your coding skills, and let's make sure your applications are monitored like a pro with Datadog. Let the adventure begin!
 
 ### Hostname Detection Issues
 
-When monitoring Node.js servers with Datadog, it's essential to accurately detect hostnames to ensure data integrity. Misconfigured hostnames can result in erroneous data aggregation and misrepresentation of server metrics. This section delves into common issues and remedies for hostname detection.
+When monitoring servers with Datadog, it's essential to accurately detect hostnames to ensure data integrity. Misconfigured hostnames can result in erroneous data aggregation and misrepresentation of server metrics. This section delves into common issues and remedies for hostname detection.
 
 #### 1. Incorrect Hostname 
 
@@ -38,7 +38,7 @@ The Datadog Agent must report the server's actual hostname. Discrepancies can oc
 
 #### 2. Proxy Configuration
 
-Node.js servers operating behind proxies require additional configuration:
+Application servers operating behind proxies require additional configuration:
    - **Proxy Settings**: Define `proxy_host`, `proxy_port`, `proxy_user`, and `proxy_password` in `datadog.yaml`.
    - **Connectivity**: Ensure the Datadog Agent can establish a connection through the specified proxy.
 
@@ -63,61 +63,9 @@ Load balancers can obscure individual server hostnames:
 
 By addressing these areas, you can enhance the accuracy of hostname detection and, consequently, the reliability of your monitoring setup with Datadog.
 
-
-
-### Agent Not Configured for Proxy
-
-In environments where Node.js servers are operating behind a proxy, it is crucial to configure the Datadog Agent to communicate through the proxy. Without proper configuration, the Agent will fail to send metrics and logs to Datadog, rendering your monitoring capabilities ineffective.
-
-#### Configuration Steps
-
-1. **Locate the Configuration File**: Find the `datadog.yaml` file in the Agent's configuration directory.
-
-2. **Edit the Proxy Settings**: Add the proxy settings to the `datadog.yaml` file. Here's an example configuration for a basic proxy setup:
-
-    ```yaml
-    proxy_host: proxy.example.com
-    proxy_port: 8080
-    ```
-
-    If your proxy requires authentication, include these additional lines:
-
-    ```yaml
-    proxy_user: your_username
-    proxy_password: your_password
-    ```
-
-3. **Restart the Agent**: Apply the new configuration by restarting the Agent. On systems using systemd, the command is:
-
-    ```
-    sudo systemctl restart datadog-agent
-    ```
-
-4. **Verify the Configuration**: Ensure that the Agent is now using the proxy by checking its status:
-
-    ```
-    datadog-agent status
-    ```
-
-    The output should confirm the proxy settings:
-
-    ```
-    Proxy: http://proxy.example.com:8080
-    ```
-
-#### Troubleshooting
-
-- **Check the Logs**: If the Agent fails to connect, review the logs for any error messages that can help identify the issue.
-- **Review the Configuration**: Double-check the `datadog.yaml` file for any typos or incorrect settings.
-- **Contact Support**: For persistent problems, reach out to Datadog support for expert assistance.
-
-By following these detailed steps, you can ensure that your Datadog Agent is properly configured to communicate through a proxy, maintaining uninterrupted monitoring of your Node.js servers.
-
-
-
 ### API Key Issues
 
-The Datadog API key is an essential component for authenticating and securing the communication between your Node.js server and the Datadog platform. An incorrect or expired API key can prevent your monitoring data from being transmitted, which can severely impair the effectiveness of your monitoring capabilities.
+The Datadog API key is an essential component for authenticating and securing the communication between your application server and the Datadog platform. An incorrect or expired API key can prevent your monitoring data from being transmitted, which can severely impair the effectiveness of your monitoring capabilities.
 
 #### Consequences of Incorrect API Key
 
@@ -125,7 +73,7 @@ Utilizing an incorrect API key can lead to several critical issues:
 
 - **Data Loss**: Without a valid API key, metrics and logs cannot be sent to Datadog, resulting in significant gaps in monitoring data and potential loss of critical insights.
 - **Error Messages**: The Datadog Agent will produce error messages, indicating that the API key is invalid or has expired, which could lead to confusion and delay in issue resolution.
-- **Monitoring Interruption**: An invalid API key disrupts the monitoring setup, which hinders your ability to track and analyze the performance and health of your Node.js servers.
+- **Monitoring Interruption**: An invalid API key disrupts the monitoring setup, which hinders your ability to track and analyze the performance and health of your application servers.
 
 #### Obtaining and Configuring the Correct API Key
 
@@ -143,7 +91,7 @@ If you encounter issues related to the API key, consider the following troublesh
 - **Inspect the Agent Logs**: Look through the Agent logs for any error messages that could indicate problems with the API key authentication process.
 - **Reach Out for Support**: Contact Datadog support for further assistance if the issue persists after verifying the API key and inspecting the logs.
 
-By meticulously ensuring that the correct API key is configured, you can maintain a secure and effective link between your Node.js server and the Datadog platform, facilitating robust monitoring and insightful data analysis.
+By meticulously ensuring that the correct API key is configured, you can maintain a secure and effective link between your application server and the Datadog platform, facilitating robust monitoring and insightful data analysis.
 
 
 
@@ -192,7 +140,7 @@ Datadog's automated error handling capabilities can significantly enhance your r
 
 ### Not Collecting Enough Data for Analysis
 
-Collecting comprehensive trace data is crucial for effective analysis and troubleshooting in Node.js applications. Insufficient data can obscure the root causes of issues and lead to ineffective performance tuning. To mitigate this, it's essential to implement robust data collection strategies.
+Collecting comprehensive trace data is crucial for effective analysis and troubleshooting in application applications. Insufficient data can obscure the root causes of issues and lead to ineffective performance tuning. To mitigate this, it's essential to implement robust data collection strategies.
 
 #### Best Practices for Data Collection
 
@@ -218,7 +166,7 @@ Collecting comprehensive trace data is crucial for effective analysis and troubl
 
 - **Monitor Your Data Diligently**: Neglecting to monitor trace data can result in missed opportunities for optimization. Implement monitoring solutions with alerting capabilities to stay informed of system health.
 
-By adhering to these guidelines and avoiding common pitfalls, you can ensure that your Node.js applications are backed by solid trace data, facilitating effective troubleshooting and optimization.
+By adhering to these guidelines and avoiding common pitfalls, you can ensure that your applications are backed by solid trace data, facilitating effective troubleshooting and optimization.
 
 
 
@@ -276,17 +224,6 @@ The profiler seamlessly integrates with other Datadog offerings to provide a com
 
 * **APM**: Correlate profiling data with APM traces for end-to-end performance analysis.
 * **Logging**: Combine profiling insights with log data to diagnose and resolve issues efficiently.
-
-#### Supported Frameworks and Libraries
-
-The profiler extends its support to a wide array of popular frameworks and libraries, enhancing its applicability:
-
-* **Java**: Spring, Hibernate, JPA, JDBC, among others.
-* **Python**: Django, Flask, SQLAlchemy, and more.
-* **.NET**: ASP.NET Core, Entity Framework, and related technologies.
-* **Go**: Echo, Gin, Gorilla Mux, and other Go web frameworks.
-* **Node.js**: Express, Hapi, Koa, and additional Node.js frameworks.
-* **Ruby**: Rails, Sinatra, Padrino, and more Ruby frameworks.
 
 #### Best Practices for Profiling
 
