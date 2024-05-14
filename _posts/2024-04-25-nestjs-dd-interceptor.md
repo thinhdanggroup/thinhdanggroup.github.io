@@ -208,7 +208,6 @@ Interceptors can be applied globally or to specific routes using decorators:
 - Globally: `app.useGlobalInterceptors(new LoggingInterceptor());`
 - On a route: `@UseInterceptors(LoggingInterceptor)`
 
-#### Conclusion
 
 Interceptors offer a powerful way to interact with the request-response cycle in NestJS. They provide a high degree of flexibility and control, allowing developers to implement cross-cutting concerns efficiently.
 
@@ -323,34 +322,6 @@ In the above snippet, we:
 - Enrich the span with user-centric metadata via `span.addTags()`.
 - Invoke `next.handle()` to perpetuate the request handling sequence.
 - Employ the `tap()` operator to conclude the span subsequent to the request's processing.
-
-#### Applying the Interceptor
-
-Post-creation, the `UserTrackingInterceptor` can be integrated into your routes to facilitate user tracking. The interceptor can be applied in two distinct manners:
-
-- **Globally**: For universal route application, insert the following directive in your `main.ts` file:
-
-```typescript
-app.useGlobalInterceptors(new UserTrackingInterceptor());
-```
-
-- **Specifically**: For targeted route application, utilize the `@UseInterceptors()` decorator on the controller or route handler:
-
-```typescript
-@Controller('users')
-@UseInterceptors(UserTrackingInterceptor)
-export class UsersController {
-  // Controller methods go here...
-}
-```
-
-The application of the interceptor guarantees the capture and addition of user-related information to the spans for each request that aligns with the specified parameters.
-
-#### Conclusion
-
-This section has been dedicated to the construction of a bespoke `UserTrackingInterceptor` that extracts user information from incoming requests and integrates it as metadata within the spans crafted by DataDog. The deployment of this interceptor enables the tracking of user activities, thereby offering profound insights into their ramifications on the application's operational efficacy. The subsequent section will explore the configuration nuances of the interceptor to align with your unique application demands.
-
-
 
 ### Applying the UserTrackingInterceptor
 
