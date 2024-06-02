@@ -254,13 +254,6 @@ Before using a sorted set, it's essential to consider whether it's the right dat
 
 If you answered "yes" to any of these questions, a sorted set might be the ideal data structure for your use case.
 
-#### Indexing Your Data
-
-Proper indexing is crucial for optimal performance when using sorted sets. Here are some indexing strategies to consider:
-
-* **Use a composite index**: Create a composite index on the score and element fields to enable fast range queries and retrieval of elements within a specific score range.
-* **Use a secondary index**: Create a secondary index on the element field to enable fast lookups and retrieval of elements by their unique identifier.
-
 #### Avoiding Common Pitfalls
 
 Here are some common pitfalls to avoid when using sorted sets:
