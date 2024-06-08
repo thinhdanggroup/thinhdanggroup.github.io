@@ -184,11 +184,11 @@ This will start the services in detached mode, allowing us to run our tests in t
 
 That's it for setting up the testing environment in NestJS! In the next section, we'll dive into writing our first end-to-end test.
 
-#### Writing Your First E2E Test
+### Writing Your First E2E Test
 
 In this section, we will provide a detailed walkthrough of writing a basic E2E test in NestJS. We will explain the `describe`, `it`, and `expect` functions and guide you through writing your first E2E test.
 
-##### Understanding the `describe` Function
+#### Understanding the `describe` Function
 
 The `describe` function is a global function provided by Jest that allows you to group related tests together. It takes two arguments: a string description of the test suite and a callback function that contains the actual tests.
 
@@ -200,7 +200,7 @@ describe('UsersController', () => {
 
 In the example above, we are creating a test suite for the `UsersController` class.
 
-##### Understanding the `it` Function
+#### Understanding the `it` Function
 
 The `it` function is a global function provided by Jest that allows you to define a single test. It takes two arguments: a string description of the test and a callback function that contains the actual test.
 
@@ -212,7 +212,7 @@ it('should return a list of users', () => {
 
 In the example above, we are defining a test that checks if the `UsersController` returns a list of users.
 
-##### Understanding the `expect` Function
+#### Understanding the `expect` Function
 
 The `expect` function is a global function provided by Jest that allows you to assert that a certain condition is true. It takes a value as an argument and returns an object with various matcher functions.
 
@@ -259,17 +259,17 @@ In the example above, we are creating a test suite for the `UsersController` cla
 That's it! You have now written your first E2E test in NestJS. In the next section, we will explore how to test scenarios involving PostgreSQL and Redis.
 
 
-#### Testing with PostgreSQL and Redis
+### Testing with PostgreSQL and Redis
 
 In this section, we will provide a guide on how to write tests that interact with PostgreSQL and Redis. We will also explain the Cache Aside pattern and how to test it.
 
-##### Understanding the Cache Aside Pattern
+#### Understanding the Cache Aside Pattern
 
 The Cache Aside pattern is a common caching strategy used in many applications. It involves storing data in a cache layer (in this case, Redis) and updating the cache whenever the underlying data in the primary data store (PostgreSQL) changes. This approach ensures that the cache remains consistent with the primary data store.
 
 To implement the Cache Aside pattern, we need to model our data in PostgreSQL as the primary data store. Redis can be used as a cache layer to store frequently accessed data for faster retrieval. The data structure in Redis should match the structure in PostgreSQL to ensure efficient mapping and consistency.
 
-##### Writing Tests for PostgreSQL and Redis
+#### Writing Tests for PostgreSQL and Redis
 
 To write tests that interact with PostgreSQL and Redis, we need to create a test environment that allows us to mock the database and cache behavior. We can use Jest's mocking capabilities to achieve this.
 
@@ -328,11 +328,11 @@ In the example above, we are creating a test for the `UsersController` class. We
 
 In the `it` function, we are sending a GET request to the `/users/:id` endpoint and asserting that the user was retrieved from the database and cached in Redis.
 
-#### Running the E2E Tests
+### Running the E2E Tests
 
 Now that we have written our E2E tests, it's time to run them and see the results. In this section, we will provide instructions on how to run the E2E tests and explain the output and how to interpret test results.
 
-##### Running the Tests
+#### Running the Tests
 
 To run the E2E tests, you can use the `jest` command in your terminal. Make sure you are in the root directory of your project and run the following command:
 
@@ -348,7 +348,7 @@ jest --config=jest.config.js --testNamePattern="should retrieve a user successfu
 
 This command will run only the test with the name "should retrieve a user successfully".
 
-##### Understanding the Output
+#### Understanding the Output
 
 When you run the E2E tests, you will see an output that indicates the test results. The output will show the number of tests that passed, failed, or skipped. For example:
 
@@ -368,7 +368,7 @@ Ran all test suites.
 
 In this example, the output shows that all three tests passed, and the total test time was 10.312 seconds.
 
-##### Interpreting Test Results
+#### Interpreting Test Results
 
 When interpreting test results, it's essential to understand what each test is testing and what the expected outcome is. For example, in the first test, "should retrieve a user successfully", we are testing that the application returns a user when a valid GET request is sent to the `/users/:id` endpoint. If the test passes, it means that the application is behaving as expected.
 
@@ -377,7 +377,7 @@ If a test fails, it means that the application is not behaving as expected. You 
 By running the E2E tests and interpreting the test results, you can ensure that your application is behaving as expected and catch any issues early in the development process.
 
 
-#### Best Practices for E2E Testing
+### Best Practices for E2E Testing
 
 Now that we have explored the importance of E2E testing, set up the testing environment, and written our first E2E test, it's essential to discuss best practices for writing and maintaining E2E tests in a NestJS application. These best practices will help you write effective and reliable E2E tests that ensure the reliability and robustness of your application.
 
