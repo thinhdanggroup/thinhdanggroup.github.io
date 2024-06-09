@@ -336,7 +336,7 @@ flyway migrate -url=jdbc:postgresql://localhost:5432/mydb -user=myuser -password
 
 This command will apply any pending migrations to the `mydb` database using the `myuser` username and `mypassword` password.
 
-#### Running Migrations with Docker
+### Running Migrations with Docker
 
 To run migrations with Docker, you need to create a Docker container that runs the Flyway migration command. You can use the `docker run` command to create a container and execute the migration command.
 
@@ -351,7 +351,7 @@ docker run -it --rm \
 
 This command will create a Docker container that runs the Flyway migration command. The `-v` option mounts the current directory as a volume, allowing Flyway to access the migration scripts. The `--rm` option removes the container after execution.
 
-#### Integrating Flyway with Docker Compose
+### Integrating Flyway with Docker Compose
 
 To integrate Flyway with Docker Compose, you need to create a `docker-compose.yml` file that defines the Flyway service. Here's an example of how to create a `docker-compose.yml` file:
 
@@ -388,7 +388,7 @@ In the next section, we will discuss best practices for database migrations, inc
 
 In this section, we will provide some tips and tricks for efficient database migrations. We will also discuss some common pitfalls to avoid.
 
-### 1. Keep Migrations Small and Focused
+### Keep Migrations Small and Focused
 
 Maintaining small, focused migrations is crucial for managing changes effectively. This strategy simplifies testing, debugging, and, if necessary, rolling back. It also minimizes the risk of errors or inconsistencies.
 
@@ -402,34 +402,34 @@ By breaking down the changes into smaller, more manageable migrations, we can te
 
 Absolutely, let's break down these best practices with some practical examples:
 
-### 2. Naming Migrations: Be Descriptive and Informative
+### Naming Migrations: Be Descriptive and Informative
 
 When naming your migration files, make sure the name gives a clear idea of what the migration does. For instance, if you have a migration that creates a `products` table, a good name would be `V1__create_products_table.sql`. This is much more informative than a generic name like `V1__migration.sql`.
 
-### 3. Testing: The Key to Reliable Migrations
+### Testing: The Key to Reliable Migrations
 
 Testing your migrations is crucial to ensure they work as expected. Let's say you have a migration `V2__add_price_to_products.sql` that adds a `price` column to the `products` table. You could write tests to check:
 
 * If the `price` column has been added to the `products` table.
 * If you can successfully insert a product with a price into the table.
 
-### 4. Version Control: Your Safety Net
+### Version Control: Your Safety Net
 
 Using a version control system like Git helps you manage your migration scripts. It allows you to track changes, collaborate with others, and rollback if something goes wrong. For example, if a migration `V3__add_discount_to_products.sql` causes issues, you can use Git to revert the changes.
 
-### 5. Rollback Strategy: Always Have a Plan B
+### Rollback Strategy: Always Have a Plan B
 
 Having a rollback strategy is essential. If a migration fails or causes issues, you need to be able to revert the changes. For instance, if `V4__remove_price_from_products.sql` fails, you should have a strategy to restore the `price` column to the `products` table.
 
-### 6. Performance: Make Your Migrations Fly
+### Performance: Make Your Migrations Fly
 
 Optimizing your migrations can greatly reduce downtime. For example, if you have a migration `V5__add_indexes_to_products.sql` that adds indexes to the `products` table, this could speed up query performance and minimize downtime.
 
-### 7. Documentation: A Picture of Your Database Evolution
+### Documentation: A Picture of Your Database Evolution
 
 Documenting your migrations helps everyone understand what changes have been made to the database and why. For instance, for the migration `V6__split_products_table.sql` that splits the `products` table into `products` and `product_categories`, you could write: "This migration splits the `products` table into two tables: `products` and `product_categories`. This allows us to better organize our product data and improve query performance."
 
-### 8. Automation: Let the Machines Do the Work
+### Automation: Let the Machines Do the Work
 
 Automating your migrations using tools like Flyway and Docker can simplify the process and reduce the risk of human error. For example, you could set up a GitHub Actions workflow that automatically runs your migrations whenever changes are pushed to your repository.
 
