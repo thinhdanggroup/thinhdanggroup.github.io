@@ -69,7 +69,7 @@ user_service = UserService(database)
 
 This approach is simple and straightforward, but it can make it difficult to test the UserService class, as we would need to create a mock database object for testing. Moreover, it can create tight coupling between the UserService and the Database classes, making it hard to change or replace the database implementation.
 
-#### Decorators
+### Decorators
 
 Another way to implement dependency injection in Python is to use decorators. Decorators are functions that can be applied to other functions to modify their behavior. For example, we can create a decorator that injects a database object into a function:
 
@@ -82,12 +82,12 @@ def inject_database(func):
     return wrapper
 
 @inject_database
-def get_user(user_id):
+def get_user(database, user_id):
     # query the database and return the user
     pass
 
 @inject_database
-def create_user(user_data):
+def create_user(database, user_data):
     # insert the user data into the database
     pass
 ```
@@ -101,7 +101,7 @@ create_user({"name": "Alice", "email": "alice@example.com"})
 
 This approach is more flexible than using function arguments, as it allows us to inject dependencies into functions without modifying their signatures. However, it can also be more difficult to understand and maintain, as it introduces an additional layer of indirection. Furthermore, it can make the functions less reusable, as they depend on the specific database object created by the decorator.
 
-#### Dependency Inversion Principle
+### Dependency Inversion Principle
 
 The dependency inversion principle (DIP) is a design principle that states that high-level modules should not depend on low-level modules. Instead, both should depend on abstractions. This principle can be applied to dependency injection by creating an abstraction layer between the high-level and low-level modules.
 
@@ -143,53 +143,9 @@ class UserService:
     def create_user(self, user_data):
         # delegate the insertion to the database object
         self.database.create_user(user_data)
+
 The dependency inversion principle (DIP) is a design principle that states that high-level modules should not depend on low-level modules. Instead, both should depend on abstractions. This principle can be applied to dependency injection by creating an abstraction layer between the high-level and low-level modules.
 
-```
-
-For example, we can create an interface for the database:
-
-This approach follows the DIP and makes it easier to test the UserService class, as we can mock the DatabaseInterface abstraction.
-
-```python
-class DatabaseInterface:
-    def get_user(self, user_id):
-        pass
-
-    def create_user(self, user_data):
-        pass
-```
-
-And then we can create a class that implements this interface:
-
-```python
-Dependency injection is a powerful technique that can improve the testability, maintainability, and flexibility of Python applications. By carefully considering the benefits and challenges, you can effectively use dependency injection to create more robust and maintainable applications.
-class Database:
-    def get_user(self, user_id):
-        # query the database and return the user
-        pass
-
-    def create_user(self, user_data):
-        # insert the user data into the database
-        pass
-```
-
-Now, we can use the DatabaseInterface abstraction to inject the database object into our UserService class:
-
-```python
-class UserService:
-
-========================================
-    def __init__(self, database: DatabaseInterface):
-        self.database = database
-
-    def get_user(self, user_id):
-        # query the database and return the user
-        pass
-
-    def create_user(self, user_data):
-        # insert the user data into the database
-        pass
 ```
 
 This approach follows the DIP and makes it easier to test the UserService class, as we can mock the DatabaseInterface abstraction.
