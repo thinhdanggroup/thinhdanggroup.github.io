@@ -47,17 +47,21 @@ Python has built-in flexibility and dynamic typing, making it a suitable languag
 The simplest way to implement dependency injection in Python is to pass dependencies as function arguments. This is often referred to as "constructor injection." For example, consider the following class:
 
 ```python
-class UserService:
+lass UserService:
     def __init__(self, database):
         self.database = database
 
     def get_user(self, user_id):
-        # query the database and return the user
-        pass
+        # Query the database and return the user
+        user = self.database.fetch("SELECT * FROM users WHERE id = ?", (user_id,))
+        return user
 
     def create_user(self, user_data):
-        # insert the user data into the database
-        pass
+        # Insert the user data into the database
+        self.database.execute(
+            "INSERT INTO users (name, email) VALUES (?, ?)",
+            (user_data["name"], user_data["email"]),
+        )
 ```
 
 To use this class, we can create a database object and pass it to the UserService constructor:
@@ -74,6 +78,23 @@ This approach is simple and straightforward, but it can make it difficult to tes
 Another way to implement dependency injection in Python is to use decorators. Decorators are functions that can be applied to other functions to modify their behavior. For example, we can create a decorator that injects a database object into a function:
 
 ```python
+import sqlite3
+import functools
+
+class Database:
+    def __init__(self):
+        self.conn = sqlite3.connect('my_database.db')
+
+    def fetch(self, query, params):
+        cursor = self.conn.cursor()
+        cursor.execute(query, params)
+        return cursor.fetchone()
+
+    def execute(self, query, params):
+        cursor = self.conn.cursor()
+        cursor.execute(query, params)
+        self.conn.commit()
+
 def inject_database(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
@@ -84,17 +105,17 @@ def inject_database(func):
 @inject_database
 def get_user(database, user_id):
     # query the database and return the user
-    pass
+    user = database.fetch("SELECT * FROM users WHERE id = ?", (user_id,))
+    return user
 
 @inject_database
 def create_user(database, user_data):
     # insert the user data into the database
-    pass
-```
-
-Now, we can use the @inject_database decorator to inject the database object into our functions:
-
-```python
+    database.execute(
+        "INSERT INTO users (name, email) VALUES (?, ?)",
+        (user_data["name"], user_data["email"]),
+    )
+# Now, we can use the @inject_database decorator to inject the database object into our functions:
 get_user(1)
 create_user({"name": "Alice", "email": "alice@example.com"})
 ```
@@ -105,48 +126,54 @@ This approach is more flexible than using function arguments, as it allows us to
 
 The dependency inversion principle (DIP) is a design principle that states that high-level modules should not depend on low-level modules. Instead, both should depend on abstractions. This principle can be applied to dependency injection by creating an abstraction layer between the high-level and low-level modules.
 
-For example, we can create an interface for the database:
+For example:
 
 ```python
-class DatabaseInterface:
+import sqlite3
+from abc import ABC, abstractmethod
+
+# we can create an interface for the database object
+class DatabaseInterface(ABC):
+    @abstractmethod
     def get_user(self, user_id):
         pass
 
+    @abstractmethod
     def create_user(self, user_data):
         pass
-```
 
-And then we can create a class that implements this interface:
+# And then we can create a class that implements this interface
+class Database(DatabaseInterface):
+    def __init__(self):
+        self.conn = sqlite3.connect('my_database.db')
 
-```python
-class Database:
     def get_user(self, user_id):
-        # query the database and return the user
-        pass
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
+        return cursor.fetchone()
 
     def create_user(self, user_data):
-        # insert the user data into the database
-        pass
-```
+        cursor = self.conn.cursor()
+        cursor.execute(
+            "INSERT INTO users (name, email) VALUES (?, ?)",
+            (user_data["name"], user_data["email"]),
+        )
+        self.conn.commit()
 
-Now, we can use the DatabaseInterface abstraction to inject the database object into our UserService class:
-
-```python
+# Now, we can use the DatabaseInterface abstraction to inject the database object into our UserService class
 class UserService:
     def __init__(self, database: DatabaseInterface):
         self.database = database
 
     def get_user(self, user_id):
-        # delegate the query to the database object
         return self.database.get_user(user_id)
 
     def create_user(self, user_data):
-        # delegate the insertion to the database object
         self.database.create_user(user_data)
+```
 
 The dependency inversion principle (DIP) is a design principle that states that high-level modules should not depend on low-level modules. Instead, both should depend on abstractions. This principle can be applied to dependency injection by creating an abstraction layer between the high-level and low-level modules.
 
-```
 
 This approach follows the DIP and makes it easier to test the UserService class, as we can mock the DatabaseInterface abstraction.
 
