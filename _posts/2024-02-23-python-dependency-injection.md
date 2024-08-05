@@ -47,7 +47,7 @@ Python has built-in flexibility and dynamic typing, making it a suitable languag
 The simplest way to implement dependency injection in Python is to pass dependencies as function arguments. This is often referred to as "constructor injection." For example, consider the following class:
 
 ```python
-lass UserService:
+class UserService:
     def __init__(self, database):
         self.database = database
 
