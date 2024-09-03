@@ -1,0 +1,13 @@
+sequenceDiagram
+    participant Client
+    participant Cache
+    participant BackingStore
+    Client->>Cache: set(key, value)
+    Cache->>BackingStore: set(key, value)
+    Client->>Cache: get(key)
+    Cache-->>Client: return value
+    alt key not in cache
+        Cache->>BackingStore: get(key)
+        BackingStore-->>Cache: return value
+        Cache-->>Client: return value
+    end

@@ -1,0 +1,10 @@
+sequenceDiagram
+    participant Client
+    participant Cache
+    participant BackingStore
+    Client->>BackingStore: Write data
+    Client->>Cache: Read data
+    Cache-->>Client: Data found
+    Cache->>BackingStore: Data not found
+    BackingStore-->>Cache: Return data
+    Cache-->>Client: Return data

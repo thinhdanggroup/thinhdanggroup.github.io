@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant User
+    participant WebServer
+    participant Cache
+    participant Database
+    User->>WebServer: Request user profile
+    WebServer->>Cache: Check for cached profile
+    alt Profile in cache
+        Cache-->>WebServer: Return cached profile
+    else Profile not in cache
+        WebServer->>Database: Query user profile
+        Database-->>WebServer: Return user profile
+        WebServer->>Cache: Store profile in cache
+    end
+    WebServer-->>User: Return user profile

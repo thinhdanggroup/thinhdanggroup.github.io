@@ -1,0 +1,12 @@
+sequenceDiagram
+    participant User
+    participant App
+    participant Cache
+    participant DB
+    User->>App: Request product details
+    App->>Cache: Check for cached product
+    Cache-->>App: Cache miss
+    App->>DB: Fetch product details
+    DB-->>App: Return product details
+    App->>Cache: Store product details in cache
+    App-->>User: Return product details

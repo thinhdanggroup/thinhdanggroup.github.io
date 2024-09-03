@@ -1,0 +1,10 @@
+sequenceDiagram
+    participant User
+    participant Cache
+    participant Database
+    User->>Cache: Request user profile
+    Cache-->>User: Return cached profile
+    User->>Database: Update user profile
+    Database-->>User: Confirm update
+    User->>Cache: Invalidate cache entry
+    User->>Cache: Set new cache entry

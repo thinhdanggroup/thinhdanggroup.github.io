@@ -1,0 +1,12 @@
+sequenceDiagram
+    participant Client
+    participant HierarchicalCache
+    Client->>HierarchicalCache: get(key)
+    alt key in l1_cache
+        HierarchicalCache->>Client: return value from l1_cache
+    else key in l2_cache
+        HierarchicalCache->>HierarchicalCache: move value from l2_cache to l1_cache
+        HierarchicalCache->>Client: return value from l1_cache
+    else
+        HierarchicalCache->>Client: return -1
+    end

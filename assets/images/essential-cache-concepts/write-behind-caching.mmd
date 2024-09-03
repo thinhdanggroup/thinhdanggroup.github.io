@@ -1,0 +1,13 @@
+sequenceDiagram
+    participant Client
+    participant Cache
+    participant BackingStore
+    Client->>Cache: set(key, value)
+    Cache->>Cache: Write to cache
+    Cache-->>BackingStore: Asynchronously write to backing store
+    Client->>Cache: get(key)
+    Cache->>Cache: Check cache
+    Cache-->>Client: Return value from cache
+    Cache->>BackingStore: Check backing store if not in cache
+    BackingStore-->>Cache: Return value
+    Cache-->>Client: Return value from backing store

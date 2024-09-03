@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant User
+    participant Server
+    participant Cache
+    participant Database
+    User->>Server: Request product page
+    Server->>Cache: Check cache for total sales
+    alt Cache hit
+        Cache-->>Server: Return cached total sales
+    else Cache miss
+        Server->>Database: Calculate total sales
+        Database-->>Server: Return total sales
+        Server->>Cache: Store total sales in cache
+    end
+    Server-->>User: Render product page with total sales

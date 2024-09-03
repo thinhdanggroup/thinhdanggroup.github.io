@@ -1,0 +1,23 @@
+classDiagram
+    class LRUCache {
+        - cache: dict
+        - capacity: int
+        - order: list
+        + get(key: int): int
+        + put(key: int, value: int): void
+    }
+    class MRUCache {
+        - cache: dict
+        - capacity: int
+        - order: list
+        + get(key: int): int
+        + put(key: int, value: int): void
+    }
+    class LFUCache {
+        - cache: dict
+        - capacity: int
+        - freq: dict
+        - min_heap: list
+        + get(key: int): int
+        + put(key: int, value: int): void
+    }

@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant User
+    participant App
+    participant Cache
+    participant Database
+    User->>App: Request report
+    App->>Cache: Check for cached report
+    alt Report in cache
+        Cache-->>App: Return cached report
+    else Report not in cache
+        App->>Database: Generate report from data
+        Database-->>App: Return generated report
+        App->>Cache: Store report in cache
+    end
+    App-->>User: Return report

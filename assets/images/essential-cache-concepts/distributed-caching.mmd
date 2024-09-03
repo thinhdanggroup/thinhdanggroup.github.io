@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant User
+    participant App
+    participant RedisSlave
+    participant RedisMaster
+    participant Database
+
+    User->>App: Request product info
+    App->>RedisSlave: Check cache
+    RedisSlave-->>App: Cache miss
+    App->>Database: Fetch product info
+    Database-->>App: Return product info
+    App->>RedisMaster: Cache product info
+    App-->>User: Return product info
+    RedisSlave->>App: Cache hit
+    App-->>User: Return cached product info
