@@ -1,8 +1,8 @@
 ---
 layout: single
-title: "Phone Checker"
+title: "My ChatBot"
 author_profile: true
-permalink: /phone-checker/
+permalink: /chatbot
 ---
 
 <iframe src="https://thinhda-chat-support-app.streamlit.app?embedded=true"></iframe>
