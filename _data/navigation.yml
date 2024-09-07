@@ -5,7 +5,7 @@ main:
   - title: "Tags"
     url: /tags/
   - title: "Chat"
-    url: /chatbot/
+    url: /chatbot
   - title: "About"
     url: https://www.linkedin.com/in/thinh-dang/
   # - title: "Sitemap"
