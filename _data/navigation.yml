@@ -4,9 +4,9 @@ main:
   #   url: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
   - title: "Tags"
     url: /tags/
+  - title: "Chat"
+    url: /chatbot/
   - title: "About"
     url: https://www.linkedin.com/in/thinh-dang/
-  # - title: "Sample Collections"
-  #   url: /collection-archive/
   # - title: "Sitemap"
   #   url: /sitemap/
