@@ -25,6 +25,8 @@ Today, I’m thrilled to introduce you to my new interactive web chatbot and sha
 
 ## Introducing My Interactive Web Chatbot
 
+![introducing](/assets/images/introducing-chatbot/introducing.jpeg)
+
 Hello, I'm Thinh Dang, a software developer passionate about creating innovative solutions that enhance user experiences. Today, I'm excited to introduce my latest creation: an interactive web chatbot.
 
 This blog post will highlight the chatbot's exciting features and capabilities, encouraging you to try it out. This project represents a leap forward in how users interact with websites, offering a seamless and engaging experience. Whether you're a tech enthusiast, a business owner, or just curious about AI, this chatbot has something for everyone.
