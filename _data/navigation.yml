@@ -2,10 +2,10 @@
 main:
   # - title: "Quick-Start Guide"
   #   url: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
-  - title: "Tags"
-    url: /tags/
   - title: "Chat"
     url: /chatbot
+  - title: "Tags"
+    url: /tags/
   - title: "About"
     url: https://www.linkedin.com/in/thinh-dang/
   # - title: "Sitemap"
