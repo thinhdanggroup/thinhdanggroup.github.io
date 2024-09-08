@@ -119,9 +119,6 @@ author:
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
       # url: "https://twitter.com/"
-    - label: "Facebook"
-      icon: "fab fa-fw fa-facebook-square"
-      # url: "https://facebook.com/"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: https://github.com/thinhdanggroup/
@@ -131,7 +128,9 @@ author:
     - label: "Linkedin"
       icon: "fab fa-fw fa-linkedin"
       url: "https://www.linkedin.com/in/thinh-dang/"
-
+    - label: "Chatbot"
+      icon: "fas fa-fw fa-robot"
+      url: "https://thinhdanggroup.github.io/chatbot"
 # Site Footer
 footer:
   links:
@@ -156,6 +155,9 @@ footer:
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
       # url:
+    - label: "Chatbot"
+      icon: "fas fa-fw fa-robot"
+      url: "https://thinhdanggroup.github.io/chatbot"
 
 
 # Reading Files
