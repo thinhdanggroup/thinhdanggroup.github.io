@@ -1,0 +1,19 @@
+sequenceDiagram
+    participant Client
+    participant Redis
+    Client->>Redis: SETNX key1
+    Redis-->>Client: OK
+    Client->>Redis: SETNX key2
+    Redis-->>Client: OK
+    Client->>Redis: PEXPIRE key1
+    Redis-->>Client: OK
+    Client->>Redis: PEXPIRE key2
+    Redis-->>Client: OK
+    Client->>Redis: GET key1
+    Redis-->>Client: client_id
+    Client->>Redis: DEL key1
+    Redis-->>Client: OK
+    Client->>Redis: GET key2
+    Redis-->>Client: client_id
+    Client->>Redis: DEL key2
+    Redis-->>Client: OK

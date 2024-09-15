@@ -1,0 +1,21 @@
+sequenceDiagram
+    participant Process
+    participant Redis
+    Process->>Redis: SET lock_key lock_value NX PX expiration_time
+    alt Lock Acquired
+        Redis-->>Process: OK
+        Process->>Process: Perform critical section work
+        Process->>Redis: GET lock_key
+        alt Lock Held by Process
+            Redis-->>Process: lock_value
+            Process->>Redis: DELETE lock_key
+        else Lock Not Held by Process
+            Redis-->>Process: null
+        end
+    else Lock Not Acquired
+        Redis-->>Process: null
+        Process->>Process: Handle lock acquisition failure
+    end
+    alt Lock Expires
+        Redis-->>Redis: Automatically release lock
+    end

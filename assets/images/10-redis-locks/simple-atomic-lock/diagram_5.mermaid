@@ -1,0 +1,13 @@
+sequenceDiagram
+    participant Client
+    participant Redis
+    Client->>Redis: SET lock_name "locked" NX EX expire_time
+    alt Lock Acquired
+        Redis-->>Client: True
+        Client->>Client: Perform critical operation
+        Client->>Redis: DELETE lock_name
+        Redis-->>Client: Lock Released
+    else Lock Not Acquired
+        Redis-->>Client: False
+        Client->>Client: Retry or fail
+    end

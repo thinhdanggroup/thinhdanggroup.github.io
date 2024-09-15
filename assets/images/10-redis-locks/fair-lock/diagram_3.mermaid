@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant Client1
+    participant Client2
+    participant RedisServer
+    Client1->>RedisServer: rpush(queue_key, client_id)
+    Client2->>RedisServer: rpush(queue_key, client_id)
+    loop Check Queue
+        Client1->>RedisServer: lindex(queue_key, 0)
+        alt Client1 at head
+            Client1->>RedisServer: set(lock_key, client_id, nx=True)
+            RedisServer-->>Client1: Lock acquired
+        else Client1 not at head
+            Client1->>RedisServer: sleep(0.1)
+        end
+    end
+    Client1-->>RedisServer: delete(lock_key)
+    Client1-->>RedisServer: lpop(queue_key)

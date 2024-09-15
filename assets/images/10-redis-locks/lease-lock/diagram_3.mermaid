@@ -1,0 +1,11 @@
+sequenceDiagram
+    participant Client
+    participant Redis
+    Client->>Redis: Acquire Lease Lock
+    Redis-->>Client: Lock Acquired
+    Note right of Client: Perform operations
+    Client->>Redis: Renew Lease Lock
+    Redis-->>Client: Lock Renewed
+    Note right of Client: Continue operations
+    Client->>Redis: Release Lease Lock
+    Redis-->>Client: Lock Released

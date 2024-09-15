@@ -1,0 +1,25 @@
+sequenceDiagram
+    participant Client
+    participant Redis1
+    participant Redis2
+    participant Redis3
+    participant Redis4
+    participant Redis5
+
+    Client->>Redis1: Acquire Lock
+    Client->>Redis2: Acquire Lock
+    Client->>Redis3: Acquire Lock
+    Client->>Redis4: Acquire Lock
+    Client->>Redis5: Acquire Lock
+    Redis1-->>Client: Lock Acquired
+    Redis2-->>Client: Lock Acquired
+    Redis3-->>Client: Lock Acquired
+    Redis4-->>Client: Lock Acquired
+    Redis5-->>Client: Lock Acquired
+    Client->>Client: Check Quorum
+    Client-->>Client: Critical Section
+    Client->>Redis1: Release Lock
+    Client->>Redis2: Release Lock
+    Client->>Redis3: Release Lock
+    Client->>Redis4: Release Lock
+    Client->>Redis5: Release Lock

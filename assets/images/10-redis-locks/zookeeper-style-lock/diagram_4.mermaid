@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant Client
+    participant Redis
+    Client->>Redis: set(lock_name, lock_id, nx=True, px=ttl)
+    alt Lock Acquired
+        Redis-->>Client: True
+        Client->>Client: Perform critical section
+        Client->>Redis: get(lock_name)
+        alt Lock owned by client
+            Redis-->>Client: lock_id
+            Client->>Redis: delete(lock_name)
+        end
+    else Lock Not Acquired
+        Redis-->>Client: False
+        Client->>Client: Wait and retry
+    end

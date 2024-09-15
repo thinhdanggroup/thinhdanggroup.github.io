@@ -1,0 +1,18 @@
+sequenceDiagram
+    participant Reader1
+    participant Reader2
+    participant Writer
+    participant Redis
+    Reader1->>Redis: Check writer key
+    Redis-->>Reader1: No writer
+    Reader1->>Redis: Increment readers count
+    Reader2->>Redis: Check writer key
+    Redis-->>Reader2: No writer
+    Reader2->>Redis: Increment readers count
+    Writer->>Redis: Set writer key
+    Redis-->>Writer: Writer key set
+    Writer->>Redis: Wait for readers count to be zero
+    Redis-->>Writer: Readers count is zero
+    Writer->>Redis: Delete writer key
+    Reader1->>Redis: Decrement readers count
+    Reader2->>Redis: Decrement readers count

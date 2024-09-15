@@ -1,0 +1,20 @@
+sequenceDiagram
+    participant Client1
+    participant Client2
+    participant Redis
+    Client1->>Redis: INCR semaphore_key
+    Redis-->>Client1: current_permits
+    alt current_permits <= max_permits
+        Client1->>Client1: Access Resource
+        Client1->>Redis: DECR semaphore_key
+    else current_permits > max_permits
+        Client1->>Client1: Wait
+    end
+    Client2->>Redis: INCR semaphore_key
+    Redis-->>Client2: current_permits
+    alt current_permits <= max_permits
+        Client2->>Client2: Access Resource
+        Client2->>Redis: DECR semaphore_key
+    else current_permits > max_permits
+        Client2->>Client2: Wait
+    end

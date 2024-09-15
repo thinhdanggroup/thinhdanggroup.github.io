@@ -1,0 +1,19 @@
+sequenceDiagram
+    participant Client
+    participant RedisReentrantLock
+    participant Redis
+    Client->>RedisReentrantLock: acquire()
+    RedisReentrantLock->>Redis: set(lock_key, client_id, nx=True)
+    alt Lock Acquired
+        Redis-->>RedisReentrantLock: OK
+        RedisReentrantLock-->>Client: True
+    else Lock Not Acquired
+        Redis->>RedisReentrantLock: get(lock_key)
+        alt Lock Held by Same Client
+            Redis-->>RedisReentrantLock: client_id
+            RedisReentrantLock-->>Client: True
+        else Lock Held by Another Client
+            Redis-->>RedisReentrantLock: another_client_id
+            RedisReentrantLock-->>Client: False
+        end
+    end
