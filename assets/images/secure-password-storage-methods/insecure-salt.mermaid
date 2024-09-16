@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant User
+    participant System
+    participant Database
+
+    User->>System: Enters Password
+    System->>System: Generate Salt
+    System->>System: Hash Password with Salt
+    System->>Database: Store Salt and Hashed Password
+
+    User->>System: Attempts Login
+    System->>Database: Retrieve Salt and Hashed Password
+    System->>System: Hash Entered Password with Retrieved Salt
+    System->>User: Validate Login

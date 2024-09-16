@@ -1,0 +1,8 @@
+stateDiagram-v2
+    [*] --> Login
+    Login --> VerifyPassword
+    VerifyPassword --> [*]: Invalid
+    VerifyPassword --> MFA: Valid
+    MFA --> [*]: Invalid
+    MFA --> Dashboard: Valid
+    Dashboard --> [*]
