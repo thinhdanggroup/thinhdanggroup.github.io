@@ -167,10 +167,35 @@ To optimize memory usage, you can employ several techniques:
    df.memory_usage(index=True)
    ```
 
+Result:
+```shell
+=== Summary of the DataFrame before conversion ===
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000 entries, 0 to 999
+Data columns (total 3 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   A       1000 non-null   int64  
+ 1   B       1000 non-null   float64
+ 2   C       1000 non-null   object 
+dtypes: float64(1), int64(1), object(1)
+memory usage: 23.6+ KB
+
+=== Summary of the DataFrame after conversion ===
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000 entries, 0 to 999
+Data columns (total 3 columns):
+ #   Column  Non-Null Count  Dtype   
+---  ------  --------------  -----   
+ 0   A       1000 non-null   int16   
+ 1   B       1000 non-null   float32 
+ 2   C       1000 non-null   category
+dtypes: category(1), float32(1), int16(1)
+memory usage: 7.1 KB
+```
+
 By understanding and leveraging these techniques, you can significantly reduce the memory footprint of your Pandas
 DataFrames, leading to more efficient data processing and analysis.
-
-<image>Memory usage summary of a Pandas DataFrame</image>
 
 ## Optimizing Data Types
 
@@ -195,29 +220,60 @@ import pandas as pd
 import numpy as np
 
 ## Create a sample DataFrame
-df = pd.DataFrame({
-    'A': np.random.randint(0, 100, size=1000000),
-    'B': np.random.rand(1000000)
-})
+df = pd.DataFrame(
+    {"A": np.random.randint(0, 100, size=1000000), "B": np.random.rand(1000000)}
+)
 
-print("Original Data Types:")
-print(df.dtypes)
 print("Original Memory Usage:")
-print(df.memory_usage(deep=True))
+print(df.memory_usage(deep=True).sum())
+
+print("=========================================")
 
 ## Downcast numeric columns
-df['A'] = pd.to_numeric(df['A'], downcast='integer')
-df['B'] = pd.to_numeric(df['B'], downcast='float')
+df["A"] = pd.to_numeric(df["A"], downcast="integer")
+df["B"] = pd.to_numeric(df["B"], downcast="float")
 
-print("\nDowncasted Data Types:")
-print(df.dtypes)
 print("Downcasted Memory Usage:")
-print(df.memory_usage(deep=True))
+print(df.memory_usage(deep=True).sum())
+
+```
+
+Output:
+```shell
+Original Data Types:
+A      int64
+B    float64
+dtype: object
+Original Memory Usage:
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000000 entries, 0 to 999999
+Data columns (total 2 columns):
+ #   Column  Non-Null Count    Dtype  
+---  ------  --------------    -----  
+ 0   A       1000000 non-null  int64  
+ 1   B       1000000 non-null  float64
+dtypes: float64(1), int64(1)
+memory usage: 15.3 MB
+
+Downcasted Data Types:
+A       int8
+B    float32
+dtype: object
+Downcasted Memory Usage:
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000000 entries, 0 to 999999
+Data columns (total 2 columns):
+ #   Column  Non-Null Count    Dtype  
+---  ------  --------------    -----  
+ 0   A       1000000 non-null  int8   
+ 1   B       1000000 non-null  float32
+dtypes: float32(1), int8(1)
+memory usage: 4.8 MB
 ```
 
 By running this code, you'll observe a significant reduction in memory usage. For instance, a DataFrame with 1 million
-rows and `int64` and `float64` columns might use around 76 MB of memory. After downcasting, it could reduce to
-approximately 38 MB.
+rows and `int64` and `float64` columns might use around 15.3 MB of memory. After downcasting, it could reduce to
+approximately 4.8 MB.
 
 ### Converting Object Types to Category Types
 
@@ -230,22 +286,53 @@ Consider a DataFrame with a column containing country names:
 
 ```python
 ## Create a sample DataFrame
-df = pd.DataFrame({
-    'Country': ['USA', 'Canada', 'USA', 'Mexico', 'Canada', 'USA'] * 100000
-})
+import pandas as pd
+
+df = pd.DataFrame(
+    {"Country": ["USA", "Canada", "USA", "Mexico", "Canada", "USA"] * 100000}
+)
 
 print("Original Data Types:")
 print(df.dtypes)
 print("Original Memory Usage:")
-print(df.memory_usage(deep=True))
+df.info(memory_usage="deep")
 
 ## Convert object type to category
-df['Country'] = df['Country'].astype('category')
+df["Country"] = df["Country"].astype("category")
 
 print("\nConverted Data Types:")
 print(df.dtypes)
 print("Converted Memory Usage:")
-print(df.memory_usage(deep=True))
+df.info(memory_usage="deep")
+```
+
+Output:
+```shell
+Original Data Types:
+Country    object
+dtype: object
+Original Memory Usage:
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 600000 entries, 0 to 599999
+Data columns (total 1 columns):
+ #   Column   Non-Null Count   Dtype 
+---  ------   --------------   ----- 
+ 0   Country  600000 non-null  object
+dtypes: object(1)
+memory usage: 35.2 MB
+
+Converted Data Types:
+Country    category
+dtype: object
+Converted Memory Usage:
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 600000 entries, 0 to 599999
+Data columns (total 1 columns):
+ #   Column   Non-Null Count   Dtype   
+---  ------   --------------   -----   
+ 0   Country  600000 non-null  category
+dtypes: category(1)
+memory usage: 586.4 KB
 ```
 
 By converting the `Country` column to a category type, the memory usage is significantly reduced. This is because
@@ -262,20 +349,55 @@ types when loading data. This is particularly useful for large datasets.
 When loading data from a CSV file, you can specify the data types for each column to optimize memory usage:
 
 ```python
+import numpy as np
+import pandas as pd
+
+# create fake data.csv file
+fake_df = pd.DataFrame(
+    {"A": np.random.randint(0, 100, size=1000000), "B": np.random.rand(1000000)}
+)
+fake_df.to_csv("data.csv", index=False)
+print("Memory Usage Before Loading:")
+fake_df.info(memory_usage="deep")
+
 ## Specify data types for each column
-dtype_spec = {
-    'A': 'int32',
-    'B': 'float32',
-    'Country': 'category'
-}
+dtype_spec = {"A": "int32", "B": "float32"}
 
 ## Load data with specified data types
-df = pd.read_csv('data.csv', dtype=dtype_spec)
+df = pd.read_csv("data.csv", dtype=dtype_spec)
 
 print("Data Types After Loading:")
 print(df.dtypes)
 print("Memory Usage After Loading:")
-print(df.memory_usage(deep=True))
+df.info(memory_usage="deep")
+```
+
+Output:
+```shell
+Memory Usage Before Loading:
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000000 entries, 0 to 999999
+Data columns (total 2 columns):
+ #   Column  Non-Null Count    Dtype  
+---  ------  --------------    -----  
+ 0   A       1000000 non-null  int64  
+ 1   B       1000000 non-null  float64
+dtypes: float64(1), int64(1)
+memory usage: 15.3 MB
+Data Types After Loading:
+A      int32
+B    float32
+dtype: object
+Memory Usage After Loading:
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000000 entries, 0 to 999999
+Data columns (total 2 columns):
+ #   Column  Non-Null Count    Dtype  
+---  ------  --------------    -----  
+ 0   A       1000000 non-null  int32  
+ 1   B       1000000 non-null  float32
+dtypes: float32(1), int32(1)
+memory usage: 7.6 MB
 ```
 
 By manually specifying data types, you can ensure that the DataFrame uses memory-efficient types from the start,
@@ -300,15 +422,42 @@ Consider a CSV file with many columns, but you only need a few:
 
 ```python
 ## Specify the columns to load
-use_cols = ['A', 'B', 'Country']
+use_cols = ["A"]
 
 ## Load only the specified columns
-df = pd.read_csv('data.csv', usecols=use_cols)
+df = pd.read_csv("data.csv", usecols=use_cols)
 
 print("Loaded Data Types:")
 print(df.dtypes)
 print("Memory Usage After Loading Specific Columns:")
-print(df.memory_usage(deep=True))
+df.info(memory_usage="deep")
+
+```
+
+Output:
+```shell
+Memory Usage Before Loading:
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000000 entries, 0 to 999999
+Data columns (total 2 columns):
+ #   Column  Non-Null Count    Dtype  
+---  ------  --------------    -----  
+ 0   A       1000000 non-null  int64  
+ 1   B       1000000 non-null  float64
+dtypes: float64(1), int64(1)
+memory usage: 15.3 MB
+Loaded Data Types:
+A    int64
+dtype: object
+Memory Usage After Loading Specific Columns:
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000000 entries, 0 to 999999
+Data columns (total 1 columns):
+ #   Column  Non-Null Count    Dtype
+---  ------  --------------    -----
+ 0   A       1000000 non-null  int64
+dtypes: int64(1)
+memory usage: 7.6 MB
 ```
 
 By loading only the necessary columns, you reduce the amount of data read into memory, making the process more
@@ -324,13 +473,43 @@ efficiently load date columns.
 Suppose you have a CSV file with a date column:
 
 ```python
-## Load data with date parsing
-df = pd.read_csv('data.csv', parse_dates=['Date'])
+## Load data without date parsing
+df = pd.read_csv("data.csv")
 
-print("Data Types After Parsing Dates:")
-print(df.dtypes)
-print("Memory Usage After Parsing Dates:")
-print(df.memory_usage(deep=True))
+print("Memory Usage Without Parsing Dates:")
+df.info(memory_usage="deep")
+
+## Load data with date parsing
+df = pd.read_csv("data.csv", parse_dates=["dates"])
+
+print("Memory Usage With Parsing Dates:")
+df.info(memory_usage="deep")
+```
+
+Output:
+```shell
+Memory Usage Without Parsing Dates:
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000000 entries, 0 to 999999
+Data columns (total 3 columns):
+ #   Column  Non-Null Count    Dtype  
+---  ------  --------------    -----  
+ 0   A       1000000 non-null  int64  
+ 1   B       1000000 non-null  float64
+ 2   dates   1000000 non-null  object 
+dtypes: float64(1), int64(1), object(1)
+memory usage: 87.7 MB
+Memory Usage With Parsing Dates:
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000000 entries, 0 to 999999
+Data columns (total 3 columns):
+ #   Column  Non-Null Count    Dtype         
+---  ------  --------------    -----         
+ 0   A       1000000 non-null  int64         
+ 1   B       1000000 non-null  float64       
+ 2   dates   1000000 non-null  datetime64[ns]
+dtypes: datetime64[ns](1), float64(1), int64(1)
+memory usage: 22.9 MB
 ```
 
 By parsing dates during the loading process, you ensure that the date columns are stored in a memory-efficient format.
@@ -397,15 +576,39 @@ import pandas as pd
 import numpy as np
 
 ## Create a regular Series with many zeros
-data = pd.Series([0, 0, 1, 0, 2, 0, 0, 3, 0])
+data = pd.Series([0, 0, 1, 0, 2, 0, 0, 3, 0] * 100000)
+print("Memory Usage of Regular Series:")
+data.info(memory_usage="deep")
 
 ## Convert to SparseSeries
 sparse_data = data.astype(pd.SparseDtype("float", fill_value=0))
 
-print("Sparse Series:")
-print(sparse_data)
 print("Memory Usage of Sparse Series:")
-print(sparse_data.memory_usage())
+sparse_data.info(memory_usage="deep")
+```
+
+Output:
+```shell
+
+Memory Usage of Regular Series:
+<class 'pandas.core.series.Series'>
+RangeIndex: 900000 entries, 0 to 899999
+Series name: None
+Non-Null Count   Dtype
+--------------   -----
+900000 non-null  int64
+dtypes: int64(1)
+memory usage: 6.9 MB
+
+Memory Usage of Sparse Series:
+<class 'pandas.core.series.Series'>
+RangeIndex: 900000 entries, 0 to 899999
+Series name: None
+Non-Null Count   Dtype             
+--------------   -----             
+900000 non-null  Sparse[float64, 0]
+dtypes: Sparse[float64, 0](1)
+memory usage: 3.4 MB
 ```
 
 #### Creating Sparse DataFrames
@@ -414,20 +617,50 @@ A `SparseDataFrame` is a two-dimensional array that can hold sparse data. You ca
 converting a regular DataFrame:
 
 ```python
-## Create a regular DataFrame with many zeros
-df = pd.DataFrame({
-    'A': [0, 0, 1, 0, 2],
-    'B': [0, 3, 0, 0, 0],
-    'C': [0, 0, 0, 4, 0]
-})
+df = pd.DataFrame(
+    {
+        "A": [0, 0, 1, 0, 2] * 100000,
+        "B": [0, 3, 0, 0, 0] * 100000,
+        "C": [0, 0, 0, 4, 0] * 100000,
+    }
+)
+
+print("\nMemory Usage of Regular DataFrame:")
+df.info(memory_usage="deep")
 
 ## Convert to SparseDataFrame
 sparse_df = df.astype(pd.SparseDtype("float", fill_value=0))
 
-print("Sparse DataFrame:")
-print(sparse_df)
-print("Memory Usage of Sparse DataFrame:")
-print(sparse_df.memory_usage(deep=True))
+print("\nMemory Usage of Sparse DataFrame:")
+sparse_df.info(memory_usage="deep")
+
+```
+
+Output:
+```shell
+Memory Usage of Regular DataFrame:
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 500000 entries, 0 to 499999
+Data columns (total 3 columns):
+ #   Column  Non-Null Count   Dtype
+---  ------  --------------   -----
+ 0   A       500000 non-null  int64
+ 1   B       500000 non-null  int64
+ 2   C       500000 non-null  int64
+dtypes: int64(3)
+memory usage: 11.4 MB
+
+Memory Usage of Sparse DataFrame:
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 500000 entries, 0 to 499999
+Data columns (total 3 columns):
+ #   Column  Non-Null Count  Dtype             
+---  ------  --------------  -----             
+ 0   A       1 non-null      Sparse[float64, 0]
+ 1   B       1 non-null      Sparse[float64, 0]
+ 2   C       1 non-null      Sparse[float64, 0]
+dtypes: Sparse[float64, 0](3)
+memory usage: 4.6 MB
 ```
 
 #### Trade-offs and Efficiency
@@ -451,6 +684,14 @@ print("Memory Usage of Dense DataFrame:")
 print(large_df.memory_usage(deep=True).sum())
 print("Memory Usage of Sparse DataFrame:")
 print(sparse_large_df.memory_usage(deep=True).sum())
+```
+
+Output:
+```shell
+Memory Usage of Dense DataFrame:
+80000132
+Memory Usage of Sparse DataFrame:
+5999160
 ```
 
 #### Scenarios for Using Sparse Data Structures
@@ -536,6 +777,19 @@ Run the script with the `-m memory_profiler` flag to profile memory usage:
 python -m memory_profiler your_script.py
 ```
 
+Output:
+```shell
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+     5     70.8 MiB     70.8 MiB           1   @profile
+     6                                         def create_large_dataframe():
+     7                                             # Create a large DataFrame with random data
+     8    101.5 MiB     30.7 MiB           1       df = pd.DataFrame({"A": range(1000000), "B": range(1000000)})
+     9    101.5 MiB      0.0 MiB           1       return df
+
+```
+
 #### Analyzing the Output
 
 The output will show memory usage before and after each line of the decorated function. This helps in pinpointing the
@@ -580,6 +834,23 @@ if __name__ == "__main__":
 
     heap = hp.heap()  # Get the current heap status
     print(heap)
+```
+
+Output:
+```shell
+Partition of a set of 39 objects. Total size = 32004484 bytes.
+ Index  Count   %     Size   % Cumulative  % Kind (class / dict of class)
+     0      3   8 16000384  50  16000384  50 numpy.ndarray
+     1      1   3 16000164  50  32000548 100 pandas.core.frame.DataFrame
+     2      7  18      560   0  32001108 100 weakref.ReferenceType
+     3      2   5      432   0  32001540 100 set
+     4      4  10      376   0  32001916 100 dict (no owner)
+     5      1   3      296   0  32002212 100 dict of pandas.core.flags.Flags
+     6      1   3      296   0  32002508 100 dict of pandas.core.frame.DataFrame
+     7      1   3      296   0  32002804 100 dict of pandas.core.indexes.range.RangeIndex
+     8      1   3      280   0  32003084 100 dict of pandas.core.indexes.base.Index
+     9      3   8      224   0  32003308 100 list
+<12 more rows. Type e.g. '_.more' to view.>
 ```
 
 #### Analyzing the Output
