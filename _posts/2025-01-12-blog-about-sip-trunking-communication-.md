@@ -17,8 +17,8 @@ header:
     teaser: /assets/images/blog-about-sip-trunking-communication-/banner.jpeg
 title: "Demystifying SIP Trunking and Its Integration with Web Applications"
 tags:
-    - xxx
-    - yyy 
+    - SIP Trunking
+    - Telecommunication
 
 ---
 
