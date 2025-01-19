@@ -12,9 +12,9 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/blog-about-sip-trunking-communication-/banner.jpeg
+    overlay_image: /assets/images/blog-about-sip-trunking-communication-/banner.png
     overlay_filter: 0.5
-    teaser: /assets/images/blog-about-sip-trunking-communication-/banner.jpeg
+    teaser: /assets/images/blog-about-sip-trunking-communication-/banner.png
 title: "Demystifying SIP Trunking and Its Integration with Web Applications"
 tags:
     - SIP Trunking
