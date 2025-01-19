@@ -25,7 +25,7 @@ tags:
 This article serves as a complete guide to understanding and implementing WebRTC, a technology that enables real-time communication directly in web browsers. Starting with an introduction to WebRTC, the article explains its importance in modern web development, highlighting its ability to facilitate video, audio, and data sharing without additional plugins. It then delves into the mechanics of how WebRTC works, including the signaling process and the role of the ICE framework in establishing connections. The handshake process is explained in detail, focusing on how peers securely connect and exchange media parameters. Additionally, the article covers the exchange of audio data streams, discussing the use of APIs and codecs to ensure high-quality communication. Practical implementation is supported with sample code, providing a hands-on approach to setting up WebRTC connections. Lastly, the article offers best practices for optimizing WebRTC applications, focusing on performance, reliability, and security. This guide equips developers with the knowledge and tools needed to effectively leverage WebRTC in their projects.
 
 
-# Introduction to WebRTC
+## Introduction to WebRTC
 
 
 Web Real-Time Communication (WebRTC) is a transformative technology in the realm of web development, offering the capability to perform real-time communication directly between browsers without the need for any plugins or third-party software. This open-source project has been a game-changer, enabling seamless peer-to-peer (P2P) audio, video, and data sharing across web applications.
