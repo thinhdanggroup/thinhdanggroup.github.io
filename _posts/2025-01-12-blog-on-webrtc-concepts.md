@@ -17,8 +17,8 @@ header:
     teaser: /assets/images/blog-on-webrtc-concepts-/banner.png
 title: "A Comprehensive Guide to WebRTC: Concepts, Implementation, and Best Practices"
 tags:
-    - xxx
-    - yyy 
+    - WebRTC
+    - Python
 
 ---
 

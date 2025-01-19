@@ -17,8 +17,8 @@ header:
     teaser: /assets/images/blog-on-auto-scaling-celery-tasks-/banner.png
 title: "Effortless Auto-Scaling of Celery Workers with KEDA and Redis on Kubernetes"
 tags:
-    - xxx
-    - yyy 
+    - Celery Auto-Scaling 
+    - Python
 
 ---
 
