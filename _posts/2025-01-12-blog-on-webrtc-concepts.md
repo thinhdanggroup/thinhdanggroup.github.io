@@ -12,9 +12,9 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/blog-on-webrtc-concepts-/banner.jpeg
+    overlay_image: /assets/images/blog-on-webrtc-concepts-/banner.png
     overlay_filter: 0.5
-    teaser: /assets/images/blog-on-webrtc-concepts-/banner.jpeg
+    teaser: /assets/images/blog-on-webrtc-concepts-/banner.png
 title: "A Comprehensive Guide to WebRTC: Concepts, Implementation, and Best Practices"
 tags:
     - xxx
