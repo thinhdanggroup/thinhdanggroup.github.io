@@ -181,13 +181,13 @@ The `.env.local` file is essential for defining environment-specific variables t
 
 Here's a sample configuration for the `.env.local` file:
 
-```plaintext
+```enviroment
 MONGODB_URL="mongodb://mongodb:27017"
 HF_TOKEN=abc
 MODELS=`[
  {
    "name": "Ollama DeepSeek",
-   "chatPromptTemplate": "<s>{{#each messages}}{{#ifUser}}[INST] {{#if @first}}{{#if @root.preprompt}}{{@root.preprompt}}\n{{/if}}{{/if}} {{content}} [/INST]{{/ifUser}}{{#ifAssistant}}{{content}}</s> {{/ifAssistant}}{{/each}}",
+   "chatPromptTemplate": "...", # refer this document for more details https://github.com/thinhdanggroup/thinhda_dev_blog/blob/main/deep_seek_r1/.env.local#L7
    "parameters": {
     "temperature": 0.1,
     "top_p": 0.95,
