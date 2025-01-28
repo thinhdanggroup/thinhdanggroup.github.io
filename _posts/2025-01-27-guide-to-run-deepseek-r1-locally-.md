@@ -147,7 +147,7 @@ Here’s a step-by-step guide to get you started:
    MODELS=`[
     {
       "name": "Ollama DeepSeek",
-      "chatPromptTemplate": "<s>{{#each messages}}{{#ifUser}}[INST] {{#if @first}}{{#if @root.preprompt}}{{@root.preprompt}}\n{{/if}}{{/if}} {{content}} [/INST]{{/ifUser}}{{#ifAssistant}}{{content}}</s> {{/ifAssistant}}{{/each}}",
+      "chatPromptTemplate": "", # because some injection issue, we need to remove this field. Please refer this document for more details. URL: https://github.com/thinhdanggroup/thinhda_dev_blog/blob/main/deep_seek_r1/.env.local#L7
       "parameters": {
        "temperature": 0.1,
        "top_p": 0.95,
@@ -168,56 +168,25 @@ Here’s a step-by-step guide to get you started:
    ]`
    ```
 
+
+   - **MONGODB_URL**: This specifies the connection string for your MongoDB instance, which Chat-UI uses to store and retrieve chat history.
+   - **HF_TOKEN**: This is your Hugging Face API token, which may be required for accessing certain models or services. You can leave this field empty if not needed.
+   - **MODELS**: This section configures the models that Chat-UI will interact with. You can customize parameters such as `temperature`, which affects the randomness of responses, and `max_new_tokens`, which limits the length of generated responses.
+
+
 By following these steps, you can create a consistent and reproducible environment for running Deepseek R1 locally. This setup not only simplifies the deployment process but also ensures that all components are correctly integrated, providing a seamless user experience.
 
 
 ## Configuring Chat-UI for Deepseek R1
 
-Chat-UI offers a user-friendly interface that simplifies interactions with Deepseek R1, allowing you to leverage its powerful reasoning capabilities through a web-based chat system. To get started with Chat-UI, you'll need to configure a few key components, particularly focusing on the `.env.local` file, which plays a crucial role in setting up your environment.
-
-### Step 1: Create and Configure the `.env.local` File
-
-The `.env.local` file is essential for defining environment-specific variables that Chat-UI will use to connect with Deepseek R1. This file ensures that sensitive information, such as database URLs and API tokens, is managed securely and efficiently.
-
-Here's a sample configuration for the `.env.local` file:
-
-```enviroment
-MONGODB_URL="mongodb://mongodb:27017"
-HF_TOKEN=abc
-MODELS=`[
- {
-   "name": "Ollama DeepSeek",
-   "chatPromptTemplate": "...", # refer this document for more details https://github.com/thinhdanggroup/thinhda_dev_blog/blob/main/deep_seek_r1/.env.local#L7
-   "parameters": {
-    "temperature": 0.1,
-    "top_p": 0.95,
-    "repetition_penalty": 1.2,
-    "top_k": 50,
-    "truncate": 3072,
-    "max_new_tokens": 1024,
-    "stop": ["</s>"]
-   },
-   "endpoints": [
-    {
-     "type": "ollama",
-     "url" : "http://ollama-service:11434",
-     "ollamaName" : "deepseek-r1:7b"
-    }
-   ]
- }
-]`
-```
-
-- **MONGODB_URL**: This specifies the connection string for your MongoDB instance, which Chat-UI uses to store and retrieve chat history.
-- **HF_TOKEN**: This is your Hugging Face API token, which may be required for accessing certain models or services.
-- **MODELS**: This section configures the models that Chat-UI will interact with. You can customize parameters such as `temperature`, which affects the randomness of responses, and `max_new_tokens`, which limits the length of generated responses.
-
-### Step 2: Launching the Chat-UI Server
+[Chat-UI](https://github.com/huggingface/chat-ui) offers a user-friendly interface that simplifies interactions with Deepseek R1, allowing you to leverage its powerful reasoning capabilities through a web-based chat system. To get started with Chat-UI, you'll need to configure a few key components, particularly focusing on the `.env.local` file, which plays a crucial role in setting up your environment.
 
 Once your `.env.local` file is configured, you can proceed to launch the Chat-UI server. This involves installing necessary dependencies and starting the server using make commands:
 
 ```shell
 make start
+# wait for the services to start
+# after that, please run make install to install the deepseek-r1 model
 make install
 ```
 
