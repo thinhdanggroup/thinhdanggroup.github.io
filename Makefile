@@ -17,3 +17,6 @@ upgrade:
 
 s serve:
 	bundle exec jekyll serve --trace --livereload
+
+indexnow:
+	python script/indexnow/main.py
