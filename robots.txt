@@ -1,0 +1,5 @@
+# robots.txt for thinhdanggroup.github.io
+User-agent: *
+Allow: /
+
+Sitemap: https://thinhdanggroup.github.io/c-sitemap.xml
