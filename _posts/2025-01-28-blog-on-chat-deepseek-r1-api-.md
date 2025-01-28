@@ -12,9 +12,9 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/blog-on-chat-deepseek-r1-api-/banner.jpeg
+    overlay_image: /assets/images/blog-on-chat-deepseek-r1-api-/banner.png
     overlay_filter: 0.5
-    teaser: /assets/images/blog-on-chat-deepseek-r1-api-/banner.jpeg
+    teaser: /assets/images/blog-on-chat-deepseek-r1-api-/banner.png
 title: "Getting Started with Chat DeepSeek R1 API: Installation, Usage, and Integration with Langchain"
 tags:
     - DeepSeek R1
