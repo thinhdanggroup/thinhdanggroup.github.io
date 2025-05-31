@@ -31,7 +31,7 @@ In the intricate dance of digital information exchange, communication channels a
 
 <div style="width: 100%; height: 800px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin: 20px 0;">
     <iframe 
-        src="/assets/htmls/webrtc-quality-scoring.html" 
+        src="/assets/htmls/fec.html" 
         width="100%" 
         height="100%" 
         frameborder="0"
