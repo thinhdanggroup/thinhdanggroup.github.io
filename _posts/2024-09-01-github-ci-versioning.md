@@ -290,6 +290,7 @@ env:
 
 Improve build times by caching dependencies. Use the `actions/cache` action to cache your `pip` dependencies:
 
+{% raw %}
 ```yaml
 -   name: Cache pip
     uses: actions/cache@v2
@@ -299,6 +300,7 @@ Improve build times by caching dependencies. Use the `actions/cache` action to c
         restore-keys: |
             ${{ runner.os }}-pip-
 ```
+{% endraw %}
 
 By implementing these practices, you can create a robust CI pipeline that automates testing, building, and deployment  for your Python projects.
 
