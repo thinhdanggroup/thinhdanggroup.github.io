@@ -305,7 +305,7 @@ Below is an interactive demonstration that shows how various network conditions 
     </iframe>
 </div>
 
-## Understanding the E-Model
+### Understanding the E-Model
 
 The E-Model works as a "penalty box" system, starting with a perfect base score and subtracting penalties for various impairments:
 
@@ -314,7 +314,7 @@ The E-Model works as a "penalty box" system, starting with a perfect base score 
 - **Codec Impairment**: Different codecs have inherent quality characteristics
 - **Forward Error Correction (FEC)**: Can mitigate packet loss effects
 
-## Key Takeaways
+### Key Takeaways
 
 1. **Packet Loss is Critical**: Even 1-2% packet loss can noticeably degrade audio quality
 2. **Delay Accumulates**: Network delay plus jitter buffer delay both contribute to the penalty
