@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic: The E-Model for WebRTC Audio Scoring</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 300px; max-height: 400px; }
+        @media (min-width: 768px) { .chart-container { height: 350px; } }
+        .flow-step { border: 2px solid; text-align: center; padding: 1rem; border-radius: 0.5rem; transition: all 0.2s ease-in-out; }
+        .flow-arrow { display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #4b5563; }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-[#0D1B2A]">Audio Quality Demystified</h1>
+            <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">An interactive look at how the `rtcscore` library uses the E-Model to estimate the Mean Opinion Score (MOS) for WebRTC audio.</p>
+        </header>
+
+        <section class="mb-16">
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-[#415A77] mb-4 text-center">The E-Model: A "Penalty Box" Approach</h2>
+                <p class="text-gray-700 text-center max-w-4xl mx-auto mb-8">
+                    The E-Model calculates audio quality by starting with a perfect score (the R-Factor) and then subtracting penalties for various network and equipment impairments. This infographic lets you explore how those penalties add up.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-5 items-center gap-4 text-gray-800">
+                    <div class="flow-step border-[#E0E1DD] bg-[#E0E1DD]/20">
+                        <div class="text-2xl font-bold">R₀</div>
+                        <div class="text-sm">Base Score (93.2)</div>
+                    </div>
+                    <div class="flow-arrow hidden md:flex">-</div>
+                    <div class="flow-step border-[#FFC300] bg-[#FFC300]/10">
+                         <div class="text-2xl font-bold">I</div>
+                        <div class="text-sm">Impairments</div>
+                    </div>
+                     <div class="flow-arrow hidden md:flex">=</div>
+                    <div class="flow-step border-[#778DA9] bg-[#778DA9]/10">
+                         <div class="text-2xl font-bold">R</div>
+                        <div class="text-sm">Final R-Factor</div>
+                    </div>
+                </div>
+                 <div class="flex justify-center my-4">
+                     <div class="flow-arrow text-4xl transform rotate-90 md:rotate-0">→</div>
+                 </div>
+                 <div class="flex justify-center">
+                    <div class="flow-step border-[#001D3D] bg-[#001D3D]/10 text-[#001D3D]">
+                         <div class="text-2xl font-bold">MOS</div>
+                        <div class="text-sm">Final 1-5 Score</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-16">
+             <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-[#415A77] mb-2 text-center">Interactive Impairment Explorer</h2>
+                <p class="text-gray-700 text-center max-w-4xl mx-auto mb-8">
+                    Adjust the sliders and toggles to see how different factors impact the R-Factor and the final estimated MOS. These are the core inputs for the `rtcscore` audio model.
+                </p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
+                    <div class="space-y-6">
+                        <div>
+                            <label for="packetLoss" class="font-semibold text-gray-700 block mb-1">Packet Loss: <span id="packetLossValue" class="font-bold text-[#FFC300]"></span>%</label>
+                             <input type="range" id="packetLoss" min="0" max="25" value="2" step="0.5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                             <p class="text-xs text-gray-500 mt-1">Simulates data packets failing to arrive. Even small amounts can severely degrade quality.</p>
+                        </div>
+                         <div>
+                            <label for="roundTripTime" class="font-semibold text-gray-700 block mb-1">Round Trip Time (RTT): <span id="rttValue" class="font-bold text-[#FFC300]"></span> ms</label>
+                             <input type="range" id="roundTripTime" min="10" max="600" value="50" step="10" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                              <p class="text-xs text-gray-500 mt-1">The delay for a signal to go and come back. High RTT makes conversation feel unnatural.</p>
+                        </div>
+                         <div>
+                            <label for="bufferDelay" class="font-semibold text-gray-700 block mb-1">Jitter Buffer Delay: <span id="bufferDelayValue" class="font-bold text-[#FFC300]"></span> ms</label>
+                             <input type="range" id="bufferDelay" min="0" max="250" value="20" step="5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                              <p class="text-xs text-gray-500 mt-1">Delay added to smooth out inconsistent packet arrival (jitter). It contributes to the total delay.</p>
+                        </div>
+                         <div class="flex items-center justify-between pt-4">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" id="fecEnabled" class="form-checkbox h-5 w-5 text-[#003566] rounded">
+                                <span class="ml-3 text-gray-700 font-semibold">Forward Error Correction (FEC)</span>
+                            </label>
+                             <p class="text-xs text-gray-500 max-w-[50%] text-right">Sends redundant data to recover lost packets, reducing the penalty from packet loss.</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center justify-center bg-gray-50 p-6 rounded-lg">
+                        <div class="w-full">
+                            <div class="chart-container" style="height: 250px; max-height: 250px;">
+                                <canvas id="rFactorChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <h3 class="text-xl font-bold text-gray-800">Final Estimated MOS</h3>
+                            <p id="finalMosValue" class="text-6xl font-extrabold text-[#003566]">4.2</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                 <h2 class="text-3xl font-bold text-[#415A77] mb-2 text-center">From R-Factor to MOS</h2>
+                 <p class="text-gray-700 text-center max-w-4xl mx-auto mb-8">
+                    The final step is converting the calculated R-Factor into the familiar 1-to-5 MOS. The relationship is not linear; the impact of changes in the R-Factor is more pronounced at the lower and higher ends of the quality scale.
+                </p>
+                <div class="chart-container" style="height: 350px; max-height: 350px;">
+                    <canvas id="conversionChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputs = {
+                packetLoss: document.getElementById('packetLoss'),
+                roundTripTime: document.getElementById('roundTripTime'),
+                bufferDelay: document.getElementById('bufferDelay'),
+                fecEnabled: document.getElementById('fecEnabled')
+            };
+
+            const outputs = {
+                packetLossValue: document.getElementById('packetLossValue'),
+                rttValue: document.getElementById('rttValue'),
+                bufferDelayValue: document.getElementById('bufferDelayValue'),
+                finalMosValue: document.getElementById('finalMosValue'),
+            };
+
+            let rFactorChart;
+
+            const colorPalette = {
+                base: '#778DA9',
+                loss: '#FFC300',
+                delay: '#FF5733',
+                final: '#003566',
+                grid: '#E0E1DD'
+            };
+
+            function wrapLabel(label) {
+                const maxLen = 16;
+                if (label.length <= maxLen) return label;
+                const words = label.split(' ');
+                let lines = [];
+                let currentLine = '';
+                for (const word of words) {
+                    if ((currentLine + word).length > maxLen) {
+                        lines.push(currentLine.trim());
+                        currentLine = '';
+                    }
+                    currentLine += word + ' ';
+                }
+                lines.push(currentLine.trim());
+                return lines;
+            }
+
+            const tooltipConfig = {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                return Array.isArray(label) ? label.join(' ') : label;
+                            }
+                        }
+                    }
+                }
+            };
+
+            function calculateEModel(params) {
+                const Ro = 93.2;
+                let effectivePacketLoss = params.packetLoss;
+                if (params.fec) {
+                    effectivePacketLoss *= 0.35;
+                }
+
+                const Ipl = effectivePacketLoss * 2.5;
+
+                const oneWayDelay = (params.rtt / 2) + params.bufferDelay;
+                let Idelay = 0;
+                if (oneWayDelay > 100) {
+                    Idelay = Math.min(50, (oneWayDelay - 100) * 0.15);
+                }
+
+                const Icodec = 4; // Simplified impairment for a modern codec like Opus
+
+                const rFactor = Ro - Ipl - Idelay - Icodec;
+                const clampedR = Math.max(0, Math.min(100, rFactor));
+
+                let mos = 1;
+                if (clampedR > 0) {
+                    mos = 1 + 0.035 * clampedR + clampedR * (clampedR - 60) * (100 - clampedR) * 7e-6;
+                }
+
+                return {
+                    rFactor: clampedR,
+                    mos: Math.max(1, Math.min(5, mos)),
+                    impairments: {
+                        packetLoss: Ipl,
+                        delay: Idelay,
+                        codec: Icodec,
+                    }
+                };
+            }
+
+            function updateUI() {
+                const params = {
+                    packetLoss: parseFloat(inputs.packetLoss.value),
+                    rtt: parseFloat(inputs.roundTripTime.value),
+                    bufferDelay: parseFloat(inputs.bufferDelay.value),
+                    fec: inputs.fecEnabled.checked
+                };
+
+                outputs.packetLossValue.textContent = params.packetLoss.toFixed(1);
+                outputs.rttValue.textContent = params.rtt.toFixed(0);
+                outputs.bufferDelayValue.textContent = params.bufferDelay.toFixed(0);
+
+                const result = calculateEModel(params);
+
+                outputs.finalMosValue.textContent = result.mos.toFixed(2);
+
+                updateRFactorChart(result.rFactor, result.impairments);
+            }
+
+            function setupRFactorChart() {
+                const ctx = document.getElementById('rFactorChart').getContext('2d');
+                rFactorChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [wrapLabel('Base R-Factor'), wrapLabel('Loss Impairment'), wrapLabel('Delay Impairment'), wrapLabel('Final R-Factor')],
+                        datasets: [{
+                            data: [],
+                            backgroundColor: [colorPalette.base, colorPalette.loss, colorPalette.delay, colorPalette.final],
+                            borderWidth: 0,
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                max: 100,
+                                grid: { color: colorPalette.grid },
+                                ticks: { font: { weight: '600' } }
+                            },
+                            y: {
+                                grid: { display: false },
+                                ticks: { font: { size: 14, weight: '600' } }
+                            }
+                        },
+                        plugins: {
+                            ...tooltipConfig.plugins,
+                            legend: { display: false },
+                            title: {
+                                display: true,
+                                text: 'R-Factor Calculation',
+                                font: { size: 18, weight: 'bold' },
+                                color: '#415A77',
+                                padding: { bottom: 20 }
+                            }
+                        }
+                    }
+                });
+            }
+
+            function updateRFactorChart(rFactor, impairments) {
+                if (!rFactorChart) return;
+                const base = 93.2;
+                rFactorChart.data.datasets[0].data = [base, impairments.packetLoss, impairments.delay, rFactor];
+                rFactorChart.update();
+            }
+
+            function setupConversionChart() {
+                 const ctx = document.getElementById('conversionChart').getContext('2d');
+                 const labels = [];
+                 const data = [];
+                 for (let r = 0; r <= 100; r+=2) {
+                     labels.push(r);
+                     const mos = 1 + 0.035 * r + r * (r - 60) * (100 - r) * 7e-6;
+                     data.push(Math.max(1, Math.min(5, mos)));
+                 }
+
+                 new Chart(ctx, {
+                     type: 'line',
+                     data: {
+                         labels: labels,
+                         datasets: [{
+                             label: 'MOS',
+                             data: data,
+                             borderColor: colorPalette.final,
+                             backgroundColor: 'rgba(0, 53, 102, 0.1)',
+                             borderWidth: 3,
+                             pointRadius: 0,
+                             fill: true,
+                             tension: 0.1
+                         }]
+                     },
+                     options: {
+                         responsive: true,
+                         maintainAspectRatio: false,
+                         scales: {
+                             y: { min: 1, max: 5, title: { display: true, text: 'Mean Opinion Score (MOS)', font: { size: 14, weight: 'bold' } } },
+                             x: { title: { display: true, text: 'R-Factor', font: { size: 14, weight: 'bold' } } }
+                         },
+                         plugins: {
+                             legend: { display: false },
+                             tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                                callbacks: {
+                                    title: (ctx) => `R-Factor: ${ctx[0].label}`
+                                }
+                             }
+                         }
+                     }
+                 });
+            }
+
+            Object.values(inputs).forEach(input => {
+                input.addEventListener('input', updateUI);
+            });
+
+            setupRFactorChart();
+            setupConversionChart();
+            updateUI();
+        });
+    </script>
+</body>
+</html>
