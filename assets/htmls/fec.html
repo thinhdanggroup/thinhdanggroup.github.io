@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forward Error Correction (FEC) Infographic</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+body {
+font-family: 'Inter', sans-serif;
+}
+.chart-container {
+position: relative;
+width: 100%;
+max-width: 600px;
+margin-left: auto;
+margin-right: auto;
+height: 300px;
+max-height: 400px;
+}
+@media (min-width: 768px) {
+.chart-container {
+height: 350px;
+}
+}
+.flowchart-node {
+border: 2px solid #00509D;
+background-color: #F2E8CF;
+color: #00509D;
+padding: 0.75rem 1.5rem;
+border-radius: 0.5rem;
+text-align: center;
+font-weight: 600;
+box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+.flowchart-arrow {
+font-size: 2rem;
+color: #386641;
+font-weight: 900;
+}
+.kpi {
+background-color: #00509D;
+color: #FFFFFF;
+padding: 2rem;
+border-radius: 0.75rem;
+text-align: center;
+}
+.kpi-value {
+font-size: 3rem;
+font-weight: 900;
+line-height: 1;
+}
+.kpi-label {
+font-size: 1rem;
+margin-top: 0.5rem;
+opacity: 0.9;
+}
+.timeline::before {
+content: '';
+position: absolute;
+left: 50%;
+transform: translateX(-50%);
+top: 0;
+bottom: 0;
+width: 4px;
+background-color: #386641;
+border-radius: 2px;
+}
+.timeline-item {
+position: relative;
+width: 50%;
+padding: 2rem;
+}
+.timeline-item:nth-child(odd) {
+align-self: flex-start;
+padding-right: 4rem;
+}
+.timeline-item:nth-child(even) {
+align-self: flex-end;
+padding-left: 4rem;
+}
+.timeline-item-content {
+background-color: white;
+border-radius: 0.5rem;
+padding: 1.5rem;
+box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+border-left: 5px solid #00C4FF;
+}
+.timeline-dot {
+content: '';
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+width: 20px;
+height: 20px;
+border-radius: 9999px;
+background-color: #A7C957;
+border: 4px solid #386641;
+}
+.timeline-item:nth-child(odd) .timeline-dot {
+right: -10px;
+transform: translate(50%, -50%);
+}
+.timeline-item:nth-child(even) .timeline-dot {
+left: -10px;
+transform: translate(-50%, -50%);
+}
+.process-step {
+display: flex;
+align-items: center;
+justify-content: center;
+width: 100px;
+height: 100px;
+border-radius: 9999px;
+border: 4px solid #00C4FF;
+background-color: #00509D;
+color: white;
+font-weight: bold;
+text-align: center;
+flex-shrink: 0;
+}
+</style>
+</head>
+<body class="bg-[#F2E8CF] text-[#386641]">
+
+<header class="bg-[#00509D] text-white p-8 text-center shadow-lg">
+    <h1 class="text-4xl md:text-6xl font-black">Decoding the Digital Lifeline</h1>
+    <p class="mt-4 text-xl md:text-2xl font-light text-[#A7C957]">A Visual Exploration of Forward Error Correction (FEC)</p>
+</header>
+
+<main class="p-4 md:p-8">
+    <section id="introduction" class="max-w-7xl mx-auto my-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+            <div class="md:col-span-2">
+                <h2 class="text-3xl font-bold text-[#00509D] mb-4">The Proactive Guardian of Data</h2>
+                <p class="text-lg leading-relaxed">In our digital world, communication channels are rarely perfect. Noise, interference, and other impairments can corrupt data, leading to errors. Forward Error Correction (FEC) is a powerful, proactive technique to safeguard data integrity. By intelligently adding redundant information to the original data *before* transmission, FEC empowers the receiver to detect and correct errors on its own, without needing to ask for a retransmission. This is crucial for reducing latency and ensuring a high Quality of Service in countless real-time applications.</p>
+            </div>
+            <div class="kpi">
+                <div class="kpi-value">>10dB</div>
+                <div class="kpi-label">Net Coding Gain with Modern SD-FEC, enabling vastly extended communication reach.</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="max-w-7xl mx-auto my-16 text-center">
+        <h2 class="text-3xl font-bold text-[#00509D] mb-4">The Magic of Redundancy: How FEC Works</h2>
+        <p class="text-lg max-w-4xl mx-auto mb-12">The FEC process is a two-stage journey. The sender encodes the data by adding structured, mathematically related "parity bits." This fortified "codeword" is sent across a potentially noisy channel. The receiver's decoder then uses the parity bits to detect and correct any errors that occurred in transit, reconstructing the original data without delay.</p>
+        <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+            <div class="flowchart-node">Original Data</div>
+            <div class="flowchart-arrow">&#10230;</div>
+            <div class="flowchart-node bg-[#6A994E] text-white border-[#386641]">Encoder</div>
+            <div class="flowchart-arrow">&#10230;</div>
+            <div class="flowchart-node">Codeword</div>
+            <div class="flowchart-arrow">&#10230;</div>
+            <div class="text-center">
+                <div class="text-2xl">🌪️</div>
+                <div>Noisy Channel</div>
+            </div>
+            <div class="flowchart-arrow">&#10230;</div>
+            <div class="flowchart-node bg-[#6A994E] text-white border-[#386641]">Decoder</div>
+            <div class="flowchart-arrow">&#10230;</div>
+            <div class="flowchart-node">Corrected Data</div>
+        </div>
+    </section>
+
+    <section id="fec-types" class="max-w-7xl mx-auto my-16">
+        <h2 class="text-3xl font-bold text-center text-[#00509D] mb-4">The FEC Code Compendium</h2>
+        <p class="text-lg text-center max-w-4xl mx-auto mb-12">FEC is not one-size-fits-all. A diverse array of coding schemes exists, each optimized for different types of errors and applications. These are broadly categorized into Block Codes, which process data in chunks, and Convolutional Codes, which work on continuous streams.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-2xl font-bold text-[#00509D] mb-3">Block Codes</h3>
+                <p class="mb-4">Operate on fixed-size blocks of data, adding redundant bits to each block. They are "memoryless," as the encoding of one block doesn't affect the next.</p>
+                <div class="chart-container h-80">
+                    <canvas id="blockCodesChart"></canvas>
+                </div>
+                <p class="mt-4 text-sm">Block codes like Reed-Solomon are excellent at fixing 'burst errors' (many errors in a row), while codes like Hamming are designed for single, random bit errors. Modern LDPC codes offer powerful random error correction approaching theoretical limits.</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-2xl font-bold text-[#00509D] mb-3">Convolutional Codes</h3>
+                <p class="mb-4">Operate on a continuous stream of data, and their output depends on both current and previous input bits, giving them "memory."</p>
+                <div class="chart-container h-80">
+                    <canvas id="convolutionalCodesChart"></canvas>
+                </div>
+                <p class="mt-4 text-sm">Primarily designed for correcting random errors. Their performance is often determined by their "constraint length" (memory depth), with decoding complexity (via the Viterbi algorithm) increasing with memory.</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-2xl font-bold text-[#00509D] mb-3">Advanced Codes</h3>
+                <p class="mb-4">Modern codes like Turbo and LDPC push performance to the Shannon limit, the theoretical maximum information transfer rate for a given channel.</p>
+                <div class="chart-container h-80">
+                     <canvas id="advancedCodesChart"></canvas>
+                </div>
+                <p class="mt-4 text-sm">These codes use iterative decoding, where the decoder refines its guess over multiple passes. This provides exceptional performance but at the cost of higher computational complexity, now feasible with modern processors.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="generations" class="max-w-5xl mx-auto my-16">
+        <h2 class="text-3xl font-bold text-center text-[#00509D] mb-4">Evolution of FEC: From Hard to Soft Decisions</h2>
+        <p class="text-lg text-center max-w-4xl mx-auto mb-12">The evolution of FEC, particularly in demanding fields like optical communications, shows a clear trend towards more sophisticated techniques that extract more information from the received signal, enabling massive performance gains.</p>
+        <div class="relative flex flex-col items-center timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-item-content">
+                    <h3 class="text-xl font-bold text-[#00509D]">1st Gen: Hard-Decision (HD-FEC)</h3>
+                    <p class="mt-2">The receiver makes a definitive '0' or '1' choice for each bit. It's simple but discards valuable information about signal reliability. Codes like Reed-Solomon RS(255,239) offered moderate gains (~6dB NCG) with low overhead (~7%).</p>
+                </div>
+            </div>
+             <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-item-content">
+                    <h3 class="text-xl font-bold text-[#00509D]">2nd Gen: Enhanced HD-FEC</h3>
+                    <p class="mt-2">Improved performance by concatenating multiple codes or using iterative hard-decision decoding. This pushed Net Coding Gain higher (~8-9dB NCG) but still worked with binary decisions.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-item-content">
+                    <h3 class="text-xl font-bold text-[#00509D]">3rd Gen: Soft-Decision (SD-FEC)</h3>
+                    <p class="mt-2">A paradigm shift. The receiver passes probabilistic "soft" information (likelihood of a bit being '0' or '1') to the decoder. This allows for much more informed decisions, yielding the highest gains (>10-12dB NCG), enabling longer reach and higher data rates, despite higher overhead (~20-25%).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="metrics" class="max-w-7xl mx-auto my-16">
+        <h2 class="text-3xl font-bold text-center text-[#00509D] mb-4">Gauging Effectiveness: Key FEC Metrics</h2>
+         <p class="text-lg text-center max-w-4xl mx-auto mb-12">To compare FEC schemes, engineers use several key metrics that quantify the trade-off between error-correction power, bandwidth efficiency, and complexity.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
+                <h3 class="text-2xl font-bold text-[#00509D] mb-3">Code Rate (R = k/n)</h3>
+                <p class="text-center mb-4">Measures bandwidth efficiency. It's the ratio of useful information bits (k) to the total transmitted bits (n). A higher rate is more efficient but offers weaker protection.</p>
+                <div class="chart-container h-64 w-64">
+                    <canvas id="codeRateChart"></canvas>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
+                <h3 class="text-2xl font-bold text-[#00509D] mb-3">Net Coding Gain (NCG)</h3>
+                <p class="text-center mb-4">Measures power efficiency. It's the reduction in signal power (SNR) needed to achieve a target error rate, thanks to FEC. Higher is better.</p>
+                 <div class="chart-container h-64">
+                    <canvas id="ncgChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="fec-vs-arq" class="max-w-7xl mx-auto my-16">
+        <h2 class="text-3xl font-bold text-center text-[#00509D] mb-12">The Error Control Spectrum: FEC vs. ARQ</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white rounded-lg shadow-md p-8">
+                <h3 class="text-2xl font-bold text-[#00509D] mb-4">FEC (Proactive)</h3>
+                <p class="mb-4">Corrects errors on the fly without needing a return channel. Ideal for real-time, high-latency, or broadcast applications.</p>
+                <ul class="list-disc list-inside space-y-2">
+                    <li><span class="font-semibold">Latency:</span> Low and constant.</li>
+                    <li><span class="font-semibold">Overhead:</span> Constant bandwidth cost.</li>
+                    <li><span class="font-semibold">Best For:</span> Streaming, satellite, VoIP.</li>
+                </ul>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-8">
+                <h3 class="text-2xl font-bold text-[#00509D] mb-4">ARQ (Reactive)</h3>
+                <p class="mb-4">Detects errors and requests retransmission. Requires a feedback channel and introduces delay.</p>
+                 <ul class="list-disc list-inside space-y-2">
+                    <li><span class="font-semibold">Latency:</span> High and variable.</li>
+                    <li><span class="font-semibold">Overhead:</span> Only when errors occur.</li>
+                    <li><span class="font-semibold">Best For:</span> File transfers on reliable links.</li>
+                </ul>
+            </div>
+        </div>
+         <div class="bg-white rounded-lg shadow-lg p-8 mt-8">
+            <h3 class="text-3xl font-bold text-center text-[#00509D] mb-4">The Best of Both: Hybrid ARQ (HARQ)</h3>
+            <p class="text-lg text-center max-w-4xl mx-auto mb-8">Modern wireless systems like 4G and 5G combine FEC and ARQ into Hybrid ARQ. This adaptive approach provides the best of both worlds: FEC corrects most errors, and ARQ is used as a fallback for severe errors, ensuring both high reliability and efficiency.</p>
+            <div class="flex flex-col md:flex-row items-center justify-around space-y-4 md:space-y-0">
+                <div class="process-step">Initial Tx with FEC</div>
+                <div class="text-2xl font-bold text-[#6A994E]">&#10230;</div>
+                <div class="process-step">Decode Attempt</div>
+                <div class="text-2xl font-bold text-[#6A994E]">&#10230;</div>
+                <div class="text-center">
+                    <div class="font-bold text-lg text-green-600">Success?</div>
+                    <div class="text-5xl text-green-500">&#10004;</div>
+                </div>
+                 <div class="text-2xl font-bold text-[#6A994E] mx-4">OR</div>
+                 <div class="text-center">
+                    <div class="font-bold text-lg text-red-600">Fail?</div>
+                    <div class="text-5xl text-red-500">&#10006;</div>
+                     <div class="text-2xl font-bold text-red-500 mt-2">&#8635;</div>
+                     <div class="font-semibold">Request Retransmission</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="applications" class="max-w-7xl mx-auto my-16">
+        <h2 class="text-3xl font-bold text-center text-[#00509D] mb-4">FEC in Our Digital World</h2>
+        <p class="text-lg text-center max-w-4xl mx-auto mb-12">From the depths of space to the palm of your hand, FEC is the invisible technology ensuring our digital interactions are reliable and seamless. Its applications are woven into the fabric of modern life.</p>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 text-center">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="text-6xl mb-3">🛰️</div>
+                <h4 class="text-xl font-bold text-[#00509D]">Space Comms</h4>
+                <p>Essential for deep-space missions where retransmission is impossible.</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="text-6xl mb-3">💿</div>
+                <h4 class="text-xl font-bold text-[#00509D]">Data Storage</h4>
+                <p>Lets CDs and DVDs play despite scratches, and protects data on SSDs.</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="text-6xl mb-3">📶</div>
+                <h4 class="text-xl font-bold text-[#00509D]">5G & Wi-Fi</h4>
+                <p>LDPC and Polar codes ensure fast, reliable mobile and wireless connections.</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="text-6xl mb-3">🖥️</div>
+                <h4 class="text-xl font-bold text-[#00509D]">Optical Networks</h4>
+                <p>Extends the reach of the fiber optic cables that form the internet's backbone.</p>
+            </div>
+             <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="text-6xl mb-3">📺</div>
+                <h4 class="text-xl font-bold text-[#00509D]">Digital TV</h4>
+                <p>Provides robust, clear broadcast signals even with weak reception.</p>
+            </div>
+             <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="text-6xl mb-3">║█║</div>
+                <h4 class="text-xl font-bold text-[#00509D]">QR Codes</h4>
+                <p>Built-in Reed-Solomon codes allow them to be scanned even when damaged.</p>
+            </div>
+             <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="text-6xl mb-3">🎤</div>
+                <h4 class="text-xl font-bold text-[#00509D]">Video & VoIP</h4>
+                <p>Reduces glitches and freezes in streaming services and video calls.</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="text-6xl mb-3">💾</div>
+                <h4 class="text-xl font-bold text-[#00509D]">ECC Memory</h4>
+                <p>Protects against data corruption in server memory, ensuring stability.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="text-center p-8 mt-12 bg-[#00509D] text-white">
+        <p class="font-semibold">The evolution of FEC continues, paving the way for 6G, the IoT, and even quantum communications.</p>
+    </footer>
+</main>
+<script>
+    const brilliantBlues = {
+        darkBlue: '#00509D',
+        lightBlue: '#00C4FF',
+        darkGreen: '#386641',
+        lightGreen: '#6A994E',
+        limeGreen: '#A7C957',
+        beige: '#F2E8CF'
+    };
+
+    const globalChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                labels: {
+                    color: brilliantBlues.darkGreen,
+                    font: {
+                        weight: 'bold'
+                    }
+                }
+            },
+            tooltip: {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        if (Array.isArray(label)) {
+                          return label.join(' ');
+                        } else {
+                          return label;
+                        }
+                    }
+                }
+            }
+        },
+        scales: {
+            y: {
+                ticks: { color: brilliantBlues.darkGreen },
+                grid: { color: '#00000010' }
+            },
+            x: {
+                ticks: { color: brilliantBlues.darkGreen },
+                grid: { display: false }
+            }
+        }
+    };
+
+    function wrapLabel(str, maxWidth) {
+        if (str.length <= maxWidth) {
+            return str;
+        }
+        const words = str.split(' ');
+        let lines = [];
+        let currentLine = words[0];
+        for (let i = 1; i < words.length; i++) {
+            if ((currentLine + ' ' + words[i]).length > maxWidth) {
+                lines.push(currentLine);
+                currentLine = words[i];
+            } else {
+                currentLine += ' ' + words[i];
+            }
+        }
+        lines.push(currentLine);
+        return lines;
+    }
+
+    new Chart(document.getElementById('blockCodesChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Hamming', wrapLabel('Reed-Solomon', 16), 'BCH', 'LDPC'],
+            datasets: [{
+                label: 'Burst Error Correction',
+                data: [1, 9, 4, 7],
+                backgroundColor: brilliantBlues.lightBlue,
+            }, {
+                label: 'Random Error Correction',
+                data: [4, 5, 8, 10],
+                backgroundColor: brilliantBlues.darkGreen,
+            }]
+        },
+        options: globalChartOptions
+    });
+
+    new Chart(document.getElementById('convolutionalCodesChart'), {
+        type: 'line',
+        data: {
+            labels: ['Low K', 'Medium K', 'High K'],
+            datasets: [{
+                label: 'Performance',
+                data: [4, 7, 9],
+                borderColor: brilliantBlues.darkBlue,
+                backgroundColor: brilliantBlues.lightBlue + '80',
+                fill: true,
+                tension: 0.4
+            }, {
+                label: 'Decoding Complexity',
+                data: [2, 5, 10],
+                borderColor: brilliantBlues.darkGreen,
+                backgroundColor: brilliantBlues.lightGreen + '80',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            ...globalChartOptions,
+            plugins: { ...globalChartOptions.plugins, title: { display: true, text: 'Performance vs. Constraint Length (K)'}}
+        }
+    });
+
+    new Chart(document.getElementById('advancedCodesChart'), {
+        type: 'radar',
+        data: {
+            labels: ['Performance', 'Complexity', 'Latency', wrapLabel('Bandwidth Efficiency', 16), 'Maturity'],
+            datasets: [{
+                label: 'Turbo Codes',
+                data: [9, 8, 7, 7, 9],
+                borderColor: brilliantBlues.darkBlue,
+                backgroundColor: brilliantBlues.darkBlue + '40',
+            }, {
+                label: 'LDPC Codes',
+                data: [10, 7, 6, 8, 10],
+                borderColor: brilliantBlues.darkGreen,
+                backgroundColor: brilliantBlues.darkGreen + '40',
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { labels: { color: brilliantBlues.darkGreen, font: { weight: 'bold' } } },
+                tooltip: globalChartOptions.plugins.tooltip
+            },
+             scales: {
+                r: {
+                    angleLines: { color: '#00000015' },
+                    grid: { color: '#00000015' },
+                    pointLabels: {
+                        color: brilliantBlues.darkGreen,
+                        font: { size: 12, weight: 'bold' }
+                    },
+                    ticks: {
+                       backdropColor: 'rgba(0,0,0,0)',
+                       color: '#00000090'
+                    }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('codeRateChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Useful Data (k)', 'Redundancy (n-k)'],
+            datasets: [{
+                data: [239, 16],
+                backgroundColor: [brilliantBlues.darkGreen, brilliantBlues.lightBlue],
+                borderColor: brilliantBlues.beige,
+                borderWidth: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                ...globalChartOptions.plugins,
+                title: {
+                    display: true,
+                    text: 'Example: RS(255, 239)',
+                    color: brilliantBlues.darkGreen
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('ncgChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Signal Power Required'],
+            datasets: [{
+                label: 'Uncoded System',
+                data: [14],
+                backgroundColor: brilliantBlues.limeGreen,
+            },{
+                label: 'With SD-FEC',
+                data: [4],
+                backgroundColor: brilliantBlues.darkGreen,
+            }]
+        },
+        options: {
+            ...globalChartOptions,
+            plugins: { ...globalChartOptions.plugins, title: { display: true, text: 'Power Savings (in dB for a target BER)', color: brilliantBlues.darkGreen } }
+        }
+    });
+
+</script>
+</body>
+</html>
