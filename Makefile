@@ -15,8 +15,11 @@ upgrade:
 	bundle update
 
 
-s serve:
+serve:
 	bundle exec jekyll serve --trace --livereload
+
+build:
+	bundle exec jekyll build
 
 indexnow:
 	python script/indexnow/main.py
