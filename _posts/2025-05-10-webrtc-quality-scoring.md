@@ -109,7 +109,7 @@ On the other hand, video quality perception is notoriously multifaceted, influen
 
 It is important to note a characteristic of rtcscore regarding the scope of its output: the library is designed to provide instantaneous quality snapshots based on the input parameters provided at a specific moment. It does not, by itself, handle the aggregation of these scores over extended periods or across multiple participants in a conference call. This means that if developers require an overall quality score for an entire call session, or wish to track quality trends over time, they are responsible for implementing the necessary logic to collect multiple rtcscore outputs and then average or otherwise process them. This design choice keeps the library focused on its core competency of MOS estimation from a given set of metrics, while allowing developers the flexibility to define their own aggregation strategies tailored to their specific application needs.
 
-## Under the Hood: A Deep Dive into rtcscore's Logic (Based on Described Functionality)
+## Under the Hood: A Deep Dive into rtcscore's Logic
 
 The rtcscore library is architected around a primary function, typically invoked as score(stats). This function accepts an object containing distinct sets of parameters for audio and/or video streams. Internally, it processes these inputs through separate logic pathways to derive audioMos and videoMos values, returning them in an object like { audio: audioMos, video: videoMos }.
 
