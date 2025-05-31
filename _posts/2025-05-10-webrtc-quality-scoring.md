@@ -325,7 +325,7 @@ The interactive tool above demonstrates these principles in action, showing how 
 
 ## **Works cited**
 
-1. [WebRTC API](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API#:~:text=WebRTC%20\(Web%20Real%2DTime%20Communication,browsers%20without%20requiring%20an%20intermediary.)  
+1. [WebRTC API](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API)  
 2. WebRTC API \- MDN Web Docs \- Mozilla, accessed May 31, 2025, [https://developer.mozilla.org/en-US/docs/Web/API/WebRTC\_API](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API)  
 3. 7 Tips for WebRTC Monitoring \- Cyara, accessed May 31, 2025, [https://cyara.com/blog/tips-for-webrtc-monitoring/](https://cyara.com/blog/tips-for-webrtc-monitoring/)  
 4. WebRTC 102: \#5 Understanding Call Quality \- Dyte.io, accessed May 31, 2025, [https://dyte.io/blog/webrtc-call-quality/](https://dyte.io/blog/webrtc-call-quality/)  
