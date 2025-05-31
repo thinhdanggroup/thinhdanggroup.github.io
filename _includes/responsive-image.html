@@ -1,0 +1,48 @@
+{% comment %}
+  Responsive image include
+  Usage: {% include responsive-image.html path="path/to/image.jpg" alt="Alt text" caption="Optional caption" %}
+{% endcomment %}
+
+{% assign image_path = include.path %}
+{% assign alt_text = include.alt | default: "" %}
+{% assign caption = include.caption %}
+{% assign loading = include.loading | default: "lazy" %}
+
+<figure class="responsive-image">
+  <img
+    src="{{ image_path | relative_url }}"
+    alt="{{ alt_text }}"
+    loading="{{ loading }}"
+    style="max-width: 100%; height: auto;"
+    {% if caption %}aria-describedby="caption-{{ image_path | slugify }}"{% endif %}
+  />
+  {% if caption %}
+    <figcaption id="caption-{{ image_path | slugify }}" class="image-caption">
+      {{ caption }}
+    </figcaption>
+  {% endif %}
+</figure>
+
+<style>
+.responsive-image {
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.responsive-image img {
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+.responsive-image img:hover {
+  transform: scale(1.02);
+}
+
+.image-caption {
+  font-size: 0.9em;
+  color: #666;
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+</style>

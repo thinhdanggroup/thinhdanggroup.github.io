@@ -201,9 +201,7 @@ markdown_ext: "markdown,mkdown,mkdn,mkd,md"
 # Conversion
 markdown: kramdown
 highlighter: rouge
-lsi: false
 excerpt_separator: "\n\n"
-incremental: false
 
 
 # Markdown Processing
@@ -226,8 +224,8 @@ sass:
 
 # Outputting
 permalink: /:categories/:title/
-paginate: 5 # amount of posts to show
-paginate_path: /page:num/
+# paginate: 5 # amount of posts to show
+# paginate_path: /page:num/
 timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
 
@@ -241,10 +239,13 @@ timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 plugins:
   - jekyll-feed
   - jekyll-include-cache
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  # - jekyll-paginate
 
 # mimic GitHub Pages with --safe
 whitelist:
-  - jekyll-paginate
+  # - jekyll-paginate
   - jekyll-sitemap
   - jekyll-gist
   - jekyll-feed
@@ -284,8 +285,24 @@ tag_archive:
 # - https://jch.penibelst.de/
 compress_html:
   clippings: all
+  comments: all
+  endings: all
+  startings: []
+  blanklines: false
+  profile: false
   ignore:
     envs: development
+
+
+# Performance optimizations
+future: false
+show_drafts: false
+limit_posts: 0
+lsi: false
+incremental: true
+
+# Cache settings for faster builds
+cache_dir: .jekyll-cache
 
 
 # Defaults
@@ -305,6 +322,13 @@ defaults:
       date_format: "%Y-%m-%d"
       toc: true
       toc_sticky: true
+  # _pages
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: single
+      author_profile: true
 
-# theme: minimal-mistakes-jekyll
-remote_theme: mmistakes/minimal-mistakes
+theme: minimal-mistakes-jekyll
+# remote_theme: mmistakes/minimal-mistakes

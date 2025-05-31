@@ -11,6 +11,9 @@ install:
 	bundle config set --local path vendor/bundle
 	bundle install
 
+optimize-images:
+	./script/optimize-images/optimize-images.sh
+
 upgrade:
 	bundle update
 

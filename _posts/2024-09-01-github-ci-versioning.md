@@ -12,9 +12,9 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/github-ci-versioning/banner.jpeg
+    overlay_image: /assets/images/2024-09-01-github-ci-versioning/banner.jpeg
     overlay_filter: 0.5
-    teaser: /assets/images/github-ci-versioning/banner.jpeg
+    teaser: /assets/images/2024-09-01-github-ci-versioning/banner.jpeg
 title: "Mastering Git Versioning and CI with GitHub Actions for Python Projects"
 tags:
     - python
@@ -295,9 +295,9 @@ Improve build times by caching dependencies. Use the `actions/cache` action to c
     uses: actions/cache@v2
     with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        key: {% raw %}${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}{% endraw %}
         restore-keys: |
-            ${{ runner.os }}-pip-
+            {% raw %}${{ runner.os }}-pip-{% endraw %}
 ```
 
 By implementing these practices, you can create a robust CI pipeline that automates testing, building, and deployment  for your Python projects.
