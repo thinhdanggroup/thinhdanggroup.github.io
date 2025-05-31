@@ -2,14 +2,6 @@
 
 This guide outlines the performance optimizations implemented for the ThinhDA blog and how to maintain them.
 
-## ✅ **Issues Resolved**
-
-### Jekyll Build Errors Fixed
-- ✅ **Missing layouts**: Switched from `remote_theme` to `theme: minimal-mistakes-jekyll` 
-- ✅ **Missing includes**: Resolved by using gem-based theme
-- ✅ **Liquid syntax errors**: Fixed GitHub Actions code blocks with `{% raw %}` tags
-- ✅ **Site now builds successfully** without errors
-
 ## 🚀 Implemented Optimizations
 
 ### 1. Image Optimization
