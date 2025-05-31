@@ -23,8 +23,6 @@ tags:
 
 ---
 
-# **Demystifying WebRTC Quality: A Deep Dive into the rtcscore Library and MOS Estimation**
-
 ## The Quest for Quality: Understanding User Experience in WebRTC
 
 Web Real-Time Communication (WebRTC) has revolutionized how web applications enable direct peer-to-peer interaction, facilitating the streaming of audio, video, and arbitrary data between browsers without the need for intermediary servers for the media itself. In this landscape, the quality of these real-time interactions is not merely a feature but a cornerstone of user satisfaction and application viability. Subpar audio or video, frustrating delays, or disruptive glitches can quickly lead users to abandon a service. Indeed, a significant portion of quality issues often stem from user-side problems like poor network connectivity, making robust monitoring and assessment crucial.
