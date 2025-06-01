@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FireDucks vs. Pandas: A Performance Showdown</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init push capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_bHqAclqQ1A1n3cv250ot2Xg8roPZElwUe4ie3eXJFl3',{api_host:'https://us.i.posthog.com', person_profiles: 'identified_only' // or 'always' to create profiles for anonymous users as well
+        })
+  </script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+body {
+font-family: 'Inter', sans-serif;
+background-color: #F8F9FA;
+}
+.chart-container {
+position: relative;
+width: 100%;
+max-width: 600px;
+margin-left: auto;
+margin-right: auto;
+height: 320px;
+max-height: 400px;
+}
+@media (min-width: 768px) {
+.chart-container {
+height: 350px;
+}
+}
+.text-balance {
+text-wrap: balance;
+}
+.brand-dark { color: #073B4C; }
+.brand-blue { color: #118AB2; }
+.brand-green { color: #06D6A0; }
+.brand-yellow { color: #FFD166; }
+.brand-red { color: #FF6B6B; }
+
+    .bg-brand-dark { background-color: #073B4C; }
+    .bg-brand-blue { background-color: #118AB2; }
+    .bg-brand-green { background-color: #06D6A0; }
+    .bg-brand-yellow { background-color: #FFD166; }
+    .bg-brand-red { background-color: #FF6B6B; }
+
+    .border-brand-dark { border-color: #073B4C; }
+    .border-brand-blue { border-color: #118AB2; }
+    .border-brand-green { border-color: #06D6A0; }
+    .border-brand-yellow { border-color: #FFD166; }
+    .border-brand-red { border-color: #FF6B6B; }
+
+    .card {
+        background-color: white;
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+    }
+    .stat-card {
+        background-color: #073B4C;
+        color: white;
+    }
+    .flow-arrow {
+        content: '➔';
+        font-size: 2rem;
+        color: #FFD166;
+        margin: 1rem;
+        align-self: center;
+    }
+    .flow-arrow-down::before {
+         content: '↓';
+         display: block;
+         font-size: 2rem;
+         color: #FFD166;
+         margin: 0.5rem 0;
+    }
+</style>
+
+</head>
+<body class="text-gray-700">
+
+<main class="container mx-auto p-4 md:p-8">
+    <header class="text-center my-8 md:my-16">
+        <h1 class="text-4xl md:text-6xl font-extrabold brand-dark text-balance">FireDucks vs. Pandas</h1>
+        <p class="text-lg md:text-xl mt-4 text-gray-600 max-w-4xl mx-auto text-balance">A Comprehensive Showdown: Navigating the Evolving Landscape of Data Manipulation in Python</p>
+    </header>
+
+    <section id="introduction" class="mb-16">
+         <div class="text-center max-w-4xl mx-auto">
+            <p class="text-base md:text-lg leading-relaxed mb-6">
+                For years, <span class="font-bold brand-blue">Pandas</span> has been the undisputed standard for data manipulation in Python, celebrated for its flexibility and ease of use. However, as data volumes explode, its single-threaded architecture faces performance challenges. Enter <span class="font-bold brand-red">FireDucks</span>, a high-performance accelerator from NEC, promising dramatic speedups with minimal code changes. This infographic dives deep into their core principles, architectures, and performance to help you choose the right tool for the job.
+            </p>
+        </div>
+        <div class="card stat-card text-center p-8">
+            <p class="text-xl md:text-2xl font-semibold brand-yellow">FireDucks Performance Claim</p>
+            <p class="text-6xl md:text-8xl font-black my-2 text-white">141x</p>
+            <p class="text-lg md:text-xl font-medium text-gray-300">Average speedup over Pandas on TPC-H benchmarks (10 GB, excluding I/O), showcasing the power of its JIT compiler and parallel execution.</p>
+        </div>
+    </section>
+
+    <section id="principles" class="mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-8 brand-dark">The Tale of Two Titans</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="card border-t-4 border-brand-blue">
+                <h3 class="text-2xl font-bold mb-4 brand-blue flex items-center">👑 Pandas: The Established Standard</h3>
+                <p class="mb-4">The de facto library for data science in Python, designed for ease of use, flexibility, and powerful data structures.</p>
+                <ul class="space-y-3 list-inside">
+                    <li class="flex items-start"><span class="brand-blue font-bold mr-2">✔</span> <strong>Ease of Use:</strong> Intuitive, expressive syntax that simplifies common data wrangling tasks.</li>
+                    <li class="flex items-start"><span class="brand-blue font-bold mr-2">✔</span> <strong>Flexibility:</strong> Handles a wide variety of data types and gracefully manages missing data.</li>
+                    <li class="flex items-start"><span class="brand-blue font-bold mr-2">✔</span> <strong>Rich Ecosystem:</strong> Deep integration with NumPy, Scikit-learn, Matplotlib, and a vast community.</li>
+                </ul>
+            </div>
+            <div class="card border-t-4 border-brand-red">
+                <h3 class="text-2xl font-bold mb-4 brand-red flex items-center">🔥 FireDucks: The Performance Accelerator</h3>
+                <p class="mb-4">A newer entrant engineered by NEC to accelerate Pandas workflows on large datasets with minimal friction.</p>
+                 <ul class="space-y-3 list-inside">
+                    <li class="flex items-start"><span class="brand-red font-bold mr-2">✔</span> <strong>Speed:</strong> Leverages parallelism and JIT compilation for massive performance gains.</li>
+                    <li class="flex items-start"><span class="brand-red font-bold mr-2">✔</span> <strong>API Compatibility:</strong> Aims for a "zero learning curve" by mirroring the Pandas API.</li>
+                    <li class="flex items-start"><span class="brand-red font-bold mr-2">✔</span> <strong>Automatic Optimization:</strong> Rearranges and streamlines operations behind the scenes for you.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="architecture" class="mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-8 brand-dark">Under the Hood: Execution Models</h2>
+         <p class="text-center max-w-3xl mx-auto mb-12 text-lg">The core performance difference lies in how each library executes your code. Pandas is eager and single-threaded, executing tasks immediately one by one. FireDucks is lazy and parallel, building an optimized plan before executing it across all available CPU cores.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            <div class="card p-6">
+                <h3 class="text-xl font-bold mb-4 text-center brand-blue">Pandas: Eager & Sequential</h3>
+                <div class="flex flex-col items-center text-center space-y-2">
+                    <div class="p-4 bg-blue-50 rounded-lg w-full border border-brand-blue"><strong>Step 1:</strong> Read Full CSV</div>
+                    <div class="flow-arrow-down"></div>
+                    <div class="p-4 bg-blue-50 rounded-lg w-full border border-brand-blue"><strong>Step 2:</strong> Merge with Full Table</div>
+                    <div class="flow-arrow-down"></div>
+                    <div class="p-4 bg-blue-50 rounded-lg w-full border border-brand-blue"><strong>Step 3:</strong> Filter Data</div>
+                    <div class="flow-arrow-down"></div>
+                    <div class="p-4 bg-green-100 rounded-lg w-full border border-green-500"><strong>Result</strong> (Processed on a single core)</div>
+                </div>
+            </div>
+            <div class="card p-6">
+                <h3 class="text-xl font-bold mb-4 text-center brand-red">FireDucks: Lazy & Parallel</h3>
+                <div class="flex flex-col items-center text-center space-y-2">
+                     <div class="p-4 bg-red-50 rounded-lg w-full border border-brand-red"><strong>Plan:</strong> Read Code -> Create Optimal Plan</div>
+                    <div class="flow-arrow-down"></div>
+                    <div class="p-4 bg-red-50 rounded-lg w-full border border-brand-red"><strong>Optimize:</strong> Use Predicate & Projection Pushdown</div>
+                    <div class="flow-arrow-down"></div>
+                    <div class="p-4 bg-red-50 rounded-lg w-full border border-brand-red"><strong>Execute:</strong> Read only needed columns/rows and filter first</div>
+                    <div class="flow-arrow-down"></div>
+                    <div class="p-4 bg-green-100 rounded-lg w-full border border-green-500"><strong>Result</strong> (Processed on multiple cores)</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="performance" class="mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-2 brand-dark">The Need for Speed: Performance Benchmarks</h2>
+        <p class="text-center max-w-3xl mx-auto mb-12 text-lg">This is where FireDucks' architecture translates into tangible results. Across standardized benchmarks and common operations, FireDucks consistently outperforms Pandas on large datasets by orders of magnitude.</p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="card">
+                <h3 class="text-xl font-semibold text-center mb-4 brand-dark">Benchmark Speedup (Relative to Pandas)</h3>
+                <p class="text-center text-sm text-gray-500 mb-4">Higher is better. Shows how many times faster FireDucks is compared to Pandas (where Pandas = 1x).</p>
+                <div class="chart-container">
+                    <canvas id="benchmarkChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                 <h3 class="text-xl font-semibold text-center mb-4 brand-dark">CPU Scalability</h3>
+                 <p class="text-center text-sm text-gray-500 mb-4">FireDucks' performance increases with more CPU cores, while Pandas' remains flat.</p>
+                <div class="chart-container">
+                    <canvas id="scalabilityChart"></canvas>
+                </div>
+            </div>
+             <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-8">
+                 <div class="card stat-card text-center p-6">
+                     <p class="text-lg font-semibold brand-yellow">Groupby & Aggregation</p>
+                     <p class="text-5xl font-black my-1 text-white">61x</p>
+                     <p class="text-sm text-gray-300">Faster on a 10M row `groupby().sum()` operation.</p>
+                 </div>
+                  <div class="card stat-card text-center p-6">
+                     <p class="text-lg font-semibold brand-yellow">Data Loading</p>
+                     <p class="text-5xl font-black my-1 text-white">20x</p>
+                     <p class="text-sm text-gray-300">Faster file reading due to automatic projection pushdown.</p>
+                 </div>
+                  <div class="card stat-card text-center p-6">
+                     <p class="text-lg font-semibold brand-yellow">Memory Reduction</p>
+                     <p class="text-5xl font-black my-1 text-white">17x</p>
+                     <p class="text-sm text-gray-300">Lower peak memory usage in a TPC-H query example.</p>
+                 </div>
+             </div>
+        </div>
+    </section>
+
+    <section id="api-ecosystem" class="mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-2 brand-dark">Developer Experience & Ecosystem</h2>
+        <p class="text-center max-w-3xl mx-auto mb-12 text-lg">While FireDucks aims for a seamless transition, there are nuances in API behavior and ecosystem integration that developers must consider.</p>
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+            <div class="card md:col-span-2">
+                <h3 class="text-xl font-semibold text-center mb-4 brand-dark">Pandas Ecosystem Dominance</h3>
+                 <p class="text-center text-sm text-gray-500 mb-4">Pandas is the core of a massive ecosystem, while others are contributors or rely on it.</p>
+                <div class="chart-container h-64 md:h-auto">
+                    <canvas id="ecosystemChart"></canvas>
+                </div>
+            </div>
+            <div class="card md:col-span-3">
+                <h3 class="text-xl font-semibold mb-4 brand-dark">Key API & Usage Considerations</h3>
+                <ul class="space-y-4">
+                    <li class="flex">
+                        <span class="text-2xl mr-4">🔄</span>
+                        <div>
+                            <h4 class="font-bold">Transitioning to FireDucks</h4>
+                            <p class="text-sm">Often as simple as changing `import pandas as pd` to `import fireducks.pandas as pd`, or using an import hook for existing scripts.</p>
+                        </div>
+                    </li>
+                    <li class="flex">
+                        <span class="text-2xl mr-4">🐌</span>
+                        <div>
+                            <h4 class="font-bold">The `.apply()` Limitation</h4>
+                            <p class="text-sm">FireDucks <span class="font-bold text-red-600">cannot</span> accelerate custom Python functions in `.apply()`. This remains a key performance bottleneck and a reason to stick with Pandas for such workloads.</p>
+                        </div>
+                    </li>
+                    <li class="flex">
+                         <span class="text-2xl mr-4">🌉</span>
+                        <div>
+                            <h4 class="font-bold">Interoperability Bridge</h4>
+                            <p class="text-sm">Use the `.to_pandas()` method to convert a FireDucks DataFrame back to a standard Pandas object when working with libraries that require it (e.g., Scikit-learn, Matplotlib).</p>
+                        </div>
+                    </li>
+                     <li class="flex">
+                         <span class="text-2xl mr-4">🤔</span>
+                        <div>
+                            <h4 class="font-bold">Lazy Evaluation Nuances</h4>
+                            <p class="text-sm">Errors may not be raised until an action is triggered (e.g., printing or saving). Use the `._evaluate()` method to force execution for debugging.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+     <section id="decision" class="mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-8 brand-dark">Choosing Your Weapon: A Decision Guide</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="card border-t-4 border-brand-blue">
+                <h3 class="text-2xl font-bold mb-4 brand-blue">Stick with Pandas if...</h3>
+                <ul class="space-y-3 list-inside">
+                    <li class="flex items-start"><span class="text-lg brand-blue mr-2">🔹</span> You work with small to medium datasets that fit comfortably in RAM.</li>
+                    <li class="flex items-start"><span class="text-lg brand-blue mr-2">🔹</span> Your workflow relies heavily on complex, custom Python functions via `.apply()`.</li>
+                    <li class="flex items-start"><span class="text-lg brand-blue mr-2">🔹</span> You need absolute stability and predictability for mission-critical production systems.</li>
+                    <li class="flex items-start"><span class="text-lg brand-blue mr-2">🔹</span> You need to use niche or highly experimental Pandas features.</li>
+                    <li class="flex items-start"><span class="text-lg brand-blue mr-2">🔹</span> You are just starting to learn data analysis in Python.</li>
+                </ul>
+            </div>
+            <div class="card border-t-4 border-brand-red">
+                <h3 class="text-2xl font-bold mb-4 brand-red">Switch to FireDucks if...</h3>
+                 <ul class="space-y-3 list-inside">
+                    <li class="flex items-start"><span class="text-lg brand-red mr-2">🔸</span> Your existing Pandas code is a major performance bottleneck due to large data.</li>
+                    <li class="flex items-start"><span class="text-lg brand-red mr-2">🔸</span> You need to accelerate ETL pipelines or large-scale batch jobs on multi-core CPUs.</li>
+                    <li class="flex items-start"><span class="text-lg brand-red mr-2">🔸</span> You want to reduce memory footprint without manually optimizing your code.</li>
+                    <li class="flex items-start"><span class="text-lg brand-red mr-2">🔸</span> You want a performance boost without the steep learning curve of a completely new API like Spark.</li>
+                    <li class="flex items-start"><span class="text-lg brand-red mr-2">🔸</span> Your computations are primarily standard DataFrame operations (joins, groupbys, filters).</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer class="text-center mt-16 py-8 border-t border-gray-200">
+         <p class="text-lg font-semibold brand-dark">The Future is Diverse</p>
+        <p class="text-gray-600 max-w-3xl mx-auto mt-2 text-balance">The Python data ecosystem is maturing. While Pandas provides the foundation, specialized tools like FireDucks are emerging to solve specific challenges like performance at scale. The best approach is no longer one-size-fits-all, but a discerning choice of the right tool—or combination of tools—for the specific task at hand.</p>
+    </footer>
+
+</main>
+
+<script>
+    const wrapLabels = (label, maxLength) => {
+        if (typeof label !== 'string' || label.length <= maxLength) {
+            return label;
+        }
+        const words = label.split(' ');
+        const lines = [];
+        let currentLine = '';
+        words.forEach(word => {
+            if ((currentLine + ' ' + word).length > maxLength && currentLine.length > 0) {
+                lines.push(currentLine);
+                currentLine = word;
+            } else {
+                currentLine = currentLine ? currentLine + ' ' + word : word;
+            }
+        });
+        lines.push(currentLine);
+        return lines;
+    };
+
+    const tooltipTitleCallback = (tooltipItems) => {
+        const item = tooltipItems[0];
+        let label = item.chart.data.labels[item.dataIndex];
+        if (Array.isArray(label)) {
+            return label.join(' ');
+        }
+        return label;
+    };
+
+    const sharedTooltipOptions = {
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    title: tooltipTitleCallback
+                },
+                backgroundColor: '#073B4C',
+                titleFont: { size: 14, weight: 'bold' },
+                bodyFont: { size: 12 },
+                padding: 12,
+                cornerRadius: 4,
+                displayColors: false,
+            },
+            legend: {
+                labels: {
+                    font: {
+                        size: 12,
+                        family: 'Inter'
+                    },
+                    color: '#4A5568'
+                }
+            }
+        }
+    };
+
+    const sharedTicksOptions = {
+         ticks: {
+            color: '#4A5568',
+            font: {
+                size: 12,
+                family: 'Inter',
+            },
+        }
+    };
+
+    const benchmarkData = {
+        labels: ['TPC-H Avg (Excl. I/O)', 'TPC-H Avg (Incl. I/O)', 'TPCx-BB Avg', 'Groupby Op', 'Data Load Op'].map(l => wrapLabels(l, 16)),
+        datasets: [{
+            label: 'FireDucks Relative Speedup (x)',
+            data: [141, 55, 6.7, 61, 20],
+            backgroundColor: '#FF6B6B',
+            borderColor: '#FF6B6B',
+            borderWidth: 1,
+            borderRadius: 4,
+        }, {
+            label: 'Pandas Baseline',
+            data: [1, 1, 1, 1, 1],
+            backgroundColor: '#118AB2',
+            borderColor: '#118AB2',
+            borderWidth: 1,
+             borderRadius: 4,
+        }]
+    };
+    const benchmarkCtx = document.getElementById('benchmarkChart').getContext('2d');
+    new Chart(benchmarkCtx, {
+        type: 'bar',
+        data: benchmarkData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: sharedTooltipOptions.plugins,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    type: 'logarithmic',
+                    title: {
+                        display: true,
+                        text: 'Relative Speedup (Log Scale)',
+                        color: '#4A5568',
+                        font: { size: 14, weight: 'medium' }
+                    },
+                    grid: {
+                       color: '#E2E8F0'
+                    },
+                    ...sharedTicksOptions
+                },
+                x: {
+                     grid: {
+                       display: false
+                    },
+                    ...sharedTicksOptions
+                }
+            }
+        }
+    });
+
+    const scalabilityData = {
+        labels: ['1', '4', '8', '16', '32', '64'],
+        datasets: [{
+            label: 'FireDucks',
+            data: [1, 3.8, 7.5, 14, 25, 45],
+            borderColor: '#FF6B6B',
+            backgroundColor: 'rgba(255, 107, 107, 0.1)',
+            fill: true,
+            tension: 0.4
+        }, {
+            label: 'Pandas',
+            data: [1, 1, 1, 1, 1, 1],
+            borderColor: '#118AB2',
+            backgroundColor: 'rgba(17, 138, 178, 0.1)',
+            fill: true,
+            tension: 0.4
+        }]
+    };
+    const scalabilityCtx = document.getElementById('scalabilityChart').getContext('2d');
+    new Chart(scalabilityCtx, {
+        type: 'line',
+        data: scalabilityData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+             plugins: sharedTooltipOptions.plugins,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Relative Performance',
+                         color: '#4A5568',
+                        font: { size: 14, weight: 'medium' }
+                    },
+                    grid: {
+                       color: '#E2E8F0'
+                    },
+                    ...sharedTicksOptions
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Number of CPU Cores',
+                         color: '#4A5568',
+                        font: { size: 14, weight: 'medium' }
+                    },
+                     grid: {
+                       display: false
+                    },
+                    ...sharedTicksOptions
+                }
+            }
+        }
+    });
+
+    const ecosystemData = {
+        labels: ['Pandas (Core)', 'Data Science Libs (Scikit-learn, etc)', 'Visualization (Seaborn, etc)', 'Other Accelerators (FireDucks, etc)'],
+        datasets: [{
+            label: 'Ecosystem Share',
+            data: [45, 30, 20, 5],
+            backgroundColor: ['#118AB2', '#06D6A0', '#FFD166', '#FF6B6B'],
+            borderColor: '#FFFFFF',
+            borderWidth: 2,
+            hoverOffset: 4
+        }]
+    };
+    const ecosystemCtx = document.getElementById('ecosystemChart').getContext('2d');
+    new Chart(ecosystemCtx, {
+        type: 'doughnut',
+        data: ecosystemData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+             plugins: {
+                tooltip: sharedTooltipOptions.plugins.tooltip,
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 15,
+                        font: { size: 11, family: 'Inter'},
+                        color: '#4A5568'
+                    }
+                }
+             }
+        }
+    });
+
+</script>
+
+</body>
+</html>
