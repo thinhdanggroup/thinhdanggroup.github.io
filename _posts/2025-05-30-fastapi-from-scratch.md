@@ -709,7 +709,7 @@ The handle_http method now needs to differentiate between static and dynamic rou
                     for param_name, value_str in path_params.items():
                         # This logic would be more robust by storing converter types in route_entry
                         # For now, a simple check if ':int' was in the original path segment
-                        original_segment_placeholder = f"{{{param_name}:int}}"
+                        {% raw %}original_segment_placeholder = f"{{{param_name}:int}}"{% endraw %}
                         if original_segment_placeholder in route_entry["path_str"]:
                             try:
                                 path_params[param_name] = int(value_str)
@@ -1038,7 +1038,7 @@ class Request:
                     conversion_error = False
                     for param_name, value_str in raw_path_params.items():
                         path_params[param_name] = value_str # Default to string
-                        original_segment_placeholder_int = f"{{{param_name}:int}}"
+                        {% raw %}original_segment_placeholder_int = f"{{{param_name}:int}}"{% endraw %}
                         if original_segment_placeholder_int in route_entry["path_str"]:
                             try:
                                 path_params[param_name] = int(value_str)
@@ -1545,7 +1545,7 @@ async def item_decorated_handler(request: Request, item_id: int):
                     conversion_error = False
                     for param_name, value_str in raw_path_params.items():
                         current_path_params[param_name] = value_str # Default to string
-                        original_segment_placeholder_int = f"{{{param_name}:int}}"
+                        {% raw %}original_segment_placeholder_int = f"{{{param_name}:int}}"{% endraw %}
                         if original_segment_placeholder_int in route_entry["path_str"]:
                             try:
                                 current_path_params[param_name] = int(value_str)
