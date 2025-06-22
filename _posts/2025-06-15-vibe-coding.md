@@ -15,7 +15,7 @@ header:
     overlay_image: /assets/images/vibe-coding/banner.png
     overlay_filter: 0.5
     teaser: /assets/images/vibe-coding/banner.png
-title: "Vibe Coding: An In-Depth Analysis of the AI-Driven Development Paradigm and Best Practices with Cursor"
+title: "Vibe Coding: An In-Depth Analysis of the AI-Driven Development Paradigm"
 tags:
     - AI
     - Cursor
