@@ -33,3 +33,75 @@
   posthog.init('phc_bHqAclqQ1A1n3cv250ot2Xg8roPZElwUe4ie3eXJFl3',{api_host:'https://us.i.posthog.com', person_profiles: 'identified_only' // or 'always' to create profiles for anonymous users as well
       })
 </script>
+
+<!-- PlantUML Client-side Rendering -->
+<script src="https://unpkg.com/plantuml-encoder@1.4.0/dist/plantuml-encoder.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/deflate-js@0.2.3/deflate.min.js"></script>
+
+<!-- Mermaid Client-side Rendering -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize Mermaid
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: 'default',
+    securityLevel: 'loose',
+    flowchart: {
+      htmlLabels: true,
+      useMaxWidth: true
+    },
+    sequence: {
+      useMaxWidth: true,
+      wrap: true
+    }
+  });
+
+  // Process Mermaid diagrams
+  const mermaidBlocks = document.querySelectorAll('pre code.language-mermaid');
+  mermaidBlocks.forEach(function(block, index) {
+    const mermaidCode = block.textContent;
+
+    // Create a div to hold the mermaid diagram
+    const mermaidDiv = document.createElement('div');
+    mermaidDiv.className = 'mermaid-diagram';
+    mermaidDiv.id = 'mermaid-' + index;
+    mermaidDiv.style.textAlign = 'center';
+    mermaidDiv.style.margin = '20px 0';
+
+    // Replace code block with mermaid div
+    const pre = block.parentNode;
+    pre.parentNode.replaceChild(mermaidDiv, pre);
+
+    // Render the mermaid diagram
+    mermaid.render('mermaid-svg-' + index, mermaidCode).then(function(result) {
+      mermaidDiv.innerHTML = result.svg;
+    }).catch(function(error) {
+      console.error('Mermaid rendering error:', error);
+      mermaidDiv.innerHTML = '<p style="color: red;">Error rendering Mermaid diagram</p>';
+    });
+  });
+
+  // Process PlantUML diagrams (existing code)
+  const plantUmlBlocks = document.querySelectorAll('pre code.language-plantuml');
+
+  plantUmlBlocks.forEach(function(block) {
+    const plantUmlCode = block.textContent;
+
+    // Encode PlantUML code
+    const encoded = plantumlEncoder.encode(plantUmlCode);
+
+    // Create image element
+    const img = document.createElement('img');
+    img.src = 'https://www.plantuml.com/plantuml/png/' + encoded;
+    img.alt = 'PlantUML Diagram';
+    img.style.maxWidth = '100%';
+    img.style.height = 'auto';
+
+    // Replace code block with image
+    const pre = block.parentNode;
+    pre.parentNode.replaceChild(img, pre);
+  });
+});
+</script>
