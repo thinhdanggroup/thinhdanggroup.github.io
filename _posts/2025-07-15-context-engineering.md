@@ -79,14 +79,14 @@ Context engineering, by contrast, governs what the model _knows_ when it formula
 
 | Aspect               | Prompt Engineering              | Context Engineering                                             |
 | :------------------- | :------------------------------ | :-------------------------------------------------------------- |
-| **Focus**            | Crafting the input instruction  | Orchestrating the information environment 8                     |
-| **Scope**            | Single, static interaction      | Multi-turn, dynamic workflows 8                                 |
-| **Complexity**       | Individual task optimization    | System-wide state and knowledge management 8                    |
-| **Memory**           | Stateless                       | Stateful (maintains short- and long-term memory) 8              |
-| **Data Integration** | Limited to prompt content       | Pulls from databases, APIs, documents (RAG) 4                   |
-| **Use Cases**        | Simple Q\&A, content generation | Complex agents, personalized assistants, enterprise workflows 5 |
+| **Focus**            | Crafting the input instruction  | Orchestrating the information environment           |
+| **Scope**            | Single, static interaction      | Multi-turn, dynamic workflows                                 |
+| **Complexity**       | Individual task optimization    | System-wide state and knowledge management                    |
+| **Memory**           | Stateless                       | Stateful (maintains short- and long-term memory)              |
+| **Data Integration** | Limited to prompt content       | Pulls from databases, APIs, documents (RAG)                   |
+| **Use Cases**        | Simple Q&A, content generation | Complex agents, personalized assistants, enterprise workflows |
 
-### **"Context is the New Weight Update"**
+### Context is the New Weight Update
 
 This paradigm shift is best captured by a powerful insight from AI researcher Andrej Karpathy: we are now programming models via their context. In this new model of computing, the LLM acts as a novel kind of CPU, and its context window is the equivalent of RAM—the working memory for the task at hand. The implication of this is profound: the primary act of building an AI application is no longer about retraining or fine-tuning the model's weights but about engineering the data that flows into its "RAM" at inference time.
 
@@ -137,9 +137,7 @@ This layer provides the agent with the ability to act upon the world and interac
 
 The central challenge in context engineering stems from a fundamental constraint: the LLM's context window is a finite resource. While these windows are expanding, naively appending every piece of available context—every conversation turn, every retrieved document, every tool call—is unsustainable. This approach inevitably leads to overflow errors, prohibitive latency and cost, and, paradoxically, degraded model performance.
 
-A particularly insidious problem is the "lost in the middle" phenomenon. Research has shown that models tend to recall information placed at the very beginning and very end of a long context window more effectively than information buried in the middle. This cognitive bias makes the strategic
-
-_ordering_ and _curation_ of context just as important as the content itself. To navigate these challenges, developers can employ a powerful framework of four core strategies: **Write, Select, Compress, and Isolate**.
+A particularly insidious problem is the "lost in the middle" phenomenon. Research has shown that models tend to recall information placed at the very beginning and very end of a long context window more effectively than information buried in the middle. This cognitive bias makes the strategic _ordering_ and _curation_ of context just as important as the content itself. To navigate these challenges, developers can employ a powerful framework of four core strategies: **Write, Select, Compress, and Isolate**.
 
 | Strategy     | Description                                                                          | Key Techniques                                                                                                          | Product Agent Example                                                                                                                                                                  |
 | :----------- | :----------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
