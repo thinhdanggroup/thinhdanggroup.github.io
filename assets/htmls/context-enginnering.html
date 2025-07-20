@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Context Engineering for Smarter Product AI Agents</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .text-gradient {
+            background: linear-gradient(90deg, #7a5195, #ef5675);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .kpi-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .flowchart-item {
+            background-color: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .flowchart-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #7a5195;
+            font-weight: bold;
+        }
+        .section-card {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">
+                <span class="text-gradient">Beyond the Prompt</span>
+            </h1>
+            <h2 class="text-3xl md:text-5xl font-bold text-gray-900 mb-6">Engineering Context for Smarter AI Agents</h2>
+            <p class="max-w-3xl mx-auto text-lg text-gray-600">
+                The secret to a truly helpful product AI isn't just a better LLM—it's a superior context strategy. Discover how to transform your AI from a generic chatbot into an indispensable, expert assistant.
+            </p>
+        </header>
+
+        <section class="mb-20">
+             <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-gray-900 mb-2">The Impact of Context</h3>
+                <p class="text-gray-600 max-w-2xl mx-auto">Providing relevant, real-time information drastically improves AI performance, turning frustrating interactions into valuable outcomes.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="kpi-card">
+                    <p class="text-6xl font-extrabold" style="color: #bc5090;">+40%</p>
+                    <p class="text-xl font-semibold text-gray-700 mt-2">Accuracy Boost</p>
+                    <p class="text-gray-500 mt-1">Grounded responses based on factual, up-to-date information.</p>
+                </div>
+                <div class="kpi-card">
+                    <p class="text-6xl font-extrabold" style="color: #ef5675;">-75%</p>
+                    <p class="text-xl font-semibold text-gray-700 mt-2">Hallucinations</p>
+                    <p class="text-gray-500 mt-1">Reduces instances of incorrect or fabricated information.</p>
+                </div>
+                 <div class="kpi-card">
+                    <p class="text-6xl font-extrabold" style="color: #ff764a;">+60%</p>
+                    <p class="text-xl font-semibold text-gray-700 mt-2">User Trust</p>
+                    <p class="text-gray-500 mt-1">Reliable answers build confidence and encourage adoption.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-20 section-card">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-gray-900 mb-2">The Core Process: Retrieval-Augmented Generation (RAG)</h3>
+                <p class="text-gray-600 max-w-3xl mx-auto">Context engineering is primarily powered by RAG. This process finds relevant information from your private data sources and provides it to the LLM at the time of a query, ensuring responses are timely and accurate.</p>
+            </div>
+
+            <!-- Flowchart for Mobile -->
+            <div class="md:hidden flex flex-col items-center space-y-4">
+                <div class="flowchart-item w-full max-w-sm"><p class="font-semibold">User Query</p></div>
+                <div class="flowchart-arrow">↓</div>
+                <div class="flowchart-item w-full max-w-sm"><p class="font-semibold">Retrieve Relevant Context</p><span class="text-xs text-gray-500 block">(from Docs, DBs, APIs)</span></div>
+                <div class="flowchart-arrow">↓</div>
+                <div class="flowchart-item w-full max-w-sm"><p class="font-semibold">Assemble Prompt</p><span class="text-xs text-gray-500 block">(Context + Query + Instructions)</span></div>
+                <div class="flowchart-arrow">↓</div>
+                <div class="flowchart-item w-full max-w-sm"><p class="font-semibold">LLM Generation</p></div>
+                <div class="flowchart-arrow">↓</div>
+                <div class="flowchart-item w-full max-w-sm"><p class="font-semibold">Grounded AI Response</p></div>
+            </div>
+
+            <!-- Flowchart for Desktop -->
+            <div class="hidden md:grid grid-cols-5 grid-rows-3 gap-x-4 gap-y-2 items-center max-w-4xl mx-auto">
+                <!-- Row 1 -->
+                <div class="flowchart-item col-start-1">User Query</div>
+                <div class="flowchart-arrow col-start-2">→</div>
+                <div class="flowchart-item col-start-3">Retrieve Relevant Context</div>
+                <div class="flowchart-arrow col-start-4">→</div>
+                <div class="flowchart-item col-start-5">Assemble Prompt</div>
+
+                <!-- Row 2 (Connecting Arrows) -->
+                <div class="flowchart-arrow col-start-3 row-start-2 justify-self-center">↑</div>
+                <div class="flowchart-arrow col-start-5 row-start-2 justify-self-center">↓</div>
+
+                <!-- Row 3 -->
+                <div class="flowchart-item col-start-5 row-start-3">Grounded AI Response</div>
+                <div class="flowchart-arrow col-start-4 row-start-3">←</div>
+                <div class="flowchart-item col-start-3 row-start-3">LLM Generation</div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-gray-900 mb-2">The Pillars of Effective Context Engineering</h3>
+                <p class="text-gray-600 max-w-3xl mx-auto">Building a robust context strategy relies on several key best practices. Mastering these pillars is essential for creating a reliable and intelligent product AI agent.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                <div class="section-card">
+                    <h4 class="font-bold text-xl mb-4 text-center" style="color: #003f5c;">Pillar 1: Architect a Multi-Layered Context Strategy</h4>
+                    <p class="text-gray-600 mb-6 text-center">A successful agent doesn't rely on a single source of truth. It integrates various layers of information to form a complete understanding. This chart shows a balanced mix for a typical product AI.</p>
+                    <div class="chart-container">
+                        <canvas id="contextStrategyChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                     <h4 class="font-bold text-xl mb-4 text-center" style="color: #7a5195;">Pillar 2: Optimize Retrieval with Hybrid Search</h4>
+                     <p class="text-gray-600 mb-6 text-center">Finding the right context is crucial. While vector (semantic) search is powerful for understanding intent, combining it with keyword (lexical) search handles specific terms and codes far more effectively, boosting overall accuracy.</p>
+                    <div class="chart-container">
+                        <canvas id="retrievalAccuracyChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h4 class="font-bold text-xl mb-4 text-center" style="color: #bc5090;">Pillar 3: Improve Accuracy with Structured Prompts</h4>
+                    <p class="text-gray-600 mb-6 text-center">How you format the context for the LLM matters. Clearly separating context from instructions using tags (e.g., &lt;context&gt;) helps the model focus on the right data, significantly reducing errors.</p>
+                    <div class="text-center py-10">
+                        <p class="text-7xl font-extrabold" style="color: #ef5675;">-25%</p>
+                        <p class="text-2xl font-semibold text-gray-700 mt-2">Factual Errors</p>
+                        <p class="text-gray-500 mt-1">when using structured data formats in prompts</p>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h4 class="font-bold text-xl mb-4 text-center" style="color: #ff764a;">Pillar 4: Drive Growth with a Feedback Loop</h4>
+                    <p class="text-gray-600 mb-6 text-center">Context engineering is not static. By monitoring agent performance, analyzing failures, and continuously refining the knowledge base and retrieval strategies, you can achieve consistent improvements in accuracy over time.</p>
+                    <div class="chart-container">
+                        <canvas id="improvementChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center mt-20 pt-10 border-t border-gray-300">
+            <p class="text-lg font-semibold text-gray-800">Ready to build a smarter AI?</p>
+            <p class="text-gray-600">Start by auditing your context sources and implementing a RAG strategy. <br>The future of product interaction is context-aware.</p>
+        </footer>
+    </div>
+
+    <script>
+        const brilliantBluesPalette = ['#003f5c', '#7a5195', '#ef5675', '#ffa600', '#bc5090', '#ff764a', '#374c80'];
+
+        function wrapLabel(label) {
+            const maxLength = 16;
+            if (label.length <= maxLength) {
+                return label;
+            }
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + ' ' + word).trim().length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            }
+            if (currentLine) {
+                lines.push(currentLine.trim());
+            }
+            return lines;
+        }
+
+        const commonTooltipCallback = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                                return label.join(' ');
+                            }
+                            return label;
+                        }
+                    }
+                },
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        };
+
+        const ctxStrategy = document.getElementById('contextStrategyChart');
+        if (ctxStrategy) {
+            new Chart(ctxStrategy, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Static Product Docs', 'Dynamic APIs', 'User-Centric Data'],
+                    datasets: [{
+                        label: 'Context Source Mix',
+                        data: [45, 30, 25],
+                        backgroundColor: [brilliantBluesPalette[0], brilliantBluesPalette[1], brilliantBluesPalette[2]],
+                        borderColor: '#ffffff',
+                        borderWidth: 4,
+                        hoverOffset: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    ...commonTooltipCallback
+                }
+            });
+        }
+
+        const ctxRetrieval = document.getElementById('retrievalAccuracyChart');
+        if (ctxRetrieval) {
+            new Chart(ctxRetrieval, {
+                type: 'bar',
+                data: {
+                    labels: ['Vector Search Only', 'Hybrid Search (Vector + Keyword)'],
+                    datasets: [{
+                        label: 'Retrieval Accuracy Score',
+                        data: [72, 91],
+                        backgroundColor: [brilliantBluesPalette[4], brilliantBluesPalette[1]],
+                        borderRadius: 6,
+                        barPercentage: 0.6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Accuracy (%)'
+                            }
+                        }
+                    },
+                     plugins: {
+                        tooltip: {
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    const item = tooltipItems[0];
+                                    let label = item.chart.data.labels[item.dataIndex];
+                                    if (Array.isArray(label)) { return label.join(' '); }
+                                    return label;
+                                }
+                            }
+                        },
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        const ctxImprovement = document.getElementById('improvementChart');
+        if (ctxImprovement) {
+            new Chart(ctxImprovement, {
+                type: 'line',
+                data: {
+                    labels: ['Quarter 1', 'Quarter 2', 'Quarter 3', 'Quarter 4'],
+                    datasets: [{
+                        label: 'Agent Accuracy',
+                        data: [65, 72, 81, 92],
+                        fill: true,
+                        backgroundColor: 'rgba(255, 118, 74, 0.2)',
+                        borderColor: brilliantBluesPalette[5],
+                        tension: 0.4,
+                        pointBackgroundColor: brilliantBluesPalette[5],
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                         y: {
+                            beginAtZero: false,
+                            min: 50,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Accuracy Score (%)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    const item = tooltipItems[0];
+                                    let label = item.chart.data.labels[item.dataIndex];
+                                    if (Array.isArray(label)) { return label.join(' '); }
+                                    return label;
+                                }
+                            }
+                        },
+                        legend: {
+                           display: false,
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
