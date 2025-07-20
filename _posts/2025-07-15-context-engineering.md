@@ -23,8 +23,6 @@ tags:
     - AI
 ---
 
-## **Introduction: From "Cheap Demos" to "Magical" Products**
-
 Consider a common scenario in the world of artificial intelligence: an AI assistant is tasked with scheduling a simple meeting. The "cheap demo" version, built with a simplistic approach, quickly devolves into a frustrating loop. It asks for information it was already given, fails to understand the nuances of the request, and ultimately requires more human effort than it saves. This experience is contrasted sharply by the "magical" one. In this version, the agent seamlessly accesses the user's calendar, understands the professional relationship with the invitee by referencing past emails, identifies them as a key partner from a contact list, and proactively proposes an ideal time slot before sending a perfectly toned invitation.
 
 The chasm between these two outcomes is not defined by the raw intelligence of the underlying Large Language Model (LLM). Instead, it is defined by the quality of the information provided to it. The stark reality of building robust AI systems is that the vast majority of agent failures are not model failures; they are _context failures_. As industry experts have noted, even the most capable models underperform when they are provided with an "incomplete, 'half-baked view of the world'".
