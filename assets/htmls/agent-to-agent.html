@@ -43,6 +43,18 @@
             line-height: 1;
             margin-top: 0.5rem;
         }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0065FF;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -102,6 +114,32 @@
                 </div>
             </section>
 
+            <!-- Gemini API Integration Section -->
+            <section id="gemini-workflow-builder">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-10">
+                    <div class="text-center">
+                        <h2 class="text-3xl font-bold text-[#0052CC]">✨ Build Your Own Agent Workflow</h2>
+                        <p class="mt-2 text-lg max-w-3xl mx-auto">Curious how this works in practice? Enter a business process below, and our AI System Architect will design a collaborative multi-agent workflow for you.</p>
+                    </div>
+                    <div class="mt-8 max-w-2xl mx-auto">
+                        <div class="mb-4">
+                            <label for="api-key-input" class="block text-sm font-medium text-gray-700 mb-2">Google Gemini API Key</label>
+                            <input type="password" id="api-key-input" class="w-full p-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0065FF] focus:border-transparent transition" placeholder="Enter your Gemini API key">
+                            <p class="text-xs text-gray-500 mt-1">Your API key is used only for this request and is not stored. <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-[#0065FF] hover:underline">Get your API key here</a></p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <input type="text" id="workflow-input" class="flex-grow p-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0065FF] focus:border-transparent transition" placeholder="e.g., 'Resolve a customer support ticket'">
+                            <button id="generate-workflow-btn" class="bg-[#0065FF] text-white font-bold py-3 px-6 rounded-lg hover:bg-[#0052CC] transition-colors duration-300 shadow-md flex items-center justify-center">
+                                Generate Workflow
+                            </button>
+                        </div>
+                        <div id="workflow-output" class="mt-8">
+                            <!-- Gemini API response will be rendered here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <section id="landscape">
                 <div class="text-center">
                     <h2 class="text-3xl font-bold text-[#0052CC]">The Protocol Landscape</h2>
@@ -147,7 +185,7 @@
                     <p class="mt-2 text-lg max-w-4xl mx-auto">A comparative look at the two leading philosophies for agent collaboration, highlighting their distinct approaches to interoperability and trust.</p>
                 </div>
                 <div class="mt-8 bg-white rounded-2xl shadow-lg p-6 md:p-10">
-                    <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
                         <div class="md:col-span-2">
                             <h3 class="text-2xl font-bold mb-4">Core Principles Compared</h3>
                             <p class="mb-4">The choice between protocols is strategic. A2A is pragmatic and enterprise-focused, built on familiar web standards. DIDComm is identity-first, offering robust, end-to-end cryptographic trust.</p>
@@ -415,6 +453,112 @@
                     }
                 });
             };
+
+            // Gemini API Integration Logic
+            const workflowBtn = document.getElementById('generate-workflow-btn');
+            const workflowInput = document.getElementById('workflow-input');
+            const workflowOutput = document.getElementById('workflow-output');
+            const apiKeyInput = document.getElementById('api-key-input');
+
+            workflowBtn.addEventListener('click', async () => {
+                const userInput = workflowInput.value.trim();
+                const apiKey = apiKeyInput.value.trim();
+
+                if (!userInput) {
+                    workflowOutput.innerHTML = `<p class="text-red-500 text-center">Please enter a business process.</p>`;
+                    return;
+                }
+                if (!apiKey) {
+                    workflowOutput.innerHTML = `<p class="text-red-500 text-center">Please enter your Google Gemini API key.</p>`;
+                    return;
+                }
+
+                workflowOutput.innerHTML = `<div class="flex justify-center items-center"><div class="loader"></div></div>`;
+                workflowBtn.disabled = true;
+
+                const prompt = `You are a systems architect specializing in multi-agent AI systems. A user wants to automate the following business process: '${userInput}'. Describe a collaborative workflow involving at least three specialized AI agents. For each agent, provide a name for its role and describe its primary task in the workflow.`;
+
+                const chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+                const payload = {
+                    contents: chatHistory,
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "OBJECT",
+                            properties: {
+                                "workflowTitle": { "type": "STRING" },
+                                "agents": {
+                                    "type": "ARRAY",
+                                    "items": {
+                                        "type": "OBJECT",
+                                        "properties": {
+                                            "name": { "type": "STRING" },
+                                            "task": { "type": "STRING" }
+                                        },
+                                        "required": ["name", "task"]
+                                    }
+                                }
+                            },
+                            required: ["workflowTitle", "agents"]
+                        }
+                    }
+                };
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API request failed with status ${response.status}`);
+                    }
+
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+
+                        const jsonText = result.candidates[0].content.parts[0].text;
+                        const parsedJson = JSON.parse(jsonText);
+                        renderWorkflow(parsedJson);
+
+                    } else {
+                        throw new Error("Invalid response structure from API.");
+                    }
+
+                } catch (error) {
+                    console.error("Error calling Gemini API:", error);
+                    workflowOutput.innerHTML = `<p class="text-red-500 text-center">Sorry, something went wrong. Please try again. Error: ${error.message}</p>`;
+                } finally {
+                    workflowBtn.disabled = false;
+                }
+            });
+
+            function renderWorkflow(data) {
+                if (!data || !data.agents || data.agents.length === 0) {
+                    workflowOutput.innerHTML = `<p class="text-gray-500 text-center">Could not generate a workflow for this process.</p>`;
+                    return;
+                }
+
+                let html = `<h3 class="text-2xl font-bold text-center mb-6">${data.workflowTitle}</h3><div class="space-y-4">`;
+
+                data.agents.forEach((agent, index) => {
+                    html += `
+                        <div class="bg-blue-50 p-4 rounded-lg border border-blue-200 shadow-sm">
+                            <h4 class="font-bold text-lg text-[#0052CC]">${index + 1}. ${agent.name}</h4>
+                            <p class="mt-1 text-[#0A2540]">${agent.task}</p>
+                        </div>
+                    `;
+                });
+
+                html += `</div>`;
+                workflowOutput.innerHTML = html;
+            }
+
 
             createProtocolComparisonChart();
             createSecurityThreatChart();
