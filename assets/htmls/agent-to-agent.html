@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic: The Agentic Mesh</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F0F7FF;
+            color: #0A2540;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .flow-arrow::after {
+            content: '→';
+            font-size: 2rem;
+            color: #0065FF;
+            line-height: 1;
+            margin: 0 0.5rem;
+        }
+        .flow-arrow-down::after {
+            content: '↓';
+            font-size: 2rem;
+            color: #0065FF;
+            line-height: 1;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+
+        <header class="text-center my-8 md:my-16">
+            <h1 class="text-4xl md:text-6xl font-black text-[#0052CC] tracking-tight">The Agentic Mesh</h1>
+            <p class="mt-4 text-lg md:text-xl text-[#0A2540] max-w-3xl mx-auto">From Isolated AI to Collaborative Ecosystems: A Guide to Agent-to-Agent Communication Protocols</p>
+        </header>
+
+        <main class="space-y-12 md:space-y-20">
+
+            <section id="problem">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-10">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div class="text-center md:text-left">
+                            <h2 class="text-3xl font-bold text-[#0052CC]">The Fragmentation Problem</h2>
+                            <p class="mt-4 text-base md:text-lg">Today's AI agents operate in digital silos. Developed on different platforms by various vendors, they lack a common language, creating significant operational friction and limiting the potential of automation. This fragmentation is the primary bottleneck to advancing AI capabilities.</p>
+                        </div>
+                        <div class="flex flex-col items-center justify-center space-y-4">
+                             <div class="flex items-center space-x-4">
+                                <div class="bg-[#B3D4FF] text-[#0A2540] p-4 rounded-lg shadow-md text-center">
+                                    <span class="text-2xl font-bold">HR Agent</span>
+                                </div>
+                                <div class="bg-[#B3D4FF] text-[#0A2540] p-4 rounded-lg shadow-md text-center">
+                                    <span class="text-2xl font-bold">IT Agent</span>
+                                </div>
+                             </div>
+                             <div class="text-4xl font-black text-red-500">≠</div>
+                             <p class="font-semibold text-red-600">No Interoperability</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="vision">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold text-[#0052CC]">The Vision: An "Agentic Mesh"</h2>
+                    <p class="mt-2 text-lg max-w-4xl mx-auto">The future is a collaborative network where specialized agents discover, communicate, and work together to solve complex problems. This "agentic mesh" orchestrates multi-domain workflows, unlocking unprecedented efficiency.</p>
+                </div>
+                <div class="mt-8 bg-white rounded-2xl shadow-lg p-6 md:p-10 flex flex-col items-center">
+                    <h3 class="text-xl font-bold mb-6">Example: Automated Employee Onboarding</h3>
+                    <div class="flex flex-col md:flex-row items-center justify-center text-center">
+                        <div class="bg-[#0052CC] text-white p-4 rounded-lg shadow-lg">
+                            <span class="font-bold">Orchestrator Agent</span>
+                            <p class="text-sm">"Hire new engineer"</p>
+                        </div>
+                        <div class="hidden md:block flow-arrow"></div>
+                        <div class="md:hidden flow-arrow-down"></div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 md:mt-0">
+                            <div class="bg-[#4C9AFF] text-white p-3 rounded-lg shadow-md"><span class="font-semibold">HR Agent</span><p class="text-xs">Create Profile</p></div>
+                            <div class="bg-[#4C9AFF] text-white p-3 rounded-lg shadow-md"><span class="font-semibold">IT Agent</span><p class="text-xs">Provision Laptop</p></div>
+                            <div class="bg-[#4C9AFF] text-white p-3 rounded-lg shadow-md"><span class="font-semibold">Finance Agent</span><p class="text-xs">Set up Payroll</p></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="landscape">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold text-[#0052CC]">The Protocol Landscape</h2>
+                    <p class="mt-2 text-lg max-w-4xl mx-auto">Agent communication is not one-size-fits-all. It's a layered stack, with protocols designed for different interaction types and philosophical approaches to trust.</p>
+                </div>
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                        <h3 class="text-2xl font-bold text-center">The 3-Layer Stack</h3>
+                        <div class="mt-6 space-y-4">
+                            <div class="border-4 border-[#0052CC] rounded-lg p-4 text-center">
+                                <h4 class="font-bold text-lg">Agent-to-User (AG-UI)</h4>
+                                <p>The presentation layer. Governs how agents interact with humans, rendering UI and streaming responses.</p>
+                            </div>
+                            <div class="border-4 border-[#0065FF] rounded-lg p-4 text-center">
+                                <h4 class="font-bold text-lg">Agent-to-Agent (A2A/ACP)</h4>
+                                <p>The collaboration layer. Defines how peer agents discover, delegate, and coordinate tasks.</p>
+                            </div>
+                            <div class="border-4 border-[#4C9AFF] rounded-lg p-4 text-center">
+                                <h4 class="font-bold text-lg">Agent-to-Tool (MCP)</h4>
+                                <p>The resource layer. Standardizes how an agent connects to its tools, like APIs and databases.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                        <h3 class="text-2xl font-bold text-center">Two Core Philosophies</h3>
+                        <div class="mt-6 space-y-6">
+                            <div class="text-center">
+                                <h4 class="font-bold text-lg text-[#0065FF]">Centralized & Service-Oriented</h4>
+                                <p class="mt-1">Protocols like <span class="font-semibold">A2A</span> and <span class="font-semibold">ACP</span> use a client-server model. Trust is managed by central authorities (via OAuth, HTTPS), prioritizing easy integration into existing enterprise IT.</p>
+                            </div>
+                            <div class="text-center">
+                                <h4 class="font-bold text-lg text-[#0065FF]">Decentralized & Identity-Centric</h4>
+                                <p class="mt-1">Protocols like <span class="font-semibold">DIDComm</span> build on self-sovereign identity. Trust is established peer-to-peer via cryptographic proofs, prioritizing privacy and user control without intermediaries.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="deep-dive">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold text-[#0052CC]">Protocol Deep Dive: A2A vs. DIDComm</h2>
+                    <p class="mt-2 text-lg max-w-4xl mx-auto">A comparative look at the two leading philosophies for agent collaboration, highlighting their distinct approaches to interoperability and trust.</p>
+                </div>
+                <div class="mt-8 bg-white rounded-2xl shadow-lg p-6 md:p-10">
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+                        <div class="md:col-span-2">
+                            <h3 class="text-2xl font-bold mb-4">Core Principles Compared</h3>
+                            <p class="mb-4">The choice between protocols is strategic. A2A is pragmatic and enterprise-focused, built on familiar web standards. DIDComm is identity-first, offering robust, end-to-end cryptographic trust.</p>
+                            <p>This radar chart visualizes their differing strengths. A2A excels in ease of integration, while DIDComm provides superior decentralization and transport flexibility.</p>
+                        </div>
+                        <div class="md:col-span-3">
+                            <div class="chart-container">
+                                <canvas id="protocolComparisonChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="production">
+                 <div class="text-center">
+                    <h2 class="text-3xl font-bold text-[#0052CC]">Production-Ready Architectures</h2>
+                    <p class="mt-2 text-lg max-w-4xl mx-auto">Deploying multi-agent systems requires robust, scalable patterns drawn from modern distributed systems design.</p>
+                </div>
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                        <div class="text-5xl mb-4">📦</div>
+                        <h3 class="text-xl font-bold">Microservices</h3>
+                        <p class="mt-2">Treat each agent as an independent, containerized microservice. This enables modular development, independent scaling, and technological diversity.</p>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                        <div class="text-5xl mb-4">🚪</div>
+                        <h3 class="text-xl font-bold">AI Gateway</h3>
+                        <p class="mt-2">A central control plane for all agent traffic. It enforces security, provides unified observability (logs, traces), and validates protocol compliance.</p>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                        <div class="text-5xl mb-4">📨</div>
+                        <h3 class="text-xl font-bold">Event-Driven</h3>
+                        <p class="mt-2">Decouple agents using a message broker (e.g., Kafka). Agents publish and subscribe to events, creating a resilient, scalable, and asynchronous system.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="security">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold text-[#0052CC]">The New Frontier of Security</h2>
+                    <p class="mt-2 text-lg max-w-4xl mx-auto">Agentic systems introduce novel "semantic" vulnerabilities that target their reasoning processes. A zero-trust framework is essential.</p>
+                </div>
+                <div class="mt-8 bg-white rounded-2xl shadow-lg p-6 md:p-10">
+                    <h3 class="text-2xl font-bold mb-4 text-center md:text-left">Key Threat Vectors & Risk Level</h3>
+                    <p class="mb-6 text-center md:text-left">This chart highlights the primary semantic threats. Indirect Prompt Injection, where an agent is tricked by malicious data it ingests, is a particularly high-risk and novel challenge that requires new mitigation strategies like semantic guardrails and strict input sanitization.</p>
+                    <div class="chart-container h-96 max-h-[500px]">
+                        <canvas id="securityThreatChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+             <section id="future">
+                <div class="bg-[#0A2540] text-white rounded-2xl shadow-lg p-6 md:p-10">
+                    <div class="text-center">
+                        <h2 class="text-3xl font-bold">The Future is Collaborative</h2>
+                        <p class="mt-2 text-lg max-w-4xl mx-auto text-[#B3D4FF]">The journey towards a global agentic mesh is underway. Success requires a strategic approach focused on interoperability, security, and human-agent teaming.</p>
+                    </div>
+                    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                        <div class="bg-[#0052CC] p-6 rounded-lg">
+                            <div class="text-4xl mb-3">🌐</div>
+                            <h4 class="font-bold">Adopt a Multi-Protocol Mindset</h4>
+                            <p class="text-sm mt-1">Use the right protocol for the right job—A2A for enterprise, DIDComm for decentralized trust.</p>
+                        </div>
+                        <div class="bg-[#0052CC] p-6 rounded-lg">
+                            <div class="text-4xl mb-3">🔒</div>
+                            <h4 class="font-bold">Prioritize Security & Observability</h4>
+                            <p class="text-sm mt-1">Implement zero-trust security and distributed tracing from day one.</p>
+                        </div>
+                        <div class="bg-[#0052CC] p-6 rounded-lg">
+                            <div class="text-4xl mb-3">🤝</div>
+                            <h4 class="font-bold">Embrace Guided Autonomy</h4>
+                            <p class="text-sm mt-1">Build systems that augment human experts, with clear paths for oversight and intervention.</p>
+                        </div>
+                        <div class="bg-[#0052CC] p-6 rounded-lg">
+                            <div class="text-4xl mb-3">⚙️</div>
+                            <h4 class="font-bold">Invest in Platform Engineering</h4>
+                            <p class="text-sm mt-1">Leverage existing expertise in distributed systems to manage this new class of applications.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="text-center mt-12 md:mt-20 py-6 border-t border-[#B3D4FF]">
+            <p class="text-sm text-[#0A2540]">Infographic based on "The Agentic Mesh: An In-Depth Analysis of Agent-to-Agent Communication Protocols".</p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const wrapLabel = (label, maxWidth = 16) => {
+                if (typeof label !== 'string') return label;
+                if (label.length <= maxWidth) return label;
+
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+
+                for (const word of words) {
+                    if ((currentLine + ' ' + word).trim().length > maxWidth) {
+                        if (currentLine) lines.push(currentLine);
+                        currentLine = word;
+                    } else {
+                        currentLine = (currentLine + ' ' + word).trim();
+                    }
+                }
+                if (currentLine) lines.push(currentLine);
+                return lines;
+            };
+
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                }
+                return label;
+            };
+
+            const brilliantBluesPalette = {
+                primary: '#0052CC',
+                secondary: '#0065FF',
+                accent: '#4C9AFF',
+                light: '#B3D4FF',
+                dark: '#0A2540'
+            };
+
+            const createProtocolComparisonChart = () => {
+                const ctx = document.getElementById('protocolComparisonChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Enterprise Integration', 'Decentralization', 'Transport Flexibility', 'Peer-to-Peer Trust', 'Simplicity'],
+                        datasets: [{
+                            label: 'A2A Protocol',
+                            data: [5, 2, 2, 2, 4],
+                            backgroundColor: 'rgba(0, 82, 204, 0.2)',
+                            borderColor: brilliantBluesPalette.primary,
+                            pointBackgroundColor: brilliantBluesPalette.primary,
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: brilliantBluesPalette.primary
+                        }, {
+                            label: 'DIDComm Protocol',
+                            data: [2, 5, 5, 5, 2],
+                            backgroundColor: 'rgba(76, 154, 255, 0.2)',
+                            borderColor: brilliantBluesPalette.accent,
+                            pointBackgroundColor: brilliantBluesPalette.accent,
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: brilliantBluesPalette.accent
+                        }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        responsive: true,
+                        scales: {
+                            r: {
+                                angleLines: {
+                                    color: '#e2e8f0'
+                                },
+                                grid: {
+                                    color: '#e2e8f0'
+                                },
+                                pointLabels: {
+                                    font: {
+                                        size: 14,
+                                        weight: '600'
+                                    },
+                                    color: brilliantBluesPalette.dark
+                                },
+                                ticks: {
+                                    backdropColor: 'transparent',
+                                    stepSize: 1,
+                                    max: 5,
+                                    min: 0
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    title: tooltipTitleCallback
+                                }
+                            }
+                        }
+                    }
+                });
+            };
+
+            const createSecurityThreatChart = () => {
+                const ctx = document.getElementById('securityThreatChart').getContext('2d');
+                const rawLabels = [
+                    'Context Poisoning / Indirect Prompt Injection',
+                    'Agent/Tool Impersonation',
+                    'Credential Theft / Leakage',
+                    'Command Injection / Sandbox Escape'
+                ];
+                const processedLabels = rawLabels.map(label => wrapLabel(label));
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: processedLabels,
+                        datasets: [{
+                            label: 'Perceived Risk Level (1-10)',
+                            data: [9, 7, 6, 8],
+                            backgroundColor: [
+                                '#ff4d4d',
+                                brilliantBluesPalette.secondary,
+                                brilliantBluesPalette.accent,
+                                '#ff8c1a'
+                            ],
+                            borderColor: brilliantBluesPalette.dark,
+                            borderWidth: 1,
+                            borderRadius: 5
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        maintainAspectRatio: false,
+                        responsive: true,
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    font: {
+                                        weight: '600'
+                                    }
+                                }
+                            },
+                            y: {
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    font: {
+                                        size: 14,
+                                        weight: '600'
+                                    },
+                                    color: brilliantBluesPalette.dark
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    title: tooltipTitleCallback
+                                }
+                            }
+                        }
+                    }
+                });
+            };
+
+            createProtocolComparisonChart();
+            createSecurityThreatChart();
+        });
+    </script>
+</body>
+</html>
