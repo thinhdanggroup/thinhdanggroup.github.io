@@ -322,27 +322,7 @@ The practical implementation of multi-agent systems reveals complexities that ex
 -   **Debugging and Governance:** The combination of agent opacity, asynchronous communication, and long-running, chained interactions makes debugging multi-agent systems notoriously difficult. Tracing a single failure back to its root cause across multiple autonomous agents and their tools is a significant technical challenge that demands a mature observability stack. Beyond the technical, there is a profound governance challenge. Who is accountable when an autonomous system of collaborating agents makes a poor decision? Establishing clear audit trails, defining responsibility, and ensuring human oversight are critical socio-technical problems that must be solved for enterprise adoption.
 -   **Human-Agent Teaming:** Many of the most valuable applications involve agents collaborating not just with each other, but with people. Designing effective "mixed-initiative" systems, where control can flow smoothly between human and agent, is a complex field of research. It requires agents to go beyond simple instruction-following to build and maintain a model of their human partner's beliefs, goals, and intentions. The most effective systems will likely operate under a model of "guided autonomy," where agents have the freedom to act within well-defined boundaries but know when and how to escalate decisions to a human supervisor.
 
-### **Section 9: Real-World Applications and Case Studies**
-
-Despite the challenges, agent-to-agent communication protocols are already enabling powerful applications across a variety of industries. The choice of protocol often aligns with the nature of the use case.
-
-#### **Enterprise Automation (A2A/ACP Use Cases)**
-
-These protocols are a natural fit for automating complex internal business processes where agents can be deployed within a managed, trusted enterprise environment.
-
--   **Human Resources and Employee Onboarding:** A classic example involves an orchestrator agent that manages the entire employee onboarding workflow. Upon receiving a "new hire" trigger, it uses A2A to delegate tasks to specialized agents: an HR agent to create records in Workday, an IT agent to provision a laptop and email account via ServiceNow, and a Facilities agent to assign a desk and access badge. This transforms a multi-day manual process into a streamlined, automated workflow.
--   **Supply Chain and Manufacturing Optimization:** In manufacturing, a network of agents can collaborate to create a "smart factory." A demand-forecasting agent can communicate its predictions to an inventory-management agent, which in turn coordinates with logistics and production-line agents via A2A to autonomously optimize stock levels, delivery routes, and production schedules in real-time, leading to significant reductions in downtime and operational costs.
--   **Finance and Customer Support:** A2A enables seamless handoffs between different functional agents. A fraud detection agent that flags a suspicious transaction can use A2A to collaborate with a customer support agent to verify the activity with the customer. Each of these agents might then use MCP to access its own backend systems—the fraud agent querying transaction databases and the support agent accessing the CRM—demonstrating the synergy between the protocol layers.
-
-#### **Decentralized Ecosystems (DIDComm Use Cases)**
-
-DIDComm excels in scenarios that cross organizational boundaries and require a high degree of trust, privacy, and user control.
-
--   **Travel and Border Control:** DIDComm is being piloted and deployed in the travel industry. It allows a traveler to store digital versions of their passport and other credentials in a personal digital wallet. They can then use DIDComm to securely and privately present these verifiable credentials to airlines for check-in and to government border authorities for pre-clearance, without the need for physical documents or sharing excessive personal data.
--   **Financial Services and KYC:** In finance, DIDComm and verifiable credentials can revolutionize Know Your Customer (KYC) and Anti-Money Laundering (AML) processes. A customer can obtain a reusable, verified identity credential from a trusted institution and then use DIDComm to present it to other banks or financial services, dramatically streamlining onboarding, reducing fraud, and enhancing customer privacy.
--   **Decentralized Governance and Social Media:** At a more foundational level, protocols like DIDComm provide the secure communication backbone for Web3 applications. This includes enabling members of a Decentralized Autonomous Organization (DAO) to securely message and vote on proposals, and creating the potential for user-owned social networks where individuals control their own identity and data, interacting peer-to-peer without a central platform mediating their relationships.
-
-### **Section 10: Conclusion: The Future of Agentic Communication**
+### Section 9: Conclusion: The Future of Agentic Communication
 
 The emergence of agent-to-agent communication protocols marks the beginning of a new architectural era for artificial intelligence. The current landscape, characterized by a mix of complementary and competing standards, is reminiscent of the formative years of other foundational internet technologies. The path forward will likely involve a period of innovation, competition, and eventual convergence around a mature set of interoperable standards. The strong backing of technology leaders like Google, Microsoft, and IBM, coupled with the open-governance efforts of bodies like the Linux Foundation and the Decentralized Identity Foundation, signals a powerful momentum toward widespread adoption.
 
