@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DuckDB: The In-Process Analytics Powerhouse</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #0a9396, #ee9b00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="bg-white shadow-md sticky top-0 z-10">
+        <div class="container mx-auto px-6 py-4">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-900">DuckDB: The In-Process Analytics Powerhouse</h1>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <section id="intro" class="text-center mb-12">
+            <h2 class="text-4xl md:text-6xl font-black mb-4"><span class="gradient-text">Blazing-Fast SQL</span> Without the Server.</h2>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-600">DuckDB is revolutionizing local data analytics by embedding a powerful columnar SQL database directly into your application. Forget network latency and complex setups; unlock pure analytical speed.</p>
+            <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <p class="text-5xl font-extrabold text-[#005f73]">0%</p>
+                    <p class="text-lg font-semibold text-gray-700">Network Latency</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <p class="text-5xl font-extrabold text-[#0a9396]">100%</p>
+                    <p class="text-lg font-semibold text-gray-700">In-Process</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <p class="text-5xl font-extrabold text-[#94d2bd]">10x</p>
+                    <p class="text-lg font-semibold text-gray-700">Faster Queries</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="architecture" class="mb-12">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-3xl font-bold mb-4 text-center">The In-Process Revolution</h3>
+                <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">Unlike traditional databases that require a separate server, DuckDB runs inside your application. This eliminates the network as a bottleneck and enables zero-copy data transfer for unparalleled efficiency.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="p-4 border-2 border-dashed border-red-300 rounded-lg">
+                        <h4 class="text-xl font-bold text-center mb-4 text-red-700">Traditional Client-Server Model</h4>
+                        <div class="flex flex-col items-center space-y-2">
+                            <div class="bg-gray-200 p-3 rounded-lg w-full text-center font-semibold">Your Application</div>
+                            <div class="text-red-500 font-bold text-2xl animate-pulse">&harr;</div>
+                            <p class="text-sm font-semibold text-red-600">Network Overhead</p>
+                             <div class="text-red-500 font-bold text-2xl animate-pulse">&harr;</div>
+                            <div class="bg-gray-700 text-white p-3 rounded-lg w-full text-center font-semibold">Database Server</div>
+                        </div>
+                    </div>
+                    <div class="p-4 border-2 border-solid border-green-400 rounded-lg bg-green-50">
+                         <h4 class="text-xl font-bold text-center mb-4 text-green-800">DuckDB's In-Process Model</h4>
+                        <div class="flex flex-col items-center">
+                            <div class="bg-green-200 p-4 rounded-lg w-full text-center font-semibold relative">
+                                Your Application
+                                <div class="absolute inset-2 border-2 border-green-600 rounded-lg flex items-center justify-center">
+                                    <div class="bg-green-700 text-white p-2 rounded-lg font-bold">DuckDB Engine</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="performance" class="mb-12">
+             <h3 class="text-3xl font-bold mb-6 text-center">The Trifecta of Performance</h3>
+             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col">
+                    <h4 class="text-2xl font-bold mb-2">1. Columnar Storage</h4>
+                    <p class="text-gray-600 mb-4 flex-grow">DuckDB reads only the columns you need, drastically reducing I/O compared to row-based systems. For analytics, this means less data read and faster results.</p>
+                    <div class="chart-container h-64 md:h-72"><canvas id="columnarChart"></canvas></div>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col">
+                    <h4 class="text-2xl font-bold mb-2">2. Vectorized Execution</h4>
+                    <p class="text-gray-600 mb-4 flex-grow">Instead of processing row-by-row, DuckDB processes data in batches (vectors). This minimizes overhead and fully leverages modern CPU cache and SIMD capabilities.</p>
+                    <div class="chart-container h-64 md:h-72"><canvas id="vectorizedChart"></canvas></div>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 flex flex-col">
+                     <h4 class="text-2xl font-bold mb-2">3. Morsel-Driven Parallelism</h4>
+                    <p class="text-gray-600 mb-4 flex-grow">DuckDB automatically parallelizes queries across all available CPU cores, scaling its performance nearly linearly for complex operations like aggregations and joins.</p>
+                    <div class="chart-container h-64 md:h-72"><canvas id="parallelismChart"></canvas></div>
+                </div>
+             </div>
+        </section>
+
+        <section id="features" class="mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-3xl font-bold mb-4">A Rich & Extensible Ecosystem</h3>
+                    <p class="text-gray-600 mb-6">DuckDB is more than just a fast engine. It's a full-featured database with a modular design, allowing you to load extensions for cloud storage, new file formats, and direct connections to other databases.</p>
+                    <div class="chart-container"><canvas id="ecosystemChart"></canvas></div>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-3xl font-bold mb-4">Powerful Features, Built-In</h3>
+                     <p class="text-gray-600 mb-6">It combines speed with the robustness you expect from a modern database.</p>
+                     <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="text-2xl mr-4 text-[#0a9396]">&#128190;</span>
+                            <div>
+                                <h5 class="font-bold">Out-of-Core Processing</h5>
+                                <p class="text-gray-600">Analyzes datasets larger than RAM by transparently spilling to disk.</p>
+                            </div>
+                        </li>
+                         <li class="flex items-start">
+                            <span class="text-2xl mr-4 text-[#ee9b00]">&#128274;</span>
+                            <div>
+                                <h5 class="font-bold">ACID Compliance</h5>
+                                <p class="text-gray-600">Guarantees data integrity and consistency with full ACID properties via MVCC.</p>
+                            </div>
+                        </li>
+                         <li class="flex items-start">
+                            <span class="text-2xl mr-4 text-[#ca6702]">&#10145;</span>
+                            <div>
+                                <h5 class="font-bold">Apache Arrow Integration</h5>
+                                <p class="text-gray-600">Achieves zero-copy data exchange with Python libraries like Pandas and Polars.</p>
+                            </div>
+                        </li>
+                     </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="usecases" class="mb-12">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-3xl font-bold mb-4 text-center">Real-World Impact & Use Cases</h3>
+                <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">From interactive notebooks to production ETL, DuckDB is the engine of choice for a growing range of data-intensive applications. Its speed and simplicity are transforming workflows across the industry.</p>
+                <div class="chart-container h-96 md:h-[500px] max-h-[600px]"><canvas id="useCasesChart"></canvas></div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center py-6">
+        <p>Infographic created with Chart.js and Tailwind CSS.</p>
+        <p>Data synthesized from DuckDB technical documentation.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const wrapLabel = (label) => {
+                const max_width = 16;
+                if (label.length <= max_width) {
+                    return label;
+                }
+                const words = label.split(' ');
+                let lines = [];
+                let currentLine = '';
+                for (const word of words) {
+                    if ((currentLine + ' ' + word).trim().length > max_width) {
+                        lines.push(currentLine.trim());
+                        currentLine = word;
+                    } else {
+                        currentLine = (currentLine + ' ' + word).trim();
+                    }
+                }
+                if (currentLine) {
+                    lines.push(currentLine.trim());
+                }
+                return lines;
+            };
+
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                } else {
+                    return label;
+                }
+            };
+
+            const sharedChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#4b5563'
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: tooltipTitleCallback
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: '#4b5563' },
+                        grid: { display: false }
+                    },
+                    y: {
+                        ticks: { color: '#4b5563' },
+                        grid: { color: '#e5e7eb' }
+                    }
+                }
+            };
+
+            const columnarCtx = document.getElementById('columnarChart').getContext('2d');
+            new Chart(columnarCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Row-Oriented DB', 'DuckDB (Columnar)'],
+                    datasets: [{
+                        label: 'Data Read for a 2-Column Query (MB)',
+                        data: [1000, 20],
+                        backgroundColor: ['#ca6702', '#0a9396'],
+                        borderColor: ['#bb3e03', '#005f73'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    ...sharedChartOptions,
+                    indexAxis: 'y'
+                }
+            });
+
+            const vectorizedCtx = document.getElementById('vectorizedChart').getContext('2d');
+            new Chart(vectorizedCtx, {
+                type: 'line',
+                data: {
+                    labels: ['1k rows', '10k rows', '100k rows', '1M rows'],
+                    datasets: [{
+                        label: 'Tuple-at-a-time (ms)',
+                        data: [5, 50, 500, 5000],
+                        borderColor: '#ca6702',
+                        backgroundColor: '#ca670220',
+                        tension: 0.1,
+                        fill: true
+                    }, {
+                        label: 'Vectorized (ms)',
+                        data: [0.1, 0.5, 4, 35],
+                        borderColor: '#0a9396',
+                        backgroundColor: '#0a939620',
+                        tension: 0.1,
+                        fill: true
+                    }]
+                },
+                options: {
+                    ...sharedChartOptions,
+                     scales: {
+                        y: {
+                            type: 'logarithmic',
+                            ticks: { color: '#4b5563' },
+                            grid: { color: '#e5e7eb' }
+                        },
+                        x: {
+                            ticks: { color: '#4b5563' },
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+
+            const parallelismCtx = document.getElementById('parallelismChart').getContext('2d');
+            new Chart(parallelismCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Aggregation', 'Join', 'Scan', 'Filter', 'Order By'],
+                    datasets: [{
+                        label: '1 Core',
+                        data: [3, 4, 5, 5, 3],
+                        fill: true,
+                        backgroundColor: '#ca670280',
+                        borderColor: '#ca6702',
+                        pointBackgroundColor: '#ca6702'
+                    }, {
+                        label: '8 Cores',
+                        data: [9, 8, 10, 10, 7],
+                        fill: true,
+                        backgroundColor: '#0a939680',
+                        borderColor: '#0a9396',
+                        pointBackgroundColor: '#0a9396'
+                    }]
+                },
+                options: {
+                    ...sharedChartOptions,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e5e7eb' },
+                            grid: { color: '#e5e7eb' },
+                            pointLabels: { color: '#4b5563', font: { weight: 'bold' } },
+                            ticks: { display: false }
+                        }
+                    }
+                }
+            });
+
+            const ecosystemCtx = document.getElementById('ecosystemChart').getContext('2d');
+            new Chart(ecosystemCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Core Engine', 'Official Extensions (JSON, Parquet, S3)', 'Community Integrations (Python, R, Java)'],
+                    datasets: [{
+                        label: 'Ecosystem Components',
+                        data: [45, 30, 25],
+                        backgroundColor: ['#005f73', '#0a9396', '#94d2bd'],
+                        hoverOffset: 4
+                    }]
+                },
+                options: { ...sharedChartOptions, scales: {} }
+            });
+
+            const useCasesCtx = document.getElementById('useCasesChart').getContext('2d');
+            new Chart(useCasesCtx, {
+                type: 'bubble',
+                data: {
+                    labels: [
+                        'Interactive Data Analysis',
+                        'High-Performance ETL',
+                        'Embedded Analytics Apps',
+                        'Local dbt Development'
+                    ],
+                    datasets: [{
+                        label: 'Interactive Analysis',
+                        data: [{ x: 2, y: 8, r: 35 }],
+                        backgroundColor: '#005f73c0'
+                    }, {
+                        label: 'High-Performance ETL',
+                        data: [{ x: 4, y: 9, r: 30 }],
+                        backgroundColor: '#0a9396c0'
+                    }, {
+                        label: 'Embedded Analytics',
+                        data: [{ x: 6, y: 6, r: 25 }],
+                        backgroundColor: '#94d2bdc0'
+                    }, {
+                        label: 'Local dbt Development',
+                        data: [{ x: 8, y: 7, r: 28 }],
+                        backgroundColor: '#ee9b00c0'
+                    }]
+                },
+                options: {
+                    ...sharedChartOptions,
+                    plugins: {
+                        legend: { display: true },
+                        tooltip: {
+                            callbacks: {
+                                title: tooltipTitleCallback,
+                                label: function(context) {
+                                    const label = context.chart.data.labels[context.dataIndex];
+                                    const value = context.raw;
+                                    return `${label}: Impact ${value.y}, Adoption ${value.r}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: false,
+                            min: 0,
+                            max: 10
+                        },
+                        y: {
+                            display: false,
+                            min: 0,
+                            max: 10
+                        }
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
