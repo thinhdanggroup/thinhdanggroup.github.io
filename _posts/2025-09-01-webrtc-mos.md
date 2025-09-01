@@ -43,6 +43,36 @@ This shift from subjective testing to objective estimation is not merely a techn
 
 rtcscore project, an open-source JavaScript library, is a direct and powerful response to this industry-wide demand, offering a focused solution for estimating the Mean Opinion Score in real-time communication applications.
 
+<div style="width: 100%; height: 800px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin: 20px 0;">
+    <iframe 
+        src="/assets/htmls/webrtc-mos.html" 
+        width="100%" 
+        height="100%" 
+        frameborder="0"
+        style="border: none;">
+        Your browser does not support iframes. 
+        <a href="/assets/htmls/webrtc-mos.html" target="_blank">View the interactive demo in a new window</a>
+    </iframe>
+</div>
+
+<div style="text-align: center; margin: 10px 0 20px 0;">
+    <a href="/assets/htmls/webrtc-mos.html" target="_blank" 
+       style="display: inline-block; 
+              padding: 12px 24px; 
+              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              color: white; 
+              text-decoration: none; 
+              border-radius: 6px; 
+              font-weight: 500;
+              box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+              transition: all 0.3s ease;
+              font-size: 14px;"
+       onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.3)';"
+       onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.2)';">
+        🔗 Open Interactive Infographic in Full Page
+    </a>
+</div>
+
 ## **Deconstructing rtcscore \- Core Architecture and Purpose**
 
 The ggarber/rtcscore project is a lightweight, open-source JavaScript library with a singular, well-defined purpose: to estimate the Mean Opinion Score for WebRTC audio and video streams. Primarily written in JavaScript (98.2%), it is designed for straightforward client-side integration into any WebRTC application, providing a simple mechanism to convert raw performance statistics into a meaningful quality score.
