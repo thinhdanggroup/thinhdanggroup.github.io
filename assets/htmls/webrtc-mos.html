@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Demystifying WebRTC Quality with rtcscore</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            body {
+                font-family: "Inter", sans-serif;
+                background-color: #f8fafc;
+            }
+            .chart-container {
+                position: relative;
+                width: 100%;
+                max-width: 600px;
+                margin-left: auto;
+                margin-right: auto;
+                height: 350px;
+                max-height: 400px;
+            }
+            @media (min-width: 768px) {
+                .chart-container {
+                    height: 400px;
+                }
+            }
+            .kpi-card {
+                background-color: white;
+                border-radius: 0.75rem;
+                box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+                    0 2px 4px -2px rgb(0 0 0 / 0.1);
+                padding: 1.5rem;
+                text-align: center;
+                border-left: 5px solid;
+            }
+        </style>
+    </head>
+    <body class="text-gray-800">
+        <!-- Color Palette: Brilliant Blues -->
+        <!-- Narrative Plan:
+        1. Hook: Introduce the problem of vague WebRTC feedback.
+        2. Solution: Present rtcscore and its core 1-5 score concept.
+        3. Process: Visualize how rtcscore calculates the score.
+        4. In-Depth Analysis: Detail the key metrics and their impact.
+        5. Interpretation: Explain what the scores mean.
+        6. Application: Showcase the real-world use cases.
+        This narrative guides the user from problem to solution to practical application.
+    -->
+        <!-- Visualization Choices:
+        - Problem Statement -> Goal: Inform -> Big Text/Icons (HTML/CSS). Justification: Quickly conveys the abstract problem. NO SVG.
+        - Core Concept -> Goal: Inform -> Single Big Number & Donut Chart (Chart.js). Justification: Emphasizes the single metric goal. NO SVG.
+        - Process Flow -> Goal: Organize -> Flow Chart (Styled HTML/CSS). Justification: Clearly shows the step-by-step process without complex graphics. NO SVG, NO MERMAID JS.
+        - Metrics Impact -> Goal: Compare -> Bar Chart (Chart.js). Justification: Effectively compares the negative impact of different network issues. NO SVG.
+        - Score Calculation -> Goal: Composition -> Stacked Bar Chart (Chart.js). Justification: Perfectly visualizes the "penalty points" system. NO SVG.
+        - Use Cases -> Goal: Organize -> Grid with Icons (HTML/CSS). Justification: A clean, scannable way to present distinct applications. NO SVG.
+    -->
+        <!-- Confirmation: NO Mermaid JS and NO SVG were used in this file. All visuals are rendered via Chart.js on Canvas or using structured HTML and CSS. -->
+
+        <div class="container mx-auto p-4 md:p-8">
+            <header class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-black text-[#005f73]">
+                    Demystifying WebRTC Quality
+                </h1>
+                <p class="text-xl mt-2 text-[#0a9396]">
+                    Visualizing Call Performance with the `rtcscore` Library
+                </p>
+            </header>
+
+            <main class="space-y-16">
+                <section id="problem">
+                    <div class="text-center">
+                        <h2 class="text-3xl font-bold text-[#005f73] mb-4">
+                            The Developer's Dilemma
+                        </h2>
+                        <p class="max-w-3xl mx-auto text-lg text-gray-600 mb-8">
+                            Developers often receive vague feedback like "the
+                            call was choppy" or "the quality was bad." This
+                            subjective information is difficult to quantify,
+                            monitor, or debug. How do you measure an experience?
+                        </p>
+                        <div
+                            class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto"
+                        >
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <div class="text-5xl mb-4">❓</div>
+                                <h3 class="text-xl font-bold text-[#005f73]">
+                                    Vague Feedback
+                                </h3>
+                                <p class="text-gray-600">
+                                    User complaints are subjective and lack
+                                    technical detail.
+                                </p>
+                            </div>
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <div class="text-5xl mb-4">📉</div>
+                                <h3 class="text-xl font-bold text-[#005f73]">
+                                    No Clear Metric
+                                </h3>
+                                <p class="text-gray-600">
+                                    Without a number, it's impossible to set
+                                    quality targets or track improvements.
+                                </p>
+                            </div>
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <div class="text-5xl mb-4">🛠️</div>
+                                <h3 class="text-xl font-bold text-[#005f73]">
+                                    Difficult Debugging
+                                </h3>
+                                <p class="text-gray-600">
+                                    Pinpointing the root cause of poor quality
+                                    becomes guesswork.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section
+                    id="solution"
+                    class="bg-white p-8 rounded-lg shadow-xl"
+                >
+                    <div
+                        class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center"
+                    >
+                        <div class="text-center md:text-left">
+                            <h2 class="text-3xl font-bold text-[#005f73] mb-4">
+                                The Solution: A Single, Actionable Score
+                            </h2>
+                            <p class="text-lg text-gray-600 mb-4">
+                                `rtcscore` translates complex WebRTC statistics
+                                into one simple number: a quality score from 1
+                                (Bad) to 5 (Excellent). This score, based on the
+                                Mean Opinion Score (MOS) model, provides a
+                                clear, objective measure of call quality.
+                            </p>
+                            <div
+                                class="text-7xl font-black text-[#0a9396] my-6"
+                            >
+                                1 ↔ 5
+                            </div>
+                            <p class="text-gray-600">
+                                This range makes quality tangible and easy to
+                                understand for everyone, from developers to
+                                support teams.
+                            </p>
+                        </div>
+                        <div>
+                            <div class="chart-container h-64 sm:h-80 md:h-96">
+                                <canvas id="mosScoreChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="process">
+                    <h2
+                        class="text-3xl font-bold text-center text-[#005f73] mb-8"
+                    >
+                        From Chaos to Clarity: The Scoring Process
+                    </h2>
+                    <div class="relative max-w-5xl mx-auto">
+                        <div
+                            class="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-[#94d2bd] -translate-y-1/2"
+                        ></div>
+                        <div
+                            class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center"
+                        >
+                            <div
+                                class="relative bg-white p-6 rounded-lg shadow-md z-10"
+                            >
+                                <div
+                                    class="absolute -top-5 left-1/2 -translate-x-1/2 bg-[#0a9396] text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl"
+                                >
+                                    1
+                                </div>
+                                <h3
+                                    class="text-xl font-bold mt-6 text-[#005f73]"
+                                >
+                                    Poll Raw Stats
+                                </h3>
+                                <p class="mt-2 text-gray-600">
+                                    The library periodically calls WebRTC's
+                                    `getStats()` API to gather dozens of raw
+                                    performance metrics.
+                                </p>
+                            </div>
+                            <div
+                                class="relative bg-white p-6 rounded-lg shadow-md z-10"
+                            >
+                                <div
+                                    class="absolute -top-5 left-1/2 -translate-x-1/2 bg-[#0a9396] text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl"
+                                >
+                                    2
+                                </div>
+                                <h3
+                                    class="text-xl font-bold mt-6 text-[#005f73]"
+                                >
+                                    Analyze Key Metrics
+                                </h3>
+                                <p class="mt-2 text-gray-600">
+                                    It focuses on the three most critical
+                                    indicators of user-perceived quality: packet
+                                    loss, jitter, and round-trip time.
+                                </p>
+                            </div>
+                            <div
+                                class="relative bg-white p-6 rounded-lg shadow-md z-10"
+                            >
+                                <div
+                                    class="absolute -top-5 left-1/2 -translate-x-1/2 bg-[#0a9396] text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl"
+                                >
+                                    3
+                                </div>
+                                <h3
+                                    class="text-xl font-bold mt-6 text-[#005f73]"
+                                >
+                                    Calculate Score
+                                </h3>
+                                <p class="mt-2 text-gray-600">
+                                    It starts with a perfect score of 5 and
+                                    subtracts "penalty points" based on the
+                                    severity of the metrics to produce the final
+                                    score.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="metrics" class="bg-gray-50 p-8 rounded-lg">
+                    <h2
+                        class="text-3xl font-bold text-center text-[#005f73] mb-4"
+                    >
+                        The Core Metrics That Impact Quality
+                    </h2>
+                    <p
+                        class="text-lg text-center max-w-3xl mx-auto text-gray-600 mb-8"
+                    >
+                        `rtcscore` focuses on three primary factors that
+                        directly affect how a user perceives the quality of a
+                        call.
+                    </p>
+                    <div
+                        class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center"
+                    >
+                        <div>
+                            <div class="kpi-card mb-6 border-[#ee9b00]">
+                                <h3 class="text-2xl font-bold">Packet Loss</h3>
+                                <p class="text-gray-600 mt-1">
+                                    Data packets that never arrive. Causes
+                                    choppy audio and frozen video.
+                                </p>
+                            </div>
+                            <div class="kpi-card mb-6 border-[#ca6702]">
+                                <h3 class="text-2xl font-bold">Jitter</h3>
+                                <p class="text-gray-600 mt-1">
+                                    Inconsistent packet arrival time. Leads to
+                                    distorted, robotic audio.
+                                </p>
+                            </div>
+                            <div class="kpi-card border-[#bb3e03]">
+                                <h3 class="text-2xl font-bold">
+                                    Round-Trip Time (RTT)
+                                </h3>
+                                <p class="text-gray-600 mt-1">
+                                    The delay for data to travel to the other
+                                    user and back. Causes lag and echo.
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <p
+                                class="text-center font-semibold text-gray-700 mb-2"
+                            >
+                                Visualizing Quality Score Degradation
+                            </p>
+                            <div class="chart-container">
+                                <canvas id="penaltyChart"></canvas>
+                            </div>
+                            <p class="text-center text-sm text-gray-500 mt-2">
+                                This chart shows how a perfect score of 5.0 is
+                                reduced by penalties from poor network
+                                conditions.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="interpretation">
+                    <h2
+                        class="text-3xl font-bold text-center text-[#005f73] mb-8"
+                    >
+                        Understanding the Score
+                    </h2>
+                    <div
+                        class="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6"
+                    >
+                        <div
+                            class="bg-white p-6 rounded-lg shadow-md text-center border-t-8 border-green-500"
+                        >
+                            <div class="text-4xl font-black text-green-600">
+                                4.5 - 5.0
+                            </div>
+                            <div class="text-xl font-bold mt-2 text-gray-700">
+                                Excellent
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">
+                                Imperceptible issues. Crystal clear quality.
+                            </p>
+                        </div>
+                        <div
+                            class="bg-white p-6 rounded-lg shadow-md text-center border-t-8 border-lime-500"
+                        >
+                            <div class="text-4xl font-black text-lime-600">
+                                4.0 - 4.4
+                            </div>
+                            <div class="text-xl font-bold mt-2 text-gray-700">
+                                Good
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">
+                                Minor issues, not affecting usability.
+                            </p>
+                        </div>
+                        <div
+                            class="bg-white p-6 rounded-lg shadow-md text-center border-t-8 border-orange-400"
+                        >
+                            <div class="text-4xl font-black text-orange-500">
+                                3.5 - 3.9
+                            </div>
+                            <div class="text-xl font-bold mt-2 text-gray-700">
+                                Fair
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">
+                                Noticeable issues, starting to impact
+                                experience.
+                            </p>
+                        </div>
+                        <div
+                            class="bg-white p-6 rounded-lg shadow-md text-center border-t-8 border-red-500"
+                        >
+                            <div class="text-4xl font-black text-red-600">
+                                &lt; 3.5
+                            </div>
+                            <div class="text-xl font-bold mt-2 text-gray-700">
+                                Poor
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">
+                                Significant degradation, frustrating for users.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="use-cases">
+                    <h2
+                        class="text-3xl font-bold text-center text-[#005f73] mb-8"
+                    >
+                        Powerful Use Cases Unlocked
+                    </h2>
+                    <div
+                        class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto"
+                    >
+                        <div
+                            class="bg-white p-6 rounded-lg shadow-md flex items-start space-x-4"
+                        >
+                            <div class="text-4xl">📊</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-[#005f73]">
+                                    Real-time User Feedback
+                                </h3>
+                                <p class="mt-1 text-gray-600">
+                                    Display a "connection quality" indicator in
+                                    the UI, empowering users to understand their
+                                    network conditions during a call.
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            class="bg-white p-6 rounded-lg shadow-md flex items-start space-x-4"
+                        >
+                            <div class="text-4xl">🤖</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-[#005f73]">
+                                    Automated Quality Assurance
+                                </h3>
+                                <p class="mt-1 text-gray-600">
+                                    Integrate into end-to-end tests to
+                                    automatically assert call quality under
+                                    different simulated network conditions.
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            class="bg-white p-6 rounded-lg shadow-md flex items-start space-x-4"
+                        >
+                            <div class="text-4xl">📈</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-[#005f73]">
+                                    Smarter Analytics
+                                </h3>
+                                <p class="mt-1 text-gray-600">
+                                    Log scores to your backend to proactively
+                                    identify users with poor experiences and
+                                    correlate quality with regions or app
+                                    versions.
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            class="bg-white p-6 rounded-lg shadow-md flex items-start space-x-4"
+                        >
+                            <div class="text-4xl">🔄</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-[#005f73]">
+                                    Adaptive Applications
+                                </h3>
+                                <p class="mt-1 text-gray-600">
+                                    Automatically lower video resolution, switch
+                                    to audio-only, or suggest network changes
+                                    when the score drops consistently.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <footer class="text-center mt-16 border-t pt-8">
+                <p class="text-gray-500">
+                    Infographic created to visualize the concepts behind the
+                    `rtcscore` library.
+                </p>
+            </footer>
+        </div>
+
+        <script>
+            const brilliantBlues = {
+                darkBlue: "#005f73",
+                teal: "#0a9396",
+                lightTeal: "#94d2bd",
+                paleGold: "#e9d8a6",
+                amber: "#ee9b00",
+                orange: "#ca6702",
+                burntOrange: "#bb3e03",
+                darkRed: "#ae2012",
+                darkerRed: "#9b2226",
+            };
+
+            const chartTooltipOptions = {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function (tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label =
+                                    item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                    return label.join(" ");
+                                } else {
+                                    return label;
+                                }
+                            },
+                        },
+                    },
+                },
+            };
+
+            function wrapLabel(label, maxWidth = 16) {
+                if (label.length <= maxWidth) {
+                    return label;
+                }
+                const words = label.split(" ");
+                const lines = [];
+                let currentLine = "";
+                words.forEach((word) => {
+                    if ((currentLine + word).length > maxWidth) {
+                        lines.push(currentLine.trim());
+                        currentLine = "";
+                    }
+                    currentLine += word + " ";
+                });
+                lines.push(currentLine.trim());
+                return lines;
+            }
+
+            const ctxMos = document.getElementById("mosScoreChart");
+            if (ctxMos) {
+                new Chart(ctxMos, {
+                    type: "doughnut",
+                    data: {
+                        labels: ["Achieved Quality", "Potential Quality"],
+                        datasets: [
+                            {
+                                label: "Quality Score",
+                                data: [4.2, 0.8],
+                                backgroundColor: [
+                                    brilliantBlues.teal,
+                                    brilliantBlues.lightTeal + "40",
+                                ],
+                                borderColor: [
+                                    brilliantBlues.teal,
+                                    "transparent",
+                                ],
+                                borderWidth: 1,
+                                circumference: 270,
+                                rotation: 225,
+                            },
+                        ],
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: { enabled: false },
+                        },
+                        cutout: "70%",
+                    },
+                });
+            }
+
+            const ctxPenalty = document.getElementById("penaltyChart");
+            if (ctxPenalty) {
+                const rawLabels = [
+                    "Excellent Call",
+                    "Call with High Jitter",
+                    "Call with Packet Loss",
+                ];
+                const processedLabels = rawLabels.map((label) =>
+                    wrapLabel(label)
+                );
+                new Chart(ctxPenalty, {
+                    type: "bar",
+                    data: {
+                        labels: processedLabels,
+                        datasets: [
+                            {
+                                label: "Base Score",
+                                data: [4.8, 3.8, 3.2],
+                                backgroundColor: brilliantBlues.lightTeal,
+                                order: 2,
+                            },
+                            {
+                                label: "Penalty",
+                                data: [0.2, 1.2, 1.8],
+                                backgroundColor: [
+                                    brilliantBlues.paleGold,
+                                    brilliantBlues.orange,
+                                    brilliantBlues.darkRed,
+                                ],
+                                order: 1,
+                            },
+                        ],
+                    },
+                    options: {
+                        ...chartTooltipOptions,
+                        indexAxis: "y",
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                stacked: true,
+                                max: 5,
+                                grid: {
+                                    display: false,
+                                },
+                            },
+                            y: {
+                                stacked: true,
+                                grid: {
+                                    display: false,
+                                },
+                            },
+                        },
+                        plugins: {
+                            ...chartTooltipOptions.plugins,
+                            legend: {
+                                display: false,
+                            },
+                        },
+                    },
+                });
+            }
+        </script>
+    </body>
+</html>
