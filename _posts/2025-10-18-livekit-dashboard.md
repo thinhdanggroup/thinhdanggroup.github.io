@@ -21,13 +21,11 @@ tags:
     - Dashboard
 ---
 
-## Why Managing LiveKit at Scale Feels Like Flying Blind
-
 Running LiveKit at scale is powerful — but it can also feel like you’re managing a live concert with the lights off. You’ve got rooms, participants, servers, and recordings all moving at once, and without a clear dashboard, visibility becomes guesswork.
 
 Typical pain points include:
 
--   SSH-ing into servers just to check logs
+-   Using CLI to access Livekit cluster
 -   Writing ad-hoc scripts to query APIs
 -   Manually tracking who’s connected where
 -   Managing egress jobs without clear feedback
