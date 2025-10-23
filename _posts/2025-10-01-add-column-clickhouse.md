@@ -12,9 +12,9 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/livekit-dashboard/banner.png
+    overlay_image: /assets/images/add-column-clickhouse/banner.png
     overlay_filter: 0.5
-    teaser: /assets/images/livekit-dashboard/banner.png
+    teaser: /assets/images/add-column-clickhouse/banner.png
 title: "Adding a Column in ClickHouse, Deeply: What Actually Happens and What to Consider"
 tags:
     - ClickHouse
