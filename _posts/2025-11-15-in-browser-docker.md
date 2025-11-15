@@ -22,528 +22,729 @@ tags:
     - devx
 ---
 
-Modern developer environments are moving into the browser. Not just editors and terminals—but whole stacks that used to require a VM, a container runtime, and a careful dance of installed dependencies. If you’ve tried a “Docker in the browser” demo lately, or spun up a full Node.js project without leaving a tab, you’ve tasted the future: lightweight, sandboxed, instantly shareable infrastructure.
+If you opened a GitHub repo today and a fully-configured dev environment appeared in your browser—no downloads, no “works on my machine”—you wouldn’t blink. That’s remarkable. For years, “development environment” meant installing runtimes, databases, CLIs, and fighting with PATH hell. Now a tab does it.
 
-This post unpacks **how** this is even possible. We’ll dig into WebAssembly (Wasm), WASI, OCI images, and the sleight-of-hand that lets a web page impersonate an operating system well enough to run serious workloads. Along the way we’ll build a mental model of the moving pieces, peek at a few code snippets, and finish with the trade-offs that matter if you’re building cloud IDEs or fleet-scale developer tooling.
+This post explores why that’s happening and how it actually works under the hood. We’ll peel back the layers on the two converging technologies behind the shift:
 
----
+1. **WebAssembly (Wasm)** and **WASI** turning the browser into a credible sandboxed runtime, and
+2. **Docker-shaped workflows** running _inside_ the browser—more precisely, reproducing container semantics in a Wasm world.
 
-## The Setup: Why the Browser, Why Now?
-
-The browser offers three superpowers:
-
-1. **Security**: hardened sandboxes and permission prompts by default.
-2. **Distribution**: zero install, instant upgrades, link-to-share.
-3. **Portability**: runs on everything, mobile included (sometimes!).
-
-Historically, the browser lacked the one thing developer environments needed most: _a process sandbox with system-like capabilities._ We had JavaScript, and later asm.js, but the gap between “type some code” and “simulate a POSIX system with file system, sockets, and processes” was huge.
-
-Two ingredients have changed the game:
-
--   **WebAssembly (Wasm)** is a safe, fast, portable bytecode that browsers can execute at near-native speeds. Importantly, Wasm isolates code and lets the host selectively expose capabilities—no ambient authority.
--   **WASI (WebAssembly System Interface)** is a spec for system-like calls (files, clocks, random, sockets, etc.). Think of it as _“POSIX-inspired capabilities for Wasm.”_ WASI is evolving, but even today it provides a path to run real programs without binding to a particular OS.
-
-Between Wasm and WASI, a web page can host binaries compiled from C/C++/Rust/Go, give them a virtual filesystem, a clock, randomness, and controlled I/O, and keep them within a strict sandbox. Combine that with smart use of the browser APIs (Service Workers, Cache Storage, Web Streams, WebTransport/WebSockets), and you start to approach the power of a tiny OS.
+We’ll build up from first principles, sketch a minimal “OCI-like” layer fetcher, walk through a syscall broker that maps POSIX-style calls to browser capabilities, and analyze performance, security, and the implications for cloud IDEs and team workflows.
 
 ---
 
-## A Tale of Two Approaches
+## Why now? A five-minute history of “compute in the client”
 
-When people say “Docker in the browser,” they usually mean one of two architectures:
+Back in the day, Google’s **Native Client** and Mozilla’s **asm.js** asked: “What if we could run serious code in the browser safely?” WebAssembly is the answer that stuck—compact binaries, predictable performance, and, crucially, a security model browsers love.
 
-1. **Wasm-First Runtimes (WebContainers-style)**
-   The “container” is actually a set of Wasm modules plus an emulated environment (filesystem, process model) crafted for the workload. Node.js in the browser is the canonical example: you don’t boot Linux; you load a Wasm build of the runtime and polyfill the bits it expects.
+The missing piece was system APIs. Browsers don’t hand you raw syscalls. **WASI** (WebAssembly System Interface) steps in with a capability-oriented API: files (under pre-opened directories), clocks, random numbers, sockets (under active standardization), etc. You don’t get `root`, you get _precisely_ what you ask for.
 
-2. **OCI-Image-Aware Executors**
-   The browser fetches an **OCI image** (the standard format Docker uses), reconstructs a filesystem by applying its tar layers, and then “runs” something _compatible_ with the image—often a Wasm build of the same app, or a Wasm shim that knows how to execute familiar tools. You’re not running a Linux kernel; you’re **interpreting the image** and executing compatible binaries inside a browser-backed sandbox.
-
-Both avoid shipping a VM. Both depend on Wasm for speed and safety. The difference is philosophical: emulate a _runtime_ vs emulate a _container artifact_. In practice, many systems blend the two.
+Meanwhile, developers standardized on **Docker’s** ergonomics: image builds, layers, registries, and reproducible environments. Over the last few years those two worlds started to meet. The result is what people shorthand as “Docker in the browser”: the workflow and most of the feel of containers, but powered by WebAssembly and browser primitives.
 
 ---
 
-## Wasm and WASI: The Smallest Possible OS
+## Two paths to “dev environments in a tab”
 
-Let’s anchor to a concrete example: a tiny Rust program compiled for WASI that writes a file and prints a directory listing.
+When someone says “Docker in the browser,” they usually mean one of two architectures:
 
-```rust
-// Cargo.toml
-// [package]
-// name = "wasi-demo"
-// version = "0.1.0"
-// edition = "2021"
+1. **Userland-in-Wasm (no kernel, no VM).**
+   Tools like “WebContainers” run a Linux-like _user space_ in Wasm. They provide a filesystem, process model, and POSIX-ish APIs on top of browser features. You get Node/npm, compilers, and a decent subset of CLI tools—without a kernel.
+
+2. **Container semantics on Wasm (OCI-flavored).**
+   Instead of literally running Docker’s daemon or a Linux kernel, the browser fetches **OCI layers**, reconstructs a root filesystem in an in-browser FS (IndexedDB/memory), and launches a Wasm-compiled process (Rust/Go/C) under a WASI runtime. From the developer’s perspective, it feels like “pull image → run container,” but the runtime is Wasm, not runc.
+
+Both are real, and both move real work _client-side_. That shift changes economics (less server compute), startup speed (no cold container pull on the server), and security boundaries (browser sandbox + Wasm sandbox + capability APIs).
+
+Let’s make that concrete.
+
+---
+
+## Anatomy of an OCI-ish environment inside a browser
+
+A Docker image is a stack of tarball **layers** plus a JSON manifest. Reproducing it client-side involves four steps:
+
+1. **Resolve → fetch → verify**: pull the manifest and layers from a registry (over `fetch`), verify content digests with SubtleCrypto (SHA-256), and cache by digest.
+2. **Materialize a filesystem**: unpack tar entries into an overlay (read-only base layers + read-write upper).
+3. **Launch a process**: start a Wasm binary with WASI, mounting the overlay as its `/` or `/work`.
+4. **Broker syscalls**: translate file, clock, random, and (optionally) network calls into browser capabilities.
+
+Below is a sketched TypeScript implementation of (1) and (2). It omits error handling and registry auth for brevity—but shows the shapes you’ll encounter.
+
+```ts
+// Minimal "OCI layer fetcher" for the browser.
+// Goal: fetch image layers by digest, verify, cache, and materialize a simple overlay FS.
 //
-// [dependencies]
+// Caveat: This is educational code, not production-hard. It ignores platform/arch filtering,
+// layer compression variants, whiteouts for deletions, etc.
 
-// src/main.rs
-use std::fs::{self, File};
-use std::io::Write;
+type Digest = `sha256:${string}`;
 
-fn main() -> std::io::Result<()> {
-    // In WASI, the program only sees directories the host "preopens"
-    // (capability model). Think: "grant read/write to /workspace".
-    File::create("hello.txt")?.write_all(b"hello, wasm!\n")?;
-    for entry in fs::read_dir(".")? {
-        let entry = entry?;
-        println!("{}", entry.file_name().to_string_lossy());
-    }
-    Ok(())
-}
-```
-
-Compile for WASI:
-
-```bash
-rustup target add wasm32-wasi
-cargo build --target wasm32-wasi --release
-# outputs target/wasm32-wasi/release/wasi-demo.wasm
-```
-
-This `.wasm` artifact has no ambient access to your machine. The host (browser or server runtime) must explicitly provide a filesystem “preopen” (a directory to mount), a stderr/stdout sink, and clock access. In the browser, a Wasm runtime glues this to the **Origin Private File System** (via the File System Access API) or an in-memory FS.
-
-What’s powerful here isn’t the program; it’s the **security model**. You get POSIX-like primitives but behind a **capability wall**—you can’t `open("/etc/shadow")` unless the host gave you `/etc`.
-
-> **Mini-summary:** WASI gives you portable system calls with capability-scoped access. The browser is the host that decides which capabilities to expose.
-
----
-
-## How Browsers Emulate “Process” and “Filesystem”
-
-Real Linux provides syscalls. Browsers don’t. To bridge the gap, in-browser runtimes assemble a small stack:
-
--   **Wasm runtime** (in JS or WASM): loads and executes modules, maps WASI calls to host functions.
--   **Virtual filesystem**: usually an in-memory tree with adapters for IndexedDB, OPFS (Origin Private File System), and HTTP-backed lazy files.
--   **Process emulation**: one Wasm instance ≈ one “process.” For “fork/exec,” systems use copy-on-write snapshots, multi-instance orchestration, or extend WASI (e.g., WASIX) to simulate POSIX semantics.
--   **Networking**: there’s no raw TCP in the browser. Runtimes tunnel through **WebSocket**/**WebTransport** to a proxy, or offer a loopback device implemented in JS.
-
-A simplified adapter for filesystem syscalls might look like this:
-
-```ts
-// Very simplified WASI host bindings for file I/O.
-import { WASI } from "@wasmer/wasi"; // conceptually; could be any WASI lib
-
-class BrowserFS {
-    #files = new Map<string, Uint8Array>();
-
-    readFile(path: string): Uint8Array {
-        const buf = this.#files.get(path);
-        if (!buf) throw new Error("ENOENT");
-        return buf;
-    }
-
-    writeFile(path: string, data: Uint8Array) {
-        this.#files.set(path, data);
-    }
-
-    readdir(path: string): string[] {
-        // pretend flat filesystem
-        return Array.from(this.#files.keys()).filter((p) => p.startsWith(path));
-    }
+interface OciDescriptor {
+    mediaType: string;
+    digest: Digest;
+    size: number;
+    urls?: string[];
 }
 
-const vfs = new BrowserFS();
-
-const wasi = new WASI({
-    bindings: {
-        // map WASI fd_read/fd_write to JS functions over vfs
-        fs: {
-            readFile: (pathPtr, pathLen, bufPtr, bufLen) => {
-                /* ... */
-            },
-            writeFile: (pathPtr, pathLen, bufPtr, bufLen) => {
-                /* ... */
-            },
-            readdir: (pathPtr, pathLen, outPtr) => {
-                /* ... */
-            },
-        },
-        // clocks, random, etc...
-    },
-    preopenDirectories: { "/": vfs }, // capability grant
-});
-
-// Instantiate your .wasm with these host functions.
-```
-
-It’s not a full POSIX implementation (and you wouldn’t write it by hand), but the idea is simple: **translate** WASI calls to browser primitives.
-
----
-
-## Where OCI Images Fit In
-
-Containers are more than processes; they’re **artifacts**: an image with layers, a config, and metadata. Even if we can’t boot a Linux kernel in a tab, we can still:
-
-1. **Pull** an image from a registry (it’s just HTTP with JSON manifests and tar layers).
-2. **Apply** the layers to assemble a root filesystem.
-3. **Execute** an entrypoint—_compatible with our environment_.
-
-Here’s what a minimal “pull and materialize” looks like in pseudo-JavaScript. It leaves out auth and digests, but captures the flow:
-
-```ts
-// Step 1: Fetch image manifest and layers.
-async function fetchOCIImage(ref: {
-    registry: string;
-    repo: string;
-    tag: string;
-}) {
-    const base = `https://${ref.registry}/v2/${ref.repo}`;
-    const token = await getBearerToken(ref); // standard registry auth flow
-    const headers = { Authorization: `Bearer ${token}` };
-
-    const manifest = await (
-        await fetch(`${base}/manifests/${ref.tag}`, { headers })
-    ).json();
-    const layers = manifest.layers.filter((l: any) =>
-        l.mediaType.includes("tar")
-    );
-
-    // Step 2: Apply tar layers into a virtual filesystem.
-    for (const layer of layers) {
-        const resp = await fetch(`${base}/blobs/${layer.digest}`, { headers });
-        const stream = resp.body; // Web Streams API
-        await untarIntoVFS(stream); // your tar reader writes into vfs
-    }
-
-    const configDigest = manifest.config.digest;
-    const config = await (
-        await fetch(`${base}/blobs/${configDigest}`, { headers })
-    ).json();
-
-    return { config }; // contains entrypoint/cmd/env/workingDir
+interface OciManifest {
+    schemaVersion: 2;
+    mediaType: string;
+    config: OciDescriptor;
+    layers: OciDescriptor[];
 }
 
-// Untar to your vfs (sketch).
-async function untarIntoVFS(stream: ReadableStream<Uint8Array>) {
-    const reader = stream.getReader();
-    let buffer = new Uint8Array(0);
-    while (true) {
-        const { value, done } = await reader.read();
-        if (done) break;
-        buffer = concat(buffer, value);
-        while (hasCompleteTarEntry(buffer)) {
-            const { header, file, rest } = takeTarEntry(buffer);
-            buffer = rest;
-            if (header.typeflag === "0" /* file */) {
-                vfs.writeFile(`/${header.name}`, file);
-            } else if (header.typeflag === "5" /* dir */) {
-                vfs.mkdirp(`/${header.name}`);
-            } else if (header.typeflag === "2" /* symlink */) {
-                vfs.symlink(`/${header.name}`, header.linkname);
-            }
-        }
-    }
-}
-```
+class LayerCache {
+    // Store blobs by digest in IndexedDB. Fallback to in-memory Map if needed.
+    private static DB_NAME = "oci-layer-cache";
+    private mem = new Map<Digest, ArrayBuffer>();
+    constructor(private idb?: IDBDatabase) {}
 
-At the end of this, you have a container’s root filesystem in memory (or OPFS). The missing piece is _how to run the entrypoint_. In a real Linux container, that’s an ELF binary using Linux syscalls. In the browser you typically choose one of:
-
--   **Wasm-native entrypoints**: the image is built for WASI instead of Linux, so the entrypoint is `program.wasm`. (There’s ongoing work to store Wasm modules directly as OCI artifacts.)
--   **Runtime shims**: you “exec” a Wasm runtime that can interpret scripts (Node, Python) using Wasm builds of those runtimes.
--   **User-space emulation**: advanced systems map Linux-style calls onto WASI/WASIX. This is bleeding-edge and comes with trade-offs.
-
-> **Mini-summary:** The browser can understand container _artifacts_ (OCI) and hydrate filesystems. Executing the entrypoint requires compatibility with the browser’s capability set—usually via Wasm.
-
----
-
-## Networking: Sockets Without Sockets
-
-Containers expect TCP/IP. Browsers don’t expose raw sockets (for good reasons). How do browser-hosted environments “talk to the internet”?
-
--   **HTTP(S)**: direct `fetch` is easy—but only to HTTP(S) endpoints, with CORS constraints.
--   **WebSocket/WebTransport Proxies**: to simulate outbound TCP, environments proxy socket semantics through a service that multiplexes many virtual streams over a single browser-friendly connection. The in-browser runtime implements `connect()`, `send()`, `recv()` against that tunnel.
--   **Localhost**: some environments create an in-tab loopback “network” so `localhost:3000` is actually a JS implementation of a TCP stack feeding your dev server. It’s smoke and mirrors—but very effective smoke.
-
-A tiny sketch of a socket shim:
-
-```ts
-class Socket {
-    #stream: WebSocket;
-
-    constructor() {
-        this.#stream = new WebSocket("wss://tcp-proxy.example/socket");
-    }
-
-    async connect(host: string, port: number) {
-        // Ask the proxy to open a TCP connection on our behalf.
-        this.#stream.send(JSON.stringify({ op: "connect", host, port }));
-        // Proxy replies with success/error; we resolve or throw.
-    }
-
-    send(data: Uint8Array) {
-        this.#stream.send(data);
-    }
-
-    async recv(): Promise<Uint8Array> {
-        return new Promise((resolve) => {
-            this.#stream.onmessage = (ev) => resolve(new Uint8Array(ev.data));
+    async get(d: Digest): Promise<ArrayBuffer | undefined> {
+        if (this.mem.has(d)) return this.mem.get(d);
+        if (!this.idb) return undefined;
+        return new Promise((resolve, reject) => {
+            const tx = this.idb!.transaction("blobs", "readonly");
+            const req = tx.objectStore("blobs").get(d);
+            req.onsuccess = () =>
+                resolve(req.result as ArrayBuffer | undefined);
+            req.onerror = () => reject(req.error);
         });
     }
 
-    close() {
-        this.#stream.close();
+    async put(d: Digest, data: ArrayBuffer): Promise<void> {
+        this.mem.set(d, data);
+        if (!this.idb) return;
+        await new Promise<void>((resolve, reject) => {
+            const tx = this.idb!.transaction("blobs", "readwrite");
+            const req = tx.objectStore("blobs").put(data, d);
+            req.onsuccess = () => resolve();
+            req.onerror = () => reject(req.error);
+        });
     }
+
+    static async open(): Promise<LayerCache> {
+        return new Promise((resolve) => {
+            const req = indexedDB.open(LayerCache.DB_NAME, 1);
+            req.onupgradeneeded = () => {
+                const db = req.result;
+                if (!db.objectStoreNames.contains("blobs")) {
+                    db.createObjectStore("blobs");
+                }
+            };
+            req.onsuccess = () => resolve(new LayerCache(req.result));
+            req.onerror = () => resolve(new LayerCache(undefined)); // degrade gracefully
+        });
+    }
+}
+
+async function sha256(buf: ArrayBuffer): Promise<string> {
+    const hash = await crypto.subtle.digest("SHA-256", buf);
+    return [...new Uint8Array(hash)]
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join("");
+}
+
+async function fetchByDigest(
+    registryUrl: string,
+    desc: OciDescriptor,
+    cache: LayerCache
+): Promise<ArrayBuffer> {
+    const cached = await cache.get(desc.digest);
+    if (cached) return cached;
+
+    // In practice, use registry auth (Bearer) and robust error handling
+    const url = `${registryUrl}/blobs/${desc.digest}`;
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`fetch failed ${resp.status} for ${url}`);
+    const buf = await resp.arrayBuffer();
+
+    const hex = await sha256(buf);
+    const expected = desc.digest.replace("sha256:", "");
+    if (hex !== expected)
+        throw new Error(`digest mismatch: expected ${expected}, got ${hex}`);
+
+    await cache.put(desc.digest as Digest, buf);
+    return buf;
+}
+
+// --- Overlay FS (naive): read-only base + read-write upper in memory ---
+
+type Mode = "file" | "dir" | "symlink";
+interface Node {
+    mode: Mode;
+    data?: Uint8Array; // for files
+    children?: Map<string, Node>; // for dirs
+    target?: string; // for symlink
+}
+
+class MemFS {
+    private root: Node = { mode: "dir", children: new Map() };
+
+    mkdirp(path: string) {
+        /* create dirs recursively */
+    }
+    writeFile(path: string, data: Uint8Array) {
+        /* store file data */
+    }
+    readFile(path: string): Uint8Array {
+        /* resolve and read */
+    }
+    // For brevity, these are left as an exercise; focus on tar apply below.
+}
+
+class OverlayFS {
+    constructor(private base: MemFS, private upper: MemFS) {}
+    readFile(path: string): Uint8Array {
+        try {
+            return this.upper.readFile(path);
+        } catch {}
+        return this.base.readFile(path);
+    }
+    writeFile(path: string, data: Uint8Array) {
+        this.upper.writeFile(path, data);
+    }
+}
+
+// --- Apply a tar archive to a MemFS ---
+// In practice you'll use a tiny tar parser. This shows the intent.
+
+async function applyTar(fs: MemFS, tar: Uint8Array) {
+    // Parse ustar headers; handle regular files/dirs/symlinks.
+    // Each header is 512 bytes; file contents follow, padded to 512-byte records.
+    let off = 0;
+    while (off + 512 <= tar.byteLength) {
+        const hdr = tar.subarray(off, off + 512);
+        off += 512;
+
+        const name = readCString(hdr.subarray(0, 100));
+        if (!name) break; // two consecutive zero headers end the archive
+        const typeflag = String.fromCharCode(hdr[156] || 0);
+        const sizeOct = readCString(hdr.subarray(124, 124 + 12));
+        const size = parseInt(sizeOct, 8) || 0;
+
+        if (typeflag === "0" || typeflag === "\0") {
+            const body = tar.subarray(off, off + size);
+            fs.mkdirp(dirname(name));
+            fs.writeFile("/" + name, body);
+            off += Math.ceil(size / 512) * 512;
+        } else if (typeflag === "5") {
+            fs.mkdirp("/" + name);
+        } else if (typeflag === "2") {
+            // symlink; omitted for brevity
+        } else {
+            // ignore other types in this minimal example
+        }
+    }
+}
+
+function readCString(arr: Uint8Array): string {
+    const end = arr.indexOf(0);
+    return new TextDecoder().decode(end >= 0 ? arr.subarray(0, end) : arr);
+}
+function dirname(path: string): string {
+    const i = path.lastIndexOf("/");
+    return i <= 0 ? "/" : path.slice(0, i);
 }
 ```
 
-The WASI `sock_*` calls get wired to this shim. It’s not “real” TCP in the tab; it’s a capability-mediated pipe to something that is.
+**What that gives you:** an image puller and a filesystem you control. From there, you can launch a Wasm binary that expects a POSIX-ish environment and mount this overlay as its root.
 
 ---
 
-## Process Model: “fork,” Signals, and the Reality Check
+## Launching a process: WASI in the browser
 
-POSIX expects `fork`, `exec`, `waitpid`, signals, and file descriptor inheritance. WebAssembly 1.0 gave us _none_ of these. Projects have taken three paths:
-
-1. **Avoid fork/exec**: design the toolchain so processes are cheap (one Wasm module per “process”) and use message passing.
-2. **WASI extensions**: proposals (and community extensions like WASIX) add process creation, sockets, and more. These work in server runtimes and can be polyfilled in browsers with varying fidelity.
-3. **Snapshot-and-spawn**: some systems freeze a Wasm instance’s memory and table, then copy it to create “children,” faking `fork` behavior for typical use cases (think `spawn` with inherited stdio and environment).
-
-The takeaway is practical: **most dev workflows don’t need perfect POSIX**. If your environment runs Node, a package manager, a build tool, a test runner, and a dev server, you’re 90% there. The final 10% (ptrace, low-level signals, kernel features) remains out of scope for browsers by design.
-
----
-
-## Putting It Together: A Browser-Native “Container Run”
-
-Let’s outline a flow that “runs” a containerized app in a tab:
-
-1. **Boot**: load the page; a Service Worker preps caches and a Wasm runtime.
-2. **Fetch**: pull an OCI image, apply its layers into OPFS.
-3. **Resolve entrypoint**: if it’s a Wasm module (`*.wasm`) or a script (Node/Python) with a Wasm runtime available, proceed; else show a compatibility error.
-4. **Mounts**: create bind-mounts from `/workspace` to a project folder in OPFS; set env vars.
-5. **Start**: instantiate the Wasm runtime with WASI bindings (stdio, clock, random, fs, sockets). Hook stdio to an on-page terminal.
-6. **Network**: wire sockets to a WebSocket/WebTransport proxy; expose loopback to the dev server.
-7. **Persistence**: intercept writes to cache layers; layer filesystem changes so you can create “commits” back into OCI-like diffs if needed.
-8. **Share**: serialize the workspace to an opaque URL or push the filesystem to a remote store; collaborators click a link and land in the exact state.
-
-If that sounds like a properly engineered container runtime, it is—just implemented with browser primitives.
-
----
-
-## Performance: Start Fast, Stay Fast
-
-Browser-driven infra lives or dies on perceived performance. Three tactics matter:
-
--   **Eager streaming & progressive hydration**: start execution before the whole image is present. You can stream a tar layer and materialize only the files touched by the entrypoint. The Web Streams API makes this natural.
--   **Dedup across tabs and sessions**: caches (HTTP, Service Worker, OPFS) are your friend. Pin common layers (base images, package registries) across projects.
--   **Snapshotting**: if your runtime supports it, snapshot a warm process to disk and resume instantly. This is how some systems achieve “project opens in ~1s.”
-
-It’s not universally faster than local containers—especially for CPU-heavy builds—but the **time-to-first-keystroke** and **zero install** often win.
-
----
-
-## Security: A Different Threat Model (Mostly Better)
-
-Running untrusted code locally means it can read your files, open sockets, and sniff your network. Running untrusted code in a tab means:
-
--   It lives inside the **web sandbox** (same-origin, CORS, CSP).
--   It only sees **capabilities you granted** (VFS mounts, proxies).
--   It cannot access your host filesystem or kernel.
--   It still needs careful **supply-chain hygiene** (images, modules, and registries can be compromised).
-
-One sharp edge: **proxy services** for sockets effectively act as ambient network authority. Treat them like you’d treat a VPN egress or NAT gateway: audit, authenticate, and log.
-
----
-
-## What Cloud IDEs Gain (and What They Don’t)
-
-**Gains:**
-
--   **Zero-install onboarding**: a link boots a full environment.
--   **Deterministic sandboxes**: fewer “works on my machine” bugs.
--   **Cost shift to clients**: less server spend for ephemeral dev.
--   **Offline-ish**: with pre-cached layers and registries, you can do serious work on a plane.
--   **Safer PR previews**: run untrusted contributor code in the browser.
-
-**Trade-offs:**
-
--   **Limited kernel features**: anything that needs raw devices, privileged syscalls, or ptrace is out.
--   **Network constraints**: CORS, proxies, and corporate firewalls complicate things.
--   **Performance ceilings**: heavy native toolchains (e.g., complex C++ compilers) may lag without careful tuning and caching.
--   **State management**: syncing large workspaces between local, browser, and remote gets tricky.
-
----
-
-## A Walkthrough: Building a Browser-Side Layered Filesystem
-
-To make this concrete, here’s a minimal layered filesystem model you can adapt. We’ll keep it high level and readable.
+Browsers don’t expose WASI directly, but a tiny JS runtime can **polyfill** the WASI imports your module expects. Conceptually:
 
 ```ts
-type File = { data: Uint8Array; mode: number; mtime: number; symlink?: string };
+// Pseudocode: start a WASI module in the browser, mounting our overlay at "/"
+import { compileWasm } from "./compile"; // e.g., fetch & WebAssembly.compile
+import { createWasiImports } from "./wasi-broker"; // we'll sketch this next
 
-class Layer {
-    files = new Map<string, File>();
-    whiteouts = new Set<string>(); // OCI whiteouts delete lower files
+async function runWasi(
+    wasmBytes: ArrayBuffer,
+    fs: OverlayFS,
+    args: string[],
+    env: Record<string, string>
+) {
+    const wasi = createWasiImports({ fs, args, env, preopens: { "/": "/" } });
+    const mod = await WebAssembly.compile(wasmBytes);
+    const instance = await WebAssembly.instantiate(mod, {
+        wasi_snapshot_preview1: wasi.imports,
+    });
+    wasi.start(instance); // calls _start (or _initialize) in the module
 }
-
-class UnionFS {
-    constructor(private layers: Layer[]) {}
-
-    stat(path: string): File | undefined {
-        for (let i = this.layers.length - 1; i >= 0; i--) {
-            const l = this.layers[i];
-            if (l.whiteouts.has(path)) return undefined;
-            const f = l.files.get(path);
-            if (f) return f;
-        }
-        return undefined;
-    }
-
-    readFile(path: string): Uint8Array {
-        const f = this.stat(path);
-        if (!f) throw new Error("ENOENT");
-        if (f.symlink) return this.readFile(f.symlink);
-        return f.data;
-    }
-
-    // Writes always go to the top layer
-    writeFile(path: string, data: Uint8Array, mode = 0o644) {
-        const top = this.layers[this.layers.length - 1];
-        top.whiteouts.delete(path);
-        top.files.set(path, { data, mode, mtime: Date.now() });
-    }
-
-    unlink(path: string) {
-        const top = this.layers[this.layers.length - 1];
-        top.whiteouts.add(path);
-        top.files.delete(path);
-    }
-
-    list(prefix: string): string[] {
-        const out = new Set<string>();
-        for (let i = 0; i < this.layers.length; i++) {
-            for (const p of this.layers[i].files.keys()) {
-                if (p.startsWith(prefix)) out.add(p);
-            }
-            for (const w of this.layers[i].whiteouts) {
-                if (w.startsWith(prefix)) out.delete(w);
-            }
-        }
-        return Array.from(out);
-    }
-}
-
-// Usage:
-// base layer ← from OCI
-// app layer  ← from OCI
-// work layer ← mutable (user edits)
-const base = new Layer();
-const app = new Layer();
-const work = new Layer();
-const fs = new UnionFS([base, app, work]);
-
-// write a file (goes to work layer)
-fs.writeFile(
-    "/workspace/main.js",
-    new TextEncoder().encode("console.log('hi')")
-);
 ```
 
-This is enough to:
-
--   Apply OCI tar layers into `Layer` objects.
--   Overlay mutable state on top.
--   Export diffs from `work` as a new tar layer for sharing/snapshotting.
-
-Pair it with OPFS persistence and you’ve got a resilient on-device cache.
+The **syscall broker** (a small TypeScript class) becomes the heart of your “container.” It decides which files exist, what time it is, what entropy is available, and what “network” means.
 
 ---
 
-## Debugging the Illusion
+## The syscall broker: mapping WASI to browser capabilities
 
-When something breaks in a browser-hosted environment, the failure modes differ from Linux:
+WASI is deliberately **capability-oriented**. Instead of raw “open anything,” you get `preopens`: specific directories the process can see. Instead of raw sockets, you might provide a `fetch`-backed API or a WebSocket. Here’s a compact sketch of a broker for common calls:
 
--   **EACCES where POSIX would succeed**: you forgot to preopen or mount a directory in WASI.
--   **Networking flakiness**: your WebSocket proxy drops under load; add backpressure and retry.
--   **CORS**: your image registry or package mirror needs CORS headers for `fetch` to work in the browser.
--   **Clock or entropy**: cryptographic libraries may assume `getrandom`; ensure WASI random is wired to `crypto.getRandomValues`.
+```ts
+// "wasi-broker.ts" - simplified WASI broker for the browser.
+// This example covers fds (stdin/out/err), preopens, basic fs ops, clocks, random.
 
-Instrumentation tips:
+interface BrokerOptions {
+    fs: OverlayFS;
+    args: string[];
+    env: Record<string, string>;
+    preopens: Record<string, string>; // guestPath -> hostPath (we only support "/"->"/")
+}
 
--   Expose WASI syscalls to a developer console log (behind a flag).
--   Add a “sysfs-like” page that lists mounts, env vars, and open file descriptors.
--   Use the Performance API to measure layer apply times and startup latency.
+export function createWasiImports(opts: BrokerOptions) {
+    const text = new TextDecoder();
+    const bin = new TextEncoder();
+
+    // File descriptor table: 0=stdin, 1=stdout, 2=stderr, 3+=opened files
+    const fds: Map<
+        number,
+        { path: string; offset: number; readable: boolean; writable: boolean }
+    > = new Map();
+    fds.set(0, { path: "stdin:", offset: 0, readable: true, writable: false });
+    fds.set(1, { path: "stdout:", offset: 0, readable: false, writable: true });
+    fds.set(2, { path: "stderr:", offset: 0, readable: false, writable: true });
+    let nextFd = 3;
+
+    // Memory accessor (set after instantiation)
+    let memory: WebAssembly.Memory;
+
+    function view(): DataView {
+        return new DataView(memory.buffer);
+    }
+    function u8(off: number, len: number) {
+        return new Uint8Array(memory.buffer, off, len);
+    }
+
+    const wasi = {
+        args_sizes_get: (argcPtr: number, argvBufSizePtr: number) => {
+            const args = opts.args.map((s) => bin.encode(s));
+            const argc = args.length;
+            const size = args.reduce((a, b) => a + b.length + 1, 0);
+            view().setUint32(argcPtr, argc, true);
+            view().setUint32(argvBufSizePtr, size, true);
+            return 0;
+        },
+        args_get: (argvPtr: number, argvBufPtr: number) => {
+            let buf = argvBufPtr;
+            for (const s of opts.args) {
+                view().setUint32(argvPtr, buf, true);
+                argvPtr += 4;
+                const enc = bin.encode(s);
+                u8(buf, enc.length).set(enc);
+                u8(buf + enc.length, 1)[0] = 0;
+                buf += enc.length + 1;
+            }
+            return 0;
+        },
+        environ_sizes_get: (countPtr: number, sizePtr: number) => {
+            const env = Object.entries(opts.env).map(([k, v]) => `${k}=${v}`);
+            view().setUint32(countPtr, env.length, true);
+            view().setUint32(
+                sizePtr,
+                env.reduce((a, s) => a + s.length + 1, 0),
+                true
+            );
+            return 0;
+        },
+        environ_get: (environPtr: number, environBuf: number) => {
+            let buf = environBuf;
+            for (const [k, v] of Object.entries(opts.env)) {
+                const val = bin.encode(`${k}=${v}`);
+                view().setUint32(environPtr, buf, true);
+                environPtr += 4;
+                u8(buf, val.length).set(val);
+                u8(buf + val.length, 1)[0] = 0;
+                buf += val.length + 1;
+            }
+            return 0;
+        },
+        fd_write: (
+            fd: number,
+            iovs: number,
+            iovsLen: number,
+            nwritten: number
+        ) => {
+            let n = 0;
+            for (let i = 0; i < iovsLen; i++) {
+                const ptr = view().getUint32(iovs + i * 8, true);
+                const len = view().getUint32(iovs + i * 8 + 4, true);
+                const chunk = u8(ptr, len);
+                const str = text.decode(chunk);
+                if (fd === 1) console.log(str);
+                else if (fd === 2) console.error(str);
+                n += len;
+            }
+            view().setUint32(nwritten, n, true);
+            return 0;
+        },
+        path_open: (
+            dirfd: number,
+            dirflags: number,
+            pathPtr: number,
+            pathLen: number,
+            oflags: number,
+            fsRightsBase: number,
+            fsRightsInheriting: number,
+            fdflags: number,
+            fdOut: number
+        ) => {
+            const path = text.decode(u8(pathPtr, pathLen));
+            // Resolve against "/" for simplicity
+            const full = path.startsWith("/") ? path : "/" + path;
+
+            // Lazy create file on write truncate; real code should handle flags properly.
+            try {
+                opts.fs.readFile(full);
+            } catch {
+                opts.fs.writeFile(full, new Uint8Array()); // create empty
+            }
+            fds.set(nextFd, {
+                path: full,
+                offset: 0,
+                readable: true,
+                writable: true,
+            });
+            view().setUint32(fdOut, nextFd, true);
+            nextFd++;
+            return 0;
+        },
+        fd_read: (fd: number, iovs: number, iovsLen: number, nread: number) => {
+            const ent = fds.get(fd);
+            if (!ent) return 8; // badf
+            const data = opts.fs.readFile(ent.path);
+            let off = ent.offset,
+                total = 0;
+            for (let i = 0; i < iovsLen; i++) {
+                const ptr = view().getUint32(iovs + i * 8, true);
+                const len = view().getUint32(iovs + i * 8 + 4, true);
+                const chunk = data.subarray(off, off + len);
+                u8(ptr, chunk.length).set(chunk);
+                off += chunk.length;
+                total += chunk.length;
+                if (chunk.length < len) break; // EOF
+            }
+            ent.offset = off;
+            view().setUint32(nread, total, true);
+            return 0;
+        },
+        fd_close: (fd: number) => {
+            fds.delete(fd);
+            return 0;
+        },
+        random_get: (buf: number, bufLen: number) => {
+            crypto.getRandomValues(u8(buf, bufLen));
+            return 0;
+        },
+        clock_time_get: (id: number, precision: bigint, timePtr: number) => {
+            // 0: realtime, 1: monotonic
+            const ns = BigInt(
+                id === 1 ? performance.now() * 1e6 : Date.now() * 1e6
+            );
+            // write 64-bit little endian
+            const lo = Number(ns & 0xffffffffn);
+            const hi = Number((ns >> 32n) & 0xffffffffn);
+            view().setUint32(timePtr, lo, true);
+            view().setUint32(timePtr + 4, hi, true);
+            return 0;
+        },
+        // ... more WASI fns as your apps demand ...
+    };
+
+    return {
+        imports: wasi,
+        start(instance: WebAssembly.Instance) {
+            // @ts-ignore
+            memory = instance.exports.memory as WebAssembly.Memory;
+            // @ts-ignore
+            const start = (instance.exports._start ||
+                instance.exports._initialize) as Function;
+            start();
+        },
+    };
+}
+```
+
+This is enough to run simple **Rust/Go/C** programs compiled to **`wasm32-wasi`** that read/write files, print logs, and use time/entropy. For a cloud IDE, you’d layer in:
+
+-   **Networking:** proxy the module’s HTTP calls via `fetch` or `WebTransport` (until a WASI sockets API lands).
+-   **Process model:** emulate `fork/exec` and subprocesses by starting more Wasm instances (with message passing or SharedArrayBuffer if you need threads).
+-   **PTYs:** connect a terminal UI to stdin/stdout with a ring buffer.
+-   **Signals/exits:** map `SIGINT` to a UI action (Ctrl-C) and propagate exit statuses.
+
+At that point, a _lot_ of familiar tooling “just works” because so much of developer tooling is stdin/out + files.
 
 ---
 
-## The Emerging Convergence: Containers + Wasm
+## But can it run Docker… really?
 
-On servers, the container ecosystem is adding first-class support for Wasm modules as OCI artifacts and as runtimes behind **containerd**. In browsers, we’re going the other direction: treating OCI images as a **distribution format** for code that executes via Wasm.
+Short answer: **not the daemon.** You won’t run `dockerd` in a browser and you won’t get cgroups, namespaces, or kernel syscalls. What you _can_ do is reproduce **Docker’s developer ergonomics**:
 
-This convergence suggests a future where:
+-   **`docker pull` →** Fetch OCI layers over HTTP, verify digests, and cache them in IndexedDB.
+-   **`docker run` →** Launch a Wasm module and mount a reconstructed rootfs.
+-   **Entrypoints & env:** Pass environment variables and arguments via WASI.
+-   **Port forwarding:** Expose the app’s HTTP server via a Service Worker or a dev server that bridges to your module.
 
--   Teams publish **dual-target images**: Linux for servers, WASI for browsers/edge/devtools.
--   Registries serve the same tags to both worlds.
--   Tooling can **promote** a browser-side snapshot (your in-tab work layer) back into an image for CI—without leaving the page.
+For many languages (Rust, Go, Zig, C), compiling to `wasm32-wasi` is straightforward. For **Node.js** and **Python**, two strategies are common:
 
-It’s not fully here yet, but the pieces are aligning.
+-   **Userland runtimes compiled to Wasm** (e.g., a Wasm Node). These are amazing for “npm start” style projects.
+-   **Runtime as host + app in Wasm**: parse and run your language at the host level (browser), and treat libraries/app code as Wasm modules. This is rarer but can shine for plugin systems.
 
----
-
-## Practical Guidance for Cloud IDE Builders
-
-1. **Choose your baseline:**
-   Start with a Wasm-first model (e.g., Node in Wasm, Python via Pyodide) and layer in OCI image support for assets and filesystem hydration. It’s the quickest path to “wow.”
-
-2. **Lean into capability security:**
-   Don’t mount everything. Make the default sandbox tiny and ask for explicit grants (e.g., “Allow access to this project folder?”).
-
-3. **Proxy well:**
-   Build or adopt a robust WebSocket/WebTransport TCP proxy with auth, quota, and observability. It’s your network lifeline.
-
-4. **Cache aggressively:**
-   Bake a background prefetch of common bases into your Service Worker. Measure cache hit rate like you would measure CDN hit rate.
-
-5. **Offer snapshots:**
-   Snap/resume dev servers and build caches. “Open in 1–2s” is a signature feature users notice.
-
-6. **Be honest about compat:**
-   Publish a compatibility matrix. If something needs kernel features you won’t emulate, say so early.
-
-7. **Make sharing delightful:**
-   URLs that encode workspace state (or point to a durable store) turn “it compiles on my machine” into “it compiles in this link.”
+Think of it as **container-shaped experiences** powered by **Wasm**. You get reproducibility (images!), fast startup (no kernel), and a principled sandbox (browser + Wasm). You give up kernel-level isolation and some syscalls—and often discover you didn’t need them for dev-time tasks.
 
 ---
 
-## Historical Context (Because it’s Fun)
+## A tiny “Dockerfile to Wasm” thought experiment
 
--   **Native Client (NaCl) and PNaCl** tried to run native code safely in Chrome a decade ago; the web community wanted a standards-based path.
--   **asm.js** proved that JS engines could JIT a subset of JS to near-native speed.
--   **WebAssembly** standardized the idea and decoupled it from JS syntax.
--   **WASI** is completing the picture: safe, portable system interfaces that run anywhere—browsers, servers, edge.
+Let’s demystify the build pipeline. Suppose you have a repo with a `Dockerfile`:
 
-We’ve come a long way from “minified JS all the way down” to “ship a compiler toolchain in your tab.”
+```dockerfile
+FROM rust:1.80 as build
+WORKDIR /src
+COPY . .
+RUN cargo build --release --target wasm32-wasi
 
----
+FROM scratch
+COPY --from=build /src/target/wasm32-wasi/release/app.wasm /app.wasm
+ENTRYPOINT ["/app.wasm"]
+```
 
-## Limitations and Honest Edges
+An **OCI registry** happily stores that “image,” even though its “binary” is a `.wasm`. Your browser pulls the layers, extracts `/app.wasm`, and instantiates it with WASI.
 
-Let’s list the sharp corners you will hit:
-
--   **No kernel, no cgroups**: you can simulate resource limits but not enforce them with kernel authority.
--   **File watching**: chokidar-style watch works, but inotify semantics aren’t available. Expect occasional differences.
--   **Pathological builds**: giant C++ link steps are slow without native toolchains. Consider remote cache or split compilation.
--   **Binary compatibility**: ELF binaries built for Linux do not run in the browser. You’ll need WASI builds, language runtimes in Wasm, or emulation layers with overhead.
-
-These aren’t deal-breakers for a huge class of dev workflows (web, Node, Python, Rust, docs, tests, CLIs). They are worth naming early for power users.
+You can go further and package **config files** and **static assets** in layers. The difference from Linux containers is simply the **runtime**: instead of `runc` and a kernel, you have “WASM + broker.”
 
 ---
 
-## Key Takeaways
+## Performance: cold starts, IO, and concurrency
 
--   **Browser-driven infrastructure** is real and useful: with Wasm + WASI + smart shims, a web page can execute serious developer workloads safely and fast.
--   **“Docker in the browser”** usually means _OCI-aware filesystems plus Wasm-compatible entrypoints_, not a Linux kernel in a tab.
--   **Security improves** by default: capability-scoped filesystems, proxied networking, and a hardened sandbox beat “run this on your laptop.”
--   **Performance is competitive** when you stream, cache, and snapshot wisely—especially for iterative dev loops.
--   **Convergence is coming**: the same image references and registries will increasingly serve both servers and browsers with appropriate targets.
+**Cold start:**
+
+-   Pulling layers over HTTP is fast if you cache aggressively by content digest.
+-   Wasm instantiation is quick (streaming compilation is supported in browsers).
+-   If you need a toolchain (e.g., `rustc` in the browser), you’ll want prebuilt Wasm toolchains cached offline. For day-to-day dev, this is best avoided—prefer builds in CI and run the app in the browser.
+
+**IO:**
+
+-   FS calls bounce through JS; keep them batched.
+-   Use a layered FS: read-only layers in IDB, write-heavy upper in memory, periodic snapshots to IDB.
+
+**Networking:**
+
+-   Outbound is easy via `fetch`. Inbound (listening sockets) isn’t a native browser concept. Expose servers by routing to a **Service Worker** that binds a local URL like `https://dev.local/app` and forwards to the module’s HTTP handler.
+
+**Concurrency:**
+
+-   Wasm threads in the browser require **cross-origin isolation** (COOP+COEP). With that in place, SharedArrayBuffer + Web Workers give solid parallelism.
+-   If you don’t control headers (e.g., embedding in arbitrary sites), fall back to multiprocess via multiple Wasm instances + message passing.
 
 ---
 
-## Further Reading & Exploration
+## Security model: two sandboxes and a broker
 
--   WebAssembly core concepts and the WASI specification (capability-oriented design).
--   How OCI images are structured: manifests, layers, media types, and digests.
--   Building Service Worker–backed caches for large binary artifacts.
--   Web Streams API for progressive layer hydration and tar parsing.
--   WASI extensions (sockets, process model) and community efforts like WASIX.
--   Patterns for TCP-over-WebSocket/WebTransport proxying, backpressure, and auth.
--   Case studies of browser-hosted Node/Python/Rust toolchains and their compatibility profiles.
+This stack is inherently **defense-in-depth**:
 
-If you’re building a cloud IDE or you want to make your dev tools runnable anywhere, the browser is no longer a toy runtime—it’s a **portable, secure compute fabric**. The question isn’t whether we can run containers in the browser; it’s **which parts of the container experience we bring over on purpose**. The rest, as always, is good product design and careful engineering.
+1. **Browser sandbox** (process-per-site, JIT hardening, CORS, same-origin, COI).
+2. **Wasm sandbox** (no arbitrary pointers, linear memory bounds).
+3. **WASI capability set** you choose to expose via the broker.
+
+There’s no kernel to escape because there _isn’t_ a kernel. The primary risks are:
+
+-   **Broker bugs**: incorrect path traversal checks (`/../../secret`) or missing checks in `path_open`.
+-   **Supply chain**: pulling untrusted images. Use content addressability (SHA-256), and, if possible, **signatures** (e.g., Cosign-style) verified in the client.
+-   **Data exfiltration**: if you mount host files (e.g., via the File System Access API), make those mounts explicit and ephemeral.
+
+The upside versus “remote containers” is that **secrets don’t leave the developer’s machine**. Your cloud IDE can connect to a repo and a browser runtime; the code executes locally in the tab.
+
+---
+
+## What this unlocks for cloud IDEs
+
+**1) Startup in seconds, not minutes.**
+No remote VM to schedule, no container pull on the server. Fetch a small Wasm binary + a handful of layers and start.
+
+**2) Cost inversion.**
+Move compute from your cloud bill to the developer’s laptop/phone. Your backend becomes state + sync + collaboration, not CPU.
+
+**3) Offline and spotty network resilience.**
+Once layers and toolchains are cached in the browser, you can keep building/running tests on a plane.
+
+**4) Safer multi-tenant design.**
+Each tab is a separate process and origin; the risk blast radius is small. You’re not multiplexing thousands of containers on a single VM.
+
+**5) Better DX for forks and PRs.**
+A link can boot an environment that is bit-for-bit the same across teammates, without asking them to install anything.
+
+---
+
+## Where it still hurts (and workarounds)
+
+-   **Native dependencies.** If your app shells out to system packages (`imagemagick`, `ffmpeg`) not compiled to Wasm, you’ll need Wasm builds or remote fallbacks.
+-   **Long-running background tasks.** Tabs sleep. Service Workers help, but browsers aren’t reliable daemons. Persist state and resume.
+-   **Network listeners.** No raw `listen(2)`. Use a Service Worker or a remote tunnel (reverse proxy) if you need inbound connections during development.
+-   **Heavy memory / file IO.** Browsers impose quotas on IndexedDB and memory. Use streaming, chunking, and aggressive cleanup.
+-   **Toolchains.** Building large codebases in the browser is _possible_ but often not fun. Consider a hybrid: compile in CI, run in the browser for inner loops.
+
+---
+
+## A worked example: “hello web db” as a Wasm microservice in a tab
+
+Here’s a tiny Rust program that talks to a “database” (a JSON file) and serves an HTTP endpoint. We’ll pair it with a Service Worker to route HTTP.
+
+**Rust (`wasm32-wasi` target):**
+
+```rust
+// Cargo.toml
+// [package] name="hello-web-db" version="0.1.0" edition="2021"
+// [dependencies] serde = { version="1", features=["derive"] } serde_json="1"
+
+use std::io::{Read, Write};
+
+#[derive(serde::Serialize, serde::Deserialize, Default)]
+struct Counter { hits: u64 }
+
+fn load() -> Counter {
+    match std::fs::read_to_string("/data/counter.json") {
+        Ok(s) => serde_json::from_str(&s).unwrap_or_default(),
+        Err(_) => Counter::default(),
+    }
+}
+
+fn save(c: &Counter) {
+    let s = serde_json::to_string_pretty(c).unwrap();
+    std::fs::create_dir_all("/data").ok();
+    std::fs::write("/data/counter.json", s).unwrap();
+}
+
+fn main() {
+    // Very silly "HTTP over stdin/stdout" protocol for the demo.
+    // In the browser, the broker feeds requests and reads responses.
+    let mut buf = String::new();
+    std::io::stdin().read_to_string(&mut buf).unwrap();
+
+    let mut c = load();
+    c.hits += 1;
+    save(&c);
+
+    let body = format!("hello from wasm, hits={}\n", c.hits);
+    let resp = format!(
+        "HTTP/1.1 200 OK\r\nContent-Length: {}\r\nContent-Type: text/plain\r\n\r\n{}",
+        body.len(),
+        body
+    );
+    std::io::stdout().write_all(resp.as_bytes()).unwrap();
+}
+```
+
+**Why this weird HTTP?** In a real stack you’d use a WASI-native HTTP API or a runtime shim. This demo keeps it universal: stdin becomes the request, stdout becomes the response. The browser broker takes a `fetch` and pipes it in/out.
+
+**Broker snippet for the HTTP bridge (TypeScript):**
+
+```ts
+// Route `fetch('/svc')` to the WASI process (no real socket).
+self.addEventListener("fetch", (evt: FetchEvent) => {
+    const url = new URL(evt.request.url);
+    if (url.pathname !== "/svc") return;
+
+    evt.respondWith(handle(evt.request));
+});
+
+async function handle(req: Request): Promise<Response> {
+    const httpText = await toRawHttp(req); // construct "GET /svc HTTP/1.1 ..." text
+    const wasmStdout = await runModuleWithStdin(httpText); // start the module, feed stdin
+    return fromRawHttp(wasmStdout); // parse status/headers/body back
+}
+```
+
+By combining a Wasm process with a Service Worker, you get a dev server in a tab—no network listeners, no ports. You can iterate on local files and see changes instantly.
+
+---
+
+## The mental model: “container ergonomics, Wasm runtime, browser broker”
+
+This is the crux. Stop thinking “Linux in the browser.” Start thinking:
+
+-   **Artifacts**: OCI images and layers (because they’re great for caching and distribution).
+-   **Runtime**: WebAssembly (+ WASI) for safety and speed.
+-   **Broker**: The glue that maps syscalls to browser APIs.
+-   **Dev UX**: Docker-like commands (pull/run), package managers, env files, and terminal workflows.
+
+With that model, your design choices become clear:
+
+-   Want **max compatibility** with POSIX tools? Invest in a richer broker and a more complete userland (PTYs, signals, pipes).
+-   Want **max performance**? Keep the “container” small: single-binary apps, few layers, zero toolchains.
+-   Need **team ergonomics**? Wrap it in a cloud IDE that handles auth, policy, and sharing; let the tab do the compute.
+
+---
+
+## What changes for teams and platforms
+
+**Policy and compliance.**
+Security teams worry about code execution on laptops. Ironically, this model is _simpler_ to reason about: the browser is the sandbox you already trust. Policies can gate which registries are allowed and which capabilities the broker exposes (e.g., no host FS mounts without user gesture).
+
+**Caching strategy is your superpower.**
+A content-addressed cache in the browser turns the web into a CDN for dev environments. Pre-seed common images; cold starts vanish.
+
+**Observability shifts left.**
+Logs and metrics are local. Capture them in the page and stream summaries to your platform. For heavy telemetry, offer an opt-in remote runner.
+
+**Economics.**
+You can support thousands of developers with a modest control plane—source sync, collaboration, and policy—because you’re not paying for their CPU. That’s not only cheaper; it’s greener.
+
+---
+
+## Pragmatic guidance: when to use what
+
+**Use browser-driven environments when:**
+
+-   Your inner loop is primarily files + HTTP + stdout, and your app compiles to Wasm or runs in a Wasm userland (e.g., Node tools).
+-   You care about instant start and easy sharing (reproducible demos, docs, workshops, education).
+-   You want to minimize cloud costs for ephemeral “try it” sandboxes.
+
+**Prefer remote containers/VMs when:**
+
+-   You need privileged features (Docker-inside-Docker, kernel modules, FUSE).
+-   Your build/test requires native toolchains that aren’t reasonable to ship to browsers.
+-   You need long-running background workers and stable inbound connectivity.
+
+**Hybrid patterns that work well:**
+
+-   **Compile remotely, run locally.** CI builds artifacts (including Wasm) and pushes an image; the browser runs it instantly.
+-   **Split services.** Heavy DBs or search clusters stay remote; stateless microservices run in the tab for fast iteration.
+-   **Policy-aware capabilities.** Start with no network/FS; escalate capabilities as the developer opts in.
+
+---
+
+## Section recap
+
+-   **We don’t run a kernel in the browser.** We reproduce **container ergonomics** (OCI images, `run`, env) on top of Wasm + a broker that maps syscalls to browser APIs.
+-   **WASI is the key abstraction.** It gives you a portable surface area for files, clocks, randomness—and, increasingly, sockets.
+-   **The cache is everything.** Digest-addressed layers in IndexedDB make cold starts effectively disappear.
+-   **Security improves in practice.** You inherit the browser’s sandbox and limit capabilities explicitly.
+-   **Cloud IDEs benefit most.** Faster start, lower cost, offline capability, and safer multi-tenancy add up to a compelling shift.
+
+---
+
+## Further reading & exploration
+
+If you want to go deeper, search for these terms and projects:
+
+-   **WebAssembly runtimes & tools:** Wasmtime, Wasmer (including Wasmer-JS), WasmEdge.
+-   **WASI proposals:** Preview 1/2, Sockets, Filesystem, HTTP.
+-   **Container + Wasm bridges:** OCI artifacts for Wasm, containerd `runwasi` shims.
+-   **Browser userlands:** WebContainers-style systems for Node/npm workflows.
+-   **Package signing:** Sigstore/Cosign concepts for image verification.
+-   **Service Worker patterns:** Using SW to front local HTTP servers for dev experiences.
+
+---
+
+## Key takeaways
+
+-   “Docker in the browser” is an **illusion with benefits**: we keep Docker’s ergonomics and reproducibility while swapping the runtime for **Wasm + WASI**.
+-   The browser acts as a **capability broker** and **content-addressed cache**, not a VM.
+-   This architecture is already production-useful for dev tools and tutorials and is expanding toward richer IDEs and hybrid deployments.
+-   Start with **small, single-binary** services and **tight capability scopes**; grow complexity only as needed.
+-   For many teams, pushing the inner dev loop into the browser unlocks **speed, security, and cost wins**—without sacrificing the developer experience we love.
+
+If you’ve ever wanted your `Dockerfile` to become a shareable link that boots in two seconds, now you know how the trick works. It’s not magic—it’s Wasm. And a very clever broker.
