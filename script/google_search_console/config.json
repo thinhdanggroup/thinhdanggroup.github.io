@@ -1,0 +1,10 @@
+{
+  "site_url": "https://thinhdanggroup.github.io/",
+  "base_url": "https://thinhdanggroup.github.io",
+  "posts_pattern": "*.md",
+  "excluded_files": ["README.md", "index.md"],
+  "rate_limit_delay": 1.0,
+  "max_urls_per_batch": 10,
+  "oauth_port": 0,
+  "oauth_host": "localhost"
+}
