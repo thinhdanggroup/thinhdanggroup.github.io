@@ -61,17 +61,19 @@ show_usage() {
     echo "Usage: $0 [COMMAND] [OPTIONS]"
     echo ""
     echo "Commands:"
-    echo "  recent [DAYS]     Submit posts modified in the last N days (default: 7)"
-    echo "  git [SINCE]       Submit posts changed since git commit (default: HEAD~1)"
-    echo "  url URL           Submit a specific URL"
+    echo "  recent [DAYS]     Inspect posts modified in the last N days (default: 7)"
+    echo "  git [SINCE]       Inspect posts changed since git commit (default: HEAD~1)"
+    echo "  url URL           Inspect a specific URL"
+    echo "  csv [DAYS]        Export CSV of posts not submitted but indexable (default: 30 days)"
     echo "  setup             Setup credentials and configuration"
     echo "  test              Run in dry-run mode to test configuration"
     echo "  help              Show this help message"
     echo ""
     echo "Examples:"
-    echo "  $0 recent 3       # Submit posts from last 3 days"
-    echo "  $0 git HEAD~5     # Submit posts changed in last 5 commits"
+    echo "  $0 recent 3       # Inspect posts from last 3 days"
+    echo "  $0 git HEAD~5     # Inspect posts changed in last 5 commits"
     echo "  $0 url https://thinhdanggroup.github.io/my-post/"
+    echo "  $0 csv 30         # Export CSV of indexable but not submitted posts from last 30 days"
     echo "  $0 test           # Test what would be submitted"
     echo ""
 }
@@ -129,12 +131,12 @@ main() {
     case "${1:-recent}" in
         recent)
             days="${2:-7}"
-            print_status "Submitting posts from last $days days..."
+            print_status "Inspecting posts from last $days days..."
             run_python_script --mode recent --days "$days"
             ;;
         git)
             since="${2:-HEAD~1}"
-            print_status "Submitting posts changed since $since..."
+            print_status "Inspecting posts changed since $since..."
             run_python_script --mode git --since "$since"
             ;;
         url)
@@ -143,8 +145,13 @@ main() {
                 show_usage
                 exit 1
             fi
-            print_status "Submitting URL: $2"
+            print_status "Inspecting URL: $2"
             run_python_script --mode url --url "$2"
+            ;;
+        csv)
+            days="${2:-30}"
+            print_status "Exporting CSV of indexable but not submitted posts from last $days days..."
+            run_python_script --mode recent --days "$days" --export-csv --filter-not-submitted
             ;;
         setup)
             setup_credentials

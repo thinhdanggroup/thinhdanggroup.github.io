@@ -2,4 +2,8 @@
 User-agent: *
 Allow: /
 
+# Main sitemap
+Sitemap: https://thinhdanggroup.github.io/sitemap.xml
+
+# Legacy sitemap (keeping for compatibility)
 Sitemap: https://thinhdanggroup.github.io/c-sitemap.xml

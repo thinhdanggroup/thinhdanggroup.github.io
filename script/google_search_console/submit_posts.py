@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """
-Google Search Console URL Submission Script
+Google Search Console URL Inspection Script
 
-This script automatically submits new blog posts to Google Search Console
-for indexing. It can detect new posts based on modification time or git changes.
+This script automatically inspects new blog posts using Google Search Console's
+URL Inspection API. It provides detailed indexing status and helps identify
+potential issues. Note: Google has deprecated the programmatic indexing request
+API, so this script focuses on inspection and monitoring.
 
 Requirements:
 - Google Search Console API enabled in Google Cloud Console
-- Service account credentials or OAuth2 credentials
+- OAuth2 credentials (Desktop Application)
 - Website verified in Google Search Console
 
 Usage:
@@ -23,9 +25,10 @@ import argparse
 import logging
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Dict
 import subprocess
 import yaml
+import csv
 
 try:
     from google.oauth2 import service_account
@@ -248,13 +251,31 @@ class GoogleSearchConsoleSubmitter:
 
         return url
 
-    def submit_url(self, url: str) -> bool:
-        """Submit a single URL to Google Search Console for indexing using URL Inspection API."""
+    def inspect_url(self, url: str) -> Dict:
+        """Inspect a single URL using Google Search Console URL Inspection API."""
+        result = {
+            "url": url,
+            "success": False,
+            "coverage_state": "Unknown",
+            "verdict": "Unknown",
+            "fetch_state": "Unknown",
+            "last_crawl_time": "Unknown",
+            "indexing_allowed": "Unknown",
+            "user_canonical": "Unknown",
+            "google_canonical": "Unknown",
+            "error": None,
+        }
+
         try:
             # Use the URL inspection API to inspect the URL
-            request_body = {"inspectionUrl": url, "siteUrl": self.config["site_url"]}
+            request_body = {
+                "inspectionUrl": url,
+                "siteUrl": self.config["site_url"],
+                "languageCode": "en-US",
+            }
 
-            # First, inspect the URL to get its current status
+            # Inspect the URL to get its current status
+            self.logger.info(f"Inspecting URL: {url}")
             response = (
                 self.service.urlInspection()
                 .index()
@@ -262,43 +283,40 @@ class GoogleSearchConsoleSubmitter:
                 .execute()
             )
 
-            self.logger.info(f"URL inspection completed for: {url}")
-
-            # Check if the URL can be indexed
+            # Extract inspection results
             inspection_result = response.get("inspectionResult", {})
             index_status = inspection_result.get("indexStatusResult", {})
 
-            if index_status.get("verdict") == "PASS":
-                self.logger.info(f"URL is indexable: {url}")
+            # Basic status information
+            result["coverage_state"] = index_status.get("coverageState", "Unknown")
+            result["verdict"] = index_status.get("verdict", "Unknown")
+            result["indexing_allowed"] = index_status.get("robotsTxtState", "Unknown")
+            result["user_canonical"] = index_status.get("userCanonical", "Unknown")
+            result["google_canonical"] = index_status.get("googleCanonical", "Unknown")
 
-                # Try to request indexing (this may not be available for all accounts)
-                try:
-                    index_response = (
-                        self.service.urlInspection()
-                        .index()
-                        .request(body=request_body)
-                        .execute()
-                    )
-                    self.logger.info(f"Indexing requested for URL: {url}")
-                    return True
-                except HttpError as index_error:
-                    if index_error.resp.status == 403:
-                        self.logger.warning(
-                            f"Indexing request not available for this account. URL inspected: {url}"
-                        )
-                        return True  # Consider inspection as success
-                    else:
-                        raise index_error
-            else:
-                coverage_state = index_status.get("coverageState", "Unknown")
-                self.logger.warning(
-                    f"URL may not be indexable: {url} (Status: {coverage_state})"
-                )
-                return False
+            # Crawl information
+            crawl_result = inspection_result.get("pageFetchResult", {})
+            if crawl_result:
+                result["fetch_state"] = crawl_result.get("fetchState", "Unknown")
+
+            # Last crawl time
+            if "lastCrawlTime" in index_status:
+                result["last_crawl_time"] = index_status["lastCrawlTime"]
+
+            result["success"] = True
+
+            # Log the inspection results
+            self.logger.info(
+                f"URL {url} - Coverage: {result['coverage_state']}, Verdict: {result['verdict']}"
+            )
+
+            return result
 
         except HttpError as e:
             error_details = e.error_details[0] if e.error_details else {}
             error_reason = error_details.get("reason", "Unknown error")
+
+            result["error"] = f"HTTP {e.resp.status}: {error_reason}"
 
             if e.resp.status == 429:
                 self.logger.warning(f"Rate limit exceeded for URL: {url}")
@@ -311,28 +329,121 @@ class GoogleSearchConsoleSubmitter:
             else:
                 self.logger.error(f"Failed to process URL {url}: {error_reason}")
 
-            return False
+            return result
 
         except Exception as e:
             self.logger.error(f"Unexpected error processing URL {url}: {e}")
-            return False
+            result["error"] = str(e)
+            return result
 
-    def submit_urls_batch(self, urls: List[str]) -> dict:
-        """Submit multiple URLs with rate limiting."""
+    def submit_url(self, url: str) -> bool:
+        """Legacy method for backward compatibility."""
+        result = self.inspect_url(url)
+        return result["success"]
+
+    def inspect_urls_batch(self, urls: List[str]) -> List[Dict]:
+        """Inspect multiple URLs with rate limiting and return detailed results."""
         import time
 
-        results = {"success": [], "failed": []}
+        results = []
 
         for i, url in enumerate(urls):
             if i > 0:
                 time.sleep(self.config["rate_limit_delay"])
 
-            if self.submit_url(url):
-                results["success"].append(url)
-            else:
-                results["failed"].append(url)
+            result = self.inspect_url(url)
+            results.append(result)
 
         return results
+
+    def submit_urls_batch(self, urls: List[str]) -> dict:
+        """Legacy method for backward compatibility."""
+        results = {"success": [], "failed": []}
+        inspection_results = self.inspect_urls_batch(urls)
+
+        for result in inspection_results:
+            if result["success"]:
+                results["success"].append(result["url"])
+            else:
+                results["failed"].append(result["url"])
+
+        return results
+
+    def export_to_csv(
+        self, inspection_results: List[Dict], filename: str = None
+    ) -> str:
+        """Export inspection results to CSV file."""
+        if not filename:
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"gsc_inspection_results_{timestamp}.csv"
+
+        filepath = SCRIPT_DIR / filename
+
+        # Define CSV headers
+        headers = [
+            "url",
+            "success",
+            "coverage_state",
+            "verdict",
+            "fetch_state",
+            "last_crawl_time",
+            "indexing_allowed",
+            "user_canonical",
+            "google_canonical",
+            "error",
+        ]
+
+        with open(filepath, "w", newline="", encoding="utf-8") as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=headers)
+            writer.writeheader()
+            writer.writerows(inspection_results)
+
+        self.logger.info(f"Exported {len(inspection_results)} results to {filepath}")
+        return str(filepath)
+
+    def filter_not_submitted_but_indexable(
+        self, inspection_results: List[Dict]
+    ) -> List[Dict]:
+        """Filter URLs that are not 'Submitted and indexed' but have 'Verdict: PASS'."""
+        filtered = []
+
+        for result in inspection_results:
+            if (
+                result["success"]
+                and result["verdict"] == "PASS"
+                and result["coverage_state"] != "Submitted and indexed"
+            ):
+                filtered.append(result)
+
+        return filtered
+
+    def inspect_posts(self, post_files: List[Path]) -> List[Dict]:
+        """Inspect multiple posts and return detailed results."""
+        if not post_files:
+            self.logger.info("No posts to inspect")
+            return []
+
+        # Convert post files to URLs
+        urls = []
+        for post_file in post_files:
+            url = self.post_file_to_url(post_file)
+            urls.append(url)
+            self.logger.info(f"Prepared URL: {url} (from {post_file.name})")
+
+        # Inspect URLs in batches
+        all_results = []
+        batch_size = self.config["max_urls_per_batch"]
+
+        for i in range(0, len(urls), batch_size):
+            batch = urls[i : i + batch_size]
+            self.logger.info(
+                f"Inspecting batch {i//batch_size + 1} ({len(batch)} URLs)"
+            )
+
+            batch_results = self.inspect_urls_batch(batch)
+            all_results.extend(batch_results)
+
+        return all_results
 
     def submit_posts(self, post_files: List[Path]) -> dict:
         """Submit multiple posts to Google Search Console."""
@@ -421,6 +532,23 @@ def main():
         "--verbose", "-v", action="store_true", help="Enable verbose logging"
     )
 
+    parser.add_argument(
+        "--export-csv",
+        action="store_true",
+        help="Export detailed inspection results to CSV file",
+    )
+
+    parser.add_argument(
+        "--csv-filename",
+        help="Custom filename for CSV export (default: auto-generated with timestamp)",
+    )
+
+    parser.add_argument(
+        "--filter-not-submitted",
+        action="store_true",
+        help="Export only URLs that are not 'Submitted and indexed' but have 'Verdict: PASS'",
+    )
+
     args = parser.parse_args()
 
     if args.create_config:
@@ -464,29 +592,82 @@ def main():
             print("No posts found to submit")
             return
 
-        # Show what will be submitted
-        print(f"Found {len(posts)} posts to submit:")
+        # Show what will be inspected
+        print(f"Found {len(posts)} posts to inspect:")
         for post in posts:
             url = submitter.post_file_to_url(post)
             print(f"  - {post.name} -> {url}")
 
         if args.dry_run:
-            print("\nDry run mode - no URLs were actually submitted")
+            print("\nDry run mode - no URLs were actually inspected")
             return
 
-        # Submit posts
-        print(f"\nSubmitting {len(posts)} posts to Google Search Console...")
-        results = submitter.submit_posts(posts)
+        # Inspect posts
+        print(f"\nInspecting {len(posts)} posts using Google Search Console...")
+        inspection_results = submitter.inspect_posts(posts)
 
-        # Report results
-        print(f"\nSubmission complete:")
-        print(f"  Success: {len(results['success'])}")
-        print(f"  Failed: {len(results['failed'])}")
+        # Filter results if requested
+        if args.filter_not_submitted:
+            filtered_results = submitter.filter_not_submitted_but_indexable(
+                inspection_results
+            )
+            print(
+                f"\nFiltered results: {len(filtered_results)} URLs are indexable but not submitted"
+            )
+            results_to_export = filtered_results
+        else:
+            results_to_export = inspection_results
 
-        if results["failed"]:
-            print("\nFailed URLs:")
-            for url in results["failed"]:
-                print(f"  - {url}")
+        # Export to CSV if requested
+        if args.export_csv and results_to_export:
+            csv_file = submitter.export_to_csv(results_to_export, args.csv_filename)
+            print(f"\nResults exported to: {csv_file}")
+
+        # Report summary
+        success_count = sum(1 for r in inspection_results if r["success"])
+        failed_count = len(inspection_results) - success_count
+
+        print(f"\nInspection complete:")
+        print(f"  Successfully inspected: {success_count}")
+        print(f"  Failed: {failed_count}")
+
+        # Show summary of coverage states
+        coverage_summary = {}
+        verdict_summary = {}
+
+        for result in inspection_results:
+            if result["success"]:
+                coverage = result["coverage_state"]
+                verdict = result["verdict"]
+
+                coverage_summary[coverage] = coverage_summary.get(coverage, 0) + 1
+                verdict_summary[verdict] = verdict_summary.get(verdict, 0) + 1
+
+        if coverage_summary:
+            print(f"\nCoverage State Summary:")
+            for state, count in coverage_summary.items():
+                print(f"  {state}: {count}")
+
+        if verdict_summary:
+            print(f"\nVerdict Summary:")
+            for verdict, count in verdict_summary.items():
+                print(f"  {verdict}: {count}")
+
+        # Show URLs that need attention
+        if args.filter_not_submitted:
+            if results_to_export:
+                print(f"\nURLs that are indexable but not submitted:")
+                for result in results_to_export:
+                    print(f"  - {result['url']} (Coverage: {result['coverage_state']})")
+            else:
+                print(f"\nAll indexable URLs are already submitted and indexed!")
+
+        # Show failed URLs
+        failed_results = [r for r in inspection_results if not r["success"]]
+        if failed_results:
+            print("\nFailed inspections:")
+            for result in failed_results:
+                print(f"  - {result['url']}: {result['error']}")
 
     except KeyboardInterrupt:
         print("\nOperation cancelled by user")

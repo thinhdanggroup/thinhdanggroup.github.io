@@ -37,6 +37,15 @@ gsc-git:
 gsc-test:
 	./script/google_search_console/submit.sh test
 
+gsc-csv:
+	./script/google_search_console/submit.sh csv
+
+gsc-csv-filter:
+	python script/google_search_console/submit_posts.py --mode recent --days 30 --export-csv --filter-not-submitted
+
 generate:
     python ./script/write_log/app.py
     python ./script/export_posts.py
+
+# Submit to both IndexNow and Google Search Console
+submit-all: indexnow gsc-recent

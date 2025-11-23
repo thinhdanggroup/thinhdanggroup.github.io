@@ -1,15 +1,16 @@
-# Google Search Console URL Submission Script
+# Google Search Console URL Inspection Script
 
-This script automatically submits your new blog posts to Google Search Console for faster indexing. It can detect new posts based on file modification time or git changes.
+This script automatically inspects your new blog posts using Google Search Console's URL Inspection API. It provides detailed indexing status and helps identify potential issues with your posts. Note: Google has deprecated the programmatic indexing request API, so this script focuses on inspection and monitoring.
 
 ## Features
 
--   🔍 **Multiple Detection Modes**: Find new posts by recent changes, git commits, or submit specific URLs
+-   🔍 **Multiple Detection Modes**: Find new posts by recent changes, git commits, or inspect specific URLs
 -   🚀 **Automatic URL Generation**: Converts Jekyll post files to proper URLs based on your site structure
 -   ⚡ **Rate Limited**: Respects Google's API rate limits with configurable delays
 -   🔐 **Secure Authentication**: Uses OAuth2 for secure API access
--   📊 **Detailed Logging**: Comprehensive logging and error handling
--   🧪 **Dry Run Mode**: Test what would be submitted without actually submitting
+-   📊 **Detailed Inspection**: Provides indexing status, coverage state, and fetch results
+-   📝 **Comprehensive Logging**: Detailed logging and error handling
+-   🧪 **Dry Run Mode**: Test what would be inspected without actually making API calls
 
 ## Prerequisites
 
