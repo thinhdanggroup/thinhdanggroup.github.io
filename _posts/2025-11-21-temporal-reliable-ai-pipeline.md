@@ -15,7 +15,7 @@ header:
     overlay_image: /assets/images/temporal-reliable-ai-pipeline/banner.png
     overlay_filter: 0.5
     teaser: /assets/images/temporal-reliable-ai-pipeline/banner.png
-title: "Untitled Blog Post"
+title: "Beyond Cron: How Temporal and Durable Execution Are Powering Reliable AI Pipelines"
 tags:
     - temporal
     - ai pipeline

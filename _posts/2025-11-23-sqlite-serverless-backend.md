@@ -15,7 +15,7 @@ header:
     overlay_image: /assets/images/sqlite-serverless-backend/banner.png
     overlay_filter: 0.5
     teaser: /assets/images/sqlite-serverless-backend/banner.png
-title: "Untitled Blog Post"
+title: "How SQLite Is Powering the New Generation of Serverless Backends"
 tags:
     - sqlite
     - serverless

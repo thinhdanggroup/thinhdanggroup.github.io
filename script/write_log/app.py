@@ -22,8 +22,8 @@ def slugify(text):
 
 def get_blog_title_from_content(content):
     """Extract the first H1 title from markdown content"""
-    for line in content.split('\n'):
-        if line.startswith('# '):
+    for line in content.split("\n"):
+        if line.startswith("# "):
             return line[2:].strip()
     return "Untitled Blog Post"
 
@@ -33,7 +33,7 @@ def generate_header(blog_name, title, tags=None):
     if tags is None:
         tags = ["System Design"]
 
-    tag_lines = '\n'.join([f'    - {tag}' for tag in tags])
+    tag_lines = "\n".join([f"    - {tag}" for tag in tags])
 
     header = f"""---
 author:
@@ -94,8 +94,14 @@ def create_blog_post(blog_name_input, tags=None):
     blog_slug = slugify(blog_name_input)
 
     # Read the blog content to extract title
-    with open(blog_template, 'r', encoding='utf-8') as f:
+    with open(blog_template, "r", encoding="utf-8") as f:
         blog_content = f.read()
+
+    # Update UTM source from chatgpt.com to thinhdanggroup.github.io
+    blog_content = blog_content.replace(
+        "utm_source=chatgpt.com", "utm_source=thinhdanggroup.github.io"
+    )
+    print("🔗 Updated UTM source links to thinhdanggroup.github.io")
 
     # Extract title from content
     blog_title = get_blog_title_from_content(blog_content)
@@ -109,7 +115,7 @@ def create_blog_post(blog_name_input, tags=None):
     # Check if post already exists
     if post_path.exists():
         overwrite = input(f"⚠️  Post {post_filename} already exists. Overwrite? (y/n): ")
-        if overwrite.lower() != 'y':
+        if overwrite.lower() != "y":
             print("❌ Operation cancelled")
             return False
 
@@ -126,7 +132,7 @@ def create_blog_post(blog_name_input, tags=None):
     header = generate_header(blog_slug, blog_title, tags)
 
     # Write the new blog post
-    with open(post_path, 'w', encoding='utf-8') as f:
+    with open(post_path, "w", encoding="utf-8") as f:
         f.write(header)
         f.write(blog_content)
 
@@ -153,10 +159,12 @@ def main():
         return
 
     # Get tags (optional)
-    tags_input = input("Enter tags (comma-separated, or press Enter for default): ").strip()
+    tags_input = input(
+        "Enter tags (comma-separated, or press Enter for default): "
+    ).strip()
     tags = None
     if tags_input:
-        tags = [tag.strip() for tag in tags_input.split(',')]
+        tags = [tag.strip() for tag in tags_input.split(",")]
 
     print()
     print("-" * 60)
@@ -169,7 +177,7 @@ def main():
 
     # Confirm
     confirm = input("Proceed with creation? (y/n): ")
-    if confirm.lower() != 'y':
+    if confirm.lower() != "y":
         print("❌ Operation cancelled")
         return
 
@@ -180,4 +188,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
