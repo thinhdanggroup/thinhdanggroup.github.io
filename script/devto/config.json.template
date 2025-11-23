@@ -1,0 +1,8 @@
+{
+  "api_key": "YOUR_DEVTO_API_KEY_HERE",
+  "base_url": "https://thinhdanggroup.github.io",
+  "canonical_url_template": "https://thinhdanggroup.github.io/{slug}/",
+  "organization_id": null,
+  "default_series": null,
+  "upload_images": false
+}
