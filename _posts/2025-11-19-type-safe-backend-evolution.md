@@ -22,8 +22,6 @@ tags:
     - tRPC
 ---
 
-## Type-Safe Backend Evolution: Using tRPC, Zod, and OpenAPI 4 to Prevent Silent API Breaks
-
 You’re on call. It’s 2:13 AM.
 
 A partner team pings you: “Your user API just started returning 500s when we deploy. We didn’t change anything.”
