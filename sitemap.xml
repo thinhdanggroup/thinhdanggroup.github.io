@@ -15,8 +15,8 @@ sitemap:
 
   <!-- Pages -->
   {% for page in site.pages %}
-    {% unless page.sitemap.exclude == "yes" or page.name contains ".xml" or page.name contains ".txt" or page.name contains ".json" %}
-      {% if page.layout != nil and page.layout != 'feed' %}
+    {% unless page.sitemap.exclude == "yes" or page.name contains ".xml" or page.name contains ".txt" or page.name contains ".json" or page.path contains "draft/" %}
+      {% if page.layout != nil and page.layout != 'feed' and page.url != "/404.html" %}
         <url>
           <loc>{{ site.url }}{{ page.url | remove: 'index.html' }}</loc>
           {% if page.date %}
@@ -41,7 +41,7 @@ sitemap:
 
   <!-- Posts -->
   {% for post in site.posts %}
-    {% unless post.sitemap.exclude == "yes" %}
+    {% unless post.sitemap.exclude == "yes" or post.path contains "draft/" %}
       <url>
         <loc>{{ site.url }}{{ post.url }}</loc>
         <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
@@ -61,9 +61,9 @@ sitemap:
 
   <!-- Collections (if any) -->
   {% for collection in site.collections %}
-    {% unless collection.output == false or collection.label == "posts" %}
+    {% unless collection.output == false or collection.label == "posts" or collection.label == "drafts" %}
       {% for document in collection.docs %}
-        {% unless document.sitemap.exclude == "yes" %}
+        {% unless document.sitemap.exclude == "yes" or document.path contains "draft/" %}
           <url>
             <loc>{{ site.url }}{{ document.url }}</loc>
             {% if document.date %}

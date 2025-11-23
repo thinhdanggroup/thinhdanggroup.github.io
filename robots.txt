@@ -2,8 +2,11 @@
 User-agent: *
 Allow: /
 
-# Main sitemap
+# Main sitemap (comprehensive)
 Sitemap: https://thinhdanggroup.github.io/sitemap.xml
+
+# Simple sitemap (fallback)
+Sitemap: https://thinhdanggroup.github.io/sitemap-simple.xml
 
 # Legacy sitemap (keeping for compatibility)
 Sitemap: https://thinhdanggroup.github.io/c-sitemap.xml

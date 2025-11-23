@@ -191,6 +191,8 @@ exclude:
   - tmp
   - /docs # ignore Minimal Mistakes /docs
   - /test # ignore Minimal Mistakes /test
+  - /draft # exclude draft posts from build
+  - draft/ # exclude draft directory
 keep_files:
   - .git
   - .svn
