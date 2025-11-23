@@ -23,3 +23,7 @@ build:
 
 indexnow:
 	python script/indexnow/main.py
+
+generate:
+    python script/write_log/app.py
+    python script/export_posts.py
