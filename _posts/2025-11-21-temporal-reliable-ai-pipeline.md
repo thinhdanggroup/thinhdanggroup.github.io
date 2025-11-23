@@ -573,12 +573,12 @@ The punchline: as AI systems evolve from “one-off API call” to “always-on,
 
 Temporal’s durable execution model gives you something closer to a **language runtime for workflows**—one where time, failures, and long-lived state are first-class concerns. For reliable AI in production, that’s starting to look less like an option and more like table stakes.
 
-[1]: https://temporal.io/?utm_source=chatgpt.com "Durable Execution Solutions | Temporal"
-[2]: https://docs.temporal.io/workflow-execution?utm_source=chatgpt.com "Temporal Workflow Execution Overview"
-[3]: https://docs.temporal.io/encyclopedia/event-history/event-history-typescript?utm_source=chatgpt.com "Event History Walkthrough with the TypeScript SDK | Temporal Platform ..."
-[4]: https://docs.temporal.io/develop/typescript/core-application?utm_source=chatgpt.com "Core application - TypeScript SDK - Temporal"
-[5]: https://docs.temporal.io/workflows?utm_source=chatgpt.com "Temporal Workflow | Temporal Platform Documentation"
-[6]: https://assets.temporal.io/durable-execution.pdf?utm_source=chatgpt.com "Building Reliable Applications with Durable Execution - Temporal"
-[7]: https://learn.temporal.io/getting_started/typescript/hello_world_in_typescript/?utm_source=chatgpt.com "Build a Temporal Application from scratch in TypeScript"
-[8]: https://temporal.io/blog/durable-execution-meets-ai-why-temporal-is-the-perfect-foundation-for-ai?utm_source=chatgpt.com "Durable Execution meets AI: Why Temporal is ideal for AI agents ..."
-[9]: https://temporal.io/blog/announcing-openai-agents-sdk-integration?utm_source=chatgpt.com "Production-ready agents with the OpenAI Agents SDK + Temporal"
+[1]: https://temporal.io/?utm_source=thinhdanggroup.github.io "Durable Execution Solutions | Temporal"
+[2]: https://docs.temporal.io/workflow-execution?utm_source=thinhdanggroup.github.io "Temporal Workflow Execution Overview"
+[3]: https://docs.temporal.io/encyclopedia/event-history/event-history-typescript?utm_source=thinhdanggroup.github.io "Event History Walkthrough with the TypeScript SDK | Temporal Platform ..."
+[4]: https://docs.temporal.io/develop/typescript/core-application?utm_source=thinhdanggroup.github.io "Core application - TypeScript SDK - Temporal"
+[5]: https://docs.temporal.io/workflows?utm_source=thinhdanggroup.github.io "Temporal Workflow | Temporal Platform Documentation"
+[6]: https://assets.temporal.io/durable-execution.pdf?utm_source=thinhdanggroup.github.io "Building Reliable Applications with Durable Execution - Temporal"
+[7]: https://learn.temporal.io/getting_started/typescript/hello_world_in_typescript/?utm_source=thinhdanggroup.github.io "Build a Temporal Application from scratch in TypeScript"
+[8]: https://temporal.io/blog/durable-execution-meets-ai-why-temporal-is-the-perfect-foundation-for-ai?utm_source=thinhdanggroup.github.io "Durable Execution meets AI: Why Temporal is ideal for AI agents ..."
+[9]: https://temporal.io/blog/announcing-openai-agents-sdk-integration?utm_source=thinhdanggroup.github.io "Production-ready agents with the OpenAI Agents SDK + Temporal"

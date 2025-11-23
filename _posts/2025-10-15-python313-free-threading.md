@@ -344,8 +344,8 @@ Run the free‑threaded build **with the GIL on** (`-X gil=1`) until that depend
 Free‑threading doesn’t undo the last three decades of Python design. It **rebalances** the trade‑off: single‑thread simplicity still matters, but we no longer have to sacrifice multi‑core parallelism when threads are the right tool. If you love understanding how languages work under the hood, 3.13 is a rare moment where user‑visible semantics and runtime internals took a big, coordinated step together—carefully, and with escape hatches—so we can write simpler, faster, _more parallel_ Python when we want to.
 
 [1]: https://docs.python.org/3.13/howto/free-threading-python.html "Python experimental support for free threading — Python 3.13.9 documentation"
-[2]: https://peps.python.org/pep-0684/?utm_source=chatgpt.com "PEP 684 – A Per-Interpreter GIL | peps.python.org"
-[3]: https://peps.python.org/pep-0703/?utm_source=chatgpt.com "PEP 703 – Making the Global Interpreter Lock Optional in ..."
+[2]: https://peps.python.org/pep-0684/?utm_source=thinhdanggroup.github.io "PEP 684 – A Per-Interpreter GIL | peps.python.org"
+[3]: https://peps.python.org/pep-0703/?utm_source=thinhdanggroup.github.io "PEP 703 – Making the Global Interpreter Lock Optional in ..."
 [4]: https://docs.python.org/3/whatsnew/3.13.html "What’s New In Python 3.13 — Python 3.14.0 documentation"
 [5]: https://py-free-threading.github.io/installing-cpython/ "Installing Free-Threaded Python - Python Free-Threading Guide"
 [6]: https://docs.python.org/3/howto/free-threading-python.html "Python support for free threading — Python 3.14.0 documentation"

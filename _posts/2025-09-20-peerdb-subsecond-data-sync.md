@@ -404,10 +404,10 @@ If you’re building your own pipeline, you can steal these patterns wholesale. 
 _If you want the gory, line‑by‑line details, open the source and docs. But even if you never deploy PeerDB, internalizing these loops and budgets is the shortest path to replica freshness that feels instantaneous to your users._
 
 [1]: https://docs.peerdb.io/architecture "Architecture Overview - PeerDB Docs: Setup your ETL in minutes with SQL."
-[2]: https://docs.peerdb.io/usecases/Real-time%20CDC/overview?utm_source=chatgpt.com "Overview - PeerDB Docs: Setup your ETL in minutes with SQL."
-[3]: https://blog.peerdb.io/using-temporal-to-scale-data-synchronization-at-peerdb?utm_source=chatgpt.com "Using Temporal to Scale Data Synchronization at PeerDB"
-[4]: https://docs.peerdb.io/metrics/important_cdc_configs?utm_source=chatgpt.com "Config Tuning for Change Data Capture (CDC) - PeerDB Docs: Setup your ..."
-[5]: https://docs.peerdb.io/mirror/cdc-pg-pg?utm_source=chatgpt.com "CDC Setup from Postgres to Postgres - PeerDB Docs: Setup your ETL in ..."
-[6]: https://github.com/PeerDB-io/peerdb?utm_source=chatgpt.com "GitHub - PeerDB-io/peerdb: Fast, Simple and a cost effective tool to ..."
-[7]: https://clickhouse.com/blog/clickhouse-welcomes-peerdb-adding-the-fastest-postgres-cdc-to-the-fastest-olap-database?utm_source=chatgpt.com "ClickHouse welcomes PeerDB: Adding the fastest Postgres CDC to the ..."
-[8]: https://docs.peerdb.io/sql/commands/create-mirror?utm_source=chatgpt.com "Creating Mirrors - PeerDB Docs: Setup your ETL in minutes with SQL."
+[2]: https://docs.peerdb.io/usecases/Real-time%20CDC/overview?utm_source=thinhdanggroup.github.io "Overview - PeerDB Docs: Setup your ETL in minutes with SQL."
+[3]: https://blog.peerdb.io/using-temporal-to-scale-data-synchronization-at-peerdb?utm_source=thinhdanggroup.github.io "Using Temporal to Scale Data Synchronization at PeerDB"
+[4]: https://docs.peerdb.io/metrics/important_cdc_configs?utm_source=thinhdanggroup.github.io "Config Tuning for Change Data Capture (CDC) - PeerDB Docs: Setup your ..."
+[5]: https://docs.peerdb.io/mirror/cdc-pg-pg?utm_source=thinhdanggroup.github.io "CDC Setup from Postgres to Postgres - PeerDB Docs: Setup your ETL in ..."
+[6]: https://github.com/PeerDB-io/peerdb?utm_source=thinhdanggroup.github.io "GitHub - PeerDB-io/peerdb: Fast, Simple and a cost effective tool to ..."
+[7]: https://clickhouse.com/blog/clickhouse-welcomes-peerdb-adding-the-fastest-postgres-cdc-to-the-fastest-olap-database?utm_source=thinhdanggroup.github.io "ClickHouse welcomes PeerDB: Adding the fastest Postgres CDC to the ..."
+[8]: https://docs.peerdb.io/sql/commands/create-mirror?utm_source=thinhdanggroup.github.io "Creating Mirrors - PeerDB Docs: Setup your ETL in minutes with SQL."
