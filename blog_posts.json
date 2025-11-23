@@ -1,10 +1,10 @@
 {
-  "total_posts": 132,
+  "total_posts": 135,
   "generated_at": "/Users/thinh.dang2/Documents/personal/thinhdanggroup.github.io",
   "posts": [
     {
       "filename": "2025-11-23-sqlite-serverless-backend",
-      "title": "Untitled Blog Post",
+      "title": "How SQLite Is Powering the New Generation of Serverless Backends",
       "date": "2025-11-23",
       "tags": [
         "sqlite",
@@ -13,8 +13,18 @@
       "file_path": "_posts/2025-11-23-sqlite-serverless-backend.md"
     },
     {
+      "filename": "2025-11-22-tables-distributed-clickhouse-cluster",
+      "title": "Creating Tables in a Distributed ClickHouse Cluster: Everything You Really Need to Know",
+      "date": "2025-11-22",
+      "tags": [
+        "clickhouse",
+        "distributed"
+      ],
+      "file_path": "_posts/2025-11-22-tables-distributed-clickhouse-cluster.md"
+    },
+    {
       "filename": "2025-11-21-temporal-reliable-ai-pipeline",
-      "title": "Untitled Blog Post",
+      "title": "Beyond Cron: How Temporal and Durable Execution Are Powering Reliable AI Pipelines",
       "date": "2025-11-21",
       "tags": [
         "temporal",
@@ -24,8 +34,19 @@
       "file_path": "_posts/2025-11-21-temporal-reliable-ai-pipeline.md"
     },
     {
+      "filename": "2025-11-20-memory-bound-architecture",
+      "title": "Memory‑Bound Architectures: Optimizing AI and Data Systems Beyond CPU Bottlenecks",
+      "date": "2025-11-20",
+      "tags": [
+        "memory bound",
+        "ai",
+        "data engineer"
+      ],
+      "file_path": "_posts/2025-11-20-memory-bound-architecture.md"
+    },
+    {
       "filename": "2025-11-19-type-safe-backend-evolution",
-      "title": "Untitled Blog Post",
+      "title": "Type-Safe Backend Evolution: Using tRPC, Zod, and OpenAPI 4 to Prevent Silent API Breaks",
       "date": "2025-11-19",
       "tags": [
         "typescript",
@@ -33,6 +54,17 @@
         "tRPC"
       ],
       "file_path": "_posts/2025-11-19-type-safe-backend-evolution.md"
+    },
+    {
+      "filename": "2025-11-18-migrate-temporal-to-dbos",
+      "title": "Migrating from Traditional Workflow Engines (e.g., Temporal) to DBOS: An Engineering Playbook",
+      "date": "2025-11-18",
+      "tags": [
+        "dbos",
+        "temporal",
+        "migration"
+      ],
+      "file_path": "_posts/2025-11-18-migrate-temporal-to-dbos.md"
     },
     {
       "filename": "2025-11-17-async-wars",
