@@ -1,7 +1,28 @@
 {
-  "total_posts": 135,
+  "total_posts": 137,
   "generated_at": "/Users/thinh.dang2/Documents/personal/thinhdanggroup.github.io",
   "posts": [
+    {
+      "filename": "2025-11-25-postgres-as-a-message-bus",
+      "title": "Postgres as a Message Bus: Implementing Durable Event Queues with LISTEN/NOTIFY and Logical Decoding",
+      "date": "2025-11-25",
+      "tags": [
+        "postgres",
+        "message bus"
+      ],
+      "file_path": "_posts/2025-11-25-postgres-as-a-message-bus.md"
+    },
+    {
+      "filename": "2025-11-24-composable-query-engines-with-polars-and-datafusion",
+      "title": "Beyond Postgres and DuckDB: The Rise of Composable Query Engines with Polars and DataFusion",
+      "date": "2025-11-24",
+      "tags": [
+        "polars",
+        "datafusion",
+        "composable query engine"
+      ],
+      "file_path": "_posts/2025-11-24-composable-query-engines-with-polars-and-datafusion.md"
+    },
     {
       "filename": "2025-11-23-sqlite-serverless-backend",
       "title": "How SQLite Is Powering the New Generation of Serverless Backends",
