@@ -699,4 +699,3 @@ This pattern scales—from renaming a column to splitting a monolithic table—b
 -   Online DDL tools (e.g., gh-ost, pt-osc) for big table rewrites in the **Expand** phase.
 -   The Outbox pattern for propagating domain events with CDC (complementary to schema migration).
 
-If you’d like, I can adapt the example for MySQL, show a Go or Java implementation, or sketch a readiness dashboard—just say which stack you’re using.

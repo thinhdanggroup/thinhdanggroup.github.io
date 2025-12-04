@@ -582,12 +582,6 @@ If you’re running a small or mid-sized system and you’re on the fence about 
 -   Guides on logical decoding & CDC in Postgres ([OpenSourceDB][14])
 -   Articles demonstrating Postgres queues with `LISTEN`/`NOTIFY` and `SKIP LOCKED` ([PostgreSQL Korea][8])
 
-If you’d like, we can take this further and design:
-
--   A full “event schema” for your domain
--   Per-consumer offset tracking
--   Migration strategy from this Postgres-based backbone to Kafka or another system later on.
-
 [1]: https://www.postgresql.org/docs/current/sql-notify.html?utm_source=thinhdanggroup.github.io "PostgreSQL: Documentation: 18: NOTIFY"
 [2]: https://www.postgresql.org/docs/current/logicaldecoding.html?utm_source=thinhdanggroup.github.io "PostgreSQL: Documentation: 18: Chapter 47. Logical Decoding"
 [3]: https://www.postgresql.org/docs/current/sql-listen.html?utm_source=thinhdanggroup.github.io "PostgreSQL: Documentation: 18: LISTEN"

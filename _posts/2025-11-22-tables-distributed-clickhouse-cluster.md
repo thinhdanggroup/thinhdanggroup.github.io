@@ -634,8 +634,6 @@ If you want to go deeper, these are excellent next reads:
 -   **Distributed DDL (`ON CLUSTER`) documentation** ([ClickHouse][9])
 -   **Altinity & PostHog engineering blogs on ClickHouse sharding and replication** ([PostHog][13])
 
-If you’d like, next we can walk through a concrete topology (e.g., 2 shards × 2 replicas) and write **everything** end-to-end: config, DDL, and some example queries and failure scenarios.
-
 [1]: https://clickhouse.com/docs/engines/table-engines/special/distributed?utm_source=thinhdanggroup.github.io "Distributed table engine - ClickHouse Docs"
 [2]: https://clickhouse.com/docs/architecture/cluster-deployment?utm_source=thinhdanggroup.github.io "Replication + Scaling - ClickHouse Docs"
 [3]: https://clickhouse.com/docs/architecture/replication?utm_source=thinhdanggroup.github.io "Replicating data - ClickHouse Docs"

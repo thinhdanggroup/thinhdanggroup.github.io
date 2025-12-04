@@ -633,8 +633,6 @@ If you want to dig deeper after this:
     -   “DBOS vs. Temporal – Choosing Your Durable Executor” – neutral trade‑off analysis, especially for on‑prem deployments.([Scribbles Into The Void][15])
     -   DBOS origin story and research on database‑oriented operating systems.([Wikipedia][24])
 
-If you’d like, next we can zoom into one specific angle – for example, _“Exactly‑once event processing: Temporal vs DBOS”_ or _“Designing your Postgres schema for DBOS workflows”_ – and unpack that in detail.
-
 [1]: https://github.com/temporalio/temporal "GitHub - temporalio/temporal: Temporal service"
 [2]: https://docs.temporal.io/workflow-execution "Temporal Workflow Execution Overview | Temporal Platform Documentation"
 [3]: https://www.dbos.dev/blog/durable-execution-coding-comparison "Making Apps Durable with 10x Less Code | DBOS"
