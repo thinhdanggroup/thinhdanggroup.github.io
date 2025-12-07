@@ -1,7 +1,17 @@
 {
-  "total_posts": 137,
+  "total_posts": 138,
   "generated_at": "/Users/thinh.dang2/Documents/personal/thinhdanggroup.github.io",
   "posts": [
+    {
+      "filename": "2025-12-07-vul-react2shell",
+      "title": "Hardening Server-Side React: Best Practices After React2Shell",
+      "date": "2025-12-07",
+      "tags": [
+        "react",
+        "security"
+      ],
+      "file_path": "_posts/2025-12-07-vul-react2shell.md"
+    },
     {
       "filename": "2025-11-25-postgres-as-a-message-bus",
       "title": "Postgres as a Message Bus: Implementing Durable Event Queues with LISTEN/NOTIFY and Logical Decoding",
