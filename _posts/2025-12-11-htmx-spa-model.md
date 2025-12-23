@@ -206,7 +206,7 @@ Full page:
             />
         </label>
 
-        <div id="users-table">{% include "_users_table.html" %}</div>
+        <div id="users-table">{% raw %}{% include "_users_table.html" %}{% endraw %}</div>
     </body>
 </html>
 ```
@@ -223,12 +223,12 @@ Fragment:
         </tr>
     </thead>
     <tbody>
-        {% for u in users %}
+        {% raw %}{% for u in users %}
         <tr id="user-{{ u.id }}">
             <td>{{ u.email }}</td>
             <td>{{ u.role }}</td>
         </tr>
-        {% endfor %}
+        {% endfor %}{% endraw %}
     </tbody>
 </table>
 ```
