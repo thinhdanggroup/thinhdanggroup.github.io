@@ -1,7 +1,18 @@
 {
-  "total_posts": 138,
+  "total_posts": 141,
   "generated_at": "/Users/thinh.dang2/Documents/personal/thinhdanggroup.github.io",
   "posts": [
+    {
+      "filename": "2025-12-11-htmx-spa-model",
+      "title": "HTMX at Scale: How Attribute-Driven Interactivity Challenges the SPA Model",
+      "date": "2025-12-11",
+      "tags": [
+        "hmtx",
+        "server-side render",
+        "spa model"
+      ],
+      "file_path": "_posts/2025-12-11-htmx-spa-model.md"
+    },
     {
       "filename": "2025-12-07-vul-react2shell",
       "title": "Hardening Server-Side React: Best Practices After React2Shell",
@@ -11,6 +22,27 @@
         "security"
       ],
       "file_path": "_posts/2025-12-07-vul-react2shell.md"
+    },
+    {
+      "filename": "2025-12-04-kafka-to-nats",
+      "title": "From Kafka to NATS: When Less Is More in Distributed Messaging",
+      "date": "2025-12-04",
+      "tags": [
+        "kafka",
+        "nats",
+        "distributed messaging"
+      ],
+      "file_path": "_posts/2025-12-04-kafka-to-nats.md"
+    },
+    {
+      "filename": "2025-12-01-nats-left-nodes",
+      "title": "Bridging the Edge: Using NATS Leaf Nodes to Build Hybrid and Multi-Cloud Systems",
+      "date": "2025-12-01",
+      "tags": [
+        "nats",
+        "distributed messaging"
+      ],
+      "file_path": "_posts/2025-12-01-nats-left-nodes.md"
     },
     {
       "filename": "2025-11-25-postgres-as-a-message-bus",
