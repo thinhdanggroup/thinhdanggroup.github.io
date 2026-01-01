@@ -1,7 +1,17 @@
 {
-  "total_posts": 142,
+  "total_posts": 143,
   "generated_at": "/Users/thinh.dang2/Documents/personal/thinhdanggroup.github.io",
   "posts": [
+    {
+      "filename": "2025-12-28-retry-without-thundering-herds",
+      "title": "Retries Without Thundering Herds",
+      "date": "2025-12-28",
+      "tags": [
+        "retry",
+        "control plane"
+      ],
+      "file_path": "_posts/2025-12-28-retry-without-thundering-herds.md"
+    },
     {
       "filename": "2025-12-20-predictive-reinforcement-learning-autoscaling",
       "title": "Predictive Scaling 2.0: Using Reinforcement Learning to Optimize Kubernetes Autoscaling Policies",
