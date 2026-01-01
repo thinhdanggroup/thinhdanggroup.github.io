@@ -1,7 +1,18 @@
 {
-  "total_posts": 141,
+  "total_posts": 142,
   "generated_at": "/Users/thinh.dang2/Documents/personal/thinhdanggroup.github.io",
   "posts": [
+    {
+      "filename": "2025-12-20-predictive-reinforcement-learning-autoscaling",
+      "title": "Predictive Scaling 2.0: Using Reinforcement Learning to Optimize Kubernetes Autoscaling Policies",
+      "date": "2025-12-20",
+      "tags": [
+        "predictive",
+        "autoscaling policis",
+        "reinforcement learning"
+      ],
+      "file_path": "_posts/2025-12-20-predictive-reinforcement-learning-autoscaling.md"
+    },
     {
       "filename": "2025-12-11-htmx-spa-model",
       "title": "HTMX at Scale: How Attribute-Driven Interactivity Challenges the SPA Model",
