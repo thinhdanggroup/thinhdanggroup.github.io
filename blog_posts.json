@@ -1,7 +1,29 @@
 {
-  "total_posts": 143,
+  "total_posts": 145,
   "generated_at": "/Users/thinh.dang2/Documents/personal/thinhdanggroup.github.io",
   "posts": [
+    {
+      "filename": "2026-02-21-how-a-language-model-learned-to-speak-vietnamese",
+      "title": "How a Language Model Learned to Speak Vietnamese",
+      "date": "2026-02-21",
+      "tags": [
+        "llm",
+        "tts",
+        "vietnamese"
+      ],
+      "file_path": "_posts/2026-02-21-how-a-language-model-learned-to-speak-vietnamese.md"
+    },
+    {
+      "filename": "2026-01-02-zero-config-backend-rikta",
+      "title": "Zero-Config Backends: The Architectural Future of TypeScript Frameworks",
+      "date": "2026-01-02",
+      "tags": [
+        "rikta",
+        "zero config backend",
+        "typescript"
+      ],
+      "file_path": "_posts/2026-01-02-zero-config-backend-rikta.md"
+    },
     {
       "filename": "2025-12-28-retry-without-thundering-herds",
       "title": "Retries Without Thundering Herds",
