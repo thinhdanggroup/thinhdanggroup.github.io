@@ -14,71 +14,88 @@ toc_sticky: true
 permalink: /about/
 title: "About"
 layout: single
-#excerpt: "Minimal Mistakes is a flexible two-column Jekyll theme."
-layouts_gallery:
-  - url: /assets/old_images/mm-layout-splash.png
-    image_path: /assets/old_images/mm-layout-splash.png
-    alt: "splash layout example"
-  - url: /assets/old_images/mm-layout-single-meta.png
-    image_path: /assets/old_images/mm-layout-single-meta.png
-    alt: "single layout with comments and related posts"
-  - url: /assets/old_images/mm-layout-archive.png
-    image_path: /assets/old_images/mm-layout-archive.png
-    alt: "archive layout example"
-last_modified_at: 2022-05-27T11:59:26-04:00
+last_modified_at: 2026-02-24
 ---
 
-Minimal Mistakes is a flexible two-column Jekyll theme. Perfect for hosting your personal site, blog, or portfolio on GitHub or self-hosting on your own server. As the name implies --- styling is purposely minimalistic to be enhanced and customized by you :smile:.
+## Experienced Fintech Software Engineer Driving High-Performance Solutions
 
-[Install the Theme]({{ "/docs/quick-start-guide/" | relative_url }}){: .btn .btn--success .btn--large}
-
-## Notable Features
-
-- Bundled as a "theme gem" for easier install/upgrading.
-- Compatible with GitHub Pages.
-- Support for Jekyll's built-in Sass/SCSS preprocessor.
-- Nine different skins (color variations).
-- Several responsive layout options (single, archive index, search, splash, and paginated home page).
-- Optimized for search engines with support for [Twitter Cards](https://dev.twitter.com/cards/overview) and [Open Graph](http://ogp.me/) data
-- Optional [header images](https://mmistakes.github.io/minimal-mistakes/docs/layouts/#headers), [custom sidebars](https://mmistakes.github.io/minimal-mistakes/docs/layouts/#sidebars), [table of contents](https://mmistakes.github.io/minimal-mistakes/docs/helpers/#table-of-contents), [galleries](https://mmistakes.github.io/minimal-mistakes/docs/helpers/#gallery), related posts, [breadcrumb links](https://mmistakes.github.io/minimal-mistakes/docs/configuration/#breadcrumb-navigation-beta), [navigation lists](https://mmistakes.github.io/minimal-mistakes/docs/helpers/#navigation-list), and more.
-- Commenting support (powered by [Disqus](https://disqus.com/), [Facebook](https://developers.facebook.com/docs/plugins/comments), [Discourse](https://www.discourse.org/), [utterances](https://utteranc.es/), [giscus](https://giscus.app/), static-based via [Staticman v1 and v2](https://staticman.net/), and custom).
-- [Google Analytics](https://www.google.com/analytics/) support.
-- UI localized text in English (default), Arabic (عربي), Brazilian Portuguese (Português brasileiro), Catalan, Chinese, Danish, Dutch, Finnish, French (Français), German (Deutsch), Greek, Hebrew, Hindi (हिंदी), Hungarian, Indonesian, Irish (Gaeilge), Italian (Italiano), Japanese, Kiswahili, Korean, Malayalam, Myanmar (Burmese), Nepali (Nepalese), Norwegian (Norsk), Persian (فارسی), Polish, Punjabi (ਪੰਜਾਬੀ), Romanian, Russian, Slovak, Spanish (Español), Swedish, Thai, Turkish (Türkçe), and Vietnamese.
-
-## Demo Pages
-
-| Name                                        | Description                                           |
-| ------------------------------------------- | ----------------------------------------------------- |
-| [Post with Header Image][header-image-post] | A post with a large header image. |
-| [HTML Tags and Formatting Post][html-tags-post] | A variety of common markup showing how the theme styles them. |
-| [Syntax Highlighting Post][syntax-post] | Post displaying highlighted code. |
-| [Post with a Gallery][gallery-post] | A post showing several images wrapped in `<figure>` elements. |
-| [Sample Collection Page][sample-collection] | Single page from a collection. |
-| [Categories Archive][categories-archive] | Posts grouped by category. |
-| [Tags Archive][tags-archive] | Posts grouped by tag. |
+Engineering Manager at [Trusting Social](https://www.linkedin.com/company/trustingsocial) · Vietnam
 
 ---
 
-## Credits
+## About
 
-### Icons + Demo Images:
+I am a senior software engineer with 6 years of industry experience in a fintech environment. I have strong experience in delivering complex systems with scalable, high throughput, and low latency as payment platforms, loyalty programs, scoring systems, e-wallets, and accounting systems. I also led a team of five people on a rushed timeline to deliver high-performance systems. Overall, I am confident that my strong technical foundation will make significant contributions.
 
-- [The Noun Project](https://thenounproject.com) -- Garrett Knoll, Arthur Shlain, and [tracy tam](https://thenounproject.com/tracytam)
-- [Font Awesome](http://fontawesome.io/)
-- [Unsplash](https://unsplash.com/)
-
-### Other:
-
-- [Jekyll](https://jekyllrb.com/)
-- [jQuery](https://jquery.com/)
-- [Susy](http://susy.oddbird.net/)
-- [Breakpoint](http://breakpoint-sass.com/)
-- [Magnific Popup](http://dimsemenov.com/plugins/magnific-popup/)
-- [FitVids.JS](http://fitvidsjs.com/)
-- Greedy Navigation - [lukejacksonn](https://codepen.io/lukejacksonn/pen/PwmwWV)
-- [jQuery Smooth Scroll](https://github.com/kswedberg/jquery-smooth-scroll)
-- [Lunr](http://lunrjs.com)
+**Total experience:** 10+ years
 
 ---
 
-Minimal Mistakes is designed, developed, and maintained by Michael Rose. Just another boring, tattooed, designer from Buffalo New York.
+## Experience
+
+| Role | Company | Period |
+| ---- | ------- | ------ |
+| **Engineering Manager** | [Trusting Social](https://www.linkedin.com/company/trustingsocial) | Jul 2025 – Present |
+| **Associate Engineering Manager** | [Trusting Social](https://www.linkedin.com/company/trustingsocial) | Jul 2024 – Jul 2025 |
+| **Senior Software Engineer** | [ShopBack](https://www.linkedin.com/company/shopback-com) | Mar 2024 – Aug 2024 |
+| **Lead Software Engineer** | [Trusting Social](https://www.linkedin.com/company/trustingsocial) | Jan 2023 – May 2024 |
+| **Senior Software Engineer** | [Trusting Social](https://www.linkedin.com/company/trustingsocial) | Aug 2021 – Jan 2023 |
+| **Senior Software Engineer** | [VNG Corporation](https://www.linkedin.com/company/vng-corporation) | Apr 2021 – Aug 2021 |
+| **Software Engineer** | [VNG Corporation](https://www.linkedin.com/company/vng-corporation) | Mar 2019 – Apr 2021 |
+| **Associate Software Engineer** | [VNG Corporation](https://www.linkedin.com/company/vng-corporation) | Jul 2018 – Feb 2019 |
+| **Fresher** | [VNG Corporation](https://www.linkedin.com/company/vng-corporation) | Jan 2018 – Jun 2018 |
+
+### Highlights
+
+- **Trusting Social (Senior / Lead):** Led a team of 5 to deliver high-performance systems with 99.9% SLA. Skilled in Golang, gRPC, event-driven architecture, GKE, AWS, and Datadog. Handled systems at 1000 requests per second using Temporal, Redis, MariaDB, MySQL, and Kafka. Developed core payment systems and acted as tech lead for a loyalty platform (mobile app delivered in two months).
+- **VNG Corporation:** Built financial reporting systems handling 50M transactions for 30M users; developed Accounting System and Promotion Platform with 60M transactions/day peak. Solved hot-spot issues with sub-account solutions. Proficient in Java, Golang, Redis, TiDB, Kafka, Spring Boot, ReactJS, Kubernetes.
+- **EY (Internship):** Hands-on penetration testing and CEH (Certified Ethical Hacker) methodology.
+
+---
+
+## Education
+
+**Bachelor's degree, Information Technology** · [Ho Chi Minh University of Technology](https://www.linkedin.com/school/hcmut-bachkhoa)  
+2014 – 2018 · Honors Program · Ho Chi Minh City, VN
+
+---
+
+## Licenses & Certifications
+
+- Agile Development Practices (LinkedIn, Feb 2023)
+- Chief Technology Officer Career Guide (LinkedIn, Feb 2023)
+- Cloud Architecture: Advanced Concepts (LinkedIn, Feb 2023)
+- Designing RESTful APIs (LinkedIn, Feb 2023)
+- GraphQL Essential Training (LinkedIn, Feb 2023)
+- Learning the OWASP Top 10 (2018) (LinkedIn, Feb 2023)
+- Microservices: Design Patterns (LinkedIn, Feb 2023)
+- Stream Processing Design Patterns with Kafka Streams (LinkedIn, Feb 2023)
+- Stream Processing Patterns in Apache Flink (LinkedIn, Feb 2023)
+- Tech on the Go: From Software Developer to Architect (LinkedIn, Feb 2023)
+
+---
+
+## Publication
+
+**Comparative Study on Different Approaches in Optimizing Threshold for Music Auto-Tagging** (Nov 2018)  
+International conference paper on optimizing classification thresholds for music auto-tagging using fully convolutional neural networks.  
+[View on Springer](https://link.springer.com/chapter/10.1007/978-3-030-03192-3_18)
+
+---
+
+## Honors & Awards
+
+| Award | Issuer | Date |
+| ----- | ------ | ---- |
+| **Leadership Award** | Trusting Social | Jan 2024 |
+| **Leadership Award** | Trusting Social | Jan 2023 |
+| **Rookie of the Year Award** | Trusting Social | Jan 2022 |
+
+*In Recognition of Outstanding Leadership, Commitment to Excellence, and Performance.*
+
+---
+
+## Connect
+
+- [LinkedIn](https://www.linkedin.com/in/thinh-dang/)
+- [GitHub](https://github.com/Thinh-Dang)
