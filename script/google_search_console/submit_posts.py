@@ -16,6 +16,7 @@ Usage:
     python submit_posts.py --mode recent --days 7
     python submit_posts.py --mode git --since HEAD~5
     python submit_posts.py --url "https://thinhdanggroup.github.io/specific-post/"
+    python submit_posts.py --mode sitemap --filter-unindexed --export-csv
 """
 
 import os
@@ -38,6 +39,7 @@ try:
     from googleapiclient.discovery import build
     from googleapiclient.errors import HttpError
     import requests
+    from xml.etree import ElementTree as ET
 except ImportError as e:
     print(f"Missing required dependencies: {e}")
     print(
@@ -417,6 +419,90 @@ class GoogleSearchConsoleSubmitter:
 
         return filtered
 
+    def filter_unindexed(self, inspection_results: List[Dict]) -> List[Dict]:
+        """Filter URLs that are not indexed (various unindexed states)."""
+        filtered = []
+
+        # States that indicate the page is NOT indexed
+        unindexed_states = [
+            "Discovered - currently not indexed",
+            "Crawled - currently not indexed",
+            "URL is unknown to Google",
+            "Page with redirect",
+            "Duplicate without user-selected canonical",
+            "Duplicate, Google chose different canonical than user",
+            "Not found (404)",
+            "Soft 404",
+            "Blocked by robots.txt",
+            "Blocked due to access forbidden (403)",
+            "Blocked due to other 4xx issue",
+            "Server error (5xx)",
+            "Redirect error",
+        ]
+
+        for result in inspection_results:
+            if result["success"]:
+                # Check if coverage state indicates unindexed
+                if result["coverage_state"] in unindexed_states:
+                    filtered.append(result)
+                # Also check if verdict is not PASS (indicates problems)
+                elif result["verdict"] not in ["PASS", "Unknown"]:
+                    filtered.append(result)
+                # Or if coverage state is not "Submitted and indexed"
+                elif result["coverage_state"] not in ["Submitted and indexed", "Unknown"]:
+                    filtered.append(result)
+
+        return filtered
+
+    def get_urls_from_sitemap(self, sitemap_url: str = None) -> List[str]:
+        """Fetch and parse URLs from sitemap.xml."""
+        if not sitemap_url:
+            sitemap_url = f"{self.config['base_url']}/sitemap.xml"
+
+        try:
+            self.logger.info(f"Fetching sitemap from: {sitemap_url}")
+            response = requests.get(sitemap_url, timeout=30)
+            response.raise_for_status()
+
+            # Parse XML
+            root = ET.fromstring(response.content)
+
+            # Handle different sitemap formats
+            # Standard sitemap namespace
+            namespaces = {
+                'ns': 'http://www.sitemaps.org/schemas/sitemap/0.9'
+            }
+
+            urls = []
+
+            # Check if this is a sitemap index (contains other sitemaps)
+            sitemap_elements = root.findall('.//ns:sitemap/ns:loc', namespaces)
+            if sitemap_elements:
+                self.logger.info(f"Found sitemap index with {len(sitemap_elements)} sitemaps")
+                # Recursively fetch URLs from each sitemap
+                for sitemap_elem in sitemap_elements:
+                    sub_sitemap_url = sitemap_elem.text
+                    self.logger.info(f"Fetching sub-sitemap: {sub_sitemap_url}")
+                    sub_urls = self.get_urls_from_sitemap(sub_sitemap_url)
+                    urls.extend(sub_urls)
+            else:
+                # This is a regular sitemap with URLs
+                url_elements = root.findall('.//ns:url/ns:loc', namespaces)
+                urls = [elem.text for elem in url_elements if elem.text]
+                self.logger.info(f"Found {len(urls)} URLs in sitemap")
+
+            return urls
+
+        except requests.RequestException as e:
+            self.logger.error(f"Failed to fetch sitemap: {e}")
+            return []
+        except ET.ParseError as e:
+            self.logger.error(f"Failed to parse sitemap XML: {e}")
+            return []
+        except Exception as e:
+            self.logger.error(f"Unexpected error while fetching sitemap: {e}")
+            return []
+
     def inspect_posts(self, post_files: List[Path]) -> List[Dict]:
         """Inspect multiple posts and return detailed results."""
         if not post_files:
@@ -494,9 +580,9 @@ def main():
 
     parser.add_argument(
         "--mode",
-        choices=["recent", "git", "url"],
+        choices=["recent", "git", "url", "sitemap"],
         default="recent",
-        help="Mode for finding posts to submit",
+        help="Mode for finding posts to submit (sitemap: fetch all URLs from sitemap)",
     )
 
     parser.add_argument(
@@ -549,6 +635,17 @@ def main():
         help="Export only URLs that are not 'Submitted and indexed' but have 'Verdict: PASS'",
     )
 
+    parser.add_argument(
+        "--filter-unindexed",
+        action="store_true",
+        help="Export only unindexed URLs (pages not in Google's index)",
+    )
+
+    parser.add_argument(
+        "--sitemap-url",
+        help="Custom sitemap URL (default: uses base_url/sitemap.xml from config)",
+    )
+
     args = parser.parse_args()
 
     if args.create_config:
@@ -567,11 +664,49 @@ def main():
         if not args.dry_run:
             submitter.authenticate()
 
-        # Get posts based on mode
+        # Get posts/URLs based on mode
         if args.mode == "recent":
             posts = submitter.get_recent_posts(args.days)
+
+            if not posts:
+                print("No posts found to submit")
+                return
+
+            # Show what will be inspected
+            print(f"Found {len(posts)} posts to inspect:")
+            for post in posts:
+                url = submitter.post_file_to_url(post)
+                print(f"  - {post.name} -> {url}")
+
+            if args.dry_run:
+                print("\nDry run mode - no URLs were actually inspected")
+                return
+
+            # Inspect posts
+            print(f"\nInspecting {len(posts)} posts using Google Search Console...")
+            inspection_results = submitter.inspect_posts(posts)
+
         elif args.mode == "git":
             posts = submitter.get_git_changed_posts(args.since)
+
+            if not posts:
+                print("No posts found to submit")
+                return
+
+            # Show what will be inspected
+            print(f"Found {len(posts)} posts to inspect:")
+            for post in posts:
+                url = submitter.post_file_to_url(post)
+                print(f"  - {post.name} -> {url}")
+
+            if args.dry_run:
+                print("\nDry run mode - no URLs were actually inspected")
+                return
+
+            # Inspect posts
+            print(f"\nInspecting {len(posts)} posts using Google Search Console...")
+            inspection_results = submitter.inspect_posts(posts)
+
         elif args.mode == "url":
             if not args.url:
                 print("Error: --url is required when using --mode url")
@@ -581,33 +716,55 @@ def main():
                 print(f"Would submit URL: {args.url}")
                 return
             else:
-                success = submitter.submit_url(args.url)
-                print(f"URL submission {'successful' if success else 'failed'}")
+                result = submitter.inspect_url(args.url)
+                print(f"\nInspection result for {args.url}:")
+                print(f"  Coverage State: {result['coverage_state']}")
+                print(f"  Verdict: {result['verdict']}")
+                print(f"  Fetch State: {result['fetch_state']}")
+                print(f"  Last Crawl: {result['last_crawl_time']}")
+
+                if args.export_csv:
+                    csv_file = submitter.export_to_csv([result], args.csv_filename)
+                    print(f"\nResult exported to: {csv_file}")
                 return
+
+        elif args.mode == "sitemap":
+            # Fetch URLs from sitemap
+            print("Fetching URLs from sitemap...")
+            urls = submitter.get_urls_from_sitemap(args.sitemap_url)
+
+            if not urls:
+                print("No URLs found in sitemap")
+                return
+
+            print(f"Found {len(urls)} URLs in sitemap")
+
+            # Show first few URLs
+            print("\nSample URLs:")
+            for url in urls[:5]:
+                print(f"  - {url}")
+            if len(urls) > 5:
+                print(f"  ... and {len(urls) - 5} more")
+
+            if args.dry_run:
+                print("\nDry run mode - no URLs were actually inspected")
+                return
+
+            # Inspect all URLs
+            print(f"\nInspecting {len(urls)} URLs using Google Search Console...")
+            print("This may take a while...")
+            inspection_results = submitter.inspect_urls_batch(urls)
+
         else:
             print(f"Unknown mode: {args.mode}")
             sys.exit(1)
 
-        if not posts:
-            print("No posts found to submit")
-            return
-
-        # Show what will be inspected
-        print(f"Found {len(posts)} posts to inspect:")
-        for post in posts:
-            url = submitter.post_file_to_url(post)
-            print(f"  - {post.name} -> {url}")
-
-        if args.dry_run:
-            print("\nDry run mode - no URLs were actually inspected")
-            return
-
-        # Inspect posts
-        print(f"\nInspecting {len(posts)} posts using Google Search Console...")
-        inspection_results = submitter.inspect_posts(posts)
-
         # Filter results if requested
-        if args.filter_not_submitted:
+        if args.filter_unindexed:
+            filtered_results = submitter.filter_unindexed(inspection_results)
+            print(f"\nFiltered results: {len(filtered_results)} URLs are unindexed")
+            results_to_export = filtered_results
+        elif args.filter_not_submitted:
             filtered_results = submitter.filter_not_submitted_but_indexable(
                 inspection_results
             )
@@ -620,6 +777,10 @@ def main():
 
         # Export to CSV if requested
         if args.export_csv and results_to_export:
+            csv_file = submitter.export_to_csv(results_to_export, args.csv_filename)
+            print(f"\nResults exported to: {csv_file}")
+        elif args.mode == "sitemap" and results_to_export:
+            # Auto-export for sitemap mode
             csv_file = submitter.export_to_csv(results_to_export, args.csv_filename)
             print(f"\nResults exported to: {csv_file}")
 
@@ -645,20 +806,32 @@ def main():
 
         if coverage_summary:
             print(f"\nCoverage State Summary:")
-            for state, count in coverage_summary.items():
+            for state, count in sorted(coverage_summary.items(), key=lambda x: x[1], reverse=True):
                 print(f"  {state}: {count}")
 
         if verdict_summary:
             print(f"\nVerdict Summary:")
-            for verdict, count in verdict_summary.items():
+            for verdict, count in sorted(verdict_summary.items(), key=lambda x: x[1], reverse=True):
                 print(f"  {verdict}: {count}")
 
         # Show URLs that need attention
-        if args.filter_not_submitted:
+        if args.filter_unindexed:
+            if results_to_export:
+                print(f"\n🔍 Unindexed URLs ({len(results_to_export)}):")
+                for result in results_to_export[:10]:  # Show first 10
+                    print(f"  - {result['url']}")
+                    print(f"    Coverage: {result['coverage_state']}, Verdict: {result['verdict']}")
+                if len(results_to_export) > 10:
+                    print(f"  ... and {len(results_to_export) - 10} more (see CSV export)")
+            else:
+                print(f"\n✅ All URLs are indexed!")
+        elif args.filter_not_submitted:
             if results_to_export:
                 print(f"\nURLs that are indexable but not submitted:")
-                for result in results_to_export:
+                for result in results_to_export[:10]:  # Show first 10
                     print(f"  - {result['url']} (Coverage: {result['coverage_state']})")
+                if len(results_to_export) > 10:
+                    print(f"  ... and {len(results_to_export) - 10} more")
             else:
                 print(f"\nAll indexable URLs are already submitted and indexed!")
 
@@ -666,8 +839,10 @@ def main():
         failed_results = [r for r in inspection_results if not r["success"]]
         if failed_results:
             print("\nFailed inspections:")
-            for result in failed_results:
+            for result in failed_results[:10]:  # Show first 10
                 print(f"  - {result['url']}: {result['error']}")
+            if len(failed_results) > 10:
+                print(f"  ... and {len(failed_results) - 10} more")
 
     except KeyboardInterrupt:
         print("\nOperation cancelled by user")

@@ -4,11 +4,14 @@ This script automatically inspects your new blog posts using Google Search Conso
 
 ## Features
 
--   🔍 **Multiple Detection Modes**: Find new posts by recent changes, git commits, or inspect specific URLs
+-   🔍 **Multiple Detection Modes**: Find new posts by recent changes, git commits, sitemap, or inspect specific URLs
+-   🗺️ **Sitemap Support**: Automatically fetch and inspect all URLs from your sitemap
+-   🚫 **Find Unindexed Pages**: Identify pages that are not in Google's index
+-   📊 **CSV Export**: Export inspection results to CSV for further analysis
 -   🚀 **Automatic URL Generation**: Converts Jekyll post files to proper URLs based on your site structure
 -   ⚡ **Rate Limited**: Respects Google's API rate limits with configurable delays
 -   🔐 **Secure Authentication**: Uses OAuth2 for secure API access
--   📊 **Detailed Inspection**: Provides indexing status, coverage state, and fetch results
+-   📋 **Detailed Inspection**: Provides indexing status, coverage state, and fetch results
 -   📝 **Comprehensive Logging**: Detailed logging and error handling
 -   🧪 **Dry Run Mode**: Test what would be inspected without actually making API calls
 
@@ -63,6 +66,30 @@ Make sure your website is verified in [Google Search Console](https://search.goo
 
 ## Usage
 
+### Quick Start: Find Unindexed Pages
+
+The easiest way to find unindexed pages is to use the convenience script:
+
+```bash
+./find_unindexed.sh
+```
+
+This will automatically:
+1. Fetch all URLs from your sitemap
+2. Check their indexing status with Google Search Console
+3. Filter for unindexed pages only
+4. Export results to a CSV file with timestamp
+
+You can also:
+
+```bash
+# Specify a custom CSV filename
+./find_unindexed.sh my_unindexed_pages.csv
+
+# Export all pages (not just unindexed)
+./find_unindexed.sh --all
+```
+
 ### Basic Usage
 
 Submit posts modified in the last 7 days:
@@ -103,6 +130,32 @@ python submit_posts.py --mode git --since abc1234
 python submit_posts.py --mode url --url "https://thinhdanggroup.github.io/your-post-title/"
 ```
 
+### Find Unindexed Pages from Sitemap
+
+Inspect all URLs from your sitemap and find unindexed pages:
+
+```bash
+python submit_posts.py --mode sitemap --filter-unindexed
+```
+
+Export unindexed pages to CSV:
+
+```bash
+python submit_posts.py --mode sitemap --filter-unindexed --csv-filename unindexed_pages.csv
+```
+
+Inspect all URLs from sitemap (no filtering):
+
+```bash
+python submit_posts.py --mode sitemap --export-csv
+```
+
+Use a custom sitemap URL:
+
+```bash
+python submit_posts.py --mode sitemap --sitemap-url "https://example.com/custom-sitemap.xml" --filter-unindexed
+```
+
 ### Dry Run Mode
 
 Test what would be submitted without actually submitting:
@@ -118,6 +171,42 @@ Enable detailed logging:
 ```bash
 python submit_posts.py --verbose
 ```
+
+## Understanding Unindexed Pages
+
+The script can identify various types of unindexed pages:
+
+### Unindexed States
+
+-   **Discovered - currently not indexed**: Google found the page but hasn't indexed it yet
+-   **Crawled - currently not indexed**: Google crawled the page but chose not to index it
+-   **URL is unknown to Google**: The URL hasn't been discovered by Google
+-   **Page with redirect**: The page redirects to another URL
+-   **Duplicate content**: Google detected duplicate content
+-   **Not found (404)**: The page returns a 404 error
+-   **Soft 404**: The page returns 200 but appears to be a 404 page
+-   **Blocked by robots.txt**: The page is blocked by your robots.txt file
+-   **Server error (5xx)**: The page returned a server error
+
+### Filter Options
+
+-   `--filter-unindexed`: Shows all pages that are NOT indexed (including errors)
+-   `--filter-not-submitted`: Shows only pages that are indexable (Verdict: PASS) but not submitted/indexed
+
+### CSV Export
+
+The exported CSV includes these fields:
+
+-   **url**: The page URL
+-   **success**: Whether the inspection succeeded
+-   **coverage_state**: Current indexing state
+-   **verdict**: Overall verdict (PASS, FAIL, etc.)
+-   **fetch_state**: How Google fetched the page
+-   **last_crawl_time**: When Google last crawled the page
+-   **indexing_allowed**: Whether indexing is allowed
+-   **user_canonical**: Your specified canonical URL
+-   **google_canonical**: Google's chosen canonical URL
+-   **error**: Any error messages
 
 ## Configuration
 
@@ -153,6 +242,36 @@ On first run, the script will:
 The tokens are saved in `token.json` and will be automatically refreshed as needed.
 
 ## Examples
+
+### Find and Export All Unindexed Pages
+
+1. Check which pages are unindexed:
+
+```bash
+python submit_posts.py --mode sitemap --filter-unindexed
+```
+
+2. Export to CSV for analysis:
+
+```bash
+python submit_posts.py --mode sitemap --filter-unindexed --csv-filename unindexed_$(date +%Y%m%d).csv
+```
+
+3. Inspect a specific unindexed URL for more details:
+
+```bash
+python submit_posts.py --mode url --url "https://thinhdanggroup.github.io/specific-post/" --export-csv
+```
+
+### Check Recently Updated Posts
+
+```bash
+# Check posts updated in last 7 days
+python submit_posts.py --mode recent --days 7 --export-csv
+
+# Check only unindexed recent posts
+python submit_posts.py --mode recent --days 7 --filter-unindexed --export-csv
+```
 
 ### Daily Automation
 
