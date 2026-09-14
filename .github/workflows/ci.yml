@@ -1,13 +1,13 @@
 name: CI
 
+# Runs on every branch push, not just master, so `git push` always reports
+# whether the site still builds. GitHub Pages builds the live site itself;
+# this workflow exists to catch failures before they reach production.
 on:
   push:
-    branches: [master]
   pull_request:
   workflow_dispatch:
 
-# GitHub Pages builds the live site itself; this job exists to catch build
-# failures and broken links *before* they reach production.
 jobs:
   build:
     name: Build and validate
@@ -27,14 +27,11 @@ jobs:
         env:
           JEKYLL_ENV: production
 
-      - name: Install HTMLProofer
-        run: gem install html-proofer -v 5.0.9
-
       # External links are deliberately not checked: third-party sites rate-limit
       # and go down, which would make CI fail for reasons unrelated to the change.
       - name: Check internal links and images
         run: |
-          htmlproofer ./_site \
+          bundle exec htmlproofer ./_site \
             --disable-external \
             --checks Links,Images,Scripts \
             --ignore-urls "/^#/" \

@@ -10,7 +10,6 @@
 # Ruby / Jekyll
 *.gem
 .bundle/
-Gemfile.lock
 vendor/
 _site/
 .jekyll-cache/

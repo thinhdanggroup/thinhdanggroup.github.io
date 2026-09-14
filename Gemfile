@@ -11,3 +11,8 @@ group :jekyll_plugins do
     gem "jekyll-feed", "~> 0.12"
     gem 'jekyll-sitemap'
 end
+
+# Used by CI (and available locally) to validate the built site.
+group :test do
+  gem "html-proofer", "~> 5.0"
+end
