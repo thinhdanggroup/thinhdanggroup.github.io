@@ -71,7 +71,8 @@ import time
 
 def actual_mode() -> str:
     """Which of the three configurations are we really in?"""
-    # Coerce: the config var is absent on default builds, set to 1 on free-threaded ones.
+    # Coerce: the config var is set to 1 only on free-threaded builds;
+    # treat missing or falsy as the default build.
     free_threaded = int(sysconfig.get_config_var("Py_GIL_DISABLED") or 0) == 1
     if not free_threaded:
         return "gil"
