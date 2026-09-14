@@ -57,7 +57,7 @@ LiveKit Dashboard is a **stateless**, **self-hosted** management app built with 
 
 ### 🏠 Overview Dashboard
 
-![Overview Dashboard](/assets/images/livekit-dashboard/dashboard.png)
+![Overview Dashboard](/assets/images/livekit-dashboard/dashboard.png){: width="1262" height="1325" loading="lazy" decoding="async"}
 
 Your “cockpit view.”
 Monitor room counts, participant distribution, SFU health, and API latency — refreshed every few seconds.
@@ -69,7 +69,7 @@ A DevOps engineer can spot API latency spikes within seconds instead of waiting 
 
 ### 🚪 Room Management
 
-![Room Management](/assets/images/livekit-dashboard/room.png)
+![Room Management](/assets/images/livekit-dashboard/room.png){: width="1262" height="1325" loading="lazy" decoding="async"}
 
 Create, view, and control rooms instantly — with visibility into active participants, tracks, and session states.
 
@@ -88,7 +88,7 @@ This transforms support from “reactive triage” to “proactive resolution.�
 
 ### 📹 Egress and Recording Management
 
-![Egress and Recording Management](/assets/images/livekit-dashboard/egress.png)
+![Egress and Recording Management](/assets/images/livekit-dashboard/egress.png){: width="1262" height="1325" loading="lazy" decoding="async"}
 
 Start composite recordings, monitor live jobs, and download finished files — all from the browser.
 
@@ -101,8 +101,8 @@ Click “Start Recording,” watch the status live, and access the file when don
 
 ### 📞 Optional SIP Integration
 
-![Outbound Calls](/assets/images/livekit-dashboard/outbound-calls.png)
-![Inbound Calls](/assets/images/livekit-dashboard/inbound-calls.png)
+![Outbound Calls](/assets/images/livekit-dashboard/outbound-calls.png){: width="1262" height="1325" loading="lazy" decoding="async"}
+![Inbound Calls](/assets/images/livekit-dashboard/inbound-calls.png){: width="1262" height="1325" loading="lazy" decoding="async"}
 
 Manage SIP trunks, routing, and telephony workflows directly from the interface when enabled.
 

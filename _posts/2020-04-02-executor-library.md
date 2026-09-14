@@ -40,7 +40,7 @@ Mục đích mình tạo ra thư viện này vì các thư viện hiện tại c
 
 Nguyên lý khá đơn giản:
 
-![grpc-web-model](/assets/images/executor/executor.png)
+![grpc-web-model](/assets/images/executor/executor.png){: width="251" height="291" loading="lazy" decoding="async"}
 
 Executor sẽ đẩy các Job vào một Channel. Channel sẽ làm trung gian để trung chuyển Job cho các Worker và cũng đảm bảo các Worker không quá tải.
 

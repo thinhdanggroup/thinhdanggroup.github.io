@@ -62,7 +62,7 @@ Let's explore some of the most prevalent mistakes:
 
 One of the most egregious mistakes is storing passwords in plain text. This practice leaves passwords vulnerable to anyone who gains access to the database. If an attacker breaches your database, they can see all user passwords in their original form, leading to severe security breaches.
 
-![Plain Text Password Storage](/assets/images/secure-password-storage-methods/plaintext.webp)
+![Plain Text Password Storage](/assets/images/secure-password-storage-methods/plaintext.webp){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 #### 2. Using Weak Hashing Algorithms
 
@@ -91,7 +91,7 @@ Weak password policies lead to weak passwords, which are easier to crack. Allowi
 
 #### 6. Storing Salts Insecurely
 
-![Secure Salt Storage](/assets/images/secure-password-storage-methods/insecure-salt.png)
+![Secure Salt Storage](/assets/images/secure-password-storage-methods/insecure-salt.png){: width="748" height="629" loading="lazy" decoding="async"}
 
 Salts should be stored securely alongside the hashed passwords. If salts are stored insecurely or in a separate, easily accessible location, attackers can use them to crack passwords more easily. Ensuring that salts are stored securely is as important as using them in the first place.
 
@@ -103,7 +103,7 @@ By understanding and avoiding these common mistakes, you can significantly enhan
 
 ### Hashing Passwords
 
-![Hashing Passwords](/assets/images/secure-password-storage-methods/hashing-password.png)
+![Hashing Passwords](/assets/images/secure-password-storage-methods/hashing-password.png){: width="692" height="507" loading="lazy" decoding="async"}
 
 Hashing is a fundamental technique for securing passwords. In this section, we'll explain what hashing is and why it's a critical component of password security. We'll discuss different hashing algorithms like MD5, SHA-1, and SHA-256, highlighting their strengths and weaknesses. By the end of this section, you'll have a clear understanding of how hashing works and why it's preferable to storing passwords in plain text.
 
@@ -177,7 +177,7 @@ A salt is a random value added to a password before it is hashed. The primary pu
 
 #### How Salts Work
 
-![Salting Passwords](/assets/images/secure-password-storage-methods/salting-password.png)
+![Salting Passwords](/assets/images/secure-password-storage-methods/salting-password.png){: width="661" height="583" loading="lazy" decoding="async"}
 
 When a user sets or changes their password, a unique salt is generated for that specific password. The salt is then concatenated with the user's password, and the combined string is hashed. Both the salt and the resulting hash are stored in the database. Here’s a simplified example in Python:
 
@@ -252,7 +252,7 @@ By incorporating unique salts, we can greatly enhance the security of stored pas
 
 ### Modern Password Hashing Algorithms
 
-![Modern Password Hashing Algorithms](/assets/images/secure-password-storage-methods/modern-password.png)
+![Modern Password Hashing Algorithms](/assets/images/secure-password-storage-methods/modern-password.png){: width="542" height="659" loading="lazy" decoding="async"}
 
 Not all hashing algorithms are created equal. This section will introduce modern, secure hashing algorithms such as bcrypt, scrypt, and Argon2. We'll explore the features that make these algorithms more secure, including their resistance to brute-force attacks and their ability to adapt to increasing computational power. By understanding these modern algorithms, you'll be better equipped to choose the right one for your application.
 
@@ -517,7 +517,7 @@ else:
 
 ### Step 6: Integrating Multi-Factor Authentication (MFA)
 
-![mfa](/assets/images/secure-password-storage-methods/mfa.png)
+![mfa](/assets/images/secure-password-storage-methods/mfa.png){: width="239" height="465" loading="lazy" decoding="async"}
 
 Enhancing security with Multi-Factor Authentication (MFA) can significantly reduce the risk of unauthorized access.
 Here’s a basic example using the `pyotp` library for Time-based One-Time Passwords (TOTP):
@@ -619,7 +619,7 @@ By implementing these additional security measures, you can create a more secure
 
 ## Best Practices Checklist
 
-![Secure Password Storage Checklist](/assets/images/secure-password-storage-methods/checklist.webp)
+![Secure Password Storage Checklist](/assets/images/secure-password-storage-methods/checklist.webp){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 - [ ] Hash passwords using bcrypt, Argon2, or PBKDF2.
 - [ ] Add a unique salt to each password before hashing.

@@ -100,7 +100,7 @@ In the context of testing, Testcontainers uses Docker to spin up containers with
 
 Here's a simple diagram to illustrate how Testcontainers uses Docker containers for testing:
 
-![Testcontainers and Docker](/assets/images/testcontainers/flow.png)
+![Testcontainers and Docker](/assets/images/testcontainers/flow.png){: width="464" height="357" loading="lazy" decoding="async"}
 
 In this diagram, when a developer runs a test, the test code starts a Docker container with the necessary dependencies. The test code then interacts with the container to perform the test operations. Once the test is finished, the test code stops the Docker container and returns the test results to the developer.
 

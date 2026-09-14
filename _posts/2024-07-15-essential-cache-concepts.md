@@ -255,7 +255,7 @@ def product_page(product_id):
 
 In this example, the total sales for a product are cached for 600 seconds. This reduces the load on the server by avoiding repeated calculations for the same data.
 
-![server-side-caching](/assets/images/essential-cache-concepts/server-side-caching.mermaid.svg)
+![server-side-caching](/assets/images/essential-cache-concepts/server-side-caching.mermaid.svg){: width="994" height="593" loading="lazy" decoding="async"}
 
 By leveraging server-side caching methods like page caching, fragment caching, and object caching, you can significantly improve the performance and scalability of your applications. Each method has its unique advantages, and choosing the right one depends on the specific requirements of your application.
 
@@ -308,7 +308,7 @@ def product_detail(product_id):
 
 In this example, the details of a product are cached for 600 seconds. When a user requests the product page, the application first checks the cache. If the product details are not in the cache, it fetches them from the database and stores them in the cache for future requests.
 
-![row-level-caching](/assets/images/essential-cache-concepts/row-level-caching.mmd.svg)
+![row-level-caching](/assets/images/essential-cache-concepts/row-level-caching.mmd.svg){: width="929" height="493" loading="lazy" decoding="async"}
 
 By leveraging database caching techniques like query caching and row-level caching, you can significantly reduce the load on your database and improve the performance of your application. These methods are particularly effective in read-heavy scenarios where the same data is frequently accessed.
 
@@ -339,7 +339,7 @@ def user_profile(user_id):
 
 In this example, the user profile data is cached for 3600 seconds (1 hour). When a user requests their profile, the application first checks the cache. If the profile data is not in the cache, it fetches it from the database and stores it in the cache for future requests.
 
-![data-caching](/assets/images/essential-cache-concepts/data-caching.mmd.svg)
+![data-caching](/assets/images/essential-cache-concepts/data-caching.mmd.svg){: width="879" height="593" loading="lazy" decoding="async"}
 
 By caching user profile data, the application reduces the load on the database and improves response times for user profile requests.
 
@@ -365,7 +365,7 @@ def generate_report(report_id):
 
 In this example, the report is cached for 86400 seconds (24 hours). When a user requests the report, the application first checks the cache. If the report is not in the cache, it generates the report and stores the result in the cache for future requests.
 
-![computational-caching](/assets/images/essential-cache-concepts/computional-caching.mmd.svg)
+![computational-caching](/assets/images/essential-cache-concepts/computional-caching.mmd.svg){: width="874" height="593" loading="lazy" decoding="async"}
 
 By caching the results of expensive computations, the application can serve these results quickly and reduce the computational load.
 
@@ -389,7 +389,7 @@ def update_user_profile(user_id, new_profile_data):
 
 By incorporating cache invalidation strategies, you can maintain data consistency while benefiting from the performance improvements of caching.
 
-![cache-invalidation](/assets/images/essential-cache-concepts/cache-invalidation.mmd.svg)
+![cache-invalidation](/assets/images/essential-cache-concepts/cache-invalidation.mmd.svg){: width="661" height="447" loading="lazy" decoding="async"}
 
 Application-level caching, through data caching and computational caching, can greatly enhance the performance of your application by reducing the need to repeatedly fetch data or perform expensive computations. Proper cache invalidation ensures that the cached data remains accurate and up-to-date, providing a seamless experience for users.
 
@@ -442,7 +442,7 @@ def get_product_info(product_id):
 
 In this example, the application uses Redis Sentinel to manage a distributed Redis cache. When a user requests product information, the application first checks the cache. If the product information is not in the cache, it fetches it from the database and stores it in the cache for future requests. The use of Redis Sentinel ensures high availability and automatic failover in case of node failures.
 
-![distributed-caching](/assets/images/essential-cache-concepts/distributed-caching.mmd.svg)
+![distributed-caching](/assets/images/essential-cache-concepts/distributed-caching.mmd.svg){: width="1095" height="585" loading="lazy" decoding="async"}
 
 By leveraging distributed caching, the e-commerce application can efficiently handle high traffic loads, provide fast response times, and ensure data availability even in the event of server failures.
 
@@ -666,7 +666,7 @@ To evaluate the effectiveness of these cache replacement policies, consider the 
 
 By monitoring these metrics, you can determine which cache replacement policy best suits your specific needs and workload.
 
-![cache-replacement-policies](/assets/images/essential-cache-concepts/cache-replacement-policies.mmd.svg)
+![cache-replacement-policies](/assets/images/essential-cache-concepts/cache-replacement-policies.mmd.svg){: width="865" height="208" loading="lazy" decoding="async"}
 
 Understanding these cache replacement policies and their performance implications can help you optimize your caching strategy, leading to improved application performance and resource utilization.
 
@@ -761,7 +761,7 @@ To evaluate the effectiveness of hierarchical caching, consider the following pe
 
 By monitoring these metrics, you can determine the optimal configuration for your hierarchical caching system, ensuring that it meets the performance requirements of your application.
 
-![hierarchical-caching](/assets/images/essential-cache-concepts/hierarchical-caching.mmd.svg)
+![hierarchical-caching](/assets/images/essential-cache-concepts/hierarchical-caching.mmd.svg){: width="552" height="556" loading="lazy" decoding="async"}
 
 
 ## Cache Invalidation
@@ -859,7 +859,7 @@ Caching patterns define how data is written to and read from the cache. Understa
 
 In the write-through caching pattern, data is written to both the cache and the backing store simultaneously. This ensures that the cache and the backing store are always in sync, providing strong consistency.
 
-![write-through-caching](/assets/images/essential-cache-concepts/write-through-caching.mmd.svg)
+![write-through-caching](/assets/images/essential-cache-concepts/write-through-caching.mmd.svg){: width="650" height="548" loading="lazy" decoding="async"}
 
 #### Example: Write-Through Caching in Python
 
@@ -897,7 +897,7 @@ In this example, every write operation updates both the cache and the backing st
 
 In the write-behind caching pattern, data is written to the cache first and then asynchronously to the backing store. This pattern can improve write performance by decoupling the cache and backing store operations, but it requires careful handling to ensure eventual consistency.
 
-![write-behind-caching](/assets/images/essential-cache-concepts/write-behind-caching.mmd.svg)
+![write-behind-caching](/assets/images/essential-cache-concepts/write-behind-caching.mmd.svg){: width="845" height="645" loading="lazy" decoding="async"}
 
 #### Example: Write-Behind Caching in Python
 
@@ -942,7 +942,7 @@ In this example, the write operation updates the cache immediately and then writ
 
 In the write-around caching pattern, data is written directly to the backing store, bypassing the cache. This pattern is useful for write-heavy workloads where caching write operations may not be necessary.
 
-![write-around-caching](/assets/images/essential-cache-concepts/write-around-caching.mmd.svg)
+![write-around-caching](/assets/images/essential-cache-concepts/write-around-caching.mmd.svg){: width="650" height="447" loading="lazy" decoding="async"}
 
 #### Example: Write-Around Caching in Python
 

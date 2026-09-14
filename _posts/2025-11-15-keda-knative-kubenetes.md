@@ -11,6 +11,13 @@ author:
           url: "https://www.linkedin.com/in/thinh-dang/"
 toc: true
 toc_sticky: true
+# Shares the Knative post's artwork: this post had no header block at all,
+# so og:image fell back to the generic site icon on every social share.
+header:
+    overlay_image: /assets/images/knative/banner.webp
+    og_image: /assets/images/knative/og.jpg
+    overlay_filter: 0.5
+    teaser: /assets/images/knative/teaser.webp
 title: "KEDA vs. Knative vs. Kubernetes HPA: Choosing the Right Auto-Scaling Strategy for Microservices"
 tags:
     - Autoscaling

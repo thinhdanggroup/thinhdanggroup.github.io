@@ -41,7 +41,7 @@ Redis is renowned for its support of a variety of data structures, including Str
 
 The consumer-producer pattern is a classic architectural model used to manage tasks in a distributed system. In this pattern, producers generate tasks and push them into a queue, while consumers (or workers) pull tasks from the queue and process them. Redis Lists serve as the backbone for this pattern by acting as the queue that holds the tasks.
 
-![introduction_to_celery_and_redis_diagram_1.png](/assets/images/blog-on-auto-scaling-celery-tasks-/introduction_to_celery_and_redis_diagram_1.png)
+![introduction_to_celery_and_redis_diagram_1.png](/assets/images/blog-on-auto-scaling-celery-tasks-/introduction_to_celery_and_redis_diagram_1.png){: width="651" height="401" loading="lazy" decoding="async"}
 
 Here's a simple example to illustrate how Redis Lists can be used in this context:
 
@@ -83,7 +83,7 @@ Before diving into the code, ensure you have the following installed:
 
 ### Project Structure
 
-![setting_up_a_sample_python_app_with_celery_diagram_2.png](/assets/images/blog-on-auto-scaling-celery-tasks-/setting_up_a_sample_python_app_with_celery_diagram_2.png)
+![setting_up_a_sample_python_app_with_celery_diagram_2.png](/assets/images/blog-on-auto-scaling-celery-tasks-/setting_up_a_sample_python_app_with_celery_diagram_2.png){: width="246" height="461" loading="lazy" decoding="async"}
 
 Let's start by setting up a basic project structure:
 
@@ -212,7 +212,7 @@ This script imports the `add` task and executes it asynchronously using the `app
 With these steps, you have set up a basic Python application using Celery and Redis. This setup provides a foundation for building more complex task management systems, allowing you to scale and optimize your applications effectively.
 
 
-![setting_up_a_sample_python_app_with_celery_diagram_1.png](/assets/images/blog-on-auto-scaling-celery-tasks-/setting_up_a_sample_python_app_with_celery_diagram_1.png)
+![setting_up_a_sample_python_app_with_celery_diagram_1.png](/assets/images/blog-on-auto-scaling-celery-tasks-/setting_up_a_sample_python_app_with_celery_diagram_1.png){: width="784" height="462" loading="lazy" decoding="async"}
 
 By following this guide, you gain a practical understanding of how to set up a Python application with Celery, enabling you to explore more advanced features and configurations in future projects.
 
@@ -227,7 +227,7 @@ KEDA (Kubernetes Event-Driven Autoscaler) is a powerful tool designed to manage 
 
 KEDA builds on top of existing Kubernetes primitives, extending the capabilities of the Horizontal Pod Autoscaler (HPA) to include event-driven metrics. It introduces the concept of **scalers**—components that integrate with external systems to fetch metrics and drive scaling decisions. For instance, when scaling Celery workers, KEDA can monitor the length of a Redis task queue and adjust the number of worker pods accordingly.
 
-![understanding_keda_for_auto-scaling_diagram_1.png](/assets/images/blog-on-auto-scaling-celery-tasks-/understanding_keda_for_auto-scaling_diagram_1.png)
+![understanding_keda_for_auto-scaling_diagram_1.png](/assets/images/blog-on-auto-scaling-celery-tasks-/understanding_keda_for_auto-scaling_diagram_1.png){: width="784" height="375" loading="lazy" decoding="async"}
 
 Here's a high-level overview of how KEDA integrates with Kubernetes:
 
@@ -278,9 +278,9 @@ By using KEDA, you can ensure that your Celery workers are efficiently scaled ac
 
 Deploying a Python application that utilizes Celery, Redis, and KEDA on Kubernetes requires precise configurations to ensure seamless integration and efficient auto-scaling. This section provides a comprehensive Kubernetes deployment specification for these components, focusing on optimal configurations for the Celery worker, Redis instance, and the KEDA ScaledObject. The objective is to establish a robust deployment process that supports auto-scaling based on task queue metrics, ensuring scalability and resilience.
 
-![kubernetes_deployment_specifications_diagram_2.png](/assets/images/blog-on-auto-scaling-celery-tasks-/kubernetes_deployment_specifications_diagram_2.png)
+![kubernetes_deployment_specifications_diagram_2.png](/assets/images/blog-on-auto-scaling-celery-tasks-/kubernetes_deployment_specifications_diagram_2.png){: width="784" height="369" loading="lazy" decoding="async"}
 
-![kubernetes_deployment_specifications_diagram_1.png](/assets/images/blog-on-auto-scaling-celery-tasks-/kubernetes_deployment_specifications_diagram_1.png)
+![kubernetes_deployment_specifications_diagram_1.png](/assets/images/blog-on-auto-scaling-celery-tasks-/kubernetes_deployment_specifications_diagram_1.png){: width="635" height="339" loading="lazy" decoding="async"}
 
 ### Celery Worker Deployment
 
@@ -430,7 +430,7 @@ Testing is crucial to verify the auto-scaling functionality of Celery workers. I
 
 To begin testing, ensure that your Kubernetes cluster is up and running with KEDA installed as described in the previous sections. You will also need a running instance of Redis configured as the broker for Celery.
 
-![testing_auto-scaling_of_celery_workers_diagram_1.png](/assets/images/blog-on-auto-scaling-celery-tasks-/testing_auto-scaling_of_celery_workers_diagram_1.png)
+![testing_auto-scaling_of_celery_workers_diagram_1.png](/assets/images/blog-on-auto-scaling-celery-tasks-/testing_auto-scaling_of_celery_workers_diagram_1.png){: width="784" height="333" loading="lazy" decoding="async"}
 
 
 ### Running the Celery Producer

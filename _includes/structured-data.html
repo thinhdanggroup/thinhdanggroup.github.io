@@ -1,0 +1,66 @@
+{%- comment -%}
+  BlogPosting JSON-LD for posts.
+
+  The theme only emits schema.html when the page url is the site root (a
+  condition in its seo.html), so all 146 articles shipped with no structured
+  data at all -- no machine-readable author, dates, or article body. This
+  fills that gap.
+
+  Per Google's Article documentation there are no strictly required properties
+  -- include what genuinely applies. Everything below is derived from front
+  matter that already exists, so nothing here asserts more than we know:
+  dateModified falls back to the publish date rather than inventing a revision.
+
+  https://developers.google.com/search/docs/appearance/structured-data/article
+{%- endcomment -%}
+{% if page.layout == 'single' and page.date %}
+  {%- assign sd_author = page.author.name | default: site.author.name -%}
+  {%- assign sd_desc = page.description | default: page.excerpt | strip_html | normalize_whitespace -%}
+  {%- if page.header.og_image -%}
+    {%- assign sd_image = page.header.og_image | absolute_url -%}
+  {%- elsif page.header.overlay_image -%}
+    {%- assign sd_image = page.header.overlay_image | absolute_url -%}
+  {%- elsif page.header.teaser -%}
+    {%- assign sd_image = page.header.teaser | absolute_url -%}
+  {%- else -%}
+    {%- assign sd_image = site.og_image | absolute_url -%}
+  {%- endif -%}
+  {%- assign sd_modified = page.last_modified_at | default: page.date -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": {{ page.url | absolute_url | jsonify }}
+  },
+  "url": {{ page.url | absolute_url | jsonify }},
+  "headline": {{ page.title | markdownify | strip_html | normalize_whitespace | strip | jsonify }},
+  {% if sd_desc != "" %}"description": {{ sd_desc | strip | jsonify }},{% endif %}
+  "image": {{ sd_image | jsonify }},
+  "datePublished": {{ page.date | date_to_xmlschema | jsonify }},
+  "dateModified": {{ sd_modified | date_to_xmlschema | jsonify }},
+  "inLanguage": {{ page.lang | default: site.locale | default: "en-US" | jsonify }},
+  "wordCount": {{ page.content | strip_html | number_of_words }},
+  "author": {
+    "@type": "Person",
+    "name": {{ sd_author | jsonify }},
+    "url": {{ "/about/" | absolute_url | jsonify }}
+    {%- if site.social.links %},
+    "sameAs": {{ site.social.links | jsonify }}
+    {%- endif %}
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": {{ site.author.name | jsonify }},
+    "url": {{ site.url | jsonify }}
+  }
+  {%- if page.tags and page.tags != empty %},
+  "keywords": {{ page.tags | join: ", " | jsonify }}
+  {%- endif %}
+  {%- if page.categories and page.categories != empty %},
+  "articleSection": {{ page.categories | first | jsonify }}
+  {%- endif %}
+}
+</script>
+{% endif %}

@@ -33,7 +33,7 @@ This article aims to guide data scientists and analysts through the essential te
 
 When dealing with large datasets, memory optimization becomes a critical factor for ensuring smooth and efficient data processing. Pandas, a powerful data manipulation library in Python, is widely used by data scientists and analysts to handle and analyze data. However, as the size of the data grows, so does the memory consumption, leading to potential performance bottlenecks and even system crashes.
 
-![introduction_to_memory_optimization_in_pandas](/assets/images/pandas-memory-optimization/introduction_to_memory_optimization_in_pandas.webp)
+![introduction_to_memory_optimization_in_pandas](/assets/images/pandas-memory-optimization/introduction_to_memory_optimization_in_pandas.webp){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 ### Why Memory Optimization Matters
 
@@ -68,7 +68,7 @@ Stay tuned as we delve deeper into the world of memory optimization in Pandas, e
 
 When working with large datasets in Pandas, understanding and optimizing memory usage can significantly enhance performance and efficiency. Here, we will dive into how Pandas DataFrames consume memory, explaining the memory footprint of different data types and structures within a DataFrame. This section will also cover how to use Pandas' built-in functions, such as `memory_usage()` and `info()`, to inspect and understand the memory consumption of your DataFrames.
 
-![understanding_dataframe_memory_usage](/assets/images/pandas-memory-optimization/understanding_dataframe_memory_usage.jpeg)
+![understanding_dataframe_memory_usage](/assets/images/pandas-memory-optimization/understanding_dataframe_memory_usage.jpeg){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 #### Memory Footprint of Data Types
 
@@ -172,7 +172,7 @@ By understanding and leveraging these techniques, you can significantly reduce t
 
 One of the most effective ways to optimize memory usage in Pandas DataFrames is by changing data types. This section will explore how to downcast numeric types, convert object types to category types, and use more memory-efficient data types. Let's dive into practical examples and code snippets to illustrate these optimizations.
 
-![optimizing_data_types](/assets/images/pandas-memory-optimization/optimizing_data_types.jpeg)
+![optimizing_data_types](/assets/images/pandas-memory-optimization/optimizing_data_types.jpeg){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 ### Downcasting Numeric Types
 
@@ -367,7 +367,7 @@ By manually specifying data types, you can ensure that the DataFrame uses memory
 
 In this part, we will discuss techniques for efficiently loading data into Pandas DataFrames. Topics will include selective column loading, parsing dates, and using chunksize to handle large files. We will provide best practices and tips to ensure that your data loading process is both fast and memory-efficient.
 
-![efficient_data_loading_techniques](/assets/images/pandas-memory-optimization/efficient_data_loading_techniques.jpeg)
+![efficient_data_loading_techniques](/assets/images/pandas-memory-optimization/efficient_data_loading_techniques.jpeg){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 ### Selective Column Loading
 
@@ -669,7 +669,7 @@ By understanding and leveraging sparse data structures, you can optimize memory 
 
 Monitoring memory usage is crucial for identifying bottlenecks and optimizing performance. In this section, we will explore tools and techniques for profiling and monitoring memory usage in Pandas. We will introduce libraries like `memory_profiler` and `Heapy`, and show how to integrate them into your workflow to keep track of memory consumption.
 
-![memory_profiling_and_monitoring](/assets/images/pandas-memory-optimization/memory_profiling_and_monitoring.webp)
+![memory_profiling_and_monitoring](/assets/images/pandas-memory-optimization/memory_profiling_and_monitoring.webp){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 ### Using `memory_profiler`
 
@@ -836,7 +836,7 @@ By integrating these tools and techniques into your workflow, you can effectivel
 
 To bring all the concepts together, we will present case studies and real-world examples of memory optimization in Pandas. These examples will demonstrate how the techniques discussed in the blog post can be applied to real datasets to achieve significant memory savings and performance improvements.
 
-![case_studies_and_real_world_examples](/assets/images/pandas-memory-optimization/case_studies_and_real-world_examples.webp)
+![case_studies_and_real_world_examples](/assets/images/pandas-memory-optimization/case_studies_and_real-world_examples.webp){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 ### Case Study 1: Optimizing a Financial Dataset
 
@@ -997,7 +997,7 @@ These case studies illustrate how memory optimization techniques can be applied 
 
 In the final section, we will summarize the key points discussed in the blog post and provide a list of best practices for memory optimization in Pandas. This will serve as a handy reference for readers to implement memory optimization techniques in their own projects.
 
-![conclusion_and_best_practices](/assets/images/pandas-memory-optimization/conclusion_and_best_practices.jpeg)
+![conclusion_and_best_practices](/assets/images/pandas-memory-optimization/conclusion_and_best_practices.jpeg){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 ### Summary of Key Points and Best Practices for Memory Optimization in Pandas
 

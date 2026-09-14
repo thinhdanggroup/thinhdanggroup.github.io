@@ -1,0 +1,55 @@
+{%- comment -%}
+  Local override of minimal-mistakes 4.28.1 _includes/page__meta.html.
+
+  Only change from upstream: a visible author byline linking to /about, shown
+  on single posts. Posts run with author_profile: false so the reading column
+  gets the width back, which removed the only place the author's name appeared
+  on an article. Google's "Who / How / Why" guidance asks for self-evident
+  authorship with "bylines linking to author backgrounds", so the name comes
+  back here rather than by restoring the whole sidebar rail.
+
+  Suppressed in grid/list teasers (include.type) so archive cards stay compact.
+{%- endcomment -%}
+{% assign locale = include.locale | default: site.locale %}
+{% assign document = post | default: page %}
+{% if document.read_time or document.show_date %}
+  <p class="page__meta">
+    {% if include.type == nil and document.date %}
+      {% assign meta_author = document.author.name | default: document.author | default: site.author.name %}
+      {% if meta_author %}
+        <span class="page__meta-author">
+          <i class="far fa-user" aria-hidden="true"></i>
+          <a href="{{ '/about/' | relative_url }}" rel="author">{{ meta_author }}</a>
+        </span>
+        <span class="page__meta-sep"></span>
+      {% endif %}
+    {% endif %}
+
+    {% if document.show_date and document.date %}
+      {% assign date = document.date %}
+      <span class="page__meta-date">
+        <i class="far {% if include.type == 'grid' and document.read_time and document.show_date %}fa-fw {% endif %}fa-calendar-alt" aria-hidden="true"></i>
+        {% assign date_format = document.date_format | default: site.date_format | default: "%B %-d, %Y" %}
+        <time datetime="{{ date | date_to_xmlschema }}">{{ date | date: date_format }}</time>
+      </span>
+    {% endif %}
+
+    {% if document.read_time and document.show_date %}<span class="page__meta-sep"></span>{% endif %}
+
+    {% if document.read_time %}
+      {% assign words_per_minute = document.words_per_minute | default: site.words_per_minute | default: 200 %}
+      {% assign words = document.content | strip_html | number_of_words %}
+
+      <span class="page__meta-readtime">
+        <i class="far {% if include.type == 'grid' and document.read_time and document.show_date %}fa-fw {% endif %}fa-clock" aria-hidden="true"></i>
+        {% if words < words_per_minute %}
+          {{ site.data.ui-text[locale].less_than | default: "less than" }} 1 {{ site.data.ui-text[locale].minute_read | default: "minute read" }}
+        {% elsif words == words_per_minute %}
+          1 {{ site.data.ui-text[locale].minute_read | default: "minute read" }}
+        {% else %}
+          {{ words | divided_by: words_per_minute }} {{ site.data.ui-text[locale].minute_read | default: "minute read" }}
+        {% endif %}
+      </span>
+    {% endif %}
+  </p>
+{% endif %}

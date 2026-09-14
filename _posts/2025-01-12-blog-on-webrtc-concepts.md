@@ -39,7 +39,7 @@ Web Real-Time Communication (WebRTC) is a transformative technology in the realm
 
 To grasp the full potential of WebRTC, it's essential to understand its core components and how they interact to facilitate real-time communication:
 
-![introduction_to_webrtc_diagram_1.png](/assets/images/blog-on-webrtc-concepts-/introduction_to_webrtc_diagram_1.png)
+![introduction_to_webrtc_diagram_1.png](/assets/images/blog-on-webrtc-concepts-/introduction_to_webrtc_diagram_1.png){: width="784" height="555" loading="lazy" decoding="async"}
 
 #### RTCPeerConnection
 
@@ -74,7 +74,7 @@ In this section, we delve into the mechanics of how WebRTC operates. WebRTC, or 
 
 The process of establishing a connection between two peers in WebRTC involves several key steps, primarily centered around the signaling process. Signaling is the method by which peers exchange control messages to negotiate communication parameters such as network configuration and media capabilities. Although WebRTC itself does not define a signaling protocol, developers often use protocols like WebSockets or SIP (Session Initiation Protocol) to handle this exchange.
 
-![how_webrtc_works_diagram_1.png](/assets/images/blog-on-webrtc-concepts-/how_webrtc_works_diagram_1.png)
+![how_webrtc_works_diagram_1.png](/assets/images/blog-on-webrtc-concepts-/how_webrtc_works_diagram_1.png){: width="784" height="379" loading="lazy" decoding="async"}
 
 ##### Signaling Process
 
@@ -106,7 +106,7 @@ By understanding these processes, you gain insight into the workflow that powers
 
 The handshake process in WebRTC is a critical step in establishing a secure and reliable connection between peers. This section will break down the stages involved in the handshake, from the initial offer and answer exchange to the role of the Session Description Protocol (SDP) in negotiating media parameters. 
 
-![the_handshake_process_in_webrtc_diagram_1.png](/assets/images/blog-on-webrtc-concepts-/the_handshake_process_in_webrtc_diagram_1.png)
+![the_handshake_process_in_webrtc_diagram_1.png](/assets/images/blog-on-webrtc-concepts-/the_handshake_process_in_webrtc_diagram_1.png){: width="660" height="539" loading="lazy" decoding="async"}
 
 ### Initial Offer and Answer Exchange
 
@@ -160,7 +160,7 @@ By comprehending each stage of the handshake process, you can optimize your WebR
 
 Audio streaming is a core feature of WebRTC, enabling real-time audio communication between peers. In this section, we'll delve into the intricacies of how audio data is exchanged, focusing on capturing, transmitting, and managing audio streams to ensure a seamless user experience.
 
-![audio_data_stream_exchange_in_webrtc_diagram_1.png](/assets/images/blog-on-webrtc-concepts-/audio_data_stream_exchange_in_webrtc_diagram_1.png)
+![audio_data_stream_exchange_in_webrtc_diagram_1.png](/assets/images/blog-on-webrtc-concepts-/audio_data_stream_exchange_in_webrtc_diagram_1.png){: width="784" height="415" loading="lazy" decoding="async"}
 
 #### Capturing Audio with getUserMedia
 
@@ -213,7 +213,7 @@ By understanding these concepts, developers can implement robust audio communica
 
 A practical understanding of WebRTC is best achieved through hands-on experience. In this section, we'll provide sample code snippets to demonstrate a basic WebRTC implementation. You'll see how to set up a simple peer-to-peer connection, capture and transmit media streams, and handle signaling using WebSockets or other channels. The code examples will help solidify your understanding of the WebRTC concepts discussed earlier, offering a foundation to build more complex applications. By the end of this section, you'll have the tools to start experimenting with WebRTC in your own projects.
 
-![sample_code_for_webrtc_implementation_diagram_1.png](/assets/images/blog-on-webrtc-concepts-/sample_code_for_webrtc_implementation_diagram_1.png)
+![sample_code_for_webrtc_implementation_diagram_1.png](/assets/images/blog-on-webrtc-concepts-/sample_code_for_webrtc_implementation_diagram_1.png){: width="651" height="539" loading="lazy" decoding="async"}
 
 #### Setting Up a Peer-to-Peer Connection
 
@@ -304,7 +304,7 @@ To ensure the success of your WebRTC applications, it's crucial to follow best p
 
 WebRTC applications often operate in environments with varying network conditions. To maintain a seamless user experience, consider implementing adaptive bitrate streaming. This technique dynamically adjusts the quality of the media stream based on current network conditions, ensuring smooth playback even when bandwidth fluctuates. Additionally, employing jitter buffers can help manage packet delays and reduce audio and video disruptions.
 
-![best_practices_for_webrtc_implementation_diagram_1.png](/assets/images/blog-on-webrtc-concepts-/best_practices_for_webrtc_implementation_diagram_1.png)
+![best_practices_for_webrtc_implementation_diagram_1.png](/assets/images/blog-on-webrtc-concepts-/best_practices_for_webrtc_implementation_diagram_1.png){: width="784" height="370" loading="lazy" decoding="async"}
 
 #### Robust Error Handling
 

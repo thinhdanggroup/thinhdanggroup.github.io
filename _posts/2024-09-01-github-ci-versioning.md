@@ -31,7 +31,7 @@ This article is a comprehensive guide for Python developers looking to enhance t
 
 ### Introduction to Git Versioning
 
-![git-intro](/assets/images/2024-09-01-github-ci-versioning/git-intro.webp)
+![git-intro](/assets/images/2024-09-01-github-ci-versioning/git-intro.webp){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 Version control is the backbone of modern software development, and Git is one of the most popular systems used by  developers worldwide. In this section, we will explore the importance of versioning in software projects, particularly  in Python. We'll discuss how Git helps track changes, manage collaboration, and maintain a history of project  development. Understanding the fundamentals of Git versioning is crucial for efficient project management and successful  collaboration among team members.
 
@@ -45,7 +45,7 @@ In any development project, the ability to track changes over time is essential.
 
 #### Setting Up Git for Your Python Project
 
-![git-setup](/assets/images/2024-09-01-github-ci-versioning/git-setup.png)
+![git-setup](/assets/images/2024-09-01-github-ci-versioning/git-setup.png){: width="547" height="493" loading="lazy" decoding="async"}
 
 Before diving into version control, it's important to configure Git with your user information:
 
@@ -88,7 +88,7 @@ By mastering these concepts, you can leverage Git to its full potential, ensurin
 
 ### Setting Up Git for Your Python Project
 
-![git-setup-python](/assets/images/2024-09-01-github-ci-versioning/git-setup-python.webp)
+![git-setup-python](/assets/images/2024-09-01-github-ci-versioning/git-setup-python.webp){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 Before diving into continuous integration and GitHub Actions, it's essential to set up Git correctly for your Python  project. This section will guide you through initializing a Git repository, creating a `.gitignore` file to manage  unnecessary files, and setting up branch strategies. We'll also cover best practices for committing code, writing  meaningful commit messages, and using tags to mark release points in your project. Proper setup ensures a smooth  workflow and prepares your project for CI integration.
 
@@ -164,7 +164,7 @@ With these foundational steps, your Python project will be well-organized and re
 
 ## Introduction to Continuous Integration (CI)
 
-![ci](/assets/images/2024-09-01-github-ci-versioning/ci.jpeg)
+![ci](/assets/images/2024-09-01-github-ci-versioning/ci.jpeg){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 Continuous Integration (CI) is a cornerstone of modern software development, particularly in Python projects, where  agility and rapid iteration are key. CI is a practice where developers frequently integrate their code changes into a  shared repository. This approach allows teams to detect and address bugs early, improving software quality and  accelerating release cycles.
 
@@ -313,7 +313,7 @@ By implementing these practices, you can create a robust CI pipeline that automa
 
 ### Best Practices for Versioning with CI and GitHub Actions
 
-![best-practice](/assets/images/2024-09-01-github-ci-versioning/best-practice.webp)
+![best-practice](/assets/images/2024-09-01-github-ci-versioning/best-practice.webp){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 Combining Git versioning with CI and GitHub Actions requires following best practices to maximize efficiency and  maintain project integrity. This section will cover strategies for effective branching, version tagging, and automated  testing. We'll also discuss handling merge conflicts and ensuring code quality through automated checks.
 
@@ -386,4 +386,4 @@ Regularly review and refine your CI/CD processes to adapt to changing requiremen
 
 By adhering to these best practices, you'll ensure a robust and reliable development process that minimizes errors and  accelerates delivery.
 
-![conclusion](/assets/images/2024-09-01-github-ci-versioning/conclusion.webp)
+![conclusion](/assets/images/2024-09-01-github-ci-versioning/conclusion.webp){: width="1024" height="1024" loading="lazy" decoding="async"}

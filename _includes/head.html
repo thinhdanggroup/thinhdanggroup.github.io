@@ -15,6 +15,12 @@
 
 {% include seo.html locale=locale %}
 
+{%- comment -%}
+  The theme's seo.html only emits JSON-LD on the home page, so posts
+  carried none. See _includes/structured-data.html.
+{%- endcomment -%}
+{% include structured-data.html %}
+
 {% unless site.atom_feed.hide %}
   <link href="{% if site.atom_feed.path %}{{ site.atom_feed.path }}{% else %}{{ '/feed.xml' | relative_url }}{% endif %}" type="application/atom+xml" rel="alternate" title="{{ site.title }} Feed">
 {% endunless %}

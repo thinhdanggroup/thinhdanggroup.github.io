@@ -33,7 +33,7 @@ This article aims to simplify the concept of SIP Trunking and its relevance in m
 
 In today's rapidly evolving communication landscape, SIP Trunking stands out as a transformative technology, revolutionizing the way businesses handle voice and unified communications. But what exactly is SIP Trunking, and why is it garnering so much attention?
 
-![introduction_to_sip_trunking_diagram_2.png](/assets/images/blog-about-sip-trunking-communication-/introduction_to_sip_trunking_diagram_2.png)
+![introduction_to_sip_trunking_diagram_2.png](/assets/images/blog-about-sip-trunking-communication-/introduction_to_sip_trunking_diagram_2.png){: width="784" height="413" loading="lazy" decoding="async"}
 
 **SIP Trunking** is a method of transmitting voice and other unified communications over the internet, effectively replacing traditional phone lines. This technology leverages the **Session Initiation Protocol (SIP)** to establish and manage connections between different communication endpoints. By doing so, it provides a more flexible and scalable solution compared to traditional telephony systems.
 
@@ -72,7 +72,7 @@ The Session Initiation Protocol (SIP) is the backbone of SIP Trunking, responsib
 
 Here's a simplified breakdown of how SIP works:
 
-![how_sip_trunking_works_diagram_1.png](/assets/images/blog-about-sip-trunking-communication-/how_sip_trunking_works_diagram_1.png)
+![how_sip_trunking_works_diagram_1.png](/assets/images/blog-about-sip-trunking-communication-/how_sip_trunking_works_diagram_1.png){: width="650" height="631" loading="lazy" decoding="async"}
 
 1. **Session Initiation**: When a call is made, a SIP INVITE message is sent from the caller's endpoint to the recipient. This message contains details such as the SIP addresses of both parties and the media capabilities supported.
 
@@ -84,7 +84,7 @@ Here's a simplified breakdown of how SIP works:
 
 SIP Trunking integrates with existing Private Branch Exchange (PBX) systems to provide seamless connectivity. This integration allows businesses to transition from traditional telephony systems to modern, internet-based communication without overhauling their existing infrastructure. Here's how it typically works:
 
-![how_sip_trunking_works_diagram_2.png](/assets/images/blog-about-sip-trunking-communication-/how_sip_trunking_works_diagram_2.png)
+![how_sip_trunking_works_diagram_2.png](/assets/images/blog-about-sip-trunking-communication-/how_sip_trunking_works_diagram_2.png){: width="408" height="316" loading="lazy" decoding="async"}
 
 - **PBX Compatibility**: Most modern PBX systems are SIP-enabled, allowing them to connect with SIP Trunks directly. For older systems, a SIP gateway may be required to bridge the gap.
 
@@ -105,7 +105,7 @@ In today's digital landscape, integrating real-time voice communication into web
 
 To begin, establishing a connection between your web application and a SIP Trunking provider requires a series of configurations and integrations. Here's a step-by-step guide:
 
-![connecting_web_applications_to_sip_trunking_diagram_2.png](/assets/images/blog-about-sip-trunking-communication-/connecting_web_applications_to_sip_trunking_diagram_2.png)
+![connecting_web_applications_to_sip_trunking_diagram_2.png](/assets/images/blog-about-sip-trunking-communication-/connecting_web_applications_to_sip_trunking_diagram_2.png){: width="544" height="523" loading="lazy" decoding="async"}
 
 1. **Account Setup with a SIP Trunking Provider**: 
    - To start, you'll need to create an account with a SIP Trunking service provider like Twilio. This process typically involves setting up billing information and selecting the appropriate plan based on your expected call volume.
@@ -180,7 +180,7 @@ To maintain high-quality audio communication, it's essential to manage latency, 
 To illustrate the flow of audio streams between a web application and a SIP Trunking provider, consider the following PlantUML diagram:
 
 
-![audio_media_stream_flow_diagram_1.png](/assets/images/blog-about-sip-trunking-communication-/audio_media_stream_flow_diagram_1.png)
+![audio_media_stream_flow_diagram_1.png](/assets/images/blog-about-sip-trunking-communication-/audio_media_stream_flow_diagram_1.png){: width="650" height="401" loading="lazy" decoding="async"}
 
 This diagram demonstrates the initial SIP signaling exchange followed by the RTP audio stream transmission. The web application initiates the call with a SIP INVITE, and once the session is established, audio data flows via RTP to the SIP Trunking provider, which then forwards it to the receiver.
 
@@ -193,7 +193,7 @@ By understanding these processes and implementing the appropriate protocols and 
 
 Communication between web applications and SIP Trunking service providers is facilitated through a series of message exchanges. These messages are part of the SIP protocol, which is responsible for initiating, maintaining, and terminating communication sessions. Here, we'll delve into the primary SIP messages exchanged during these processes, providing insights into their roles and significance.
 
-![message_exchange_between_web_applications_and_sip_providers_diagram_1.png](/assets/images/blog-about-sip-trunking-communication-/message_exchange_between_web_applications_and_sip_providers_diagram_1.png)
+![message_exchange_between_web_applications_and_sip_providers_diagram_1.png](/assets/images/blog-about-sip-trunking-communication-/message_exchange_between_web_applications_and_sip_providers_diagram_1.png){: width="450" height="401" loading="lazy" decoding="async"}
 
 ### INVITE
 
@@ -221,7 +221,7 @@ By understanding the roles of these messages, developers can better manage SIP s
 
 ## Conclusion
 
-![conclusion_diagram_1.png](/assets/images/blog-about-sip-trunking-communication-/conclusion_diagram_1.png)
+![conclusion_diagram_1.png](/assets/images/blog-about-sip-trunking-communication-/conclusion_diagram_1.png){: width="650" height="677" loading="lazy" decoding="async"}
 
 
 In conclusion, SIP Trunking stands as a transformative technology that reshapes the landscape of digital communication. Its ability to offer efficient, scalable, and cost-effective solutions makes it a compelling choice for businesses aiming to enhance their communication infrastructure. By delving into the mechanics of SIP Trunking, we have explored how web applications can seamlessly connect with SIP providers like Twilio, ensuring smooth and reliable communication channels.

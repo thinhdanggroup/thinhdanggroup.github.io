@@ -327,6 +327,13 @@ defaults:
       sitemap:
         changefreq: monthly
         priority: 0.9
+  # Infographic assets embedded in posts -- supporting material, not articles.
+  # They were being submitted for indexing as standalone thin pages that
+  # competed with the posts they belong to. Also carry a noindex meta tag.
+  - scope:
+      path: "assets/htmls"
+    values:
+      sitemap: false
   # _pages
   - scope:
       path: "_pages"

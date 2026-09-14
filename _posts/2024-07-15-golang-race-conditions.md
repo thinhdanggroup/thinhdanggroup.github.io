@@ -93,7 +93,7 @@ As seen, the final value of `counter` is inconsistent, indicating a race conditi
 
 In the next sections, we'll explore synchronization mechanisms available in Golang to address race conditions, delve into the impact on performance, and discuss best practices to prevent these issues.
 
-![image](/assets/images/golang-race-conditions/2-goroutines.png)
+![image](/assets/images/golang-race-conditions/2-goroutines.png){: width="501" height="424" loading="lazy" decoding="async"}
 
 
 ## Identifying Race Conditions in Golang

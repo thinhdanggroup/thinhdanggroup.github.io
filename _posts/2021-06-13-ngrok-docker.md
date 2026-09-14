@@ -38,7 +38,7 @@ Ngrok hỗ trợ rất nhiều tính năng như:
 Trong bài viết này, mình sẽ hướng dẫn sử dụng ngrok một cách dễ dàng với docker-compose. Như chúng ta đã biết, docker giúp ta giải quyết các vấn đề phức tạp về cài đặt và cấu hình hệ thống. Ví dụ dưới đây, mình sẽ demo một hệ thống với nhiều thành phần: proxy, web server, ssh server.
 
 
-![deployment](/assets/images/ngrok/ngrok-docker.png)
+![deployment](/assets/images/ngrok/ngrok-docker.png){: width="431" height="661" loading="lazy" decoding="async"}
 
 Tất cả source code có sẵn ở [thinhdanggroup/ngrok-docker](https://github.com/thinhdanggroup/ngrok-docker), các thành phần:
 
@@ -55,11 +55,11 @@ Bắt đầu sử dùng nào:
 	docker-compose up
 	```
 - Khi cluster khởi động thành công, ta sẽ thấy log sau:
-	![log-docker](/assets/images/ngrok/log-docker.png)
+	![log-docker](/assets/images/ngrok/log-docker.png){: width="1162" height="376" loading="lazy" decoding="async"}
 - Có 2 tunnel đã được tạo là:
   - HTTP: truy cập vào domain trên console
-        ![http](/assets/images/ngrok/http-example.png)
+        ![http](/assets/images/ngrok/http-example.png){: width="581" height="210" loading="lazy" decoding="async"}
   - SSH: với ssh ta chạy lệnh `ssh -p 14693 root@2.tcp.ngrok.io`
-        ![ssh](/assets/images/ngrok/ssh-example.png)
+        ![ssh](/assets/images/ngrok/ssh-example.png){: width="786" height="311" loading="lazy" decoding="async"}
 
 Với docker thì mọi thứ thật dễ dàng, hãy thử áp dụng và thay đổi simple-web thành image bạn muốn nhé.

@@ -1,0 +1,41 @@
+{%- comment -%}
+  Local override of minimal-mistakes 4.28.1 _includes/archive-single.html.
+
+  Only change from upstream: the teaser <img> gains loading/decoding hints and
+  an empty alt is made explicit. Teasers ship at several aspect ratios
+  (640x640, 640x427, 640x349, ...), so rather than declare per-image
+  width/height here the container pins one ratio in CSS with object-fit: cover
+  -- that removes the layout shift and makes the card grid uniform.
+  See "Teaser cards" in assets/css/main.scss.
+{%- endcomment -%}
+{% assign locale = include.locale | default: site.locale %}
+{% if post.header.teaser %}
+  {% capture teaser %}{{ post.header.teaser }}{% endcapture %}
+{% else %}
+  {% assign teaser = site.teaser %}
+{% endif %}
+
+{% if post.id %}
+  {% assign title = post.title | markdownify | remove: "<p>" | remove: "</p>" %}
+{% else %}
+  {% assign title = post.title %}
+{% endif %}
+
+<div class="{{ include.type | default: 'list' }}__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork"{% if post.locale %} lang="{{ post.locale }}"{% endif %}>
+    {% if include.type == "grid" and teaser %}
+      <div class="archive__item-teaser">
+        <img src="{{ teaser | relative_url }}" alt="" loading="lazy" decoding="async">
+      </div>
+    {% endif %}
+    <h2 class="archive__item-title no_toc p-name" itemprop="headline">
+      {% if post.link %}
+        <a href="{{ post.link }}">{{ title }}</a> <a class="u-url" href="{{ post.url | relative_url }}" rel="permalink"><i class="fas fa-link" aria-hidden="true" title="permalink"></i><span class="sr-only">Permalink</span></a>
+      {% else %}
+        <a class="u-url" href="{{ post.url | relative_url }}" rel="permalink">{{ title }}</a>
+      {% endif %}
+    </h2>
+    {% include page__meta.html locale=locale type=include.type %}
+    {% if post.excerpt %}<p class="archive__item-excerpt p-summary" itemprop="description">{{ post.excerpt | markdownify | strip_html | truncate: 160 }}</p>{% endif %}
+  </article>
+</div>

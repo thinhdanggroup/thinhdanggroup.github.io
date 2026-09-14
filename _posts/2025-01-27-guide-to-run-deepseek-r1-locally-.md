@@ -198,6 +198,6 @@ With the server running, you can now interact with Deepseek R1 in real-time thro
 
 Access the Chat-UI interface in your web browser by navigating to `http://localhost:3000`, where you can engage with Deepseek R1 and witness its powerful reasoning abilities firsthand.
 
-![Chat-UI Interface](/assets/images/guide-to-run-deepseek-r1-locally-/ui.png)
+![Chat-UI Interface](/assets/images/guide-to-run-deepseek-r1-locally-/ui.png){: width="1200" height="577" loading="lazy" decoding="async"}
 
 You can found the all configuration files and source code in the [GitHub repository](https://github.com/thinhdanggroup/thinhda_dev_blog/tree/main/deep_seek_r1)

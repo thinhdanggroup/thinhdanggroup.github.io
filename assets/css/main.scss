@@ -192,6 +192,45 @@ figure.highlight {
 }
 
 /* --------------------------------------------------------------------------
+   Teaser cards. Teasers ship at mixed aspect ratios (640x640, 640x427, ...),
+   so the browser could not reserve space before load -- a layout shift on
+   every archive and related-posts grid. Pinning one ratio on the container
+   fixes the shift and makes the grid uniform.
+   -------------------------------------------------------------------------- */
+.archive__item-teaser {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+}
+
+.archive__item-teaser img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Content images: dimensions are declared per image in the markdown (kramdown
+   IAL), so the browser reserves the right box. Keep them fluid regardless. */
+.page__content img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Author byline sits alongside the date and read time. */
+.page__meta-author {
+  white-space: nowrap;
+}
+
+.page__meta-author a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page__meta-author a:hover {
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
    5. Dark mode. The theme's compiled CSS carries literal colours, so these
       are literal overrides rather than variable swaps.
    -------------------------------------------------------------------------- */

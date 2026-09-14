@@ -182,7 +182,7 @@ Efficiently handling missing data and optimizing data types can also improve per
 By carefully managing missing data and optimizing data types, you can reduce memory usage and improve the speed of your
 data loading operations.
 
-![Less Memory Usage](/assets/images/pandas-performance-tips/less-mem-more-speed.webp)
+![Less Memory Usage](/assets/images/pandas-performance-tips/less-mem-more-speed.webp){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 Incorporating these techniques will help you load data more efficiently, setting a solid foundation for further analysis
 and processing in Pandas.
@@ -432,7 +432,7 @@ are all essential strategies for optimizing memory usage in Pandas.
 
 ## Parallel Processing with Pandas
 
-![performance](/assets/images/pandas-performance-tips/parallel-processing.webp)
+![performance](/assets/images/pandas-performance-tips/parallel-processing.webp){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 Parallel processing can significantly speed up data processing tasks in Pandas. This section will introduce you to
 parallel processing techniques, including using the Dask library, joblib, and multiprocessing. We will explain how to
@@ -594,7 +594,7 @@ processing tasks and handle large datasets more efficiently.
 
 ## Profiling and Benchmarking
 
-![performance](/assets/images/pandas-performance-tips/profiling-benchmarking.webp)
+![performance](/assets/images/pandas-performance-tips/profiling-benchmarking.webp){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 Profiling and benchmarking are essential for identifying performance bottlenecks and measuring the impact of
 optimization techniques. In this section, we will explore tools and methods for profiling your Pandas code, such

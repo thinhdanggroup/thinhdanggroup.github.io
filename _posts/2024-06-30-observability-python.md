@@ -61,7 +61,7 @@ To effectively implement observability in microservices, developers should adher
 
 4. **Tool Integration**: Leveraging the right tools is essential for implementing observability. Tools like Prometheus, Grafana, the ELK stack (Elasticsearch, Logstash, Kibana), and Jaeger provide robust solutions for metrics, visualization, log aggregation, and distributed tracing, respectively.
 
-![Observability in Microservices](/assets/images/python-observability/observability.webp)
+![Observability in Microservices](/assets/images/python-observability/observability.webp){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 By embracing these principles, developers can gain deep insights into their microservices architecture, ensuring that they can maintain and scale their systems efficiently. The following sections will delve deeper into each of these concepts, providing practical guidance and best practices for implementing observability in microservices.
 
@@ -396,7 +396,7 @@ Grafana is an open-source platform for monitoring and observability. It allows y
 2. **Create Dashboard**: Navigate to "Dashboards" and click "New Dashboard".
 3. **Add Panels**: Add panels to visualize metrics like latency, throughput, and error rate.
 
-![Grafana Dashboard](/assets/images/python-observability/grafana-dashboard.webp)
+![Grafana Dashboard](/assets/images/python-observability/grafana-dashboard.webp){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 ### Setting Up Alerts
 
@@ -423,7 +423,7 @@ groups:
 1. **Navigate to Panel**: Go to the panel where you want to set up the alert.
 2. **Configure Alert**: Click on the "Alert" tab and set conditions based on your metrics.
 
-![Grafana Alert](/assets/images/python-observability/grafana-alert.webp)
+![Grafana Alert](/assets/images/python-observability/grafana-alert.webp){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 By monitoring these metrics and setting up alerts, you can ensure the performance and reliability of your microservices.
 
@@ -571,7 +571,7 @@ Once tracing is implemented, you can use Jaeger or Zipkin's UI to visualize and 
 - **Error Analysis**: Highlights errors and where they occur within the trace.
 - **Latency Analysis**: Identifies slow operations contributing to overall latency.
 
-![Tracing](/assets/images/python-observability/tracing.webp)
+![Tracing](/assets/images/python-observability/tracing.webp){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 By following this checklist, developers can effectively implement and leverage distributed tracing to enhance the observability of their microservices.
 

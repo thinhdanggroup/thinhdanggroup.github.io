@@ -30,7 +30,7 @@ Today, I’m thrilled to introduce you to my new interactive web chatbot and sha
 
 ## Introducing My Interactive Web Chatbot
 
-![introducing](/assets/images/introducing-chatbot/introducing.jpeg)
+![introducing](/assets/images/introducing-chatbot/introducing.jpeg){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 Hello, I'm Thinh Dang, a software developer passionate about creating innovative solutions that enhance user experiences. Today, I'm excited to introduce my latest creation: an interactive web chatbot.
 
@@ -52,7 +52,7 @@ Chatbots also boost engagement by offering interactive and personalized experien
 
 By leveraging AI technologies like LLM (Large Language Model), chatbots can understand and respond to user inputs more naturally. This enhances the overall user experience, making interactions smoother and more enjoyable. Adopting these technologies helps businesses stay ahead and deliver superior user experiences, making chatbots a valuable addition to any digital strategy.
 
-![why](/assets/images/introducing-chatbot/why.jpeg)
+![why](/assets/images/introducing-chatbot/why.jpeg){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 ## How I Built It
 
@@ -82,4 +82,4 @@ Now that you have an understanding of the technical foundations and capabilities
 
 [**Click here to try the chatbot!**](https://thinhdanggroup.github.io/chatbot)
 
-![demo](/assets/images/introducing-chatbot/demo.png)
+![demo](/assets/images/introducing-chatbot/demo.png){: width="1066" height="1091" loading="lazy" decoding="async"}

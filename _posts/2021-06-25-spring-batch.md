@@ -44,7 +44,7 @@ Qua đó ta thấy, chúng ta chỉ cần tập trung vào business của bản 
 
 Mình cũng sẽ giới thiệu sơ vể kiến trúc của Spring Batch như sau (khuyên các bạn nên đọc chi tiết ở [đây](https://docs.spring.io/spring-batch/docs/current/reference/html/job.html)):
 
-![gioi thieu step](/assets/images/streaming/spring-batch-component-1.png)
+![gioi thieu step](/assets/images/streaming/spring-batch-component-1.png){: width="738" height="294" loading="lazy" decoding="async"}
 
 - **JobLaucher**: `interface` cho phép thực thi Job với tham số truyền vào
 - **Job**: nhận tham số và thực thi các `Step` được định nghĩa sẵn

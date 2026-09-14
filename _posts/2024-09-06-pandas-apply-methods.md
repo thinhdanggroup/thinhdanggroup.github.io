@@ -33,7 +33,7 @@ This article explores the use of the 'apply' function in the Pandas library, a c
 
 Pandas is a powerful library for data manipulation and analysis, and the 'apply' function is one of its most versatile tools. For data scientists and analysts, understanding why we need to use the 'apply' function is crucial. It allows for the application of custom functions across a DataFrame, enabling complex operations that go beyond simple aggregations or transformations.
 
-![introduce](/assets/images/2024-09-06-python-apply-methods/introduce.jpeg)
+![introduce](/assets/images/2024-09-06-python-apply-methods/introduce.jpeg){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 #### Why We Need to Use Pandas Apply
 
@@ -76,7 +76,7 @@ In the following sections, we will delve deeper into comparing the performance o
 
 ### Pandas Apply with Pure Python Functions
 
-![pure_python](/assets/images/2024-09-06-python-apply-methods/pure_python.webp)
+![pure_python](/assets/images/2024-09-06-python-apply-methods/pure_python.webp){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 Using pure Python functions with Pandas' `apply` is a straightforward and accessible approach for data manipulation. This section will delve into how to implement `apply` with Python functions, emphasizing its simplicity and flexibility.
 
@@ -126,7 +126,7 @@ In summary, using pure Python functions with Pandas' `apply` is a powerful tool 
 
 ### Pandas Apply with Cython
 
-![apply_cython](/assets/images/2024-09-06-python-apply-methods/apply_cython.webp)
+![apply_cython](/assets/images/2024-09-06-python-apply-methods/apply_cython.webp){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 Cython offers a powerful way to enhance the performance of Python code by compiling it into C. When working with Pandas, integrating Cython with the `apply` function can lead to significant speed improvements, especially for computationally intensive tasks. In this section, we'll explore how to set up Cython, write Cython functions, and apply them within Pandas. We'll also discuss the trade-offs involved, such as increased complexity and the need for additional setup.
 
@@ -201,7 +201,7 @@ Despite these trade-offs, the performance gains can be substantial, particularly
 
 ### Performance Comparison
 
-![performance_comparison](/assets/images/2024-09-06-python-apply-methods/performance_comparison.jpeg)
+![performance_comparison](/assets/images/2024-09-06-python-apply-methods/performance_comparison.jpeg){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 When it comes to optimizing data processing tasks with Pandas, performance is a key consideration. The choice between using a pure Python function or leveraging Cython with Pandas' `apply` method can significantly impact execution times and efficiency. Let's dive into a detailed comparison, backed by benchmarks and real-world examples, to understand these differences.
 
@@ -260,7 +260,7 @@ Cython's ability to use static typing allows for more efficient memory usage. He
 
 ### Use Cases for Pure Python Functions
 
-![use case pure python](/assets/images/2024-09-06-python-apply-methods/usecase_pure_python.webp)
+![use case pure python](/assets/images/2024-09-06-python-apply-methods/usecase_pure_python.webp){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 While Cython offers performance benefits, there are scenarios where using pure Python with Pandas' `apply` is more advantageous. Let's explore some use cases where simplicity, rapid prototyping, and ease of maintenance are prioritized.
 
@@ -317,7 +317,7 @@ By focusing on these aspects, you can leverage the strengths of pure Python func
 
 ### Use Cases for Cython
 
-![use case cython](/assets/images/2024-09-06-python-apply-methods/usecase_cython.webp)
+![use case cython](/assets/images/2024-09-06-python-apply-methods/usecase_cython.webp){: width="1024" height="1024" loading="lazy" decoding="async"}
 
 Cython shines in scenarios where performance is paramount, particularly with Pandas' `apply`. Let's delve into cases where the speed benefits of Cython outweigh its complexity, focusing on large datasets, computationally intensive operations, and real-time data processing needs.
 
@@ -372,4 +372,4 @@ For projects that require integration with existing C/C++ libraries, Cython offe
 By understanding these contexts, you can strategically choose Cython to maximize efficiency in your data processing tasks.
 
 
-![conclusion](/assets/images/2024-09-06-python-apply-methods/conclusion.jpeg)
+![conclusion](/assets/images/2024-09-06-python-apply-methods/conclusion.jpeg){: width="1024" height="1024" loading="lazy" decoding="async"}

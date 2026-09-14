@@ -144,7 +144,7 @@ For audio quality assessment, rtcscore is built upon a solid and well-establishe
 
 Conceptually, the E-Model operates by calculating a "Transmission Rating Factor," commonly known as the R-value, which typically ranges from 0 (worst) to 100 (best). This R-value is derived from a formula that begins with a near-perfect score and systematically subtracts penalties for different types of "impairment factors." The fundamental E-Model equation is 13:
 
-![E-Model Equation](/assets/images/webrtc-mos/e-model-equation.png)
+![E-Model Equation](/assets/images/webrtc-mos/e-model-equation.png){: width="683" height="456" loading="lazy" decoding="async"}
 
 Once the final R-value is calculated, it is mapped to the familiar 1-to-5 MOS scale. The
 

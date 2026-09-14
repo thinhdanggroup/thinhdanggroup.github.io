@@ -96,7 +96,7 @@ In this section, I will showcase some popular Jekyll themes that you can use for
 ### Minimal Mistakes
 
 
-![Minimal Mistakes](/assets/images/github-pages/minimal-mistake.webp)
+![Minimal Mistakes](/assets/images/github-pages/minimal-mistake.webp){: width="1200" height="642" loading="lazy" decoding="async"}
 
 [Minimal Mistakes](https://github.com/mmistakes/minimal-mistakes) is a flexible two-column Jekyll theme that's perfect for building personal sites, project landing pages, and blogs. It's designed to be mobile-friendly and includes support for categories, posts, and pages. The theme also includes a number of customizable options, like color schemes and typography, so you can tailor the look of your blog to fit your personal style.
 
@@ -108,19 +108,19 @@ In this section, I will showcase some popular Jekyll themes that you can use for
 
 ### Beautiful Jekyll
 
-![Beautiful Jekyll](/assets/images/github-pages/beautiful-jekyll.png)
+![Beautiful Jekyll](/assets/images/github-pages/beautiful-jekyll.png){: width="1200" height="585" loading="lazy" decoding="async"}
 
 [Beautiful Jekyll](https://github.com/daattali/beautiful-jekyll#readme) is a clean, responsive theme that offers a range of features like Google Analytics integration, Disqus commenting, and social media icons. It's also customizable, allowing you to change the color scheme, font, and layout of your blog.
 
 ### Lanyon
 
-![Beautiful Jekyll](/assets/images/github-pages/lanyon.png)
+![Beautiful Jekyll](/assets/images/github-pages/lanyon.png){: width="1200" height="763" loading="lazy" decoding="async"}
 
 [Lanyon](https://github.com/poole/lanyon) is a theme that offers a unique, sidebar-based layout. It includes support for posts, pages, and custom navigation links. Lanyon also offers eight different color schemes, so you can choose the one that best fits your blog's aesthetic.
 
 ### Hyde
 
-![Hyde](/assets/images/github-pages/hyde.png)
+![Hyde](/assets/images/github-pages/hyde.png){: width="1200" height="763" loading="lazy" decoding="async"}
 
 [Hyde](https://github.com/poole/hyde) is a brazen two-column Jekyll theme that pairs a prominent sidebar with uncomplicated content. It's based on Poole, the Jekyll butler, and includes support for theme customization, custom navigation links, and posts.
 

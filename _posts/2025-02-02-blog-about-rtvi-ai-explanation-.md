@@ -42,7 +42,7 @@ By leveraging the power of RTVI AI, developers can build applications that not o
 
 ## How RTVI AI Works
 
-![how_rtvi_ai_works_diagram_1.png](/assets/images/blog-about-rtvi-ai-explanation-/how_rtvi_ai_works_diagram_1.png)
+![how_rtvi_ai_works_diagram_1.png](/assets/images/blog-about-rtvi-ai-explanation-/how_rtvi_ai_works_diagram_1.png){: width="784" height="246" loading="lazy" decoding="async"}
 
 
 RTVI AI operates using a sophisticated pipeline of specialized processors that work in tandem to convert internal Pipecat frames into standardized messages. These messages are understood by clients, allowing for seamless communication and interaction. Each processor within the pipeline is tasked with handling a specific aspect of voice interaction, ensuring that data is processed efficiently and interactions are managed effectively.
@@ -73,7 +73,7 @@ This structured approach to data processing ensures that each interaction is han
 
 The architecture of RTVI AI is ingeniously designed to facilitate seamless communication and interaction between inference servers and clients. At its core, it is built around a set of abstractions and message formats that standardize the communication process. This ensures that both audio and video streams, as well as session states, metrics, and errors, are managed efficiently and consistently.
 
-![architecture_of_rtvi_ai_diagram_1.png](/assets/images/blog-about-rtvi-ai-explanation-/architecture_of_rtvi_ai_diagram_1.png)
+![architecture_of_rtvi_ai_diagram_1.png](/assets/images/blog-about-rtvi-ai-explanation-/architecture_of_rtvi_ai_diagram_1.png){: width="784" height="341" loading="lazy" decoding="async"}
 
 
 ### Key Components of the Architecture
@@ -102,7 +102,7 @@ By focusing on these architectural elements, RTVI AI delivers a robust framework
 In the architecture of RTVI AI, events and services play a pivotal role in managing real-time interactions. The protocol defines a series of standard event messages that enable seamless communication between clients and servers. These events include:
 
 
-![events_and_services_in_rtvi_ai_diagram_1.png](/assets/images/blog-about-rtvi-ai-explanation-/events_and_services_in_rtvi_ai_diagram_1.png)
+![events_and_services_in_rtvi_ai_diagram_1.png](/assets/images/blog-about-rtvi-ai-explanation-/events_and_services_in_rtvi_ai_diagram_1.png){: width="479" height="539" loading="lazy" decoding="async"}
 
 - **`transport-state-changed`**: This event is triggered when there is a change in the state of the transport layer, such as connecting or disconnecting from the server. It ensures that clients are aware of the current connection status and can respond accordingly.
 
@@ -125,7 +125,7 @@ These services are abstract containers for configuration and actions, allowing d
 
 Creating a simple RTVI AI application using Python involves leveraging the Pipecat library's processors to manage various aspects of real-time voice interaction. The core component of this setup is the `RTVIProcessor`, which orchestrates communication between the client and the server, handling speaking states, user transcription, and language model responses.
 
-![explanation_of_the_python_code_diagram_1.png](/assets/images/blog-about-rtvi-ai-explanation-/explanation_of_the_python_code_diagram_1.png)
+![explanation_of_the_python_code_diagram_1.png](/assets/images/blog-about-rtvi-ai-explanation-/explanation_of_the_python_code_diagram_1.png){: width="784" height="213" loading="lazy" decoding="async"}
 
 ### Setting Up the Environment
 

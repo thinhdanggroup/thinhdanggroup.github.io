@@ -35,13 +35,13 @@ Bạn đang có một service sử dụng gRPC để đảm bảo vấn đề hi
 
 [grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway) là một `reverse-proxy server` mà giúp ta chuyển từ `RESTful HTTP API` sang `gRPC`. Nó sẽ đọc định nghĩa của protobuf service và tự tạo ra đoạn mã để chạy gateway.
 
-![grpc-gateway-model](/assets/images/grpc-gateway-model.png)
+![grpc-gateway-model](/assets/images/grpc-gateway-model.png){: width="749" height="369" loading="lazy" decoding="async"}
 
 grpc-gateway đã cung cấp công cụ `protoc-gen-grpc-gateway` để tạo ra gateway. Bên cạnh, ta cũng dễ dàng định nghĩa HTTP API với các đặc tả ngay trong file proto.
 
 ### 1.2. gRPC-Web là gì
 
-![grpc-web-model](/assets/images/grpc-web-model.png)
+![grpc-web-model](/assets/images/grpc-web-model.png){: width="1825" height="770" loading="lazy" decoding="async"}
 
 [gRPC-Web](https://github.com/grpc/grpc-web) là một thư viện Javascript để người dùng trình duyệt giao tiếp được với gRPC service. Hiện taị, gRPC-Web đang được sử dụng rộng rãi và có thể sử dụng cho production. gRPC-Web giao tiếp với gRPC service qua một gateway proxy (mặc định là [Envoy](https://www.envoyproxy.io/)).
 

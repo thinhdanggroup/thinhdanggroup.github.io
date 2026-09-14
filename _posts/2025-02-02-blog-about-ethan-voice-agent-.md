@@ -39,7 +39,7 @@ Whether you're a tech enthusiast or a business professional, this article aims t
 
 ## Introduction to Conversational AI and Ethan
 
-![introduction_to_conversational_ai_and_ethan_diagram.png](/assets/images/blog-about-ethan-voice-agent-/introduction_to_conversational_ai_and_ethan_diagram.webp)
+![introduction_to_conversational_ai_and_ethan_diagram.png](/assets/images/blog-about-ethan-voice-agent-/introduction_to_conversational_ai_and_ethan_diagram.webp){: width="1200" height="983" loading="lazy" decoding="async"}
 
 
 In the ever-evolving landscape of artificial intelligence, conversational AI stands out as a technology that brings machines closer to understanding and engaging with human language in a manner that feels natural and intuitive. As we delve into this field, one particular innovation that captures attention is Ethan—a sophisticated voice agent that exemplifies the pinnacle of conversational AI.
@@ -67,7 +67,7 @@ Together, these technologies form the backbone of Ethan, enabling it to deliver 
 
 ### Technological Framework of Ethan
 
-![technological_framework_of_ethan_diagram_1.png](/assets/images/blog-about-ethan-voice-agent-/technological_framework_of_ethan_diagram_1.png)
+![technological_framework_of_ethan_diagram_1.png](/assets/images/blog-about-ethan-voice-agent-/technological_framework_of_ethan_diagram_1.png){: width="756" height="361" loading="lazy" decoding="async"}
 
 
 In this section, we delve into the sophisticated technological underpinnings of Ethan, a cutting-edge voice agent that stands at the intersection of AI innovation and practical application. Ethan's prowess is driven by a trio of technologies: Pipecat, Gemini Multi-Model, and Dailyco. Each plays a vital role in orchestrating seamless, real-time interactions that mimic human conversation with remarkable fidelity.
@@ -106,7 +106,7 @@ Together, Pipecat, Gemini Multi-Model, and Dailyco form a cohesive technological
 
 In today's fast-paced business environment, customer service and operational efficiency are paramount. Enter Ethan, a sophisticated voice agent designed to revolutionize these aspects through its advanced conversational capabilities. Let's explore how Ethan's unique features can transform business operations and customer service, offering tangible benefits across various sectors.
 
-![enhancements_in_business_operations_and_customer_service_diagram_2.png](/assets/images/blog-about-ethan-voice-agent-/enhancements_in_business_operations_and_customer_service_diagram_2.png)
+![enhancements_in_business_operations_and_customer_service_diagram_2.png](/assets/images/blog-about-ethan-voice-agent-/enhancements_in_business_operations_and_customer_service_diagram_2.png){: width="784" height="439" loading="lazy" decoding="async"}
 
 
 #### Natural Conversations with Human-Like Responses
