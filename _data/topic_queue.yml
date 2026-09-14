@@ -22,8 +22,9 @@ topics:
     angle: "Measuring what GIL removal actually buys on a CPU-bound service"
     category: python
     tags: [Python, Performance]
-    status: claimed
+    status: published
     claimed_on: '2026-09-13'
+    slug: measuring-free-threaded-python
 
   - id: otel-span-cardinality
     title: "The span attribute that blew up your observability bill"
