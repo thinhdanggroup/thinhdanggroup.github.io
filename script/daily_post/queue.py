@@ -3,14 +3,18 @@
 
 The queue is committed state: the operator edits it by hand to steer what gets
 written, and the pipeline writes back claim and publish status. Every mutation
-rewrites the whole file, which is safe at this size and keeps the diff readable.
+round-trips the original file with round-trip YAML to preserve comments, key order,
+and unmodeled keys.
 """
 from __future__ import annotations
 
+import os
+import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
 
 import yaml
+from ruamel.yaml import YAML
 
 VALID_STATUSES = ("queued", "claimed", "published", "rejected")
 
@@ -51,7 +55,17 @@ def load_topics(path: Path) -> list[Topic]:
 
     topics: list[Topic] = []
     seen: set[str] = set()
-    for entry in entries:
+    for idx, entry in enumerate(entries):
+        # Validate required fields exist
+        if "id" not in entry or not entry["id"]:
+            raise QueueError(
+                f"entry {idx}: missing or empty 'id' field"
+            )
+        if "title" not in entry or not entry["title"]:
+            raise QueueError(
+                f"entry {idx} ({entry.get('id', '?')}): missing or empty 'title' field"
+            )
+
         topic = Topic(
             id=str(entry["id"]),
             title=str(entry["title"]),
@@ -99,7 +113,7 @@ def claim(path: Path, topic_id: str, on: str) -> Topic:
         raise QueueError(f"{topic_id}: not queued (status is {topic.status!r})")
     topic.status = "claimed"
     topic.claimed_on = on
-    _write(path, topics)
+    _write(path, topic_id, topic)
     return topic
 
 
@@ -112,7 +126,7 @@ def mark(path: Path, topic_id: str, status: str, slug: str | None = None) -> Top
     topic.status = status
     if slug is not None:
         topic.slug = slug
-    _write(path, topics)
+    _write(path, topic_id, topic)
     return topic
 
 
@@ -123,26 +137,45 @@ def _find(topics: list[Topic], topic_id: str) -> Topic:
     raise QueueError(f"no topic with id {topic_id!r}")
 
 
-def _write(path: Path, topics: list[Topic]) -> None:
-    payload = {"topics": [_entry(t) for t in topics]}
-    path.write_text(
-        yaml.safe_dump(payload, sort_keys=False, allow_unicode=True, width=100),
-        encoding="utf-8",
+def _write(path: Path, topic_id: str, topic: Topic) -> None:
+    """Round-trip the YAML file, updating only the specified topic entry.
+
+    Loads the existing document (preserving comments, order, and unmodeled keys),
+    mutates only the specified entry, writes atomically to a temp file, then swaps.
+    """
+    # Load with round-trip preservation
+    yaml_handler = YAML()
+    yaml_handler.preserve_quotes = True
+    yaml_handler.default_flow_style = False
+
+    if path.is_file():
+        doc = yaml_handler.load(path.read_text(encoding="utf-8"))
+    else:
+        doc = {"topics": []}
+
+    # Find and update the topic entry in the original document
+    topics_list = doc.get("topics") or []
+    for entry in topics_list:
+        if entry.get("id") == topic_id:
+            entry["status"] = topic.status
+            if topic.claimed_on:
+                entry["claimed_on"] = topic.claimed_on
+            if topic.slug:
+                entry["slug"] = topic.slug
+            break
+
+    # Write atomically: write to temp file in same directory, then swap
+    temp_fd, temp_path = tempfile.mkstemp(
+        dir=path.parent, prefix=".topic_queue_tmp_", suffix=".yml"
     )
-
-
-def _entry(topic: Topic) -> dict:
-    """Serialise a topic, omitting keys that are still unset to keep the file clean."""
-    entry = {
-        "id": topic.id,
-        "title": topic.title,
-        "angle": topic.angle,
-        "category": topic.category,
-        "tags": topic.tags,
-        "status": topic.status,
-    }
-    if topic.claimed_on:
-        entry["claimed_on"] = topic.claimed_on
-    if topic.slug:
-        entry["slug"] = topic.slug
-    return entry
+    try:
+        with os.fdopen(temp_fd, "w", encoding="utf-8") as f:
+            yaml_handler.dump(doc, f)
+        os.replace(temp_path, path)
+    except Exception:
+        # Clean up temp file if something went wrong
+        try:
+            os.unlink(temp_path)
+        except OSError:
+            pass
+        raise

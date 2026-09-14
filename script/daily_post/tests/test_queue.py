@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 import pytest
@@ -146,3 +147,102 @@ def test_mark_records_the_published_slug(queue_path: Path):
 def test_mark_rejects_an_invalid_status(queue_path: Path):
     with pytest.raises(QueueError, match="banana"):
         mark(queue_path, "pg-connection-pooling", "banana")
+
+
+def test_claim_preserves_comment_header(tmp_path: Path):
+    """CRITICAL FIX: comment headers must survive a claim() call."""
+    p = tmp_path / "topic_queue.yml"
+    queue_with_header = """# Topics for the daily post pipeline.
+#
+# The pipeline takes the first entry with `status: queued`, marks it `claimed`,
+# and writes it. When the queue is dry it discovers a topic from the web instead,
+# so keeping entries here is how you steer what gets written.
+#
+# status: queued | claimed | published | rejected
+# category: one of ai-engineering, databases, distributed-systems
+topics:
+  - id: test-topic
+    title: "Test topic"
+    angle: "Test angle"
+    category: databases
+    tags: [Test]
+    status: queued
+"""
+    p.write_text(queue_with_header, encoding="utf-8")
+
+    # Call claim() on the test topic
+    claim(p, "test-topic", on="2026-09-14")
+
+    # Read back the file and verify the comment header is still present
+    content = p.read_text(encoding="utf-8")
+    assert "# Topics for the daily post pipeline." in content
+    assert "# The pipeline takes the first entry with" in content
+    assert "# status: queued | claimed | published | rejected" in content
+
+
+def test_claim_preserves_unmodeled_keys(tmp_path: Path):
+    """CRITICAL FIX: unmodeled keys (like notes:) must survive a claim() call."""
+    p = tmp_path / "topic_queue.yml"
+    queue_with_extra_key = """topics:
+  - id: test-topic
+    title: "Test topic"
+    angle: "Test angle"
+    category: databases
+    tags: [Test]
+    status: queued
+    notes: "This is an important note from the operator"
+"""
+    p.write_text(queue_with_extra_key, encoding="utf-8")
+
+    # Call claim() on the test topic
+    claim(p, "test-topic", on="2026-09-14")
+
+    # Read back the file and verify the unmodeled 'notes' key is still present
+    content = p.read_text(encoding="utf-8")
+    assert "notes:" in content
+    assert "This is an important note from the operator" in content
+
+
+def test_load_topics_raises_queueerror_on_missing_id(tmp_path: Path):
+    """FINDING 3: Missing 'id' must raise QueueError, not KeyError."""
+    p = tmp_path / "q.yml"
+    p.write_text(
+        'topics:\n  - title: "T"\n    angle: "A"\n'
+        "    category: python\n    tags: [Python]\n",
+        encoding="utf-8",
+    )
+    with pytest.raises(QueueError, match="missing or empty 'id'"):
+        load_topics(p)
+
+
+def test_load_topics_raises_queueerror_on_missing_title(tmp_path: Path):
+    """FINDING 3: Missing 'title' must raise QueueError, not KeyError."""
+    p = tmp_path / "q.yml"
+    p.write_text(
+        'topics:\n  - id: x\n    angle: "A"\n'
+        "    category: python\n    tags: [Python]\n",
+        encoding="utf-8",
+    )
+    with pytest.raises(QueueError, match="missing or empty 'title'"):
+        load_topics(p)
+
+
+def test_write_is_atomic_no_temp_files_left(tmp_path: Path):
+    """FINDING 2: After claim(), no temporary files should remain."""
+    p = tmp_path / "topic_queue.yml"
+    queue = """topics:
+  - id: test-topic
+    title: "Test topic"
+    angle: "Test angle"
+    category: databases
+    tags: [Test]
+    status: queued
+"""
+    p.write_text(queue, encoding="utf-8")
+
+    # Call claim() on the test topic
+    claim(p, "test-topic", on="2026-09-14")
+
+    # Check that no temporary files are left in the directory
+    leftover_files = [f for f in os.listdir(tmp_path) if ".topic_queue_tmp_" in f]
+    assert len(leftover_files) == 0, f"Leftover temp files found: {leftover_files}"
