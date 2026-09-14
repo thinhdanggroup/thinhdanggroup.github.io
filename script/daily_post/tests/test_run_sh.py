@@ -1,3 +1,4 @@
+import fcntl
 import os
 import subprocess
 from datetime import date
@@ -137,3 +138,67 @@ def test_the_skill_is_invoked_with_the_daily_post_command(fake_repo: Path, stub_
     )
     run(fake_repo, stub_bin)
     assert "/daily-post" in (fake_repo / "args.txt").read_text(encoding="utf-8")
+
+
+def test_exit_40_when_the_repo_is_not_a_git_repository(tmp_path: Path, stub_bin: Path):
+    """A precondition check must catch this before any expensive work — in
+    particular `claude` must never be invoked."""
+    not_a_repo = tmp_path / "not-a-repo"
+    not_a_repo.mkdir()
+    write_stub(
+        stub_bin, "claude",
+        'touch "$DAILY_POST_REPO/claude-invoked.marker"; echo published > "$DAILY_POST_STATUS"',
+    )
+    result = run(not_a_repo, stub_bin)
+    assert result.returncode == 40
+    assert not (not_a_repo / "claude-invoked.marker").exists()
+
+
+def test_exit_30_when_a_branch_for_today_exists_only_on_the_remote(
+    fake_repo: Path, stub_bin: Path, tmp_path: Path
+):
+    """`git branch --list` is local-only; a branch pushed and then deleted
+    locally (e.g. by a run on another machine) must still be detected via
+    origin, or a second post gets written for the same day."""
+    origin = tmp_path / "origin.git"
+    subprocess.run(["git", "init", "-q", "--bare", str(origin)], check=True)
+    subprocess.run(["git", "remote", "add", "origin", str(origin)], cwd=fake_repo, check=True)
+    branch = f"daily-post/{TODAY}-something"
+    subprocess.run(["git", "branch", branch], cwd=fake_repo, check=True)
+    subprocess.run(["git", "push", "-q", "origin", branch], cwd=fake_repo, check=True)
+    subprocess.run(["git", "branch", "-D", branch], cwd=fake_repo, check=True)
+
+    result = run(fake_repo, stub_bin)
+    assert result.returncode == 30
+
+
+def test_a_remote_check_failure_does_not_abort_the_run(fake_repo: Path, stub_bin: Path, tmp_path: Path):
+    """A flaky/unreachable origin for the remote-branch check must not kill an
+    otherwise-healthy run: log a warning and keep going, using the local
+    checks only."""
+    dead_origin = tmp_path / "does-not-exist.git"
+    subprocess.run(["git", "remote", "add", "origin", str(dead_origin)], cwd=fake_repo, check=True)
+
+    result = run(fake_repo, stub_bin)
+    assert result.returncode == 0, result.stdout + result.stderr
+
+
+def test_a_concurrent_run_is_blocked_by_the_lock(fake_repo: Path, stub_bin: Path):
+    """Two overlapping invocations (cron overlap, or a manual run on top of a
+    scheduled one) must not both drive the pipeline in the same working
+    directory."""
+    write_stub(
+        stub_bin, "claude",
+        'touch "$DAILY_POST_REPO/claude-invoked.marker"; echo published > "$DAILY_POST_STATUS"',
+    )
+    lock_path = fake_repo / ".git" / "daily-post.lock"
+    lock_file = open(lock_path, "w")
+    try:
+        fcntl.flock(lock_file, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        result = run(fake_repo, stub_bin)
+        assert result.returncode == 30
+        assert not (fake_repo / "claude-invoked.marker").exists()
+        assert "already" in (result.stdout + result.stderr).lower()
+    finally:
+        fcntl.flock(lock_file, fcntl.LOCK_UN)
+        lock_file.close()
