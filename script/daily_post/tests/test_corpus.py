@@ -74,3 +74,82 @@ def test_load_posts_tolerates_invalid_yaml(tmp_path: Path):
         '---\ntitle: "unclosed\n---\n\nbody\n', encoding="utf-8"
     )
     assert load_posts(d) == []
+
+
+def test_load_posts_ignores_h2_inside_backtick_fence(tmp_path: Path):
+    """H2 lines inside ``` fences should not appear in headings."""
+    d = tmp_path / "_posts"
+    d.mkdir()
+    post_with_fence = """---
+title: "Code Example"
+description: "A post with code."
+---
+
+## Real Heading
+
+Here is some code:
+
+```python
+## This is a comment in code
+def foo():
+    pass
+```
+
+## Another Real Heading
+"""
+    (d / "2025-01-01-fence.md").write_text(post_with_fence, encoding="utf-8")
+    (post,) = load_posts(d)
+    assert "This is a comment in code" not in post.headings
+    assert post.headings == ("Real Heading", "Another Real Heading")
+
+
+def test_load_posts_ignores_h2_inside_tilde_fence(tmp_path: Path):
+    """H2 lines inside ~~~ fences should not appear in headings."""
+    d = tmp_path / "_posts"
+    d.mkdir()
+    post_with_fence = """---
+title: "Code Example"
+description: "A post with code."
+---
+
+## Real Heading
+
+Here is some code:
+
+~~~python
+## This is a comment in code
+def foo():
+    pass
+~~~
+
+## Another Real Heading
+"""
+    (d / "2025-01-01-tilde.md").write_text(post_with_fence, encoding="utf-8")
+    (post,) = load_posts(d)
+    assert "This is a comment in code" not in post.headings
+    assert post.headings == ("Real Heading", "Another Real Heading")
+
+
+def test_load_posts_skips_files_with_invalid_utf8(tmp_path: Path):
+    """Files with invalid UTF-8 should be skipped, not crash."""
+    d = tmp_path / "_posts"
+    d.mkdir()
+    # Write a valid post first
+    valid_post = """---
+title: "Valid Post"
+description: "This is valid."
+---
+
+## Good Heading
+"""
+    (d / "2025-01-01-valid.md").write_text(valid_post, encoding="utf-8")
+
+    # Write a file with invalid UTF-8 bytes
+    (d / "2025-01-02-invalid.md").write_bytes(
+        b"---\ntitle: \"Bad\"\n---\n\nBody with \xff invalid bytes\n"
+    )
+
+    # Should return only the valid post
+    posts = load_posts(d)
+    assert len(posts) == 1
+    assert posts[0].title == "Valid Post"
