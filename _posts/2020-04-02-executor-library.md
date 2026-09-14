@@ -20,7 +20,7 @@ title:  "Executor: Worker Pool cho Golang"
 tags:
     - Go
     - Software Engineering
-description: "Mục đích mình tạo ra thư viện này vì các thư viện hiện tại của golang chưa có ai đáp ứng đủ nhu cầu Worker Pool của mình như linh hoạt với cách định nghĩa…"
+description: "Giới thiệu Executor, thư viện Worker Pool cho Golang hỗ trợ định nghĩa job linh hoạt và giới hạn số job thực thi trong một khoảng thời gian."
 last_modified_at: 2023-05-05
 categories:
     - web-development
@@ -28,7 +28,7 @@ categories:
 
 Mục đích mình tạo ra thư viện này vì các thư viện hiện tại của golang chưa có ai đáp ứng đủ nhu cầu Worker Pool của mình như linh hoạt với cách định nghĩa job chạy, giới hạn số job thực thi trong một khoảng thời gian. Trong quá khứ mình tạo làm đi làm lại đoạn code dựa trên ý tưởng của Worker Pool và biết sự rắc rối mỗi khi hiện thực lại nhưng chưa bao giờ tổng quát hoá để tạo ra một thư viện hoàn chỉnh. Cuối cùng, mình đã ngừng lại và tạo ra Executor.
 
-# Giới thiệu
+## Giới thiệu
 
 [Executor](https://github.com/thinhdanggroup/executor) là một thư viện Worker Pool đơn giản với các tính năng:
 
@@ -36,7 +36,7 @@ Mục đích mình tạo ra thư viện này vì các thư viện hiện tại c
 - Worker được tạo ra bằng Goroutine
 - Một "rate limter" để hỗ trợ các job như crawl data, loadtest,...
 
-# Cách hoạt động
+## Cách hoạt động
 
 Nguyên lý khá đơn giản:
 
@@ -69,7 +69,7 @@ func validateFunc(handler interface{}, nArgs int) (interface{}, error) {
 }
 ```
 
-# Ví dụ
+## Ví dụ
 
 Tham số config
 

@@ -23,7 +23,7 @@ tags:
 
 categories:
     - infrastructure
-description: "This article serves as a comprehensive guide for developers looking to enhance their Python applications by implementing auto-scaling for Celery workers…"
+description: "Scaling Celery workers on Kubernetes with KEDA and Redis, so worker count follows queue depth instead of a fixed replica setting."
 last_modified_at: 2025-01-19
 ---
 

@@ -22,7 +22,7 @@ tags:
     - Observability
 categories:
     - ai-engineering
-description: "The field of artificial intelligence is undergoing a profound paradigm shift, moving beyond the era of predictive models into a new age of generative…"
+description: "Comparing OpenAI Agents, Logfire, and Langfuse for LLM agent observability: what each captures, where they overlap, and how to combine them."
 ---
 
 The field of artificial intelligence is undergoing a profound paradigm shift, moving beyond the era of predictive models into a new age of generative, autonomous systems. LLM-powered agents represent a significant evolution; they are not merely generating content but are stateful systems capable of perceiving context, reasoning, planning, and executing actions to achieve complex goals. This leap towards autonomy, however, introduces an unprecedented level of operational complexity and a new class of risks that challenge traditional software monitoring and management practices.

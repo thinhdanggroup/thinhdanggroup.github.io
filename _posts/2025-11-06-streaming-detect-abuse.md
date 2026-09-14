@@ -23,7 +23,7 @@ tags:
     - Security
 categories:
     - ai-engineering
-description: "If you’ve ever stared at a static security report the way you stare at yesterday’s weather, you know the feeling: accurate, but not useful when things are on…"
+description: "Detecting LLM and API abuse as it happens using streaming architectures, with the event pipeline and detection rules that make it practical."
 last_modified_at: 2025-11-15
 ---
 

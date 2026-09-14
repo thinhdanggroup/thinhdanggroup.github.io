@@ -23,7 +23,7 @@ tags:
     - API Design
 categories:
     - distributed-systems
-description: "Cloud IDEs have gone from “neat hack” to “real tools.” You type in a browser, a container compiles your code somewhere far away, and the feedback loop feels…"
+description: "How browser-based Docker terminals work: the WebSocket transport, PTY handling, and isolation choices behind low-latency cloud IDEs."
 last_modified_at: 2025-11-09
 ---
 

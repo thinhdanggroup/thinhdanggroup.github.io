@@ -23,7 +23,7 @@ tags:
 
 categories:
     - infrastructure
-description: "When you work with an AI coding agent like Codex, the real productivity gains come from letting it interact with the systems around your code — not just the…"
+description: "A tested setup for connecting Codex to Gmail, Calendar, and Drive over MCP, using a pinned local install and OAuth that survives restarts."
 ---
 
 When you work with an AI coding agent like Codex, the real productivity gains come from letting it interact with the systems around your code — not just the code itself. Connecting Codex to Google Workspace via the **Model Context Protocol (MCP)** lets it search Gmail, read messages, download attachments, manage drafts, and access Calendar, Drive, Docs, Sheets, and more — all within a single conversation session.

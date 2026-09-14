@@ -21,7 +21,7 @@ tags:
     - Data Engineering
 categories:
     - infrastructure
-description: "What really happens when you “schedule a job”? If you’ve ever pushed a button in a nice UI and watched a pipeline spring to life, you’ve probably felt the…"
+description: "Prefect, Dagster, and Airflow compared on scheduling model, data awareness, and operational cost — and which fits which kind of pipeline."
 ---
 
 _What really happens when you “schedule a job”?_ If you’ve ever pushed a button in a nice UI and watched a pipeline spring to life, you’ve probably felt the orchestration black box humming underneath. This post opens that box. We’ll compare **Prefect**, **Dagster**, and **Apache Airflow** from an architectural point of view—how each models work, launches it, watches it, and keeps the whole operation upright when a single task decides to go cliff-diving.

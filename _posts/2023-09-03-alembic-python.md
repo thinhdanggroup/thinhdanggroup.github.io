@@ -23,7 +23,7 @@ tags:
 
 categories:
     - python
-description: "Managing database schema changes is often a challenge in software development. Alembic, a lightweight database migration tool for SQLAlchemy, can make this…"
+description: "A practical guide to Alembic migrations with SQLAlchemy: autogenerate, revisions, branching, and running migrations safely in production."
 last_modified_at: 2023-09-06
 ---
 

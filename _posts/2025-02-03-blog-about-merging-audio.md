@@ -25,9 +25,6 @@ categories:
 description: "Imagine you’re chatting with friends over a group call. You hear everyone’s voices blending together smoothly, without your own voice echoing back at you."
 last_modified_at: 2025-03-02
 ---
-
-# How to Build a Conference Call System: Mixing Voices Made Simple
-
 Imagine you’re chatting with friends over a group call. You hear everyone’s voices blending together smoothly, without your own voice echoing back at you. Pretty cool, right? But behind that seamless experience, there’s a lot going on. In this blog, I’ll walk you through how to build a conference call system that collects voices from multiple people, mixes them together, and sends the right sound back to each person—all in real-time. We’ll focus on the tricky bits, like combining voices and making sure everything sounds clear, and I’ll share the techniques I used to make it work.
 
 ## What’s a Conference Call System Anyway?

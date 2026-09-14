@@ -21,7 +21,7 @@ tags:
     - Distributed Systems
 categories:
     - distributed-systems
-description: "Maybe it’s an API server rolling. Maybe it’s an etcd hiccup. Maybe a dependency starts returning because it’s having a bad day and would like everyone to…"
+description: "Why naive retries turn a brief outage into a sustained one, and how jitter, backoff, and token buckets keep recovery from making things worse."
 last_modified_at: 2026-01-01
 ---
 

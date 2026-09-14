@@ -22,7 +22,7 @@ tags:
 
 categories:
     - distributed-systems
-description: "In this comprehensive guide, we will delve into the world of Temporal, a software development platform that acts as both a database and a service…"
+description: "A deep look at Temporal's architecture, its workflow and activity model, best practices, and how it behaves in real production systems."
 last_modified_at: 2023-10-15
 ---
 

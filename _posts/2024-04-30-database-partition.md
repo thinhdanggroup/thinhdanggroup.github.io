@@ -22,7 +22,7 @@ tags:
 
 categories:
     - databases
-description: "This article provides a comprehensive guide to database partitioning, a technique that divides a large database into smaller parts to improve efficiency and…"
+description: "Range, list, and hash partitioning compared: how each affects query planning and maintenance, and how to pick a partition key you won't regret."
 last_modified_at: 2024-05-19
 ---
 

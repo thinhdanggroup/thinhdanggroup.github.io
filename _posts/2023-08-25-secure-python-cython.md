@@ -23,7 +23,7 @@ tags:
 
 categories:
     - python
-description: "In this comprehensive guide, we delve into the world of Cython, a superset of Python that combines the ease of Python with the speed of C, and how it can be…"
+description: "How to compile Python with Cython to make source harder to recover, including setup, build steps, and the real limits of the approach."
 last_modified_at: 2023-09-02
 ---
 

@@ -22,7 +22,7 @@ tags:
     - Infrastructure
 categories:
     - infrastructure
-description: "Cloud costs used to be someone else’s problem. Finance talked to vendors, ops talked to finance, and developers…well, we shipped features and crossed our…"
+description: "Bringing cloud cost visibility into the development loop, so engineers see the price of a change before it reaches the monthly bill."
 last_modified_at: 2025-11-15
 ---
 

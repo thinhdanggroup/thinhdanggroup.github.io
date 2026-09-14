@@ -22,7 +22,7 @@ tags:
     - Distributed Systems
 categories:
     - databases
-description: "If you’ve just set up a ClickHouse cluster, the next scary step is: “Okay… now how do I actually create tables the right way so I don’t regret everything in…"
+description: "Designing and creating tables on a distributed ClickHouse cluster: replicated engines, sharding keys, and the choices you can't undo later."
 last_modified_at: 2025-11-23
 ---
 

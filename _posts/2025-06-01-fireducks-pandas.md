@@ -24,7 +24,7 @@ tags:
 
 categories:
     - python
-description: "The Python data science ecosystem stands at a crossroads: while Pandas has democratized data manipulation for millions of analysts with its intuitive…"
+description: "FireDucks versus Pandas on architecture and benchmarks: where lazy evaluation and multithreading win, and where Pandas is still the right call."
 ---
 
 The Python data science ecosystem stands at a crossroads: while Pandas has democratized data manipulation for millions of analysts with its intuitive DataFrame API, its single-threaded architecture and eager evaluation model are increasingly strained by today's massive datasets—enter FireDucks, NEC Corporation's ambitious accelerator that promises up to 125x performance gains while maintaining near-perfect API compatibility, potentially revolutionizing how we think about the trade-off between ease of use and computational speed in data analysis.

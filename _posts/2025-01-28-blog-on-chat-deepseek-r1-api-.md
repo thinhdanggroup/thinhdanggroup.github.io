@@ -22,7 +22,7 @@ tags:
     - API Design
 categories:
     - ai-engineering
-description: "This article serves as a comprehensive guide to understanding and utilizing the Chat DeepSeek R1 API, a powerful tool developed to enhance applications with…"
+description: "Installing and calling the DeepSeek R1 chat API, handling its reasoning output, and integrating it with LangChain."
 ---
 
 This article serves as a comprehensive guide to understanding and utilizing the Chat DeepSeek R1 API, a powerful tool developed to enhance applications with advanced reasoning capabilities. We begin by introducing DeepSeek R1, an open-source model known for its ability to tackle complex tasks requiring logical inference and decision-making. The introductory section highlights the model's unique features, such as its transparency and adaptability, making it ideal for various industries.

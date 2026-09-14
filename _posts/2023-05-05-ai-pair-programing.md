@@ -19,7 +19,7 @@ header:
 title:  "GitHub Copilot: A Review and Guide for Beginners"
 tags:
     - Developer Tools
-description: "Have you ever wished you had a smart and helpful partner who could assist you with coding? Someone who could suggest code snippets, functions, or solutions…"
+description: "A practical review of GitHub Copilot for beginners: how it suggests code, where it helps, where it misleads, and how to set it up."
 last_modified_at: 2023-05-06
 categories:
     - infrastructure

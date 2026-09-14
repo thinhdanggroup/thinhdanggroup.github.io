@@ -22,7 +22,7 @@ tags:
 
 categories:
     - software-engineering
-description: "In this comprehensive blog post, we embark on a journey to explore the intricacies of crafting maintainable Python applications using Domain-Driven Design…"
+description: "Applying Domain-Driven Design and Clean Architecture to Python: layering, dependency direction, and a structure that survives growth."
 last_modified_at: 2024-02-13
 ---
 

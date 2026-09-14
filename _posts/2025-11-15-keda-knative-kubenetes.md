@@ -17,7 +17,7 @@ tags:
     - Kubernetes
 categories:
     - infrastructure
-description: "Auto-scaling is the heartbeat of modern microservices. When it’s tuned well, your cluster feels alive: pods materialize as traffic surges, costs melt away…"
+description: "KEDA, Knative, and Kubernetes HPA compared on scaling triggers, cold starts, and cost, with guidance on which fits which workload."
 ---
 
 Auto-scaling is the heartbeat of modern microservices. When it’s tuned well, your cluster feels alive: pods materialize as traffic surges, costs melt away when demand drops, and latency hugs your SLOs. When it’s tuned poorly, you get the opposite—thrash, cold starts, timeouts, and a creeping sense that the cluster is secretly your boss.

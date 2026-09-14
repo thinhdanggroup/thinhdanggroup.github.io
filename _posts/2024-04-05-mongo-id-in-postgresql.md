@@ -23,7 +23,7 @@ tags:
 
 categories:
     - databases
-description: "This article provides a comprehensive guide to simulating MongoDB's ObjectID in PostgreSQL. It begins by introducing MongoDB's ObjectID and explaining the…"
+description: "How MongoDB's ObjectID is structured, and how to reproduce its timestamp-plus-counter behavior in PostgreSQL when migrating between the two."
 last_modified_at: 2024-04-30
 ---
 

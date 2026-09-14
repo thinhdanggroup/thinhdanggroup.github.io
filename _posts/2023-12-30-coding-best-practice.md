@@ -22,7 +22,7 @@ tags:
 
 categories:
     - software-engineering
-description: "In the realm of software development, code quality stands as a cornerstone of success. This blog post delves into the intricacies of good coding principles…"
+description: "The coding principles that measurably improve code quality: naming, function size, coupling, and the standards worth enforcing in review."
 last_modified_at: 2024-02-14
 ---
 

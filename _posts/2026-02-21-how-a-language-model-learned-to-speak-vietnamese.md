@@ -21,7 +21,7 @@ tags:
     - LLM
 categories:
     - ai-engineering
-description: "You've used Google Translate's voice feature. You know the one — you type something, hit the speaker icon, and hear a voice that is technically correct but…"
+description: "From spectrograms to LLM-based speech synthesis, using Vietnamese tones to show why text-to-speech is harder than it looks."
 ---
 
 You've used Google Translate's voice feature. You know the one — you type something, hit the speaker icon, and hear a voice that is technically correct but somehow deeply wrong. It hits the right phonemes in the right order, but there's no life in it. No rhythm. And if the language is Vietnamese, there's a good chance it mispronounces the tones so badly that the sentence means something completely different from what you typed.

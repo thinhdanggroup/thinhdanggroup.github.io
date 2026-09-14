@@ -21,7 +21,7 @@ tags:
     - Kubernetes
 categories:
     - infrastructure
-description: "Most of us learn “set CPU requests and limits” as a cargo-cult rule. Then, sooner or later, a service starts stuttering under load and someone declares…"
+description: "How the Kubernetes scheduler really uses CPU requests and limits, what throttling does to latency, and when setting limits hurts you."
 last_modified_at: 2025-11-16
 ---
 

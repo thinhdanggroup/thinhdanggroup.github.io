@@ -22,7 +22,7 @@ tags:
 
 categories:
     - infrastructure
-description: "Ready to conquer the world of servers with Datadog? This guide is your treasure map. It's going to help you dodge sneaky pitfalls like hostname detection…"
+description: "The Datadog tracing problems that cost real debugging time: hostname detection, proxy configuration, and API key setup — and how to fix each."
 last_modified_at: 2024-05-07
 ---
 

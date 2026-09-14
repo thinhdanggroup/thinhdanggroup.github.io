@@ -21,7 +21,7 @@ tags:
     - Web Development
 categories:
     - web-development
-description: "It’s not a consumer social network. It’s not a 3D game in the browser. It’s… an admin console. A dashboard."
+description: "HTMX in CRUD-heavy internal tools: how attribute-driven interactivity holds up at scale, and where it genuinely beats a SPA."
 last_modified_at: 2025-12-23
 ---
 

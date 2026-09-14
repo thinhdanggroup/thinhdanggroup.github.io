@@ -22,7 +22,7 @@ tags:
 
 categories:
     - ai-engineering
-description: "In this blog post, we delve into the concept of function calling in OpenAI, a feature that has been revolutionizing the way developers interact with GPT…"
+description: "How OpenAI function calling works under the hood, how to define schemas the model will respect, and the failure modes to guard against."
 last_modified_at: 2023-09-02
 ---
 

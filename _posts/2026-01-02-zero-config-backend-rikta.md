@@ -22,12 +22,9 @@ tags:
     - TypeScript
 categories:
     - web-development
-description: "There’s a particular kind of frustration that only backend engineers know: you wrote the controller, you wrote the service, the types look great, the tests…"
+description: "How TypeScript backends are moving from explicit module wiring to build-time inference, and what zero-config actually means in practice."
 last_modified_at: 2026-01-12
 ---
-
-# Zero-Config Backends: The Architectural Future of TypeScript Frameworks
-
 There’s a particular kind of frustration that only backend engineers know: you wrote the controller, you wrote the service, the types look great, the tests compile… and then your framework refuses to boot because you forgot to add one class name to one array in one module.
 
 That array is *always* an array.
@@ -514,7 +511,6 @@ Here’s the architectural arc in one breath:
 * TypeScript 5.0 release notes on **new decorators vs. legacy decorators**, including compatibility notes. ([TypeScript][6])
 * TypeScript 5.2 release notes on **decorators metadata (`Symbol.metadata`)**. ([TypeScript][10])
 * Rikta docs: **First Steps**, **Modules (Auto-Discovery)**, **Dependency Injection**, and **Benchmarks**. ([Rikta][1])
-
 
 [1]: https://rikta.dev/docs/overview/first-steps "First Steps | Rikta"
 [2]: https://docs.nestjs.com/modules "Modules | NestJS - A progressive Node.js framework"

@@ -17,7 +17,7 @@ header:
   overlay_filter: 0.5 
   teaser: /assets/images/postgresql-vectordb/teaser.webp
 title:  "Harnessing PostgreSQL as a Vector Database with Python"
-description: "Get ready to dive into the exciting world of vector databases! In this blog post, I'll show you how PostgreSQL can be used as a powerful vector database with…"
+description: "Using PostgreSQL as a vector database in Python: storing embeddings, running similarity search, and when it beats a dedicated store."
 last_modified_at: 2023-08-27
 tags:
     - PostgreSQL

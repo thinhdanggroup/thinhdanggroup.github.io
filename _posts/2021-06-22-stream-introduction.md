@@ -21,7 +21,7 @@ tags:
     - Event-Driven Architecture
     - Kafka
     - Data Engineering
-description: "Chào mọi người, không biết mọi người đã trải qua tính cảnh như mình chưa. Trước đây, mình là tại một công ty fintech và chuyên xây dựng hệ thống real-time…"
+description: "Nhật ký chuyển từ hệ thống real-time latency vài ms sang xây dựng pipeline báo cáo near real-time với streaming data."
 last_modified_at: 2021-07-27
 categories:
     - distributed-systems

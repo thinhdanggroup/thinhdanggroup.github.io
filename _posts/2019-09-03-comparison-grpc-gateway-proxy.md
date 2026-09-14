@@ -20,7 +20,7 @@ toc_sticky: true
 title:  "So sánh grpc gateway với gRPC web"
 tags:
     - API Design
-description: "Bạn đang có một service sử dụng gRPC để đảm bảo vấn đề hiệu năng khi giao tiếp. Nhưng rồi một ngày, bạn muốn xây một admin web cho nó nhưng trình duyệt lại…"
+description: "So sánh grpc-gateway và gRPC-Web: cách hoạt động, ưu nhược điểm, và nên chọn giải pháp nào khi cần gọi service gRPC từ trình duyệt."
 last_modified_at: 2019-09-07
 categories:
     - web-development

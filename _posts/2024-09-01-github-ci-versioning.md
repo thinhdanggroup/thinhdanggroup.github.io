@@ -23,7 +23,7 @@ tags:
 
 categories:
     - python
-description: "This article is a comprehensive guide for Python developers looking to enhance their project management and development workflow using Git versioning…"
+description: "Automating version bumps, tagging, and release workflows for Python projects with Git and GitHub Actions."
 last_modified_at: 2025-05-31
 ---
 

@@ -22,7 +22,7 @@ tags:
     - Data Store
 categories:
     - databases
-description: "If you’ve used ClickHouse for more than ten minutes, you’ve probably seen mysterious words in system tables and error messages: parts, granules, marks…"
+description: "Parts, granules, marks, merges, and mutations: the mental model you need to reason about ClickHouse storage and query performance."
 last_modified_at: 2025-10-23
 ---
 

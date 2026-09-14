@@ -22,7 +22,7 @@ tags:
 
 categories:
     - distributed-systems
-description: "In the world of distributed systems, availability is a critical factor. It refers to the ability of a system to be accessible and operational, ensuring that…"
+description: "Failover, replication, circuit breakers, and bulkheads: the availability patterns that keep distributed systems reachable when parts fail."
 last_modified_at: 2023-11-26
 ---
 

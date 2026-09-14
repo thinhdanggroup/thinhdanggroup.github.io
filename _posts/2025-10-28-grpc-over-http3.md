@@ -21,7 +21,7 @@ tags:
     - API Design
 categories:
     - web-development
-description: "You’ve got a fleet of gRPC services humming along on HTTP/2. Mobile clients suffer from shaky networks, tail latencies sting, and someone on the team keeps…"
+description: "Moving gRPC from HTTP/2 to HTTP/3: what QUIC handshakes change, where 0-RTT adds replay risk, and a migration path that won't break clients."
 last_modified_at: 2025-10-30
 ---
 

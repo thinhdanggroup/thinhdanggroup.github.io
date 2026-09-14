@@ -22,7 +22,7 @@ tags:
 
 categories:
     - infrastructure
-description: "Dive into the world of serverless architecture with our comprehensive guide for beginners. This blog post will introduce you to the concept of serverless…"
+description: "A beginner's map of the serverless stack: what runs where, how it differs from server-based architecture, and the cost and cold-start tradeoffs."
 last_modified_at: 2023-12-11
 ---
 

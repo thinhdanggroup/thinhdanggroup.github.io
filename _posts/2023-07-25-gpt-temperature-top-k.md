@@ -19,7 +19,7 @@ header:
 title:  "Mastering GPT Model Outputs: A Deep Dive into Temperature and Top-k"
 tags:
     - LLM
-description: "In this blog post, we delve into the fascinating world of Generative Pre-trained Transformers (GPT) models, with a special focus on controlling their outputs…"
+description: "How temperature and top-k sampling shape GPT output, what each parameter actually changes, and how to tune them for your use case."
 last_modified_at: 2023-08-20
 categories:
     - ai-engineering

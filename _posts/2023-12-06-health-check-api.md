@@ -22,7 +22,7 @@ tags:
 
 categories:
     - infrastructure
-description: "In this blog post, we will take a deep dive into the world of health check APIs. We will kick off by introducing the concept of health check APIs and their…"
+description: "What a health check API should actually verify, how liveness differs from readiness, and how to avoid checks that lie about a broken service."
 last_modified_at: 2023-12-11
 ---
 

@@ -22,7 +22,7 @@ tags:
     - Data Store
 categories:
     - databases
-description: "If you’re coming from Postgres or MySQL, “add an index” means “build a structure that points to rows.” ClickHouse stores columns separately and reads them in…"
+description: "ClickHouse's sparse primary index, data skipping indexes, and projections explained — why it avoids B-trees and how to exploit that."
 last_modified_at: 2025-10-24
 ---
 

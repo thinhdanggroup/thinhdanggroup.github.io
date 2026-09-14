@@ -22,7 +22,7 @@ tags:
 
 categories:
     - databases
-description: "In our upcoming blog post, 'Mastering Caching Strategies: A Comprehensive Guide', we delve into the world of caching, a crucial technique used to store and…"
+description: "Cache-aside, write-through, write-behind, and refresh-ahead compared: how each strategy handles reads, writes, and invalidation."
 last_modified_at: 2023-09-09
 ---
 

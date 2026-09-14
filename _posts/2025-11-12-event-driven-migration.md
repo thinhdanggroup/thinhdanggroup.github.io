@@ -23,7 +23,7 @@ tags:
     - Temporal
 categories:
     - distributed-systems
-description: "Changing a live database is like moving furniture while the party is still going. Someone always needs a chair; someone else is standing exactly where you…"
+description: "Combining Debezium change streams with Temporal workflows to make live database schema migrations reversible and effectively atomic."
 last_modified_at: 2025-11-15
 ---
 

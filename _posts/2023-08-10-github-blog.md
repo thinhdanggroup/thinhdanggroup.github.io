@@ -20,7 +20,7 @@ title:  "A Guideline to Building Your Blog Using GitHub Pages"
 tags:
     - Developer Tools
 
-description: "Ever thought of creating your own blog? This blog post will guide you through the process of building a blog using GitHub Pages, a platform that allows you…"
+description: "A step-by-step walkthrough of building and publishing a blog on GitHub Pages, from repository setup to theme configuration."
 last_modified_at: 2023-08-31
 categories:
     - infrastructure

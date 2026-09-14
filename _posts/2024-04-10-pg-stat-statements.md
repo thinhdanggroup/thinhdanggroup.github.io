@@ -22,7 +22,7 @@ tags:
 
 categories:
     - databases
-description: "Are you looking to optimize the performance of your PostgreSQL database? Look no further than pgstatstatements, a built-in extension that provides invaluable…"
+description: "Enabling and reading pg_stat_statements to find the queries actually costing you time in PostgreSQL, and what each column is telling you."
 last_modified_at: 2024-04-30
 ---
 

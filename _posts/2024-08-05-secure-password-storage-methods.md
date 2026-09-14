@@ -22,7 +22,7 @@ tags:
 
 categories:
     - web-development
-description: "In today's digital age, securing user passwords is more important than ever. This article will guide you through the essentials of password security…"
+description: "Why hashing alone isn't enough for password storage: salting, bcrypt, Argon2, work factors, and the mistakes that make databases easy to crack."
 last_modified_at: 2024-09-26
 ---
 

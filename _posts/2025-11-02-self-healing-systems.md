@@ -19,7 +19,7 @@ header:
 title: "Self-Healing Systems: When Auto-Scaling Isn’t Enough"
 tags:
     - Autoscaling
-description: "Auto-scaling is like hiring more baristas when the coffee line wraps around the block. It absolutely helps with load — more pods, more instances, more…"
+description: "Auto-scaling adds capacity but can't fix a broken dependency. The detection and remediation patterns that let systems recover on their own."
 last_modified_at: 2025-11-16
 categories:
     - infrastructure

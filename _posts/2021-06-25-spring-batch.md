@@ -28,7 +28,7 @@ categories:
 
 Các bạn đã bao giờ gặp tình cảnh được yêu cầu tính report từ dữ liệu trong database để hỗ trợ cho business. Thường thì chúng ta sẽ nghĩ ngay tới giải pháp mì ăn liền là dùng script python với pandas để xử lý đóng csv được xuất từ database. Hoặc một yêu cầu hay gặp hơn, khi chúng ta nâng cấp hệ thống từ version cũ sang version mới thì dữ liệu cần được migrate. Thường thì chúng ta phải từ hiện thực một tool hay script để làm điều này. Nhưng hôm nay, mình giới thiệu các bạn một framework nổi tiếng đó là Spring Batch. Cùng mình bắt đầu phần 2 của series làm quen với Streaming Data nào.
 
-# Spring Batch là gì?
+## Spring Batch là gì?
 
 Chắc hẳn, các bạn ai cũng đã nghe về Spring Framework, [Spring Batch](https://docs.spring.io/spring-batch/docs/current/reference/html/job.html) là một phần của framework này. Chúng giúp ta xử lý một chuỗi công việc trong một lúc, giảm overhead so với việc xử lý từng request một.
 
@@ -51,7 +51,7 @@ Mình cũng sẽ giới thiệu sơ vể kiến trúc của Spring Batch như sa
 - **Step**: ta sẽ qui định các business ở đây. Mỗi `Step` sẽ gồm 3 bước: *Item Reader*, *Item Processor*, *Item Writer*. Hai bước `Reader` và `Processor` sẽ được xử lý đồng thời tuỳ vào lượng worker, riêng bước `Writer` sẽ xử lý theo `chunk`.
 - **JobRepository**: cung cấp CRUD cho JobLaucher, Job, Step.
 
-# Ví dụ tính toán trial balance report 
+## Ví dụ tính toán trial balance report 
 
 Trong phần 1, mình đã giới thiệu về ví dụ mình sẽ làm cho xuyện suốt series. Nếu các bạn có bỏ qua phần 1 thì trở về đọc lại trước nhé. Giờ thì cùng mình bắt đầu trải nghiệm Spring Batch nào. 
 

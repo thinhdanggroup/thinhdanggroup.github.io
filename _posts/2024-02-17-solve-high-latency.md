@@ -22,7 +22,7 @@ tags:
 
 categories:
     - distributed-systems
-description: "Latency is a critical factor in the performance and quality of distributed systems. High latency can cause delays, slowdowns, and even outages, which can…"
+description: "Where latency actually comes from in distributed systems — network, serialization, queuing, and coordination — and how to attack each source."
 last_modified_at: 2024-02-19
 ---
 

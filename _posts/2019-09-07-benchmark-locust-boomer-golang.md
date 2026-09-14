@@ -27,7 +27,7 @@ categories:
 
 Một bước mà chúng ta thường xuyên bỏ qua và coi thường khi xây dựng một service mới đó là load test nó. Load test là một quá trình quan trọng trước khi đưa sản phẩm vào thực tế. Load test mang lại rất nhiều lợi ích: cho ta biết khả năng phục vụ bao nhiêu người dùng cùng lúc của service, chất lượng dịch vụ trong các tình trạng tải khác nhau, phát hiện được những `bug` chỉ xảy ra trong môi trường multi-threading, ...
 
-# Giới thiệu
+## Giới thiệu
 
 Load test là một dạng của [performance testing](https://www.guru99.com/performance-testing.html). Chúng ta sẽ xác định được hiệu năng của hệ thống trong các điều kiện tải khác nhau trong thực tế. Bài kiểm tra này giúp ta hiểu hơn về hành vi của hệ thống khi có nhiều người dùng truy cập đồng thời.
 
@@ -50,7 +50,7 @@ Locust là một công cụ load testing mà có thể tính toán được có 
 - Hỗ trợ rate limit.
 - Có thể custom output.
 
-# Chế độ phân tán của Locust
+## Chế độ phân tán của Locust
 
 Khi mà một máy đơn không thể tạo đủ số lượng người dùng mà bạn cần, thì lúc này cơ chế phân tán sẽ giúp ta chạy load test trên nhiều máy khác nhau. Locust sẽ hoạt động gồm 2 thành phần: master và slave.
 
@@ -59,7 +59,7 @@ Khi mà một máy đơn không thể tạo đủ số lượng người dùng m
 
 ![locust_deployment](../assets/images/locust_deployment.png)
 
-# Boomer
+## Boomer
 
 Trong phần này chúng ta sẽ đi sâu vào cơ chế hoạt động master slave của Locust thông qua thư viện boomer. Thư viện boomer cung cấp khả năng giả lập số người dùng gửi yêu cầu vào hệ thống. Nhờ vào việc sử dụng goroutine nên boomer mang lại hiệu năng vượt trội so với các ngôn ngữ khác. Có một lưu ý là hãy sử dụng boomer như thư viện chứ không phải một công cụ benchmark.
 
@@ -120,7 +120,7 @@ func worker() {
 }
 ```
 
-# Load testing với rate limit
+## Load testing với rate limit
 
 Tại sao load test lại cân `rate limit`?
 
@@ -142,6 +142,6 @@ Vậy làm sao sử dụng được rate limit trong boomer? Bommer hỗ trợ h
 
 Cách thiết lập rate limit cực kì đơn giản khi trang chủ đã có ngay [hai ví dụ](https://github.com/myzhan/boomer/tree/master/examples/ratelimit) về hai rate limiter này.
 
-# Tổng kết
+## Tổng kết
 
 Nhờ các công cụ như locust và boomer thì việc load testing nay đã dễ dàng hơn rất nhiều. Từ việc tạo ra các ngữ cảnh test, vận hành các công cụ test đến các số liệu thống kê và hiển thị, chúng ta có thể có tất cả chúng một cách dễ dàng. Vậy còn chờ gì nữa mà không tạo ra một bài test cho chính service của bạn ngay bây giờ. 

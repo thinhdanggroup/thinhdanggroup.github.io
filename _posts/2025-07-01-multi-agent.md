@@ -23,7 +23,7 @@ tags:
     - Software Engineering
 categories:
     - ai-engineering
-description: "In the rapidly evolving landscape of AI-powered applications, we're seeing a shift from monolithic single-agent systems to sophisticated multi-agent…"
+description: "Why complex AI domains outgrow a single agent, and how a coordinator pattern routes work across specialized agents without losing control."
 last_modified_at: 2025-07-19
 ---
 

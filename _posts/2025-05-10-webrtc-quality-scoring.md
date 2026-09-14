@@ -22,7 +22,7 @@ tags:
 
 categories:
     - web-development
-description: "Web Real-Time Communication (WebRTC) has revolutionized how web applications enable direct peer-to-peer interaction, facilitating the streaming of audio…"
+description: "How the rtcscore library estimates Mean Opinion Score from WebRTC stats, and what its model says about bitrate, jitter, and packet loss."
 last_modified_at: 2025-05-31
 ---
 

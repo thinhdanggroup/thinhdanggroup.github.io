@@ -23,7 +23,7 @@ tags:
     - distributed messaging
 categories:
     - distributed-systems
-description: "You’ve got a Kafka cluster humming in production. There are topics, partitions, consumer groups, dashboards, and an ever-growing list of “we’ll tune that…"
+description: "When NATS is the better fit than Kafka: comparing operational overhead, delivery guarantees, and what you give up by migrating."
 ---
 
 You’ve got a Kafka cluster humming in production. There are topics, partitions, consumer groups, dashboards, and an ever-growing list of “we’ll tune that later” configs.

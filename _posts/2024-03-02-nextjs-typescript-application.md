@@ -23,7 +23,7 @@ tags:
 
 categories:
     - web-development
-description: "In this blog post, we will dive into the world of Next.js and TypeScript. We will explore how to use these two powerful technologies together to build fast…"
+description: "Setting up Next.js with TypeScript: project configuration, typed routing and data fetching, and patterns that keep a growing app maintainable."
 last_modified_at: 2024-03-07
 ---
 

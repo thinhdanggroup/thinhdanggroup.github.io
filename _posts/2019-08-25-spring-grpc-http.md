@@ -20,7 +20,7 @@ title:  "Xây dựng Service cung cấp HTTP và gRPC API bằng Spring"
 tags:
     - Java
     - API Design
-description: "Nếu bạn đã từng xây dựng một ứng dụng với gRPC thì chắc chắn bạn đã biết được những ưu điểm của gRPC là khả năng truyền tải nhanh(lên tới 8 lần) và tối ưu…"
+description: "Cách dùng Spring để expose cùng lúc gRPC và HTTP API từ một service, giải quyết vấn đề client không hỗ trợ giao thức gRPC."
 last_modified_at: 2019-09-01
 categories:
     - web-development

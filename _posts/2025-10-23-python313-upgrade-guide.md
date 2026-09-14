@@ -21,7 +21,7 @@ tags:
     - Python
 categories:
     - python
-description: "Python 3.13 shipped on October 7, 2024, and it’s not just another point release. It brings a brand‑new interactive interpreter, experimental free‑threading…"
+description: "What Python 3.13 actually gives you: the new REPL, experimental free-threading and JIT, plus the removals and regressions to plan for."
 last_modified_at: 2025-10-25
 ---
 

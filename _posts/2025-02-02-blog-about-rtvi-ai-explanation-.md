@@ -21,7 +21,7 @@ tags:
     - AI Agents
     - Real-Time
 
-description: "This article provides a comprehensive guide to RTVI AI, also known as Real-Time Voice Interaction AI, a protocol designed to enhance the development of…"
+description: "What the RTVI protocol standardizes for real-time voice and multimodal AI, and how it simplifies building low-latency voice applications."
 categories:
     - ai-engineering
 ---

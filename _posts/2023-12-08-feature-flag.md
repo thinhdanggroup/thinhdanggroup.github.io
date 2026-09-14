@@ -22,7 +22,7 @@ tags:
 
 categories:
     - infrastructure
-description: "In this blog post, we take a deep dive into the world of feature flags, exploring what they are, how they work, and why they are crucial for web application…"
+description: "How feature flags work, the rollout patterns they enable, and how to keep flag debt from becoming permanent branching in your codebase."
 last_modified_at: 2023-12-11
 ---
 

@@ -22,7 +22,7 @@ tags:
 
 categories:
     - python
-description: "In this blog post, we delve into the world of GraphQL and FastAPI with Python, two powerful technologies that are revolutionizing how we build and interact…"
+description: "Combining GraphQL with FastAPI in Python: schema design, resolver structure, and the query-performance traps worth avoiding."
 last_modified_at: 2023-11-15
 ---
 

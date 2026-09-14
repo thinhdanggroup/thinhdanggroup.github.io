@@ -22,7 +22,7 @@ tags:
 
 categories:
     - infrastructure
-description: "This blog post provides a comprehensive guide on setting up Horizontal Pod Autoscaling (HPA) in a Kubernetes cluster using DataDog metrics for a Python…"
+description: "Wiring Datadog custom metrics into Kubernetes HPA so a Python app scales on queue depth or latency instead of CPU."
 last_modified_at: 2024-08-17
 ---
 
