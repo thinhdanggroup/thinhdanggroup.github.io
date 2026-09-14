@@ -116,7 +116,27 @@ candidates in total, write `no-topic` to `$DAILY_POST_STATUS` and stop.** Nothin
 further needs committing here — every rejection that touched the queue file was
 already pushed to `master` as it happened.
 
-Once a candidate passes:
+If `dupe_check` did not reject the candidate, check it against work already in
+flight before claiming anything. An open PR is work already done and awaiting
+review — writing the same topic again produces two PRs competing for the same slot:
+
+```bash
+gh pr list --state open --search "daily-post" --json title,headRefName
+```
+
+If this call fails (a transient GitHub API or network problem), log it and continue
+— a missing guard is not a reason to abort the run; treat the candidate as if no open
+PR matched it, the same way `run.sh` itself logs a warning and falls back to its
+local checks when `git ls-remote` fails.
+
+Compare the candidate's title and angle against the open PRs' titles by judgement,
+not a literal string match — a differently-worded PR covering the same underlying
+argument still counts as a match. If one matches, treat the candidate exactly as a
+`dupe_check` rejection above: mark it `rejected` if it came from the queue (and
+commit/push that the same way), or just move on if it was discovered. Either way it
+counts toward the three-candidate limit.
+
+Once a candidate passes both checks:
 
 - **If it came from the queue** (it has a topic id), claim it immediately — before
   any research — via `script/daily_post/queue.py`, then commit and push that to
@@ -141,9 +161,14 @@ Once a candidate passes:
   `run.sh` itself, not from the queue: once this run pushes
   `daily-post/$(date +%F)-<slug>` to `origin` in Stage 5, `run.sh`'s own precondition
   (`git ls-remote --heads origin "daily-post/$TODAY-*"`) stops a second invocation
-  today before the skill is ever invoked again. There is no equivalent protection
-  across a day boundary for a discovered candidate that resurfaces later — a known
-  limitation of the discovery path, not something a single run can close.
+  today before the skill is ever invoked again. Across a day boundary, the open-PR
+  check above substantially mitigates a discovered candidate resurfacing: as long as
+  this run's PR is still open, a later run finds it in `gh pr list` and rejects the
+  rediscovered candidate the same way a `dupe_check` duplicate is rejected. What that
+  check does not catch: a PR that has already merged (it is no longer "open", and
+  `dupe_check`'s own `_posts/`-based view may not yet reflect it if the agent's local
+  checkout is stale), and any day where the `gh pr list` call itself failed and was
+  skipped. Neither is fully closed by a single run.
 
 Keep the `dupe_check` JSON and carry its nearest matches forward to Gate 2 **even when
 every one of their scores is low** — a passing mechanical score is not evidence the

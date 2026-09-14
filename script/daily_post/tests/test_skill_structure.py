@@ -179,3 +179,20 @@ def test_skill_md_feature_branch_never_stages_the_queue_file():
         assert "topic_queue.yml" not in block, (
             "a feature-branch code block still stages topic_queue.yml:\n" + block
         )
+
+
+def test_skill_md_checks_open_prs_before_claiming():
+    """Stage 1 must check open PRs for the same topic before claiming a
+    candidate, not just the mechanical dupe_check score.
+
+    Regression guard for Task 9 fix round 4, Finding 9: a topic with no queue
+    entry (discovered) or an unmerged PR sitting open for days is invisible to
+    both `next_queued()` and `dupe_check` (which only sees `_posts/`), so
+    nothing previously stopped the same topic being picked again while its PR
+    was still open.
+    """
+    text = SKILL_MD.read_text(encoding="utf-8")
+    start = text.index("## Stage 1")
+    end = text.index("## Stage 2")
+    stage_one = text[start:end]
+    assert "gh pr list" in stage_one
