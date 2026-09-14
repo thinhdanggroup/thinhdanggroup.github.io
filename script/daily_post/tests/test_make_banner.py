@@ -3,13 +3,23 @@ from pathlib import Path
 import pytest
 from PIL import Image
 
-from script.daily_post.make_banner import (
-    CATEGORY_COLORS,
-    render_banner,
-    resolve_font,
-    wrap_title,
-)
+from script.daily_post.make_banner import CATEGORY_COLORS, render_banner
 from script.daily_post.queue import CATEGORIES
+
+
+def _relative_luminance(rgb: tuple[int, int, int]) -> float:
+    def chan(c: int) -> float:
+        v = c / 255.0
+        return v / 12.92 if v <= 0.03928 else ((v + 0.055) / 1.055) ** 2.4
+
+    r, g, b = rgb
+    return 0.2126 * chan(r) + 0.7152 * chan(g) + 0.0722 * chan(b)
+
+
+def _contrast_ratio(rgb1: tuple[int, int, int], rgb2: tuple[int, int, int]) -> float:
+    l1, l2 = _relative_luminance(rgb1), _relative_luminance(rgb2)
+    lighter, darker = max(l1, l2), min(l1, l2)
+    return (lighter + 0.05) / (darker + 0.05)
 
 
 def test_every_category_has_a_gradient():
@@ -54,9 +64,19 @@ def test_different_categories_produce_different_images(tmp_path: Path):
     assert a.read_bytes() != b.read_bytes()
 
 
-def test_render_is_deterministic_for_the_same_input(tmp_path: Path):
-    a, _ = render_banner("Same Title", "python", tmp_path / "a")
-    b, _ = render_banner("Same Title", "python", tmp_path / "b")
+def test_same_category_different_slugs_produce_different_images(tmp_path: Path):
+    """Per-post variation: same title, same category, different slug (the leaf
+    directory name, which is what the CLI derives from --slug) must not collide."""
+    a, _ = render_banner("Same Title", "python", tmp_path / "post-one")
+    b, _ = render_banner("Same Title", "python", tmp_path / "post-two")
+    assert a.read_bytes() != b.read_bytes()
+
+
+def test_same_slug_renders_deterministically_twice(tmp_path: Path):
+    """Same title, category, and slug (leaf directory name) -> byte-identical
+    output, even across separate invocations writing into different parents."""
+    a, _ = render_banner("Same Title", "python", tmp_path / "run1" / "my-post")
+    b, _ = render_banner("Same Title", "python", tmp_path / "run2" / "my-post")
     assert a.read_bytes() == b.read_bytes()
 
 
@@ -66,20 +86,50 @@ def test_a_very_long_title_still_renders(tmp_path: Path):
     assert banner.is_file()
 
 
-def test_wrap_title_breaks_on_words_within_the_line_budget():
-    font = resolve_font(80)
-    lines = wrap_title("one two three four five six seven eight", font, max_width=400)
-    assert len(lines) > 1
-    assert all(line.strip() for line in lines)
+def test_banner_contains_no_baked_in_text(tmp_path: Path):
+    """The theme paints the h1/lead/meta on top of header.overlay_image itself
+    (see _layouts/single.html -> page__hero), so a banner with its own title text
+    would show the title twice. The banner must be pure artwork: a solid-colour
+    background must differ from ours (i.e. we drew *something*), but nothing
+    resembling glyph strokes -- checked indirectly via the pattern/contrast tests
+    below, since OCR isn't available here. This test only pins the *contract*:
+    render_banner takes no text-layout knobs any more.
+    """
+    import inspect
+
+    from script.daily_post import make_banner
+
+    assert not hasattr(make_banner, "wrap_title")
+    assert not hasattr(make_banner, "resolve_font")
+    sig = inspect.signature(render_banner)
+    assert list(sig.parameters) == ["title", "category", "out_dir"]
 
 
-def test_wrap_title_caps_the_line_count_and_ellipsises():
-    font = resolve_font(80)
-    lines = wrap_title(" ".join(["word"] * 60), font, max_width=400, max_lines=4)
-    assert len(lines) == 4
-    assert lines[-1].endswith("…")
+def test_darkened_banner_clears_wcag_aa_in_the_title_zone(tmp_path: Path):
+    """Simulate the theme's `overlay_filter: 0.5` (a 50% black layer) and confirm
+    white text would still read at WCAG AA (>= 4.5:1) against the busiest plausible
+    pixel in the zone where page__title/page__lead actually render: the vertical
+    middle band, left-aligned within the page's centered content wrapper.
 
+    Uses per-channel extrema (the brightest R, the brightest G, the brightest B
+    anywhere in the zone, combined into one hypothetical pixel) as a conservative
+    upper bound on brightness, rather than sampling -- this can only overstate the
+    true worst pixel's luminance, never understate it, so a pass here is safe.
+    """
+    banner, _ = render_banner(
+        "Postgres connection pooling under sustained load", "web-development", tmp_path
+    )
+    with Image.open(banner) as im:
+        w, h = im.size
+        zone = im.convert("RGB").crop(
+            (0, round(h * 0.22), round(w * 0.78), round(h * 0.78))
+        )
+        r, g, b = zone.split()
+        worst_bright_pixel = (r.getextrema()[1], g.getextrema()[1], b.getextrema()[1])
 
-def test_resolve_font_returns_a_usable_font():
-    font = resolve_font(48)
-    assert font.getbbox("Test") is not None
+    darkened = tuple(round(c * 0.5) for c in worst_bright_pixel)
+    contrast = _contrast_ratio((255, 255, 255), darkened)
+    assert contrast >= 4.5, (
+        f"worst-case pixel {worst_bright_pixel} darkened to {darkened} only "
+        f"gives {contrast:.2f}:1 contrast against white text"
+    )
