@@ -1,5 +1,6 @@
 import fcntl
 import os
+import shutil
 import subprocess
 from datetime import date
 from pathlib import Path
@@ -201,6 +202,34 @@ def test_exit_30_when_a_branch_for_today_exists_only_on_the_remote(
 
     result = run(fake_repo, stub_bin)
     assert result.returncode == 30
+
+
+def test_a_remote_warning_on_stderr_is_not_read_as_an_existing_branch(
+    fake_repo: Path, stub_bin: Path, tmp_path: Path
+):
+    """`git ls-remote` can exit 0 with empty stdout while writing a warning to
+    stderr — ssh's "Permanently added ... to the list of known hosts" is the
+    common one, and it recurs on *every* connection wherever
+    UserKnownHostsFile is /dev/null. Captured with 2>&1, that warning reads as
+    a branch listing, so every run reports "already ran today" and exits 30
+    forever: the pipeline stops dead behind the one code operators are
+    explicitly told to ignore."""
+    origin = tmp_path / "origin.git"
+    subprocess.run(["git", "init", "-q", "--bare", str(origin)], check=True)
+    subprocess.run(["git", "remote", "add", "origin", str(origin)], cwd=fake_repo, check=True)
+    real_git = shutil.which("git")
+    write_stub(
+        stub_bin,
+        "git",
+        'if [[ "$1" == "ls-remote" ]]; then\n'
+        '  echo "Warning: Permanently added \'github.com\' (ED25519) to the'
+        ' list of known hosts." >&2\n'
+        'fi\n'
+        f'exec {real_git} "$@"',
+    )
+
+    result = run(fake_repo, stub_bin)
+    assert result.returncode == 0, result.stdout + result.stderr
 
 
 def test_a_remote_check_failure_does_not_abort_the_run(fake_repo: Path, stub_bin: Path, tmp_path: Path):
