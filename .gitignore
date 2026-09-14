@@ -39,3 +39,6 @@ script/medium/config.json
 # OS
 .DS_Store
 **/.DS_Store
+
+# Subagent-driven development scratch (ledger, briefs, review packages)
+.superpowers/
