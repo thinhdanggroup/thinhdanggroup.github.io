@@ -631,3 +631,87 @@ def test_skill_md_stage_3_points_at_voice_md_for_diagrams():
         assert restated not in stage_3, (
             f"Stage 3 restates {restated!r}; voice.md owns the diagram rules"
         )
+
+
+# --- the /blog quick-invoke skill -----------------------------------------
+#
+# `/blog` drives the pipeline the way a scheduler does (via run.sh) and explains
+# the result; `daily-post` is the pipeline itself. The one thing that must never
+# drift is the exit-code table: an operator acting on a stale code does the wrong
+# thing at exactly the moment the pipeline is trying to tell them something.
+
+BLOG_SKILL_MD = REPO / ".claude" / "skills" / "blog" / "SKILL.md"
+RUN_SH = REPO / "script" / "daily_post" / "run.sh"
+
+
+def _blog_text() -> str:
+    return BLOG_SKILL_MD.read_text(encoding="utf-8")
+
+
+def _run_sh_header_codes() -> set[int]:
+    text = RUN_SH.read_text(encoding="utf-8")
+    header = text[text.index("# Exit codes:"):text.index("# Environment:")]
+    return {int(m) for m in re.findall(r"^#\s{3}(\d+)\s", header, re.M)}
+
+
+def _run_sh_reachable_codes() -> set[int]:
+    return {int(m) for m in re.findall(r"\bexit (\d+)", RUN_SH.read_text(encoding="utf-8"))}
+
+
+def test_blog_skill_md_exists():
+    assert BLOG_SKILL_MD.is_file()
+
+
+def test_blog_skill_md_has_name_and_description_front_matter():
+    import yaml
+
+    text = _blog_text()
+    assert text.startswith("---\n")
+    fm = yaml.safe_load(text.split("---\n")[1])
+    assert fm["name"] == "blog"
+    # The description is what routes a request to /blog rather than daily-post,
+    # so it has to name both the entry point and the skill it drives.
+    assert "run.sh" in fm["description"]
+    assert "daily-post" in fm["description"]
+
+
+def test_blog_skill_md_documents_every_exit_code_run_sh_can_return():
+    """Both directions. A code the script can return but the table omits leaves
+    an operator with no guidance at the worst moment; a code in the table that
+    the script cannot return is advice for a situation that never happens."""
+    table = {int(m) for m in re.findall(r"^\| `(\d+)` \|", _blog_text(), re.M)}
+    assert table == _run_sh_header_codes()
+    assert table == _run_sh_reachable_codes(), (
+        "run.sh's header and its literal `exit N` calls have themselves drifted"
+    )
+
+
+def test_blog_skill_md_exports_the_user_gem_dir_on_path():
+    """Without it `preflight.sh` reports "bundler not found" and the run fails
+    even though bundler is installed — the commonest new-machine failure."""
+    assert "export PATH=\"$(ruby -e 'print Gem.user_dir')/bin:$PATH\"" in _blog_text()
+
+
+def test_blog_skill_md_frames_exit_10_as_the_pipeline_working():
+    """A `10` is the gates doing their job and a human being handed a labeled
+    draft. Reported as a failure, the natural response is to re-run — which
+    picks a different topic and buries the draft instead of fixing it."""
+    text = _blog_text()
+    assert "This is the pipeline working" in text
+    assert "Do not re-run after a `10`" in text
+
+
+def test_blog_skill_md_points_at_the_readme_checklist_for_preconditions():
+    """The checklist has one home. A second copy drifts, and this one would
+    drift in the file an operator reads while something is already broken."""
+    text = _blog_text()
+    assert "Before the first run" in text
+    assert "README.md" in text
+
+
+def test_blog_skill_md_does_not_restate_the_five_stages():
+    """The stages belong to the daily-post skill; /blog links to it."""
+    text = _blog_text()
+    assert ".claude/skills/daily-post/SKILL.md" in text
+    for stage in ("## Stage 1", "## Stage 2", "## Stage 3", "## Stage 4"):
+        assert stage not in text, f"/blog restates {stage}; daily-post owns it"
