@@ -82,7 +82,7 @@ inventing a new one.
 | `draft/` | Unpublished drafts (excluded from the build) |
 | `_pages/` | About, archives, chatbot, and other standalone pages |
 | `_layouts/` | Theme overrides: `single.html`, `posts.html` |
-| `_includes/head/custom.html` | PostHog, AdSense loader, on-demand Mermaid/PlantUML |
+| `_includes/head/custom.html` | PostHog, on-demand Mermaid/PlantUML |
 | `_includes/footer/` | Ad units |
 | `assets/images/<slug>/` | Per-post images |
 | `assets/htmls/` | Standalone interactive demos embedded via iframe |
