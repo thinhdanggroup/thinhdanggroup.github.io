@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/secure-password-storage-methods/banner.jpeg
+    overlay_image: /assets/images/secure-password-storage-methods/banner.webp
+    og_image: /assets/images/secure-password-storage-methods/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/secure-password-storage-methods/banner.jpeg
+    teaser: /assets/images/secure-password-storage-methods/teaser.webp
 title: "How to Securely Store Passwords in Databases"
 tags:
-    - security
+    - Security
 
+categories:
+    - web-development
+description: "In today's digital age, securing user passwords is more important than ever. This article will guide you through the essentials of password security…"
+last_modified_at: 2024-09-26
 ---
 
 In today's digital age, securing user passwords is more important than ever. This article will guide you through the essentials of password security, ensuring that you understand why it's crucial to store passwords securely in databases.  We'll start by discussing common threats like data breaches and the consequences of poor password management. Next, we'll highlight common mistakes developers make, such as storing passwords in plain text or using weak hashing  algorithms. From there, we'll delve into the importance of hashing and salting passwords, explaining how these  techniques work and why they are essential for security. We will also introduce modern, secure hashing algorithms like  bcrypt, scrypt, and Argon2, and provide a step-by-step guide to implementing secure password storage in your  application. Additionally, we'll cover other crucial security measures, such as enforcing strong password policies and  using multi-factor authentication. Finally, we'll wrap up with a summary and a checklist of best practices to ensure  your application's password storage remains secure in the ever-evolving landscape of cybersecurity.
@@ -57,7 +62,7 @@ Let's explore some of the most prevalent mistakes:
 
 One of the most egregious mistakes is storing passwords in plain text. This practice leaves passwords vulnerable to anyone who gains access to the database. If an attacker breaches your database, they can see all user passwords in their original form, leading to severe security breaches.
 
-![Plain Text Password Storage](/assets/images/secure-password-storage-methods/plaintext.jpeg)
+![Plain Text Password Storage](/assets/images/secure-password-storage-methods/plaintext.webp)
 
 #### 2. Using Weak Hashing Algorithms
 
@@ -614,7 +619,7 @@ By implementing these additional security measures, you can create a more secure
 
 ## Best Practices Checklist
 
-![Secure Password Storage Checklist](/assets/images/secure-password-storage-methods/checklist.jpeg)
+![Secure Password Storage Checklist](/assets/images/secure-password-storage-methods/checklist.webp)
 
 - [ ] Hash passwords using bcrypt, Argon2, or PBKDF2.
 - [ ] Add a unique salt to each password before hashing.

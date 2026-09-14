@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/tables-distributed-clickhouse-cluster/banner.png
+    overlay_image: /assets/images/tables-distributed-clickhouse-cluster/banner.webp
+    og_image: /assets/images/tables-distributed-clickhouse-cluster/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/tables-distributed-clickhouse-cluster/banner.png
+    teaser: /assets/images/tables-distributed-clickhouse-cluster/teaser.webp
 title: "Creating Tables in a Distributed ClickHouse Cluster: Everything You Really Need to Know"
 tags:
-    - clickhouse
-    - distributed
+    - ClickHouse
+    - Distributed Systems
+categories:
+    - databases
+description: "If you’ve just set up a ClickHouse cluster, the next scary step is: “Okay… now how do I actually create tables the right way so I don’t regret everything in…"
+last_modified_at: 2025-11-23
 ---
 
 If you’ve just set up a ClickHouse cluster, the next scary step is:

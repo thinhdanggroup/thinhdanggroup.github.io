@@ -12,14 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/temporal-reliable-ai-pipeline/banner.png
+    overlay_image: /assets/images/temporal-reliable-ai-pipeline/banner.webp
+    og_image: /assets/images/temporal-reliable-ai-pipeline/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/temporal-reliable-ai-pipeline/banner.png
+    teaser: /assets/images/temporal-reliable-ai-pipeline/teaser.webp
 title: "Beyond Cron: How Temporal and Durable Execution Are Powering Reliable AI Pipelines"
 tags:
-    - temporal
-    - ai pipeline
-    - agent
+    - Temporal
+    - AI Agents
+categories:
+    - distributed-systems
+description: "There’s a decent chance you have a cron job somewhere that looks like this:"
+last_modified_at: 2025-11-23
 ---
 
 There’s a decent chance you have a cron job somewhere that looks like this:

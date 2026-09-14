@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/guide-hpa-datadog/banner.jpeg
+    overlay_image: /assets/images/guide-hpa-datadog/banner.webp
+    og_image: /assets/images/guide-hpa-datadog/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/guide-hpa-datadog/banner.jpeg
+    teaser: /assets/images/guide-hpa-datadog/teaser.webp
 title: "Setting Up Autoscaling with HPA and DataDog Metrics for a Python App in Kubernetes"
 tags:
-    - Auto Scaling
+    - Autoscaling
 
+categories:
+    - infrastructure
+description: "This blog post provides a comprehensive guide on setting up Horizontal Pod Autoscaling (HPA) in a Kubernetes cluster using DataDog metrics for a Python…"
+last_modified_at: 2024-08-17
 ---
 
 This blog post provides a comprehensive guide on setting up Horizontal Pod Autoscaling (HPA) in a Kubernetes cluster using DataDog metrics for a Python application. It begins with an introduction to the importance of autoscaling and monitoring, followed by a list of prerequisites such as a basic understanding of Kubernetes, an existing Kubernetes cluster, and a DataDog account. The guide then walks you through the steps to deploy your Python application in Kubernetes, including writing a Dockerfile and creating a Kubernetes Deployment YAML file. Next, it covers installing and configuring the DataDog agent to collect metrics from your Python app. The guide then delves into setting up HPA using these metrics, providing detailed examples and configurations. Finally, it discusses how to monitor and test the setup using DataDog’s dashboard to ensure everything is working correctly. The conclusion summarizes the key points and offers best practices for managing Kubernetes workloads effectively with HPA and DataDog metrics.

@@ -12,14 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/redis-sorted-set/banner.jpeg
+    overlay_image: /assets/images/redis-sorted-set/banner.webp
+    og_image: /assets/images/redis-sorted-set/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/redis-sorted-set/banner.jpeg
+    teaser: /assets/images/redis-sorted-set/teaser.webp
 title: "Rediscovering Order: Harnessing Redis Sorted Sets for Scalable Applications"
 tags:
     - Redis
-    - Sorted Sets
 
+categories:
+    - databases
+description: "This article explores the powerful data structure of Redis sorted sets, which brings order and efficiency to handling sorted data."
+last_modified_at: 2024-06-02
 ---
 
 This article explores the powerful data structure of Redis sorted sets, which brings order and efficiency to handling sorted data. From fundamental concepts to practical use cases across various industries, this blog post covers it all. Learn how sorted sets can be used for real-time leaderboards, session management, event scheduling, and more, with detailed examples, command overviews, and best practices. Discover how to integrate Redis sorted sets into your next project and unlock their capabilities for modern application development.

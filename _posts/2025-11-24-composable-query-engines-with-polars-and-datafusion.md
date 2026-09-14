@@ -12,14 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/composable-query-engines-with-polars-and-datafusion/banner.png
+    overlay_image: /assets/images/composable-query-engines-with-polars-and-datafusion/banner.webp
+    og_image: /assets/images/composable-query-engines-with-polars-and-datafusion/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/composable-query-engines-with-polars-and-datafusion/banner.png
+    teaser: /assets/images/composable-query-engines-with-polars-and-datafusion/teaser.webp
 title: "Beyond Postgres and DuckDB: The Rise of Composable Query Engines with Polars and DataFusion"
 tags:
-    - polars
-    - datafusion
-    - composable query engine
+    - Pandas
+    - OLAP
+categories:
+    - python
+description: "If you’ve been doing data-heavy backend work over the last decade, your mental model probably looks something like this:"
+last_modified_at: 2025-11-25
 ---
 
 If you’ve been doing data-heavy backend work over the last decade, your mental model probably looks something like this:

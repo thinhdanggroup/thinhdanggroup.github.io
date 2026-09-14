@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/solve-high-latency/banner.jpeg
+    overlay_image: /assets/images/solve-high-latency/banner.webp
+    og_image: /assets/images/solve-high-latency/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/solve-high-latency/banner.jpeg
+    teaser: /assets/images/solve-high-latency/teaser.webp
 title: "How to Solve High Latency in Distributed Systems"
 tags:
     - Distributed Systems
 
+categories:
+    - distributed-systems
+description: "Latency is a critical factor in the performance and quality of distributed systems. High latency can cause delays, slowdowns, and even outages, which can…"
+last_modified_at: 2024-02-19
 ---
 
 Latency is a critical factor in the performance and quality of distributed systems. High latency can cause delays, slowdowns, and even outages, which can lead to frustration and lost productivity. In this blog post, we will discuss the causes of high latency in distributed systems and provide some solutions for reducing it.

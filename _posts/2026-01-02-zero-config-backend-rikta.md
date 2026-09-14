@@ -12,14 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/zero-config-backend-rikta/banner.png
+    overlay_image: /assets/images/zero-config-backend-rikta/banner.webp
+    og_image: /assets/images/zero-config-backend-rikta/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/zero-config-backend-rikta/banner.png
+    teaser: /assets/images/zero-config-backend-rikta/teaser.webp
 title: "Zero-Config Backends: The Architectural Future of TypeScript Frameworks"
 tags:
-    - rikta
-    - zero config backend
-    - typescript
+    - Web Development
+    - TypeScript
+categories:
+    - web-development
+description: "There’s a particular kind of frustration that only backend engineers know: you wrote the controller, you wrote the service, the types look great, the tests…"
+last_modified_at: 2026-01-12
 ---
 
 # Zero-Config Backends: The Architectural Future of TypeScript Frameworks

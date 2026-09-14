@@ -12,14 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/nodejs-event-loop/banner.jpeg
+    overlay_image: /assets/images/nodejs-event-loop/banner.webp
+    og_image: /assets/images/nodejs-event-loop/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/nodejs-event-loop/banner.jpeg
+    teaser: /assets/images/nodejs-event-loop/teaser.webp
 title: "Diving into the Node.js Event Loop"
 tags:
-    - Coding
+    - Software Engineering
     - Node.js
 
+categories:
+    - software-engineering
+description: "In this comprehensive guide, we'll embark on a journey into the Node.js event loop, a fundamental concept that underpins the asynchronous nature of Node.js."
+last_modified_at: 2024-02-14
 ---
 
 In this comprehensive guide, we'll embark on a journey into the Node.js event loop, a fundamental concept that underpins the asynchronous nature of Node.js. We'll start with an introduction to Node.js and the event loop, emphasizing its significance in asynchronous programming. Next, we'll delve into the basic concepts of the event loop in Node.js, including asynchronous programming, the event loop's role, and the differences between synchronous and asynchronous execution. We'll also explore how Node.js implements the event loop, providing an overview of its architecture, libuv's role, and the various phases of the event loop. To further our understanding, we'll examine the event queue in the Node.js event loop, discussing its workings, the types of events (microtasks and macrotasks), and their prioritization. We'll then explore the relationship between the event loop and JavaScript execution context, examining their interaction and providing code examples for clarity. Additionally, we'll delve into non-JavaScript tasks in the event loop, such as timers and I/O operations, explaining their management and showcasing their usage through examples. To delve deeper, we'll explore advanced topics like the microtask queue and macrotask queue in Node.js, comparing their use cases and providing insights into their behavior. Finally, we'll conclude with a discussion of common pitfalls and misconceptions associated with the Node.js event loop, offering best practices to avoid potential issues. Throughout this guide, we'll strive to present the information in a clear and engaging manner, making it accessible to both beginners and experienced developers alike. So, let's embark on this journey together and gain a comprehensive understanding of the Node.js event loop!

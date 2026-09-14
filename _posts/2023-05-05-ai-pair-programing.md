@@ -12,12 +12,17 @@ author:
 toc: true
 toc_sticky: true
 header:
-  overlay_image: /assets/images/copilot/copilot.jpeg
+  overlay_image: /assets/images/copilot/copilot.webp
+  og_image: /assets/images/copilot/og.jpg
   overlay_filter: 0.5 
-  teaser: /assets/images/copilot/copilot.jpeg
+  teaser: /assets/images/copilot/copilot.webp
 title:  "GitHub Copilot: A Review and Guide for Beginners"
-tags: 
-- github copilot
+tags:
+    - Developer Tools
+description: "Have you ever wished you had a smart and helpful partner who could assist you with coding? Someone who could suggest code snippets, functions, or solutions…"
+last_modified_at: 2023-05-06
+categories:
+    - infrastructure
 ---
 
 Have you ever wished you had a smart and helpful partner who could assist you with coding? Someone who could suggest code snippets, functions, or solutions based on the context of your code? Someone who could help you learn new skills, perspectives, and approaches from the code they suggest? Someone who could make coding faster and easier for you?

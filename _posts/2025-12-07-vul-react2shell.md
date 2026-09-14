@@ -12,13 +12,17 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/vul-react2shell/banner.png
+    overlay_image: /assets/images/vul-react2shell/banner.webp
+    og_image: /assets/images/vul-react2shell/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/vul-react2shell/banner.png
+    teaser: /assets/images/vul-react2shell/teaser.webp
 title: "Hardening Server-Side React: Best Practices After React2Shell"
 tags:
-    - react
-    - security
+    - Web Development
+    - Security
+categories:
+    - web-development
+description: "React2Shell is the moment a lot of frontend teams discovered they actually run a server-side framework now."
 ---
 
 React2Shell is the moment a lot of frontend teams discovered they actually run a **server-side framework** now.

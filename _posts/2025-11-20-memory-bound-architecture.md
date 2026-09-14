@@ -12,14 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/memory-bound-architecture/banner.png
+    overlay_image: /assets/images/memory-bound-architecture/banner.webp
+    og_image: /assets/images/memory-bound-architecture/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/memory-bound-architecture/banner.png
+    teaser: /assets/images/memory-bound-architecture/teaser.webp
 title: "Memory‑Bound Architectures: Optimizing AI and Data Systems Beyond CPU Bottlenecks"
 tags:
-    - memory bound
-    - ai
-    - data engineer
+    - Performance
+    - AI
+    - Data Engineering
+categories:
+    - distributed-systems
+description: "You profile your system. The hottest stack frames are boring loops over arrays, or some innocent ."
+last_modified_at: 2025-11-23
 ---
 
 Most performance horror stories start the same way:

@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/livekit-dashboard/banner.png
+    overlay_image: /assets/images/livekit-dashboard/banner.webp
+    og_image: /assets/images/livekit-dashboard/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/livekit-dashboard/banner.png
+    teaser: /assets/images/livekit-dashboard/teaser.webp
 title: "Introducing LiveKit Dashboard: Simplifying Self-Hosted Real-Time Management"
 tags:
-    - LiveKit
-    - Dashboard
+    - WebRTC
+    - Observability
+categories:
+    - web-development
+description: "Running LiveKit at scale is powerful — but it can also feel like you’re managing a live concert with the lights off."
+last_modified_at: 2025-10-23
 ---
 
 Running LiveKit at scale is powerful — but it can also feel like you’re managing a live concert with the lights off. You’ve got rooms, participants, servers, and recordings all moving at once, and without a clear dashboard, visibility becomes guesswork.

@@ -12,14 +12,17 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/htmx-spa-model/banner.png
+    overlay_image: /assets/images/htmx-spa-model/banner.webp
+    og_image: /assets/images/htmx-spa-model/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/htmx-spa-model/banner.png
+    teaser: /assets/images/htmx-spa-model/teaser.webp
 title: "HTMX at Scale: How Attribute-Driven Interactivity Challenges the SPA Model"
 tags:
-    - hmtx
-    - server-side render
-    - spa model
+    - Web Development
+categories:
+    - web-development
+description: "It’s not a consumer social network. It’s not a 3D game in the browser. It’s… an admin console. A dashboard."
+last_modified_at: 2025-12-23
 ---
 
 You know the app.

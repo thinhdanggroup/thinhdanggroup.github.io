@@ -12,14 +12,17 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/predictive-scaling/banner.png
+    overlay_image: /assets/images/predictive-scaling/banner.webp
+    og_image: /assets/images/predictive-scaling/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/predictive-scaling/banner.png
+    teaser: /assets/images/predictive-scaling/teaser.webp
 title: "Predictable Scaling: Reinventing Auto-Scaling with Queue Length, Traces, and Token Buckets"
 tags:
-    - predictive-scaling
-    - hpa
-    - auto-scaling
+    - Autoscaling
+categories:
+    - infrastructure
+description: "The common thread: CPU and memory are machine-centric signals. But what you actually care about is work:"
+last_modified_at: 2025-11-15
 ---
 
 Most “auto-scaling” in the wild is basically:

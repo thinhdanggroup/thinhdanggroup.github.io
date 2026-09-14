@@ -12,14 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/blog-about-rtvi-ai-explanation-/banner.png
+    overlay_image: /assets/images/blog-about-rtvi-ai-explanation-/banner.webp
+    og_image: /assets/images/blog-about-rtvi-ai-explanation-/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/blog-about-rtvi-ai-explanation-/banner.png
+    teaser: /assets/images/blog-about-rtvi-ai-explanation-/teaser.webp
 title: "Understanding RTVI AI: A Guide to Real-Time Voice Interaction"
 tags:
-    - xxx
-    - yyy 
+    - AI Agents
+    - Real-Time
 
+description: "This article provides a comprehensive guide to RTVI AI, also known as Real-Time Voice Interaction AI, a protocol designed to enhance the development of…"
+categories:
+    - ai-engineering
 ---
 
 This article provides a comprehensive guide to RTVI AI, also known as Real-Time Voice Interaction AI, a protocol designed to enhance the development of real-time voice and multimodal applications. It begins with an introduction to RTVI AI, explaining how it standardizes communication between client applications and server-side services to facilitate seamless voice and text interactions. The article then delves into how RTVI AI operates, highlighting the specialized processors that manage tasks such as transcription and text-to-speech conversion, which are crucial for real-time communication. The architecture of RTVI AI is explored next, detailing its structure and how it supports various real-time AI use cases through standardized events and configurable services. Readers will also learn about the specific events and services within RTVI AI, which allow for flexible and customizable application development. Finally, the article provides a step-by-step guide on building a simple RTVI AI application using Python, offering an explanation of the code to help developers understand how to implement and manage real-time voice interactions effectively. This guide is designed to be accessible to both technical and non-technical readers, providing clear insights into the workings and applications of RTVI AI.

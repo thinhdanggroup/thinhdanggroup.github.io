@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/clickhouse-store-data/banner.png
+    overlay_image: /assets/images/clickhouse-store-data/banner.webp
+    og_image: /assets/images/clickhouse-store-data/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/clickhouse-store-data/banner.png
+    teaser: /assets/images/clickhouse-store-data/teaser.webp
 title: " Parts, Not Pages: A Mental Model for How ClickHouse Stores Data"
 tags:
     - ClickHouse
     - Data Store
+categories:
+    - databases
+description: "If you’ve used ClickHouse for more than ten minutes, you’ve probably seen mysterious words in system tables and error messages: parts, granules, marks…"
+last_modified_at: 2025-10-23
 ---
 
 If you’ve used ClickHouse for more than ten minutes, you’ve probably seen mysterious words in system tables and error messages: **parts**, **granules**, **marks**, **mutations**, **merges**. They sound like spare bolts left over after assembling a bike. But these are the core pieces of ClickHouse’s storage engine—and if you reshape your mental model around them, a lot of ClickHouse’s behavior (and performance) suddenly makes sense.

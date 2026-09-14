@@ -12,14 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/mongo-id-in-postgresql/banner.jpeg
+    overlay_image: /assets/images/mongo-id-in-postgresql/banner.webp
+    og_image: /assets/images/mongo-id-in-postgresql/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/mongo-id-in-postgresql/banner.jpeg
+    teaser: /assets/images/mongo-id-in-postgresql/teaser.webp
 title: "Simulating MongoDB's ObjectID in PostgreSQL: A Comprehensive Guide"
 tags:
-    - Mongo ID
+    - Databases
     - PostgreSQL
 
+categories:
+    - databases
+description: "This article provides a comprehensive guide to simulating MongoDB's ObjectID in PostgreSQL. It begins by introducing MongoDB's ObjectID and explaining the…"
+last_modified_at: 2024-04-30
 ---
 
 This article provides a comprehensive guide to simulating MongoDB's ObjectID in PostgreSQL. It begins by introducing MongoDB's ObjectID and explaining the need for simulating it in PostgreSQL. The article then delves into the structure and components of MongoDB's ObjectID, as well as the advantages and disadvantages of using PostgreSQL's UUID as an alternative. The main focus of the article is on designing and implementing a custom ID generation function in PostgreSQL that mimics the functionality of MongoDB's ObjectID. The article provides step-by-step instructions on how to create and test the custom function, as well as how to use it in PostgreSQL tables and applications. Finally, the article discusses potential considerations and limitations of using a custom ID generation function, and concludes with a summary of the key points and suggestions for further exploration.

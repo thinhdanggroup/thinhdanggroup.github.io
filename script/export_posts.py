@@ -7,6 +7,7 @@ import os
 import json
 import re
 import yaml
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import List, Dict, Any
 
@@ -99,7 +100,7 @@ def main():
     # Create output data structure
     output_data = {
         "total_posts": len(posts_data),
-        "generated_at": str(Path.cwd()),
+        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "posts": posts_data,
     }
 

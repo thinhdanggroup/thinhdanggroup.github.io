@@ -12,13 +12,17 @@ author:
 toc: true
 toc_sticky: true
 header:
-  overlay_image: /assets/images/vectordb/vectordb.jpeg
+  overlay_image: /assets/images/vectordb/vectordb.webp
+  og_image: /assets/images/vectordb/og.jpg
   overlay_filter: 0.5 
-  teaser: /assets/images/vectordb/vectordb.jpeg
+  teaser: /assets/images/vectordb/vectordb-teaser.webp
 title:  "The Power of Vector Database: How It Transformed My Data Projects"
-tags: 
-- vector database
-- PineCone
+tags:
+    - Databases
+description: "As a data enthusiast and a software developer, I have always been fascinated by the challenges and opportunities of working with complex and unstructured…"
+last_modified_at: 2023-05-14
+categories:
+    - databases
 ---
 
 As a data enthusiast and a software developer, I have always been fascinated by the challenges and opportunities of working with complex and unstructured data. These are the kinds of data that include text, images, audio, video, and other forms of information that are not easily organized or analyzed by traditional databases.

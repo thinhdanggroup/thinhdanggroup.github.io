@@ -12,14 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/kafka-to-nats/banner.png
+    overlay_image: /assets/images/kafka-to-nats/banner.webp
+    og_image: /assets/images/kafka-to-nats/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/kafka-to-nats/banner.png
+    teaser: /assets/images/kafka-to-nats/teaser.webp
 title: "From Kafka to NATS: When Less Is More in Distributed Messaging"
 tags:
-    - kafka
-    - nats
+    - Kafka
+    - NATS
     - distributed messaging
+categories:
+    - distributed-systems
+description: "You’ve got a Kafka cluster humming in production. There are topics, partitions, consumer groups, dashboards, and an ever-growing list of “we’ll tune that…"
 ---
 
 You’ve got a Kafka cluster humming in production. There are topics, partitions, consumer groups, dashboards, and an ever-growing list of “we’ll tune that later” configs.

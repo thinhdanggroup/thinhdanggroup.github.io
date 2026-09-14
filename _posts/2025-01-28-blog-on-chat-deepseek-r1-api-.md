@@ -12,13 +12,17 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/blog-on-chat-deepseek-r1-api-/banner.png
+    overlay_image: /assets/images/blog-on-chat-deepseek-r1-api-/banner.webp
+    og_image: /assets/images/blog-on-chat-deepseek-r1-api-/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/blog-on-chat-deepseek-r1-api-/banner.png
+    teaser: /assets/images/blog-on-chat-deepseek-r1-api-/teaser.webp
 title: "Getting Started with Chat DeepSeek R1 API: Installation, Usage, and Integration with Langchain"
 tags:
-    - DeepSeek R1
-    - API
+    - LLM
+    - API Design
+categories:
+    - ai-engineering
+description: "This article serves as a comprehensive guide to understanding and utilizing the Chat DeepSeek R1 API, a powerful tool developed to enhance applications with…"
 ---
 
 This article serves as a comprehensive guide to understanding and utilizing the Chat DeepSeek R1 API, a powerful tool developed to enhance applications with advanced reasoning capabilities. We begin by introducing DeepSeek R1, an open-source model known for its ability to tackle complex tasks requiring logical inference and decision-making. The introductory section highlights the model's unique features, such as its transparency and adaptability, making it ideal for various industries.

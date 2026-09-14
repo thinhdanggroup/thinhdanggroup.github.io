@@ -12,14 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/migrate-temporal-to-dbos/banner.png
+    overlay_image: /assets/images/migrate-temporal-to-dbos/banner.webp
+    og_image: /assets/images/migrate-temporal-to-dbos/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/migrate-temporal-to-dbos/banner.png
+    teaser: /assets/images/migrate-temporal-to-dbos/teaser.webp
 title: "Migrating from Traditional Workflow Engines (e.g., Temporal) to DBOS: An Engineering Playbook"
 tags:
-    - dbos
-    - temporal
-    - migration
+    - Temporal
+    - Database Migration
+categories:
+    - distributed-systems
+description: "If you already run Temporal (or a similar workflow engine), you’re not asking “What is durable execution?” anymore."
+last_modified_at: 2025-11-23
 ---
 
 If you already run Temporal (or a similar workflow engine), you’re not asking “What is durable execution?” anymore.

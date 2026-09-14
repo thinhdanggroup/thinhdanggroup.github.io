@@ -1,107 +1,109 @@
-<!-- Service Worker Unregistration Script -->
-<script type="text/javascript">
-(function() {
-  // Check if service workers are supported
-  if ('serviceWorker' in navigator) {
-    // Get all registrations and unregister them
-    navigator.serviceWorker.getRegistrations().then(function(registrations) {
-      for (let registration of registrations) {
-        console.log('Unregistering service worker:', registration.scope);
-        registration.unregister().then(function(boolean) {
-          if (boolean) {
-            console.log('Service worker unregistered successfully');
-          } else {
-            console.log('Service worker unregistration failed');
-          }
-        }).catch(function(error) {
-          console.log('Error unregistering service worker:', error);
-        });
-      }
-    }).catch(function(error) {
-      console.log('Error getting service worker registrations:', error);
+<!-- ==========================================================================
+     Custom <head> additions
+     - Analytics: PostHog (product) + GA4 (via theme's analytics provider)
+     - Diagrams: Mermaid / PlantUML are loaded ON DEMAND, only on pages that
+       actually contain a diagram. Keeps ~1MB off every other page.
+     ========================================================================== -->
+
+<!-- The theme only emits twitter:* tags when site.twitter.username is set.
+     Declare the card type so X/Twitter renders a large preview from the og: tags. -->
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Favicons: the theme emits no <link rel="icon">, so declare them explicitly -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/favicon.png">
+
+<!-- AdSense library: loaded exactly once here. Individual <ins> ad units live
+     in _includes/footer/adsense.html and _includes/footer/custom.html. -->
+{% if jekyll.environment == 'production' %}
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3575314344745258"
+        crossorigin="anonymous"></script>
+{% endif %}
+
+<!-- PostHog -->
+<script>
+  !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init push capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+  posthog.init('phc_bHqAclqQ1A1n3cv250ot2Xg8roPZElwUe4ie3eXJFl3', {
+    api_host: 'https://us.i.posthog.com',
+    person_profiles: 'identified_only'
+  });
+</script>
+
+<!-- Diagram rendering: only pulled in when the page has a diagram -->
+<script>
+(function () {
+  'use strict';
+
+  var MERMAID_SRC = 'https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js';
+  var PLANTUML_SRC = 'https://cdn.jsdelivr.net/npm/plantuml-encoder@1.4.0/dist/plantuml-encoder.min.js';
+
+  function loadScript(src) {
+    return new Promise(function (resolve, reject) {
+      var s = document.createElement('script');
+      s.src = src;
+      s.async = true;
+      s.onload = resolve;
+      s.onerror = function () { reject(new Error('Failed to load ' + src)); };
+      document.head.appendChild(s);
     });
   }
-})();
-</script>
 
-<script type="text/javascript">
-  window.heapReadyCb=window.heapReadyCb||[],window.heap=window.heap||[],heap.load=function(e,t){window.heap.envId=e,window.heap.clientConfig=t=t||{},window.heap.clientConfig.shouldFetchServerConfig=!1;var a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src="https://cdn.us.heap-api.com/config/"+e+"/heap_config.js";var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(a,r);var n=["init","startTracking","stopTracking","track","resetIdentity","identify","getSessionId","getUserId","getIdentity","addUserProperties","addEventProperties","removeEventProperty","clearEventProperties","addAccountProperties","addAdapter","addTransformer","addTransformerFn","onReady","addPageviewProperties","removePageviewProperty","clearPageviewProperties","trackPageview"],i=function(e){return function(){var t=Array.prototype.slice.call(arguments,0);window.heapReadyCb.push({name:e,fn:function(){heap[e]&&heap[e].apply(heap,t)}})}};for(var p=0;p<n.length;p++)heap[n[p]]=i(n[p])};
-  heap.load("137397282");
-</script>
-<script>
-  !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init push capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
-  posthog.init('phc_bHqAclqQ1A1n3cv250ot2Xg8roPZElwUe4ie3eXJFl3',{api_host:'https://us.i.posthog.com', person_profiles: 'identified_only' // or 'always' to create profiles for anonymous users as well
-      })
-</script>
+  function renderMermaid(blocks) {
+    return loadScript(MERMAID_SRC).then(function () {
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'default',
+        securityLevel: 'loose',
+        flowchart: { htmlLabels: true, useMaxWidth: true },
+        sequence: { useMaxWidth: true, wrap: true }
+      });
 
-<!-- PlantUML Client-side Rendering -->
-<script src="https://unpkg.com/plantuml-encoder@1.4.0/dist/plantuml-encoder.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/deflate-js@0.2.3/deflate.min.js"></script>
+      blocks.forEach(function (block, index) {
+        var code = block.textContent;
+        var holder = document.createElement('div');
+        holder.className = 'mermaid-diagram';
+        holder.id = 'mermaid-' + index;
+        holder.style.textAlign = 'center';
+        holder.style.margin = '20px 0';
 
-<!-- Mermaid Client-side Rendering -->
-<script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+        var pre = block.parentNode;
+        pre.parentNode.replaceChild(holder, pre);
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  // Initialize Mermaid
-  mermaid.initialize({
-    startOnLoad: false,
-    theme: 'default',
-    securityLevel: 'loose',
-    flowchart: {
-      htmlLabels: true,
-      useMaxWidth: true
-    },
-    sequence: {
-      useMaxWidth: true,
-      wrap: true
-    }
-  });
-
-  // Process Mermaid diagrams
-  const mermaidBlocks = document.querySelectorAll('pre code.language-mermaid');
-  mermaidBlocks.forEach(function(block, index) {
-    const mermaidCode = block.textContent;
-
-    // Create a div to hold the mermaid diagram
-    const mermaidDiv = document.createElement('div');
-    mermaidDiv.className = 'mermaid-diagram';
-    mermaidDiv.id = 'mermaid-' + index;
-    mermaidDiv.style.textAlign = 'center';
-    mermaidDiv.style.margin = '20px 0';
-
-    // Replace code block with mermaid div
-    const pre = block.parentNode;
-    pre.parentNode.replaceChild(mermaidDiv, pre);
-
-    // Render the mermaid diagram
-    mermaid.render('mermaid-svg-' + index, mermaidCode).then(function(result) {
-      mermaidDiv.innerHTML = result.svg;
-    }).catch(function(error) {
-      console.error('Mermaid rendering error:', error);
-      mermaidDiv.innerHTML = '<p style="color: red;">Error rendering Mermaid diagram</p>';
+        mermaid.render('mermaid-svg-' + index, code)
+          .then(function (result) { holder.innerHTML = result.svg; })
+          .catch(function () {
+            holder.innerHTML = '<p role="alert">Diagram could not be rendered.</p>';
+          });
+      });
     });
+  }
+
+  function renderPlantUml(blocks) {
+    return loadScript(PLANTUML_SRC).then(function () {
+      blocks.forEach(function (block) {
+        var img = document.createElement('img');
+        img.src = 'https://www.plantuml.com/plantuml/png/' + plantumlEncoder.encode(block.textContent);
+        img.alt = 'PlantUML diagram';
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        img.style.maxWidth = '100%';
+        img.style.height = 'auto';
+
+        var pre = block.parentNode;
+        pre.parentNode.replaceChild(img, pre);
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var mermaidBlocks = Array.prototype.slice.call(
+      document.querySelectorAll('pre code.language-mermaid'));
+    var plantUmlBlocks = Array.prototype.slice.call(
+      document.querySelectorAll('pre code.language-plantuml'));
+
+    if (mermaidBlocks.length) { renderMermaid(mermaidBlocks); }
+    if (plantUmlBlocks.length) { renderPlantUml(plantUmlBlocks); }
   });
-
-  // Process PlantUML diagrams (existing code)
-  const plantUmlBlocks = document.querySelectorAll('pre code.language-plantuml');
-
-  plantUmlBlocks.forEach(function(block) {
-    const plantUmlCode = block.textContent;
-
-    // Encode PlantUML code
-    const encoded = plantumlEncoder.encode(plantUmlCode);
-
-    // Create image element
-    const img = document.createElement('img');
-    img.src = 'https://www.plantuml.com/plantuml/png/' + encoded;
-    img.alt = 'PlantUML Diagram';
-    img.style.maxWidth = '100%';
-    img.style.height = 'auto';
-
-    // Replace code block with image
-    const pre = block.parentNode;
-    pre.parentNode.replaceChild(img, pre);
-  });
-});
+})();
 </script>

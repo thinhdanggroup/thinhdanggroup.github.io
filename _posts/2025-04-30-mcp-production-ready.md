@@ -12,15 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image:  /assets/images/mcp-production-ready/banner.png
+    overlay_image:  /assets/images/mcp-production-ready/banner.webp
+    og_image: /assets/images/mcp-production-ready/og.jpg
     overlay_filter: 0.5
-    teaser:  /assets/images/mcp-production-ready/banner.png
+    teaser:  /assets/images/mcp-production-ready/teaser.webp
 title: "Building Production-Ready MCP Servers: Taking FastMCP to Enterprise Level"
 tags:
-    - FastMCP
+    - MCP
     - Python
-    - Model Context Protocol
 
+categories:
+    - ai-engineering
+description: "The Model Context Protocol (MCP) has emerged as a crucial standard for AI assistants to interact with external tools and resources."
+last_modified_at: 2025-05-31
 ---
 
 

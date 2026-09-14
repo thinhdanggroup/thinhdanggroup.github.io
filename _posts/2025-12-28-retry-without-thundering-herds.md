@@ -12,13 +12,17 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/retry-without-thundering-herds/banner.png
+    overlay_image: /assets/images/retry-without-thundering-herds/banner.webp
+    og_image: /assets/images/retry-without-thundering-herds/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/retry-without-thundering-herds/banner.png
+    teaser: /assets/images/retry-without-thundering-herds/teaser.webp
 title: "Retries Without Thundering Herds"
 tags:
-    - retry
-    - control plane
+    - Distributed Systems
+categories:
+    - distributed-systems
+description: "Maybe it’s an API server rolling. Maybe it’s an etcd hiccup. Maybe a dependency starts returning because it’s having a bad day and would like everyone to…"
+last_modified_at: 2026-01-01
 ---
 
 ## Retry budgets, jitter strategies, and queue backpressure for control‑plane operations

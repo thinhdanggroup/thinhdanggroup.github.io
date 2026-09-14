@@ -12,14 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/pandas-memory-optimization/banner.jpeg
+    overlay_image: /assets/images/pandas-memory-optimization/banner.webp
+    og_image: /assets/images/pandas-memory-optimization/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/pandas-memory-optimization/banner.jpeg
+    teaser: /assets/images/pandas-memory-optimization/teaser.webp
 title: "Mastering Memory Optimization for Pandas DataFrames"
 tags:
     - Python
     - Pandas
 
+categories:
+    - python
+description: "This article aims to guide data scientists and analysts through the essential techniques of memory optimization when working with Pandas DataFrames."
+last_modified_at: 2024-09-26
 ---
 
 This article aims to guide data scientists and analysts through the essential techniques of memory optimization when working with Pandas DataFrames. It begins with an introduction to the importance of memory management and common issues encountered with large datasets. The article then explains how to understand DataFrame memory usage using Pandas' built-in functions. It delves into optimizing data types by downcasting numeric types and converting object types to more efficient ones. Efficient data loading techniques are discussed, including selective column loading and using chunksize. The article also covers the use of sparse data structures to save memory in datasets with many missing or zero values. Monitoring and profiling tools like memory_profiler and Heapy are introduced to help keep track of memory consumption. Real-world case studies demonstrate the practical application of these techniques, and the article concludes with a summary of best practices for memory optimization in Pandas.
@@ -28,7 +33,7 @@ This article aims to guide data scientists and analysts through the essential te
 
 When dealing with large datasets, memory optimization becomes a critical factor for ensuring smooth and efficient data processing. Pandas, a powerful data manipulation library in Python, is widely used by data scientists and analysts to handle and analyze data. However, as the size of the data grows, so does the memory consumption, leading to potential performance bottlenecks and even system crashes.
 
-![introduction_to_memory_optimization_in_pandas](/assets/images/pandas-memory-optimization/introduction_to_memory_optimization_in_pandas.jpeg)
+![introduction_to_memory_optimization_in_pandas](/assets/images/pandas-memory-optimization/introduction_to_memory_optimization_in_pandas.webp)
 
 ### Why Memory Optimization Matters
 
@@ -664,7 +669,7 @@ By understanding and leveraging sparse data structures, you can optimize memory 
 
 Monitoring memory usage is crucial for identifying bottlenecks and optimizing performance. In this section, we will explore tools and techniques for profiling and monitoring memory usage in Pandas. We will introduce libraries like `memory_profiler` and `Heapy`, and show how to integrate them into your workflow to keep track of memory consumption.
 
-![memory_profiling_and_monitoring](/assets/images/pandas-memory-optimization/memory_profiling_and_monitoring.jpeg)
+![memory_profiling_and_monitoring](/assets/images/pandas-memory-optimization/memory_profiling_and_monitoring.webp)
 
 ### Using `memory_profiler`
 
@@ -831,7 +836,7 @@ By integrating these tools and techniques into your workflow, you can effectivel
 
 To bring all the concepts together, we will present case studies and real-world examples of memory optimization in Pandas. These examples will demonstrate how the techniques discussed in the blog post can be applied to real datasets to achieve significant memory savings and performance improvements.
 
-![case_studies_and_real_world_examples](/assets/images/pandas-memory-optimization/case_studies_and_real-world_examples.jpeg)
+![case_studies_and_real_world_examples](/assets/images/pandas-memory-optimization/case_studies_and_real-world_examples.webp)
 
 ### Case Study 1: Optimizing a Financial Dataset
 

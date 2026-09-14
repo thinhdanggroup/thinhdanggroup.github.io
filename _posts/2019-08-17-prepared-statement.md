@@ -12,13 +12,17 @@ author:
 toc: true
 toc_sticky: true
 header:
-  overlay_image: /assets/images/client-db.jpg
+  overlay_image: /assets/images/client-db.webp
+  og_image: /assets/images/og.jpg
   overlay_filter: 0.5 
-  teaser: /assets/images/client-db.jpg
+  teaser: /assets/images/client-db-teaser.webp
 title: "Prepared Statement Deep Dive"
-tags: 
-- statement
-- database
+tags:
+    - Databases
+description: "Để tối ưu hiệu năng của hệ thống, có rất nhiều cách để thực hiện nhưng hiệu quả nhất vẫn là tối ưu các câu truy vấn database."
+last_modified_at: 2019-08-25
+categories:
+    - databases
 ---
 
 Để tối ưu hiệu năng của hệ thống, có rất nhiều cách để thực hiện nhưng hiệu quả nhất vẫn là tối ưu các câu truy vấn database. Một trong số này đó là sử dụng prepared statement để truy vấn. 

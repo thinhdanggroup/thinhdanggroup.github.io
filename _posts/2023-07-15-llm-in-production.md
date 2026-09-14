@@ -12,12 +12,17 @@ author:
 toc: true
 toc_sticky: true
 header:
-  overlay_image: /assets/images/agi_prod/banner.jpeg
+  overlay_image: /assets/images/agi_prod/banner.webp
+  og_image: /assets/images/agi_prod/og.jpg
   overlay_filter: 0.5 
-  teaser: /assets/images/agi_prod/banner.jpeg
+  teaser: /assets/images/agi_prod/teaser.webp
 title:  "Building Large Language Models Applications in Production: A Comprehensive Guide"
-tags: 
-- AGI
+tags:
+    - LLM
+description: "Welcome to this blog post about Large Language Models (LLMs), a revolutionary technology that's redefining the field of artificial intelligence."
+last_modified_at: 2023-08-20
+categories:
+    - ai-engineering
 ---
 
 Welcome to this blog post about Large Language Models (LLMs), a revolutionary technology that's redefining the field of artificial intelligence. LLMs, such as OpenAI's GPT-3, Google's Meena, and Microsoft's Turing NLG, possess the extraordinary ability to understand and generate text that mirrors human language. This makes them an invaluable asset in industries where natural language processing is crucial. In this blog, I'll guide you through the wide-ranging applications of LLMs across various sectors, show you how to seamlessly integrate them into your existing systems, and share effective strategies for optimizing their performance and ensuring their maintenance. Whether your interest lies in content creation, customer service, language translation, or code generation, this blog will provide you with a thorough understanding of LLMs and their immense potential.

@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/indexing-mistakes/banner.jpeg
+    overlay_image: /assets/images/indexing-mistakes/banner.webp
+    og_image: /assets/images/indexing-mistakes/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/indexing-mistakes/banner.jpeg
+    teaser: /assets/images/indexing-mistakes/teaser.webp
 title: "Mastering Indexes in PostgreSQL: A Real-World Guide"
 tags:
     - PostgreSQL
 
+categories:
+    - databases
+description: "This comprehensive guide provides valuable insights into the effective use of indexes in PostgreSQL."
+last_modified_at: 2024-05-05
 ---
 
 This comprehensive guide provides valuable insights into the effective use of indexes in PostgreSQL. By avoiding common pitfalls and applying best practices, you can optimize your database performance and make the most of your PostgreSQL experience.

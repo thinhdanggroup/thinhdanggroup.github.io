@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/pg-stat-statements/banner.jpeg
+    overlay_image: /assets/images/pg-stat-statements/banner.webp
+    og_image: /assets/images/pg-stat-statements/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/pg-stat-statements/banner.jpeg
+    teaser: /assets/images/pg-stat-statements/teaser.webp
 title: "Unlock the Power of PostgreSQL: A Comprehensive Guide to pg_stat_statements"
 tags:
     - PostgreSQL
 
+categories:
+    - databases
+description: "Are you looking to optimize the performance of your PostgreSQL database? Look no further than pgstatstatements, a built-in extension that provides invaluable…"
+last_modified_at: 2024-04-30
 ---
 
 Are you looking to optimize the performance of your PostgreSQL database? Look no further than pg_stat_statements, a built-in extension that provides invaluable insights into your database's performance. This comprehensive guide will empower you to enable pg_stat_statements, identify slow queries, and optimize them for maximum efficiency. We'll delve into the intricacies of reading results from pg_stat_statements and discuss best practices for its effective use. Whether you're a database administrator or a developer, this guide will equip you with the knowledge to make your PostgreSQL database faster and more efficient.

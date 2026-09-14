@@ -12,16 +12,20 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image:  /assets/images/pytest-asyncio-v1/banner.jpeg
+    overlay_image:  /assets/images/pytest-asyncio-v1/banner.webp
+    og_image: /assets/images/pytest-asyncio-v1/og.jpg
     overlay_filter: 0.5
-    teaser:  /assets/images/pytest-asyncio-v1/banner.jpeg
+    teaser:  /assets/images/pytest-asyncio-v1/teaser.webp
 title: "Navigating the Async Waves: A Deep Dive into pytest-asyncio 1.0 and Migration Strategies"
 tags:
     - Python
     - Testing
-    - pytest-asyncio
-    - Migration
+    - Database Migration
 
+categories:
+    - python
+description: "The Python ecosystem for asynchronous programming continues to mature, and testing asynchronous code effectively is paramount."
+last_modified_at: 2025-05-31
 ---
 
 The Python ecosystem for asynchronous programming continues to mature, and testing asynchronous code effectively is paramount. The `pytest-asyncio` plugin has long been a cornerstone for developers working with `asyncio` in their Pytest suites. With the landmark release of version 1.0.0 on May 25, 2025, `pytest-asyncio` introduces significant changes aimed at simplifying the API, improving performance, and aligning more closely with modern `asyncio` practices.

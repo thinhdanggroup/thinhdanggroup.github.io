@@ -12,14 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/blog-on-auto-scaling-celery-tasks-/banner.png
+    overlay_image: /assets/images/blog-on-auto-scaling-celery-tasks-/banner.webp
+    og_image: /assets/images/blog-on-auto-scaling-celery-tasks-/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/blog-on-auto-scaling-celery-tasks-/banner.png
+    teaser: /assets/images/blog-on-auto-scaling-celery-tasks-/teaser.webp
 title: "Effortless Auto-Scaling of Celery Workers with KEDA and Redis on Kubernetes"
 tags:
-    - Celery Auto-Scaling 
+    - Autoscaling
     - Python
 
+categories:
+    - infrastructure
+description: "This article serves as a comprehensive guide for developers looking to enhance their Python applications by implementing auto-scaling for Celery workers…"
+last_modified_at: 2025-01-19
 ---
 
 This article serves as a comprehensive guide for developers looking to enhance their Python applications by implementing auto-scaling for Celery workers using KEDA and Redis on a Kubernetes environment. It starts with an introduction to Celery, a distributed message processing system, and Redis, a popular database that acts as a broker for Celery tasks. The article walks you through setting up a sample Python app that uses Celery for task management, highlighting how Redis Lists support scalable consumer-producer patterns. It then delves into the workings of KEDA (Kubernetes Event-Driven Autoscaler), explaining how it can dynamically scale Celery workers based on the number of tasks in the Redis queue. A detailed Kubernetes deployment specification is provided to ensure a seamless setup of the application components. Furthermore, the article includes a testing section where you can simulate high-load scenarios to observe the auto-scaling behavior of Celery workers, thereby offering insights into optimizing application performance. Finally, it concludes by summarizing the advantages of using KEDA for auto-scaling and provides cleanup instructions to efficiently manage your Kubernetes resources. Whether you're a seasoned developer or new to Kubernetes, this article equips you with the knowledge to implement a robust auto-scaling solution for your Python applications.
@@ -267,10 +272,7 @@ In this configuration, the `triggers` section specifies that scaling decisions s
 
 By using KEDA, you can ensure that your Celery workers are efficiently scaled according to the workload, minimizing idle resources and reducing costs.
 
-<image>Diagram illustrating KEDA's integration with Kubernetes and Celery workers</image>
-
-
-
+*Diagram illustrating KEDA's integration with Kubernetes and Celery workers*
 ## Kubernetes Deployment Specifications
 
 

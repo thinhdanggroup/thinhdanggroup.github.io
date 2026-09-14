@@ -11,16 +11,13 @@ author:
           url: "https://www.linkedin.com/in/thinh-dang/"
 toc: true
 toc_sticky: true
-header:
-    overlay_image: /assets/images/keda-knative-kubenetes/banner.png
-    overlay_filter: 0.5
-    teaser: /assets/images/keda-knative-kubenetes/banner.png
 title: "KEDA vs. Knative vs. Kubernetes HPA: Choosing the Right Auto-Scaling Strategy for Microservices"
 tags:
-    - keda
-    - knative
-    - kubenetes
-    - auto-scaling
+    - Autoscaling
+    - Kubernetes
+categories:
+    - infrastructure
+description: "Auto-scaling is the heartbeat of modern microservices. When it’s tuned well, your cluster feels alive: pods materialize as traffic surges, costs melt away…"
 ---
 
 Auto-scaling is the heartbeat of modern microservices. When it’s tuned well, your cluster feels alive: pods materialize as traffic surges, costs melt away when demand drops, and latency hugs your SLOs. When it’s tuned poorly, you get the opposite—thrash, cold starts, timeouts, and a creeping sense that the cluster is secretly your boss.

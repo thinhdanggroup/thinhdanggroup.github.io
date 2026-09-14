@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/context_var/banner.jpeg
+    overlay_image: /assets/images/context_var/banner.webp
+    og_image: /assets/images/context_var/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/context_var/banner.jpeg
+    teaser: /assets/images/context_var/teaser.webp
 title: "Demystifying ContextVar in Python"
 tags:
     - Python
 
+categories:
+    - python
+description: "This blog post will demystify ContextVar, a simple way to share values between functions and coroutines in Python."
+last_modified_at: 2024-05-06
 ---
 
 This blog post will demystify ContextVar, a simple way to share values between functions and coroutines in Python. We'll start with an introduction to ContextVar, explaining what it is, its purpose, origin, basic structure, and how it works in Python. Next, we'll provide a step-by-step guide on how to use ContextVar, including how to define, set, get, and delete a value from ContextVar, with examples. We'll then compare ContextVar with ThreadLocal, global variables, and thread local storage in Python, discussing their similarities, differences, and when to use one over the other. Finally, we'll discuss the advantages and limitations of using ContextVar, common errors when working with ContextVar, and best practices for using it. By the end of this blog post, you'll have a solid understanding of ContextVar and how to use it effectively in your Python projects.

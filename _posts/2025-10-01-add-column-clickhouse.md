@@ -12,12 +12,17 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/add-column-clickhouse/banner.png
+    overlay_image: /assets/images/add-column-clickhouse/banner.webp
+    og_image: /assets/images/add-column-clickhouse/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/add-column-clickhouse/banner.png
+    teaser: /assets/images/add-column-clickhouse/teaser.webp
 title: "Adding a Column in ClickHouse, Deeply: What Actually Happens and What to Consider"
 tags:
     - ClickHouse
+categories:
+    - databases
+description: "If you use ClickHouse long enough, you’ll eventually need to add a column to a big, busy table."
+last_modified_at: 2025-10-23
 ---
 
 _“It’s just one more column.”_

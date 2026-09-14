@@ -12,15 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/nextjs-typescript-application/banner.jpeg
+    overlay_image: /assets/images/nextjs-typescript-application/banner.webp
+    og_image: /assets/images/nextjs-typescript-application/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/nextjs-typescript-application/banner.jpeg
+    teaser: /assets/images/nextjs-typescript-application/teaser.webp
 title: "Using TypeScript and Next.js for building web applications"
 tags:
-    - Next.js
-    - TypeScript
     - Web Development
+    - TypeScript
 
+categories:
+    - web-development
+description: "In this blog post, we will dive into the world of Next.js and TypeScript. We will explore how to use these two powerful technologies together to build fast…"
+last_modified_at: 2024-03-07
 ---
 
 In this blog post, we will dive into the world of Next.js and TypeScript. We will explore how to use these two powerful technologies together to build fast, scalable, and maintainable web applications. We will start by setting up a new Next.js project with TypeScript. Then, we will take a closer look at the basics of Next.js and TypeScript. After that, we will build a simple Next.js application with TypeScript. Finally, we will discuss some of the more advanced features of Next.js and TypeScript and share some best practices and tips for using these technologies. By the end of this blog post, you will have a solid understanding of how to use Next.js and TypeScript to build amazing web applications.

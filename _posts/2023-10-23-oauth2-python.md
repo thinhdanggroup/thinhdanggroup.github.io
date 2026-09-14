@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/oauth2-python/banner.jpeg
+    overlay_image: /assets/images/oauth2-python/banner.webp
+    og_image: /assets/images/oauth2-python/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/oauth2-python/banner.jpeg
+    teaser: /assets/images/oauth2-python/teaser.webp
 title: "Building Authentication and Authorization in Microservices using Python FastAPI and OAuth2"
 tags:
-    - OAuth2
+    - Security
 
+categories:
+    - web-development
+description: "This blog post provides a comprehensive guide on building authentication and authorization in microservices architecture using Python FastAPI and OAuth2."
+last_modified_at: 2023-11-25
 ---
 
 This blog post provides a comprehensive guide on building authentication and authorization in microservices architecture using Python FastAPI and OAuth2. It begins with a detailed explanation of OAuth2, its roles, how it works, its benefits, differences from other authorization protocols, and its various applications. Next, it provides a step-by-step guide on how to implement OAuth2 in microservices architecture with FastAPI, including configuring an OAuth2 provider, defining OAuth2 credentials, implementing OAuth2 flows, generating access tokens, and securing API endpoints. It also discusses best practices when implementing OAuth2 with FastAPI, such as securely storing tokens, managing token expiration and renewal, handling user consent, preventing Cross-Site Request Forgery (CSRF), and using HTTPS for all OAuth2 requests. The blog post also highlights common pitfalls and challenges when implementing OAuth2 in microservices architecture with FastAPI, and how to avoid them. Finally, it showcases real-world examples of OAuth2 implementation in various applications, such as social media apps, banking applications, streaming services, healthcare applications, and e-commerce applications. The blog post concludes with a summary and a call to action for readers to implement what they have learned.
@@ -306,9 +311,9 @@ Remember, the journey to mastering OAuth2 and FastAPI doesn't end here. There's 
 ## References
 
 - [An Introduction to OAuth2](https://www.digitalocean.com/community/tutorials/an-introduction-to-oauth-2) 
-- [FastAPI](http://richard.to/programming/microservice-authorization-questions.html) 
+- [FastAPI](https://richard.to/programming/microservice-authorization-questions.html) 
 - [Introduction to OAuth2](https://auth0.com/intro-to-iam/what-is-oauth-2) 
-- [Microservice Authorization Questions](http://richard.to/programming/microservice-authorization-questions.html) 
+- [Microservice Authorization Questions](https://richard.to/programming/microservice-authorization-questions.html) 
 - [FastAPI Security](https://fastapi.tiangolo.com/tutorial/security/) 
 - [Microservice in Python using FastAPI](https://dev.to/paurakhsharma/microservice-in-python-using-fastapi-24cc) 
 - [FastAPI Deployment](https://fastapi.tiangolo.com/deployment/docker/) 

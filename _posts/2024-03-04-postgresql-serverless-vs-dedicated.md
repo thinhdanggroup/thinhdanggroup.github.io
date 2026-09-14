@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/postgresql-serverless-vs-dedicated/banner.jpeg
+    overlay_image: /assets/images/postgresql-serverless-vs-dedicated/banner.webp
+    og_image: /assets/images/postgresql-serverless-vs-dedicated/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/postgresql-serverless-vs-dedicated/banner.jpeg
+    teaser: /assets/images/postgresql-serverless-vs-dedicated/teaser.webp
 title: "Serverless vs Dedicated PostgreSQL Hosting: A Comprehensive Guide"
 tags:
     - PostgreSQL
 
+categories:
+    - databases
+description: "PostgreSQL is a popular open-source relational database that offers many features and benefits for developers."
+last_modified_at: 2024-03-10
 ---
 
 PostgreSQL is a popular open-source relational database that offers many features and benefits for developers. Serverless PostgreSQL hosting is a fully-managed service that separates storage and compute, and automatically scales up and down based on demand. It also offers features such as branching, bottomless storage, and integration with cloud object stores.

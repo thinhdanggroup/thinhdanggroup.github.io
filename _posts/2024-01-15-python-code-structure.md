@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/python-code-structure/banner.jpeg
+    overlay_image: /assets/images/python-code-structure/banner.webp
+    og_image: /assets/images/python-code-structure/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/python-code-structure/banner.jpeg
+    teaser: /assets/images/python-code-structure/teaser.webp
 title: "Crafting Maintainable Python Applications with Domain-Driven Design and Clean Architecture"
 tags:
-    - Coding
+    - Software Engineering
 
+categories:
+    - software-engineering
+description: "In this comprehensive blog post, we embark on a journey to explore the intricacies of crafting maintainable Python applications using Domain-Driven Design…"
+last_modified_at: 2024-02-13
 ---
 
 In this comprehensive blog post, we embark on a journey to explore the intricacies of crafting maintainable Python

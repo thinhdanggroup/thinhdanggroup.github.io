@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image:  /assets/images/merging-audio/banner.jpg
+    overlay_image:  /assets/images/merging-audio/banner.webp
+    og_image: /assets/images/merging-audio/og.jpg
     overlay_filter: 0.5
-    teaser:  /assets/images/merging-audio/banner.jpg
+    teaser:  /assets/images/merging-audio/teaser.webp
 title: "Building a Conference Audio Call System"
 tags:
-    - Audio Processing
+    - WebRTC
 
+categories:
+    - web-development
+description: "Imagine you’re chatting with friends over a group call. You hear everyone’s voices blending together smoothly, without your own voice echoing back at you."
+last_modified_at: 2025-03-02
 ---
 
 # How to Build a Conference Call System: Mixing Voices Made Simple

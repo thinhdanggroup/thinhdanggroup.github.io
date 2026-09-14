@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/finops-2-codeops/banner.png
+    overlay_image: /assets/images/finops-2-codeops/banner.webp
+    og_image: /assets/images/finops-2-codeops/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/finops-2-codeops/banner.png
+    teaser: /assets/images/finops-2-codeops/teaser.webp
 title: "From FinOps to CodeOps: Automating Cost Visibility and Control at the Code Level"
 tags:
-    - codeops
+    - Developer Tools
+    - Infrastructure
+categories:
     - infrastructure
+description: "Cloud costs used to be someone else’s problem. Finance talked to vendors, ops talked to finance, and developers…well, we shipped features and crossed our…"
+last_modified_at: 2025-11-15
 ---
 
 Cloud costs used to be someone else’s problem. Finance talked to vendors, ops talked to finance, and developers…well, we shipped features and crossed our fingers at the end of the month. That arrangement worked (barely) when a handful of virtual machines were the whole story. But in 2025, costs are an emergent property of code paths, container images, runtime scaling policies, and traffic mix. When the bill spikes, “optimize the Terraform” is no longer enough—because the root cause might be a Python loop that hit S3 ten million times.
@@ -398,6 +403,7 @@ Build-time checks can catch patterns that are hard to see in a code review:
 
 A minimal “image budget” check:
 
+{% raw %}
 ```bash
 # scripts/check_image_size.sh
 set -euo pipefail
@@ -411,6 +417,7 @@ if [ "$SIZE" -gt "$MAX" ]; then
 fi
 echo "✅ Image size within budget"
 ```
+{% endraw %}
 
 And a simple grep for anti-patterns:
 

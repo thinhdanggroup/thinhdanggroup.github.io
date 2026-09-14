@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/health-check-api/banner.jpeg
+    overlay_image: /assets/images/health-check-api/banner.webp
+    og_image: /assets/images/health-check-api/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/health-check-api/banner.jpeg
+    teaser: /assets/images/health-check-api/teaser.webp
 title: "A Deep Dive into Proper Health Check API Implementation"
 tags:
     - Serverless
 
+categories:
+    - infrastructure
+description: "In this blog post, we will take a deep dive into the world of health check APIs. We will kick off by introducing the concept of health check APIs and their…"
+last_modified_at: 2023-12-11
 ---
 
 In this blog post, we will take a deep dive into the world of health check APIs. We will kick off by introducing the concept of health check APIs and their importance in software development. From there, we will delve into the basic concepts of health check APIs, including their definition and how they differ from other types of APIs. We will then explain how health check APIs work, focusing on the process and the role of endpoints. Moving forward, we will explore the real-world use cases of health check APIs and the benefits they bring. In the next section, we will share some best practices for implementing health check APIs correctly. But it's not all roses - we will also discuss common pitfalls in health check API implementation and how to avoid them. Lastly, we will provide example codes of health check APIs and explain how they work. So, whether you are a beginner or an experienced developer, this blog post will equip you with the knowledge and skills you need to implement health check APIs effectively and efficiently.

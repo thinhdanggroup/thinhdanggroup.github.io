@@ -12,15 +12,17 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/grpc-over-http3/banner.png
+    overlay_image: /assets/images/grpc-over-http3/banner.webp
+    og_image: /assets/images/grpc-over-http3/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/grpc-over-http3/banner.png
+    teaser: /assets/images/grpc-over-http3/teaser.webp
 title: "gRPC over HTTP/3 in Production: QUIC Handshakes, 0‑RTT Risks, and a Safe Migration Path"
 tags:
-    - gRPC
-    - HTTP/3
-    - QUIC
-    - 0‑RTT
+    - API Design
+categories:
+    - web-development
+description: "You’ve got a fleet of gRPC services humming along on HTTP/2. Mobile clients suffer from shaky networks, tail latencies sting, and someone on the team keeps…"
+last_modified_at: 2025-10-30
 ---
 
 *You’ve got a fleet of gRPC services humming along on HTTP/2. Mobile clients suffer from shaky networks, tail latencies sting, and someone on the team keeps asking about “that QUIC thing.” Is it time to flip the switch to HTTP/3? What breaks? What gets faster? And what, exactly, is 0‑RTT and why are security folks giving you side‑eye when you mention it?*

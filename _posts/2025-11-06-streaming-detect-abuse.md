@@ -12,14 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/streaming-detect-abuse/banner.png
+    overlay_image: /assets/images/streaming-detect-abuse/banner.webp
+    og_image: /assets/images/streaming-detect-abuse/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/streaming-detect-abuse/banner.png
+    teaser: /assets/images/streaming-detect-abuse/teaser.webp
 title: "Event-Driven Security: Using Streaming Architectures to Detect LLM and API Abuse in Real Time"
 tags:
-    - llm
-    - streaming architect
-    - api abuse
+    - LLM
+    - Event-Driven Architecture
+    - Security
+categories:
+    - ai-engineering
+description: "If you’ve ever stared at a static security report the way you stare at yesterday’s weather, you know the feeling: accurate, but not useful when things are on…"
+last_modified_at: 2025-11-15
 ---
 
 If you’ve ever stared at a static security report the way you stare at yesterday’s weather, you know the feeling: accurate, but not useful when things are on fire _now_. As teams adopt generative APIs, the attack surface shifts from static misconfigurations to dynamic behavior: key theft, prompt spraying, high-velocity scraping, model misuse, subtle data exfiltration through “helpful” chat completions, abused trial tiers, and more.

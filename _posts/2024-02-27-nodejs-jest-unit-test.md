@@ -12,15 +12,20 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/jest-nodejs-test/banner.jpeg
+    overlay_image: /assets/images/jest-nodejs-test/banner.webp
+    og_image: /assets/images/jest-nodejs-test/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/jest-nodejs-test/banner.jpeg
+    teaser: /assets/images/jest-nodejs-test/teaser.webp
 title: "Unit Testing in Node.js and TypeScript: A Comprehensive Guide with Jest Integration"
 tags:
     - Node.js
     - TypeScript
-    - Jest
+    - Testing
 
+categories:
+    - web-development
+description: "In this blog post, we will delve into the world of unit testing in Node.js and TypeScript, focusing on the integration of Jest, a popular testing framework."
+last_modified_at: 2024-03-04
 ---
 
 

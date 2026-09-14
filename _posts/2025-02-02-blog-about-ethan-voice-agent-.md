@@ -12,15 +12,17 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/blog-about-ethan-voice-agent-/banner.png
+    overlay_image: /assets/images/blog-about-ethan-voice-agent-/banner.webp
+    og_image: /assets/images/blog-about-ethan-voice-agent-/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/blog-about-ethan-voice-agent-/banner.png
+    teaser: /assets/images/blog-about-ethan-voice-agent-/teaser.webp
 title: "Crafting 'Ethan': Building a Human-Like Voice Agent Easily with Free Models and Minimal Costs"
 tags:
-    - Voice Agent
-    - Conversational AI
-    - Ethan
+    - AI Agents
 
+categories:
+    - ai-engineering
+description: "Discover how simple and affordable it can be to create a sophisticated voice agent like 'Ethan' that revolutionizes customer service and business operations."
 ---
 
 Discover how simple and affordable it can be to create a sophisticated voice agent like 'Ethan' that revolutionizes customer service and business operations. This article guides you through the process of building Ethan using free models and low-cost technologies, making advanced conversational AI accessible to everyone.
@@ -37,7 +39,7 @@ Whether you're a tech enthusiast or a business professional, this article aims t
 
 # Introduction to Conversational AI and Ethan
 
-![introduction_to_conversational_ai_and_ethan_diagram.png](/assets/images/blog-about-ethan-voice-agent-/introduction_to_conversational_ai_and_ethan_diagram.png)
+![introduction_to_conversational_ai_and_ethan_diagram.png](/assets/images/blog-about-ethan-voice-agent-/introduction_to_conversational_ai_and_ethan_diagram.webp)
 
 
 In the ever-evolving landscape of artificial intelligence, conversational AI stands out as a technology that brings machines closer to understanding and engaging with human language in a manner that feels natural and intuitive. As we delve into this field, one particular innovation that captures attention is Ethan—a sophisticated voice agent that exemplifies the pinnacle of conversational AI.

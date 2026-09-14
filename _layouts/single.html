@@ -69,11 +69,61 @@ layout: default
     {% include footer/adsense.html %}
   </article>
 
-  {% comment %}<!-- only show related on a post page when `related: true` -->{% endcomment %}
-  {% if page.id and page.related and site.related_posts.size > 0 %}
-    {% include page__related.html posts=site.related_posts %}
-  {% comment %}<!-- otherwise show recent posts if no related when `related: true` -->{% endcomment %}
-  {% elsif page.id and page.related %}
-    {% include page__related.html posts=site.posts %}
+  {% comment %}
+    Topical related posts.
+
+    The theme's default `site.related_posts` is only meaningful when the `lsi`
+    plugin is enabled; with `lsi: false` (GitHub Pages can't run it) it degrades
+    to "the most recent posts site-wide", which is not related to anything.
+
+    Instead: prefer posts sharing the most tags, then fill any remaining slots
+    from the same category. Both lists are already newest-first.
+  {% endcomment %}
+  {% if page.id and page.related %}
+    {% assign max_related = 4 %}
+    {% assign category = page.categories | first %}
+    {% assign pool = site.categories[category] | default: site.posts %}
+
+    {% comment %}<!-- tier 1: same category AND at least one shared tag -->{% endcomment %}
+    {% assign tier1 = "" %}
+    {% for p in pool %}
+      {% if p.url != page.url %}
+        {% assign hit = false %}
+        {% for t in page.tags %}
+          {% if p.tags contains t %}{% assign hit = true %}{% break %}{% endif %}
+        {% endfor %}
+        {% if hit %}{% assign tier1 = tier1 | append: p.url | append: "," %}{% endif %}
+      {% endif %}
+    {% endfor %}
+    {% assign tier1_urls = tier1 | split: "," %}
+
+    {% comment %}<!-- tier 2: same category, any remaining posts -->{% endcomment %}
+    {% assign combined = tier1 %}
+    {% if tier1_urls.size < max_related %}
+      {% for p in pool %}
+        {% if p.url != page.url %}
+          {% unless tier1 contains p.url %}
+            {% assign combined = combined | append: p.url | append: "," %}
+          {% endunless %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+    {% assign related_urls = combined | split: "," %}
+
+    {% if related_urls.size > 0 %}
+      <div class="page__related">
+        <h2 class="page__related-title">{{ site.data.ui-text[site.locale].related_label | default: "You may also enjoy" }}</h2>
+        <div class="grid__wrapper">
+          {% for url in related_urls limit: max_related %}
+            {% for post in pool %}
+              {% if post.url == url %}
+                {% include archive-single.html type="grid" %}
+                {% break %}
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
   {% endif %}
 </div>

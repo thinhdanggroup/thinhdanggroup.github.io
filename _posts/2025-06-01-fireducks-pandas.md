@@ -12,16 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image:  /assets/images/fireducks-pandas/banner.png
+    overlay_image:  /assets/images/fireducks-pandas/banner.webp
+    og_image: /assets/images/fireducks-pandas/og.jpg
     overlay_filter: 0.5
-    teaser:  /assets/images/fireducks-pandas/banner.png
+    teaser:  /assets/images/fireducks-pandas/teaser.webp
 title: "FireDucks vs. Pandas: A Comprehensive Showdown from Principles to Practicality"
 tags:
     - Python
     - Pandas
-    - FireDucks
     - Performance
 
+categories:
+    - python
+description: "The Python data science ecosystem stands at a crossroads: while Pandas has democratized data manipulation for millions of analysts with its intuitive…"
 ---
 
 The Python data science ecosystem stands at a crossroads: while Pandas has democratized data manipulation for millions of analysts with its intuitive DataFrame API, its single-threaded architecture and eager evaluation model are increasingly strained by today's massive datasets—enter FireDucks, NEC Corporation's ambitious accelerator that promises up to 125x performance gains while maintaining near-perfect API compatibility, potentially revolutionizing how we think about the trade-off between ease of use and computational speed in data analysis.
@@ -416,7 +419,7 @@ The Python data ecosystem is undergoing a period of diversification. Pandas succ
 18. [Roadmap \- pandas \- Python Data Analysis Library](https://pandas.pydata.org/about/roadmap.html)  
 19. [pandas/pandas/core/internals/managers.py at main \- GitHub](https://github.com/pandas-dev/pandas/blob/main/pandas/core/internals/managers.py)  
 20. [Internals — pandas 2.2.3 documentation](https://pandas.pydata.org/docs/development/internals.html\#blockmanager)  
-21. [Roadmap — pandas 1.1.3 documentation](http://pandas.pydata.org/pandas-docs/version/1.1.3/development/roadmap.html)  
+21. [Roadmap — pandas 1.1.3 documentation](https://pandas.pydata.org/about/roadmap.html)  
 22. [Accelerate Pandas 20x using FireDucks \- Daily Dose of Data Science](https://www.dailydoseofds.com/p/accelerate-pandas-20x-using-fireducks/)  
 23. [Pandas Memory Management  GeeksforGeeks](https://www.geeksforgeeks.org/pandas-memory-management/)  
 24. [Scaling to large datasets — pandas 2.2.3 documentation](https://pandas.pydata.org/docs/user\_guide/scale.html)  

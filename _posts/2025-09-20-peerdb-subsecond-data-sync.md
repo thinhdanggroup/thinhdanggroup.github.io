@@ -12,15 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/peerdb-subsecond-data-sync/banner.png
+    overlay_image: /assets/images/peerdb-subsecond-data-sync/banner.webp
+    og_image: /assets/images/peerdb-subsecond-data-sync/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/peerdb-subsecond-data-sync/banner.png
+    teaser: /assets/images/peerdb-subsecond-data-sync/teaser.webp
 title: "Achieving Sub‑Second Data Syncs: The Performance Engineering Behind PeerDB"
 tags:
-    - PeerDB
-    - Sub-second Latency
     - Change Data Capture
+    - Performance
     - PostgreSQL
+categories:
+    - databases
+description: "How do you move fresh data from PostgreSQL into analytics systems, queues, and storage engines in hundreds of milliseconds, not minutes?"
+last_modified_at: 2025-10-25
 ---
 
 _How do you move fresh data from PostgreSQL into analytics systems, queues, and storage engines in **hundreds of milliseconds**, not minutes? This post walks through the design choices and runtime tricks that make that possible in PeerDB, with concrete patterns you can borrow even if you’re building your own pipeline._

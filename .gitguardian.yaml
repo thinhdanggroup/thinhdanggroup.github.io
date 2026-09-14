@@ -1,0 +1,38 @@
+# GitGuardian / ggshield configuration
+#
+# SCOPE: this file is read by ggshield -- the CLI, the pre-commit hook, and the
+# ggshield GitHub Action. It is NOT read by the GitGuardian GitHub App, whose
+# pull-request check is driven by dashboard state. To clear a failing App check
+# you must ignore or resolve the incident in the GitGuardian dashboard; doing so
+# also propagates down to ggshield.
+#
+# Required, otherwise ggshield treats this file as the deprecated v1 format.
+version: 2
+
+secret:
+  ignored_matches:
+    # PostHog *project* API key (the `phc_` prefix).
+    #
+    # This is not a credential leak. PostHog project keys are write-only
+    # (capture events; they cannot read data back out) and are designed to be
+    # embedded in client-side JavaScript. This one is served in the HTML of
+    # every page on the live site -- it is public by construction, and rotating
+    # it would change nothing.
+    #
+    # It lives in _includes/head/custom.html and predates the 2026 blog
+    # overhaul; it was introduced in commit 2de61285 ("add posthog").
+    #
+    # Residual risk, accepted: anyone holding this key can push junk events into
+    # the PostHog project and skew analytics. Client-side GA4 carries the
+    # identical exposure.
+    - name: PostHog public project API key (client-side by design)
+      match: phc_bHqAclqQ1A1n3cv250ot2Xg8roPZElwUe4ie3eXJFl3
+
+# Deliberately NOT ignored here, so that genuine findings still surface:
+#   - d5b581ea8f60482e88c30a34d1c6064e.txt -- the IndexNow key. The protocol
+#     requires it to be publicly served at the site root, and it is a 32-char
+#     hex string, so a generic high-entropy detector may flag it one day. It has
+#     not fired, so it is left alone rather than pre-emptively suppressed. If it
+#     ever does, add:
+#         ignored_paths:
+#           - 'd5b581ea8f60482e88c30a34d1c6064e.txt'

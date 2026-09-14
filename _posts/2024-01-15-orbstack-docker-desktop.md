@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/orbstack-docker-desktop/banner.jpeg
+    overlay_image: /assets/images/orbstack-docker-desktop/banner.webp
+    og_image: /assets/images/orbstack-docker-desktop/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/orbstack-docker-desktop/banner.jpeg
+    teaser: /assets/images/orbstack-docker-desktop/teaser.webp
 title: "Docker Desktop vs OrbStack: A Comprehensive Guide for Developers"
 tags:
-    - Coding
+    - Software Engineering
 
+categories:
+    - software-engineering
+description: "In the ever-evolving landscape of software development, containerization has emerged as a game-changer."
+last_modified_at: 2024-02-09
 ---
 
 In the ever-evolving landscape of software development, containerization has emerged as a game-changer. Two notable contenders in this arena are **Docker Desktop** and **OrbStack**. This comprehensive guide delves into the intricacies of these tools, offering a detailed comparison of their features, advantages, drawbacks, and practical use cases. Whether you're a seasoned developer or embarking on your containerization journey, this blog post will empower you to make informed decisions about the right tool for your project. Let's dive in and explore the world of containerization with Docker Desktop and OrbStack!

@@ -12,14 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/cython/banner.jpeg
+    overlay_image: /assets/images/cython/banner.webp
+    og_image: /assets/images/cython/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/cython/banner.jpeg
+    teaser: /assets/images/cython/teaser.webp
 title: "Securing Your Python Code with Cython: A Comprehensive Guide"
 tags:
-    - Cython
+    - Python
     - Security
 
+categories:
+    - python
+description: "In this comprehensive guide, we delve into the world of Cython, a superset of Python that combines the ease of Python with the speed of C, and how it can be…"
+last_modified_at: 2023-09-02
 ---
 
 In this comprehensive guide, we delve into the world of Cython, a superset of Python that combines the ease of Python

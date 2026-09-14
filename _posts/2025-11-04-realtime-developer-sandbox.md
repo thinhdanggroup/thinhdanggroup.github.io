@@ -12,14 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/realtime-developer-sandbox/banner.png
+    overlay_image: /assets/images/realtime-developer-sandbox/banner.webp
+    og_image: /assets/images/realtime-developer-sandbox/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/realtime-developer-sandbox/banner.png
+    teaser: /assets/images/realtime-developer-sandbox/teaser.webp
 title: "Building Real-Time Developer Sandboxes: A Deep Dive into Browser-Based Docker Terminals with WebSockets"
 tags:
     - Real-Time
     - JavaScript
-    - WebSocket
+    - API Design
+categories:
+    - distributed-systems
+description: "Cloud IDEs have gone from “neat hack” to “real tools.” You type in a browser, a container compiles your code somewhere far away, and the feedback loop feels…"
+last_modified_at: 2025-11-09
 ---
 
 Cloud IDEs have gone from “neat hack” to “real tools.” You type in a browser, a container compiles your code somewhere far away, and the feedback loop _feels_ local. Behind this magic is an unglamorous but fascinating subsystem: a low-latency, secure terminal stream from your browser to a Linux shell inside a container.

@@ -1,15 +1,23 @@
 {
-  "total_posts": 145,
-  "generated_at": "/Users/thinh.dang2/Documents/personal/thinhdanggroup.github.io",
+  "total_posts": 146,
+  "generated_at": "2026-09-14T05:11:13+00:00",
   "posts": [
+    {
+      "filename": "2026-03-21-google-workspace-mcp-for-codex",
+      "title": "Connecting Codex to Google Workspace via MCP",
+      "date": "2026-03-21",
+      "tags": [
+        "Developer Tools",
+        "MCP"
+      ],
+      "file_path": "_posts/2026-03-21-google-workspace-mcp-for-codex.md"
+    },
     {
       "filename": "2026-02-21-how-a-language-model-learned-to-speak-vietnamese",
       "title": "How a Language Model Learned to Speak Vietnamese",
       "date": "2026-02-21",
       "tags": [
-        "llm",
-        "tts",
-        "vietnamese"
+        "LLM"
       ],
       "file_path": "_posts/2026-02-21-how-a-language-model-learned-to-speak-vietnamese.md"
     },
@@ -18,9 +26,8 @@
       "title": "Zero-Config Backends: The Architectural Future of TypeScript Frameworks",
       "date": "2026-01-02",
       "tags": [
-        "rikta",
-        "zero config backend",
-        "typescript"
+        "Web Development",
+        "TypeScript"
       ],
       "file_path": "_posts/2026-01-02-zero-config-backend-rikta.md"
     },
@@ -29,8 +36,7 @@
       "title": "Retries Without Thundering Herds",
       "date": "2025-12-28",
       "tags": [
-        "retry",
-        "control plane"
+        "Distributed Systems"
       ],
       "file_path": "_posts/2025-12-28-retry-without-thundering-herds.md"
     },
@@ -39,9 +45,8 @@
       "title": "Predictive Scaling 2.0: Using Reinforcement Learning to Optimize Kubernetes Autoscaling Policies",
       "date": "2025-12-20",
       "tags": [
-        "predictive",
-        "autoscaling policis",
-        "reinforcement learning"
+        "Autoscaling",
+        "AI"
       ],
       "file_path": "_posts/2025-12-20-predictive-reinforcement-learning-autoscaling.md"
     },
@@ -50,9 +55,7 @@
       "title": "HTMX at Scale: How Attribute-Driven Interactivity Challenges the SPA Model",
       "date": "2025-12-11",
       "tags": [
-        "hmtx",
-        "server-side render",
-        "spa model"
+        "Web Development"
       ],
       "file_path": "_posts/2025-12-11-htmx-spa-model.md"
     },
@@ -61,8 +64,8 @@
       "title": "Hardening Server-Side React: Best Practices After React2Shell",
       "date": "2025-12-07",
       "tags": [
-        "react",
-        "security"
+        "Web Development",
+        "Security"
       ],
       "file_path": "_posts/2025-12-07-vul-react2shell.md"
     },
@@ -71,8 +74,8 @@
       "title": "From Kafka to NATS: When Less Is More in Distributed Messaging",
       "date": "2025-12-04",
       "tags": [
-        "kafka",
-        "nats",
+        "Kafka",
+        "NATS",
         "distributed messaging"
       ],
       "file_path": "_posts/2025-12-04-kafka-to-nats.md"
@@ -82,7 +85,7 @@
       "title": "Bridging the Edge: Using NATS Leaf Nodes to Build Hybrid and Multi-Cloud Systems",
       "date": "2025-12-01",
       "tags": [
-        "nats",
+        "NATS",
         "distributed messaging"
       ],
       "file_path": "_posts/2025-12-01-nats-left-nodes.md"
@@ -92,8 +95,8 @@
       "title": "Postgres as a Message Bus: Implementing Durable Event Queues with LISTEN/NOTIFY and Logical Decoding",
       "date": "2025-11-25",
       "tags": [
-        "postgres",
-        "message bus"
+        "PostgreSQL",
+        "Event-Driven Architecture"
       ],
       "file_path": "_posts/2025-11-25-postgres-as-a-message-bus.md"
     },
@@ -102,9 +105,8 @@
       "title": "Beyond Postgres and DuckDB: The Rise of Composable Query Engines with Polars and DataFusion",
       "date": "2025-11-24",
       "tags": [
-        "polars",
-        "datafusion",
-        "composable query engine"
+        "Pandas",
+        "OLAP"
       ],
       "file_path": "_posts/2025-11-24-composable-query-engines-with-polars-and-datafusion.md"
     },
@@ -113,8 +115,8 @@
       "title": "How SQLite Is Powering the New Generation of Serverless Backends",
       "date": "2025-11-23",
       "tags": [
-        "sqlite",
-        "serverless"
+        "Databases",
+        "Serverless"
       ],
       "file_path": "_posts/2025-11-23-sqlite-serverless-backend.md"
     },
@@ -123,8 +125,8 @@
       "title": "Creating Tables in a Distributed ClickHouse Cluster: Everything You Really Need to Know",
       "date": "2025-11-22",
       "tags": [
-        "clickhouse",
-        "distributed"
+        "ClickHouse",
+        "Distributed Systems"
       ],
       "file_path": "_posts/2025-11-22-tables-distributed-clickhouse-cluster.md"
     },
@@ -133,9 +135,8 @@
       "title": "Beyond Cron: How Temporal and Durable Execution Are Powering Reliable AI Pipelines",
       "date": "2025-11-21",
       "tags": [
-        "temporal",
-        "ai pipeline",
-        "agent"
+        "Temporal",
+        "AI Agents"
       ],
       "file_path": "_posts/2025-11-21-temporal-reliable-ai-pipeline.md"
     },
@@ -144,9 +145,9 @@
       "title": "Memory‑Bound Architectures: Optimizing AI and Data Systems Beyond CPU Bottlenecks",
       "date": "2025-11-20",
       "tags": [
-        "memory bound",
-        "ai",
-        "data engineer"
+        "Performance",
+        "AI",
+        "Data Engineering"
       ],
       "file_path": "_posts/2025-11-20-memory-bound-architecture.md"
     },
@@ -155,9 +156,8 @@
       "title": "Type-Safe Backend Evolution: Using tRPC, Zod, and OpenAPI 4 to Prevent Silent API Breaks",
       "date": "2025-11-19",
       "tags": [
-        "typescript",
-        "zod",
-        "tRPC"
+        "TypeScript",
+        "API Design"
       ],
       "file_path": "_posts/2025-11-19-type-safe-backend-evolution.md"
     },
@@ -166,9 +166,8 @@
       "title": "Migrating from Traditional Workflow Engines (e.g., Temporal) to DBOS: An Engineering Playbook",
       "date": "2025-11-18",
       "tags": [
-        "dbos",
-        "temporal",
-        "migration"
+        "Temporal",
+        "Database Migration"
       ],
       "file_path": "_posts/2025-11-18-migrate-temporal-to-dbos.md"
     },
@@ -177,9 +176,9 @@
       "title": "Async Wars: Comparing Python’s Free-Threaded Future vs Node.js Event Loop at Scale",
       "date": "2025-11-17",
       "tags": [
-        "async",
-        "python",
-        "nodejs"
+        "Concurrency",
+        "Python",
+        "Node.js"
       ],
       "file_path": "_posts/2025-11-17-async-wars.md"
     },
@@ -188,9 +187,7 @@
       "title": "Tracing the Future: Using eBPF for Low-Overhead Observability in Cloud-Native Systems",
       "date": "2025-11-16",
       "tags": [
-        "eBPF",
-        "observability",
-        "tracing"
+        "Observability"
       ],
       "file_path": "_posts/2025-11-16-ebpf-observability.md"
     },
@@ -199,10 +196,8 @@
       "title": "KEDA vs. Knative vs. Kubernetes HPA: Choosing the Right Auto-Scaling Strategy for Microservices",
       "date": "2025-11-15",
       "tags": [
-        "keda",
-        "knative",
-        "kubenetes",
-        "auto-scaling"
+        "Autoscaling",
+        "Kubernetes"
       ],
       "file_path": "_posts/2025-11-15-keda-knative-kubenetes.md"
     },
@@ -211,9 +206,7 @@
       "title": "Predictable Scaling: Reinventing Auto-Scaling with Queue Length, Traces, and Token Buckets",
       "date": "2025-11-14",
       "tags": [
-        "predictive-scaling",
-        "hpa",
-        "auto-scaling"
+        "Autoscaling"
       ],
       "file_path": "_posts/2025-11-14-predictive-scaling.md"
     },
@@ -222,9 +215,9 @@
       "title": "Zero‑Downtime Schema Evolution: Event‑Driven Migration with Debezium and Temporal",
       "date": "2025-11-12",
       "tags": [
-        "event-driven migration",
-        "debezium",
-        "temporal"
+        "Event-Driven Architecture",
+        "Change Data Capture",
+        "Temporal"
       ],
       "file_path": "_posts/2025-11-12-event-driven-migration.md"
     },
@@ -233,8 +226,8 @@
       "title": "From FinOps to CodeOps: Automating Cost Visibility and Control at the Code Level",
       "date": "2025-11-10",
       "tags": [
-        "codeops",
-        "infrastructure"
+        "Developer Tools",
+        "Infrastructure"
       ],
       "file_path": "_posts/2025-11-10-finops-2-codeops.md"
     },
@@ -243,9 +236,9 @@
       "title": "Browser-Driven Infrastructure: How WebAssembly and In-Browser Docker Are Redefining Developer Environments",
       "date": "2025-11-08",
       "tags": [
-        "in-browser docker",
-        "infrastructure",
-        "devx"
+        "Docker",
+        "Infrastructure",
+        "Developer Tools"
       ],
       "file_path": "_posts/2025-11-08-in-browser-docker.md"
     },
@@ -254,9 +247,9 @@
       "title": "Event-Driven Security: Using Streaming Architectures to Detect LLM and API Abuse in Real Time",
       "date": "2025-11-06",
       "tags": [
-        "llm",
-        "streaming architect",
-        "api abuse"
+        "LLM",
+        "Event-Driven Architecture",
+        "Security"
       ],
       "file_path": "_posts/2025-11-06-streaming-detect-abuse.md"
     },
@@ -267,7 +260,7 @@
       "tags": [
         "Real-Time",
         "JavaScript",
-        "WebSocket"
+        "API Design"
       ],
       "file_path": "_posts/2025-11-04-realtime-developer-sandbox.md"
     },
@@ -276,7 +269,7 @@
       "title": "Self-Healing Systems: When Auto-Scaling Isn’t Enough",
       "date": "2025-11-02",
       "tags": [
-        "auto-scaling"
+        "Autoscaling"
       ],
       "file_path": "_posts/2025-11-02-self-healing-systems.md"
     },
@@ -295,10 +288,7 @@
       "title": "gRPC over HTTP/3 in Production: QUIC Handshakes, 0‑RTT Risks, and a Safe Migration Path",
       "date": "2025-10-28",
       "tags": [
-        "gRPC",
-        "HTTP/3",
-        "QUIC",
-        "0‑RTT"
+        "API Design"
       ],
       "file_path": "_posts/2025-10-28-grpc-over-http3.md"
     },
@@ -307,9 +297,7 @@
       "title": "Comparing Workflow Architectures: Prefect vs. Dagster vs. Airflow",
       "date": "2025-10-27",
       "tags": [
-        "Prefect",
-        "Dagster",
-        "Airflow"
+        "Data Engineering"
       ],
       "file_path": "_posts/2025-10-27-airflow-prefect-dagster.md"
     },
@@ -318,8 +306,7 @@
       "title": "Demystifying CPU Requests and Limits in Kubernetes: How the Scheduler Really Works",
       "date": "2025-10-25",
       "tags": [
-        "kubernetes",
-        "cfs quotas"
+        "Kubernetes"
       ],
       "file_path": "_posts/2025-10-25-cpu-request-limit.md"
     },
@@ -328,7 +315,7 @@
       "title": "Should You Upgrade to Python 3.13? Here’s What You’ll Gain (and Lose)",
       "date": "2025-10-23",
       "tags": [
-        "Python 3.13"
+        "Python"
       ],
       "file_path": "_posts/2025-10-23-python313-upgrade-guide.md"
     },
@@ -347,8 +334,8 @@
       "title": "Introducing LiveKit Dashboard: Simplifying Self-Hosted Real-Time Management",
       "date": "2025-10-18",
       "tags": [
-        "LiveKit",
-        "Dashboard"
+        "WebRTC",
+        "Observability"
       ],
       "file_path": "_posts/2025-10-18-livekit-dashboard.md"
     },
@@ -357,8 +344,7 @@
       "title": "Breaking Down Python 3.13’s Experimental Free‑Threading Mode",
       "date": "2025-10-15",
       "tags": [
-        "Python 3.13",
-        "Free-Threading"
+        "Python"
       ],
       "file_path": "_posts/2025-10-15-python313-free-threading.md"
     },
@@ -386,9 +372,8 @@
       "title": "Achieving Sub‑Second Data Syncs: The Performance Engineering Behind PeerDB",
       "date": "2025-09-20",
       "tags": [
-        "PeerDB",
-        "Sub-second Latency",
         "Change Data Capture",
+        "Performance",
         "PostgreSQL"
       ],
       "file_path": "_posts/2025-09-20-peerdb-subsecond-data-sync.md"
@@ -398,8 +383,8 @@
       "title": "How We Handle Schema Evolution in Real‑Time Data Pipelines with PeerDB",
       "date": "2025-09-10",
       "tags": [
-        "PeerDB",
-        "Schema Evolution"
+        "Change Data Capture",
+        "Database Migration"
       ],
       "file_path": "_posts/2025-09-10-peerdb-schema-revolution.md"
     },
@@ -409,9 +394,7 @@
       "date": "2025-09-01",
       "tags": [
         "WebRTC",
-        "Quality",
-        "MOS",
-        "Architecture"
+        "System Design"
       ],
       "file_path": "_posts/2025-09-01-webrtc-mos.md"
     },
@@ -420,10 +403,9 @@
       "title": "DuckDB: An Architectural Deep Dive into the In-Process OLAP Engine",
       "date": "2025-08-10",
       "tags": [
-        "DuckDB",
         "OLAP",
-        "Database",
-        "Architecture"
+        "Databases",
+        "System Design"
       ],
       "file_path": "_posts/2025-08-10-duckdb.md"
     },
@@ -432,10 +414,8 @@
       "title": "A Strategic Analysis of the OpenAI Agents, Logfire, and Langfuse Observability Stack",
       "date": "2025-07-27",
       "tags": [
-        "OpenAI Agents",
-        "Logfire",
-        "Langfuse",
-        "OpenTelemetry"
+        "AI Agents",
+        "Observability"
       ],
       "file_path": "_posts/2025-07-27-agent-observability.md"
     },
@@ -444,9 +424,8 @@
       "title": "The Agentic Mesh: An In-Depth Analysis of Agent-to-Agent Communication Protocols and Production Best Practices",
       "date": "2025-07-25",
       "tags": [
-        "Agentic Mesh",
-        "Development",
-        "AI Agent",
+        "AI Agents",
+        "Software Engineering",
         "AI"
       ],
       "file_path": "_posts/2025-07-25-agent-to-agent.md"
@@ -456,9 +435,9 @@
       "title": "Beyond the Prompt: The Definitive Guide to Context Engineering for Production AI Agents",
       "date": "2025-07-15",
       "tags": [
-        "Context Engineering",
-        "Development",
-        "AI Agent",
+        "LLM",
+        "Software Engineering",
+        "AI Agents",
         "AI"
       ],
       "file_path": "_posts/2025-07-15-context-engineering.md"
@@ -469,9 +448,8 @@
       "date": "2025-07-01",
       "tags": [
         "AI",
-        "Multi-Agent",
-        "Development",
-        "AI Agent"
+        "AI Agents",
+        "Software Engineering"
       ],
       "file_path": "_posts/2025-07-01-multi-agent.md"
     },
@@ -481,9 +459,8 @@
       "date": "2025-06-15",
       "tags": [
         "AI",
-        "Cursor",
-        "Vibe Coding",
-        "Development"
+        "Developer Tools",
+        "Software Engineering"
       ],
       "file_path": "_posts/2025-06-15-vibe-coding.md"
     },
@@ -494,7 +471,6 @@
       "tags": [
         "Python",
         "Pandas",
-        "FireDucks",
         "Performance"
       ],
       "file_path": "_posts/2025-06-01-fireducks-pandas.md"
@@ -505,9 +481,7 @@
       "date": "2025-05-30",
       "tags": [
         "Python",
-        "FastAPI",
-        "ASGI",
-        "Web Framework"
+        "Web Development"
       ],
       "file_path": "_posts/2025-05-30-fastapi-from-scratch.md"
     },
@@ -518,8 +492,7 @@
       "tags": [
         "Python",
         "Testing",
-        "pytest-asyncio",
-        "Migration"
+        "Database Migration"
       ],
       "file_path": "_posts/2025-05-28-pytest-asyncio-v1-migrate.md"
     },
@@ -528,9 +501,8 @@
       "title": "Decoding the Digital Lifeline: A Comprehensive Exploration of Forward Error Correction",
       "date": "2025-05-15",
       "tags": [
-        "FEC",
-        "Error Correction",
-        "Redundancy"
+        "WebRTC",
+        "Distributed Systems"
       ],
       "file_path": "_posts/2025-05-15-forward-error-correction.md"
     },
@@ -539,9 +511,7 @@
       "title": "Demystifying WebRTC Quality: A Deep Dive into the rtcscore Library and MOS Estimation",
       "date": "2025-05-10",
       "tags": [
-        "WebRTC",
-        "Quality",
-        "MOS"
+        "WebRTC"
       ],
       "file_path": "_posts/2025-05-10-webrtc-quality-scoring.md"
     },
@@ -550,9 +520,8 @@
       "title": "Building Production-Ready MCP Servers: Taking FastMCP to Enterprise Level",
       "date": "2025-04-30",
       "tags": [
-        "FastMCP",
-        "Python",
-        "Model Context Protocol"
+        "MCP",
+        "Python"
       ],
       "file_path": "_posts/2025-04-30-mcp-production-ready.md"
     },
@@ -561,7 +530,7 @@
       "title": "Building a Conference Audio Call System",
       "date": "2025-02-03",
       "tags": [
-        "Audio Processing"
+        "WebRTC"
       ],
       "file_path": "_posts/2025-02-03-blog-about-merging-audio.md"
     },
@@ -570,9 +539,7 @@
       "title": "Crafting 'Ethan': Building a Human-Like Voice Agent Easily with Free Models and Minimal Costs",
       "date": "2025-02-02",
       "tags": [
-        "Voice Agent",
-        "Conversational AI",
-        "Ethan"
+        "AI Agents"
       ],
       "file_path": "_posts/2025-02-02-blog-about-ethan-voice-agent-.md"
     },
@@ -581,8 +548,8 @@
       "title": "Understanding RTVI AI: A Guide to Real-Time Voice Interaction",
       "date": "2025-02-02",
       "tags": [
-        "xxx",
-        "yyy"
+        "AI Agents",
+        "Real-Time"
       ],
       "file_path": "_posts/2025-02-02-blog-about-rtvi-ai-explanation-.md"
     },
@@ -591,8 +558,8 @@
       "title": "Getting Started with Chat DeepSeek R1 API: Installation, Usage, and Integration with Langchain",
       "date": "2025-01-28",
       "tags": [
-        "DeepSeek R1",
-        "API"
+        "LLM",
+        "API Design"
       ],
       "file_path": "_posts/2025-01-28-blog-on-chat-deepseek-r1-api-.md"
     },
@@ -601,8 +568,7 @@
       "title": "Running Deepseek R1 Locally: A Comprehensive Guide",
       "date": "2025-01-27",
       "tags": [
-        "DeepSeek R1",
-        "Ollama"
+        "LLM"
       ],
       "file_path": "_posts/2025-01-27-guide-to-run-deepseek-r1-locally-.md"
     },
@@ -611,7 +577,7 @@
       "title": "Effortless Auto-Scaling of Celery Workers with KEDA and Redis on Kubernetes",
       "date": "2025-01-18",
       "tags": [
-        "Celery Auto-Scaling",
+        "Autoscaling",
         "Python"
       ],
       "file_path": "_posts/2025-01-18-blog-on-auto-scaling-celery-tasks-.md"
@@ -621,8 +587,7 @@
       "title": "Demystifying SIP Trunking and Its Integration with Web Applications",
       "date": "2025-01-12",
       "tags": [
-        "SIP Trunking",
-        "Telecommunication"
+        "Telecom"
       ],
       "file_path": "_posts/2025-01-12-blog-about-sip-trunking-communication-.md"
     },
@@ -641,8 +606,8 @@
       "title": "Optimizing Data Processing with Pandas Apply: Python vs. Cython",
       "date": "2024-09-06",
       "tags": [
-        "python",
-        "pandas"
+        "Python",
+        "Pandas"
       ],
       "file_path": "_posts/2024-09-06-pandas-apply-methods.md"
     },
@@ -651,8 +616,8 @@
       "title": "Mastering Git Versioning and CI with GitHub Actions for Python Projects",
       "date": "2024-09-01",
       "tags": [
-        "python",
-        "git"
+        "Python",
+        "Developer Tools"
       ],
       "file_path": "_posts/2024-09-01-github-ci-versioning.md"
     },
@@ -681,7 +646,7 @@
       "title": "How to Securely Store Passwords in Databases",
       "date": "2024-08-05",
       "tags": [
-        "security"
+        "Security"
       ],
       "file_path": "_posts/2024-08-05-secure-password-storage-methods.md"
     },
@@ -690,8 +655,8 @@
       "title": "10 Types of Locks with Redis: Pros and Cons",
       "date": "2024-08-01",
       "tags": [
-        "redis",
-        "locking"
+        "Redis",
+        "Distributed Systems"
       ],
       "file_path": "_posts/2024-08-01-10-redis-locks.md"
     },
@@ -700,7 +665,7 @@
       "title": "Introducing My Interactive Web Chatbot",
       "date": "2024-07-25",
       "tags": [
-        "chatbot"
+        "AI Agents"
       ],
       "file_path": "_posts/2024-07-25-introducing-chatbot.md"
     },
@@ -709,8 +674,8 @@
       "title": "10 Cache Concepts Every Programmer Should Know",
       "date": "2024-07-15",
       "tags": [
-        "xxx",
-        "yyy"
+        "Caching",
+        "System Design"
       ],
       "file_path": "_posts/2024-07-15-essential-cache-concepts.md"
     },
@@ -719,8 +684,8 @@
       "title": "Understanding and Resolving Race Conditions in Golang Applications",
       "date": "2024-07-15",
       "tags": [
-        "golang",
-        "concurrency"
+        "Go",
+        "Concurrency"
       ],
       "file_path": "_posts/2024-07-15-golang-race-conditions.md"
     },
@@ -729,8 +694,8 @@
       "title": "A Developer's Guide to Implementing Python Observability in Microservices",
       "date": "2024-06-30",
       "tags": [
-        "python",
-        "observability"
+        "Python",
+        "Observability"
       ],
       "file_path": "_posts/2024-06-30-observability-python.md"
     },
@@ -739,7 +704,7 @@
       "title": "Setting Up Autoscaling with HPA and DataDog Metrics for a Python App in Kubernetes",
       "date": "2024-06-18",
       "tags": [
-        "Auto Scaling"
+        "Autoscaling"
       ],
       "file_path": "_posts/2024-06-18-guide-hpa-datadog.md"
     },
@@ -748,7 +713,6 @@
       "title": "Navigating the Migration Landscape: An In-Depth Look at Flyway",
       "date": "2024-05-23",
       "tags": [
-        "Flyway",
         "Database Migration"
       ],
       "file_path": "_posts/2024-05-23-why-flyway.md"
@@ -758,9 +722,8 @@
       "title": "Efficient Database Migrations in Continuous Deployment with Flyway and Docker",
       "date": "2024-05-20",
       "tags": [
-        "Flyway",
-        "Docker",
-        "Database Migration"
+        "Database Migration",
+        "Docker"
       ],
       "file_path": "_posts/2024-05-20-flyway-migration.md"
     },
@@ -769,9 +732,8 @@
       "title": "Mastering End-to-End Testing in NestJS with TypeScript and Docker",
       "date": "2024-05-15",
       "tags": [
-        "NestJS",
-        "NodeJS",
-        "E2E Testing",
+        "Node.js",
+        "Testing",
         "Docker"
       ],
       "file_path": "_posts/2024-05-15-nestjs-e2e-docker.md"
@@ -781,8 +743,7 @@
       "title": "Rediscovering Order: Harnessing Redis Sorted Sets for Scalable Applications",
       "date": "2024-05-06",
       "tags": [
-        "Redis",
-        "Sorted Sets"
+        "Redis"
       ],
       "file_path": "_posts/2024-05-06-redis-sorted-set.md"
     },
@@ -791,7 +752,7 @@
       "title": "Mastering Database Partitioning: A Comprehensive Guide to Optimization and Best Practices",
       "date": "2024-04-30",
       "tags": [
-        "Database Partition"
+        "Databases"
       ],
       "file_path": "_posts/2024-04-30-database-partition.md"
     },
@@ -800,8 +761,8 @@
       "title": "Mastering User Tracking with NestJS and DataDog",
       "date": "2024-04-25",
       "tags": [
-        "Datadog",
-        "NestJS"
+        "Observability",
+        "Node.js"
       ],
       "file_path": "_posts/2024-04-25-nestjs-dd-interceptor.md"
     },
@@ -810,7 +771,7 @@
       "title": "Navigating Pitfalls in Datadog Tracing",
       "date": "2024-04-20",
       "tags": [
-        "Datadog"
+        "Observability"
       ],
       "file_path": "_posts/2024-04-20-dd-tracing-pitfall.md"
     },
@@ -846,7 +807,7 @@
       "title": "Simulating MongoDB's ObjectID in PostgreSQL: A Comprehensive Guide",
       "date": "2024-04-05",
       "tags": [
-        "Mongo ID",
+        "Databases",
         "PostgreSQL"
       ],
       "file_path": "_posts/2024-04-05-mongo-id-in-postgresql.md"
@@ -874,7 +835,7 @@
       "title": "Knative: A Comprehensive Guide to Serverless Architecture",
       "date": "2024-03-18",
       "tags": [
-        "Knative"
+        "Kubernetes"
       ],
       "file_path": "_posts/2024-03-18-knative.md"
     },
@@ -883,7 +844,7 @@
       "title": "A Comprehensive Guide to Testcontainers for Node.js",
       "date": "2024-03-09",
       "tags": [
-        "Testcontainers",
+        "Testing",
         "Node.js"
       ],
       "file_path": "_posts/2024-03-09-testcontainers-nodejs.md"
@@ -929,9 +890,8 @@
       "title": "Using TypeScript and Next.js for building web applications",
       "date": "2024-03-02",
       "tags": [
-        "Next.js",
-        "TypeScript",
-        "Web Development"
+        "Web Development",
+        "TypeScript"
       ],
       "file_path": "_posts/2024-03-02-nextjs-typescript-application.md"
     },
@@ -942,7 +902,7 @@
       "tags": [
         "Node.js",
         "TypeScript",
-        "Jest"
+        "Testing"
       ],
       "file_path": "_posts/2024-02-27-nodejs-jest-unit-test.md"
     },
@@ -953,7 +913,7 @@
       "tags": [
         "Distributed Systems",
         "Serverless",
-        "Containers"
+        "Docker"
       ],
       "file_path": "_posts/2024-02-23-python-dependency-injection.md"
     },
@@ -964,7 +924,7 @@
       "tags": [
         "Distributed Systems",
         "Serverless",
-        "Containers"
+        "Docker"
       ],
       "file_path": "_posts/2024-02-19-serverless-containers.md"
     },
@@ -982,8 +942,8 @@
       "title": "Fine-tuning Gemini AI Model: A Step-by-Step Guide",
       "date": "2024-02-15",
       "tags": [
-        "Gemini",
-        "Generative AI"
+        "LLM",
+        "AI"
       ],
       "file_path": "_posts/2024-02-15-gemini.md"
     },
@@ -992,7 +952,7 @@
       "title": "Diving into the Node.js Event Loop",
       "date": "2024-02-10",
       "tags": [
-        "Coding",
+        "Software Engineering",
         "Node.js"
       ],
       "file_path": "_posts/2024-02-10-nodejs-event-loop.md"
@@ -1002,7 +962,7 @@
       "title": "The Essential Blueprint for Node.js: A Step-by-Step Guide for Junior Engineers",
       "date": "2024-01-30",
       "tags": [
-        "Coding",
+        "Software Engineering",
         "Node.js"
       ],
       "file_path": "_posts/2024-01-30-nodejs-getting-started.md"
@@ -1012,7 +972,7 @@
       "title": "Docker Desktop vs OrbStack: A Comprehensive Guide for Developers",
       "date": "2024-01-15",
       "tags": [
-        "Coding"
+        "Software Engineering"
       ],
       "file_path": "_posts/2024-01-15-orbstack-docker-desktop.md"
     },
@@ -1021,7 +981,7 @@
       "title": "Crafting Maintainable Python Applications with Domain-Driven Design and Clean Architecture",
       "date": "2024-01-15",
       "tags": [
-        "Coding"
+        "Software Engineering"
       ],
       "file_path": "_posts/2024-01-15-python-code-structure.md"
     },
@@ -1030,7 +990,7 @@
       "title": "Good Coding Principles for Enhanced Code Quality in Practice",
       "date": "2023-12-30",
       "tags": [
-        "Coding"
+        "Software Engineering"
       ],
       "file_path": "_posts/2023-12-30-coding-best-practice.md"
     },
@@ -1039,7 +999,7 @@
       "title": "Mastering Unit Testing with Testcontainers: A Comprehensive Guide for Python Developers",
       "date": "2023-12-16",
       "tags": [
-        "Testcontainers",
+        "Testing",
         "Python"
       ],
       "file_path": "_posts/2023-12-16-testcontainers-2.md"
@@ -1049,9 +1009,9 @@
       "title": "Enhancing Web Security: A Deep Dive into Cookies and Tokens for Authentication",
       "date": "2023-12-14",
       "tags": [
-        "Cookies",
-        "Tokens",
-        "Authentication"
+        "Web Development",
+        "LLM",
+        "Security"
       ],
       "file_path": "_posts/2023-12-14-token-vs-cookies.md"
     },
@@ -1060,7 +1020,7 @@
       "title": "Harnessing the Power of Testcontainers for Efficient and Reliable Testing",
       "date": "2023-12-12",
       "tags": [
-        "Testcontainers"
+        "Testing"
       ],
       "file_path": "_posts/2023-12-12-testcontainers.md"
     },
@@ -1159,7 +1119,7 @@
       "title": "Building Authentication and Authorization in Microservices using Python FastAPI and OAuth2",
       "date": "2023-10-23",
       "tags": [
-        "OAuth2"
+        "Security"
       ],
       "file_path": "_posts/2023-10-23-oauth2-python.md"
     },
@@ -1214,7 +1174,7 @@
       "date": "2023-09-13",
       "tags": [
         "Temporal",
-        "Airflow"
+        "Data Engineering"
       ],
       "file_path": "_posts/2023-09-13-temporal-airflow.md"
     },
@@ -1233,7 +1193,7 @@
       "date": "2023-09-03",
       "tags": [
         "Python",
-        "Alembic"
+        "Database Migration"
       ],
       "file_path": "_posts/2023-09-03-alembic-python.md"
     },
@@ -1242,7 +1202,7 @@
       "title": "Unveiling Mojo: The New Programming Language for AI",
       "date": "2023-08-30",
       "tags": [
-        "Mojo"
+        "Python"
       ],
       "file_path": "_posts/2023-08-30-mojo.md"
     },
@@ -1251,7 +1211,7 @@
       "title": "Securing Your Python Code with Cython: A Comprehensive Guide",
       "date": "2023-08-25",
       "tags": [
-        "Cython",
+        "Python",
         "Security"
       ],
       "file_path": "_posts/2023-08-25-secure-python-cython.md"
@@ -1261,8 +1221,7 @@
       "title": "Demystifying Function Calling in OpenAI: An In-Depth Guide",
       "date": "2023-08-15",
       "tags": [
-        "OpenAI",
-        "Function Calling"
+        "LLM"
       ],
       "file_path": "_posts/2023-08-15-function-calling-openai.md"
     },
@@ -1271,7 +1230,7 @@
       "title": "A Guideline to Building Your Blog Using GitHub Pages",
       "date": "2023-08-10",
       "tags": [
-        "Github"
+        "Developer Tools"
       ],
       "file_path": "_posts/2023-08-10-github-blog.md"
     },
@@ -1279,7 +1238,10 @@
       "filename": "2023-08-01-postgresql-vectordb",
       "title": "Harnessing PostgreSQL as a Vector Database with Python",
       "date": "2023-08-01",
-      "tags": [],
+      "tags": [
+        "PostgreSQL",
+        "AI"
+      ],
       "file_path": "_posts/2023-08-01-postgresql-vectordb.md"
     },
     {
@@ -1287,7 +1249,7 @@
       "title": "Mastering GPT Model Outputs: A Deep Dive into Temperature and Top-k",
       "date": "2023-07-25",
       "tags": [
-        "AGI"
+        "LLM"
       ],
       "file_path": "_posts/2023-07-25-gpt-temperature-top-k.md"
     },
@@ -1296,8 +1258,7 @@
       "title": "Prompt Engineering",
       "date": "2023-07-20",
       "tags": [
-        "AGI",
-        "prompt engineering"
+        "LLM"
       ],
       "file_path": "_posts/2023-07-20-prompt-engineering.md"
     },
@@ -1306,7 +1267,7 @@
       "title": "Building Large Language Models Applications in Production: A Comprehensive Guide",
       "date": "2023-07-15",
       "tags": [
-        "AGI"
+        "LLM"
       ],
       "file_path": "_posts/2023-07-15-llm-in-production.md"
     },
@@ -1315,7 +1276,7 @@
       "title": "Understanding the Event Loop in Python",
       "date": "2023-07-01",
       "tags": [
-        "python"
+        "Python"
       ],
       "file_path": "_posts/2023-07-01-event-loop-python.md"
     },
@@ -1324,8 +1285,8 @@
       "title": "LangChain Memory Types: A Comprehensive Guide for Engineers",
       "date": "2023-06-01",
       "tags": [
-        "llm",
-        "langchain"
+        "LLM",
+        "AI Agents"
       ],
       "file_path": "_posts/2023-06-01-langchain-memories.md"
     },
@@ -1334,26 +1295,26 @@
       "title": "Giới thiệu Starcoder: Một mô hình ngôn ngữ lớn cho lập trình",
       "date": "2023-05-14",
       "tags": [
-        "starcoder",
-        "code completion"
+        "LLM",
+        "Developer Tools"
       ],
       "file_path": "_posts/2023-05-14-starcoder-vn.md"
     },
     {
-      "filename": "2023-05-06-ai-pair-programing-vn copy",
+      "filename": "2023-05-06-ai-pair-programing-vn",
       "title": "GitHub Copilot: Đánh giá và Hướng dẫn cho Người mới bắt đầu",
       "date": "2023-05-06",
       "tags": [
-        "github copilot"
+        "Developer Tools"
       ],
-      "file_path": "_posts/2023-05-06-ai-pair-programing-vn copy.md"
+      "file_path": "_posts/2023-05-06-ai-pair-programing-vn.md"
     },
     {
       "filename": "2023-05-05-ai-pair-programing",
       "title": "GitHub Copilot: A Review and Guide for Beginners",
       "date": "2023-05-05",
       "tags": [
-        "github copilot"
+        "Developer Tools"
       ],
       "file_path": "_posts/2023-05-05-ai-pair-programing.md"
     },
@@ -1362,8 +1323,7 @@
       "title": "The Power of Vector Database: How It Transformed My Data Projects",
       "date": "2023-05-04",
       "tags": [
-        "vector database",
-        "PineCone"
+        "Databases"
       ],
       "file_path": "_posts/2023-05-04-vector-databases.md"
     },
@@ -1372,8 +1332,7 @@
       "title": "How I Built Reliable and Scalable Applications with Temporal",
       "date": "2023-02-03",
       "tags": [
-        "temporal",
-        "reliable workflow"
+        "Temporal"
       ],
       "file_path": "_posts/2023-02-03-temporal.md"
     },
@@ -1382,9 +1341,8 @@
       "title": "Spring Batch: Xử lý dữ liệu dạng batch đơn giản",
       "date": "2021-06-25",
       "tags": [
-        "batch processing",
-        "spring",
-        "spring batch"
+        "Data Engineering",
+        "Java"
       ],
       "file_path": "_posts/2021-06-25-spring-batch.md"
     },
@@ -1393,10 +1351,9 @@
       "title": "Nhật ký làm quen với Streaming Data",
       "date": "2021-06-22",
       "tags": [
-        "streaming",
-        "kafka",
-        "avro",
-        "spark"
+        "Event-Driven Architecture",
+        "Kafka",
+        "Data Engineering"
       ],
       "file_path": "_posts/2021-06-22-stream-introduction.md"
     },
@@ -1405,7 +1362,7 @@
       "title": "Hướng dẫn public service lên internet với ngrok và docker-compose",
       "date": "2021-06-13",
       "tags": [
-        "ngrok"
+        "Developer Tools"
       ],
       "file_path": "_posts/2021-06-13-ngrok-docker.md"
     },
@@ -1414,8 +1371,8 @@
       "title": "Executor: Worker Pool cho Golang",
       "date": "2020-04-02",
       "tags": [
-        "golang",
-        "reflection"
+        "Go",
+        "Software Engineering"
       ],
       "file_path": "_posts/2020-04-02-executor-library.md"
     },
@@ -1424,7 +1381,7 @@
       "title": "Load testing với Locust và Boomer",
       "date": "2019-09-07",
       "tags": [
-        "gRPC"
+        "API Design"
       ],
       "file_path": "_posts/2019-09-07-benchmark-locust-boomer-golang.md"
     },
@@ -1433,7 +1390,7 @@
       "title": "So sánh grpc gateway với gRPC web",
       "date": "2019-09-03",
       "tags": [
-        "gRPC"
+        "API Design"
       ],
       "file_path": "_posts/2019-09-03-comparison-grpc-gateway-proxy.md"
     },
@@ -1442,8 +1399,8 @@
       "title": "Xây dựng Service cung cấp HTTP và gRPC API bằng Spring",
       "date": "2019-08-25",
       "tags": [
-        "Spring",
-        "gRPC"
+        "Java",
+        "API Design"
       ],
       "file_path": "_posts/2019-08-25-spring-grpc-http.md"
     },
@@ -1452,8 +1409,7 @@
       "title": "Prepared Statement Deep Dive",
       "date": "2019-08-17",
       "tags": [
-        "statement",
-        "database"
+        "Databases"
       ],
       "file_path": "_posts/2019-08-17-prepared-statement.md"
     }

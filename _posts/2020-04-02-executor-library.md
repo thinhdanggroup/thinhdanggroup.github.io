@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-  overlay_image: /assets/images/executor/banner.jpeg
+  overlay_image: /assets/images/executor/banner.webp
+  og_image: /assets/images/executor/og.jpg
   overlay_filter: 0.5 
-  teaser: /assets/images/executor/banner.jpeg
+  teaser: /assets/images/executor/teaser.webp
 title:  "Executor: Worker Pool cho Golang"
-tags: 
-- golang
-- reflection
+tags:
+    - Go
+    - Software Engineering
+description: "Mục đích mình tạo ra thư viện này vì các thư viện hiện tại của golang chưa có ai đáp ứng đủ nhu cầu Worker Pool của mình như linh hoạt với cách định nghĩa…"
+last_modified_at: 2023-05-05
+categories:
+    - web-development
 ---
 
 Mục đích mình tạo ra thư viện này vì các thư viện hiện tại của golang chưa có ai đáp ứng đủ nhu cầu Worker Pool của mình như linh hoạt với cách định nghĩa job chạy, giới hạn số job thực thi trong một khoảng thời gian. Trong quá khứ mình tạo làm đi làm lại đoạn code dựa trên ý tưởng của Worker Pool và biết sự rắc rối mỗi khi hiện thực lại nhưng chưa bao giờ tổng quát hoá để tạo ra một thư viện hoàn chỉnh. Cuối cùng, mình đã ngừng lại và tạo ra Executor.

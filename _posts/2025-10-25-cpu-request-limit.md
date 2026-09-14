@@ -12,13 +12,17 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/cpu-request-limit/banner.png
+    overlay_image: /assets/images/cpu-request-limit/banner.webp
+    og_image: /assets/images/cpu-request-limit/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/cpu-request-limit/banner.png
+    teaser: /assets/images/cpu-request-limit/teaser.webp
 title: "Demystifying CPU Requests and Limits in Kubernetes: How the Scheduler Really Works"
 tags:
-    - kubernetes
-    - cfs quotas
+    - Kubernetes
+categories:
+    - infrastructure
+description: "Most of us learn “set CPU requests and limits” as a cargo-cult rule. Then, sooner or later, a service starts stuttering under load and someone declares…"
+last_modified_at: 2025-11-16
 ---
 
 Most of us learn “set CPU requests and limits” as a cargo-cult rule. Then, sooner or later, a service starts stuttering under load and someone declares: _“Never set CPU limits!”_ Another teammate counters: _“No, limits protect us from noisy neighbors!”_ And the Slack thread turns into a philosophical debate about fairness, spikes, and what the scheduler **actually** does.

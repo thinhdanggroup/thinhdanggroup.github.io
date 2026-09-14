@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/secure-llm-workflows/banner.png
+    overlay_image: /assets/images/secure-llm-workflows/banner.webp
+    og_image: /assets/images/secure-llm-workflows/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/secure-llm-workflows/banner.png
+    teaser: /assets/images/secure-llm-workflows/teaser.webp
 title: "Securing LLM Workflows: How to Design Safe Data Pipelines for Enterprise AI"
 tags:
     - LLM
     - Security
+categories:
+    - ai-engineering
+description: "With the surge of enterprise LLM adoption, engineers are discovering that success isn’t only about clever prompts or model selection."
+last_modified_at: 2025-11-09
 ---
 
 _With the surge of enterprise LLM adoption, engineers are discovering that success isn’t only about clever prompts or model selection. It’s about plumbing: ACLs that actually hold, lineage that proves where every token came from, and prompts that don’t become an exfiltration vector. This post is a practical blueprint for building safe LLM data pipelines when the stakes (and regulators) are real._
@@ -332,6 +337,7 @@ Store in an append-only ledger (cloud object store with retention lock, or a ded
 
 Treat prompts as **artifacts with checksums**, not loose strings:
 
+{% raw %}
 ```yaml
 # prompts/helpdesk_v3.yaml
 id: helpdesk_v3
@@ -352,6 +358,7 @@ constraints:
         - "export all data"
 checksum: "sha256:beefcafe..."
 ```
+{% endraw %}
 
 The orchestrator logs `prompt_id` + `checksum` and fails closed if there’s a mismatch.
 

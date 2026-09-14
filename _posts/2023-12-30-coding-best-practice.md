@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/coding-best-practice/banner.jpeg
+    overlay_image: /assets/images/coding-best-practice/banner.webp
+    og_image: /assets/images/coding-best-practice/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/coding-best-practice/banner.jpeg
+    teaser: /assets/images/coding-best-practice/teaser.webp
 title: "Good Coding Principles for Enhanced Code Quality in Practice"
 tags:
-    - Coding
+    - Software Engineering
 
+categories:
+    - software-engineering
+description: "In the realm of software development, code quality stands as a cornerstone of success. This blog post delves into the intricacies of good coding principles…"
+last_modified_at: 2024-02-14
 ---
 
 In the realm of software development, code quality stands as a cornerstone of success. This blog post delves into the intricacies of good coding principles and their profound impact on enhancing code quality in practice. We'll explore the significance of coding standards, delve into the nuances of coding conventions, and emphasize the importance of measuring function size. Furthermore, we'll shed light on the art of writing clear and concise comments, the benefits of utilizing smart code snippets, and the advantages of leveraging highly-supported libraries. Finally, we'll delve into the realm of static code testing practices, highlighting their role in ensuring code quality and reliability. Join us on this journey as we unlock the secrets to writing high-quality code that stands the test of time.

@@ -12,14 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/in-browser-docker/banner.png
+    overlay_image: /assets/images/in-browser-docker/banner.webp
+    og_image: /assets/images/in-browser-docker/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/in-browser-docker/banner.png
+    teaser: /assets/images/in-browser-docker/teaser.webp
 title: "Browser-Driven Infrastructure: How WebAssembly and In-Browser Docker Are Redefining Developer Environments"
 tags:
-    - in-browser docker
+    - Docker
+    - Infrastructure
+    - Developer Tools
+categories:
     - infrastructure
-    - devx
+description: "If you opened a GitHub repo today and a fully-configured dev environment appeared in your browser—no downloads, no “works on my machine”—you wouldn’t blink."
+last_modified_at: 2025-11-15
 ---
 
 If you opened a GitHub repo today and a fully-configured dev environment appeared in your browser—no downloads, no “works on my machine”—you wouldn’t blink. That’s remarkable. For years, “development environment” meant installing runtimes, databases, CLIs, and fighting with PATH hell. Now a tab does it.

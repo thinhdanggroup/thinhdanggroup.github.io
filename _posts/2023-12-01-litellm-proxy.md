@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/litellm-proxy/banner.jpeg
+    overlay_image: /assets/images/litellm-proxy/banner.webp
+    og_image: /assets/images/litellm-proxy/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/litellm-proxy/banner.jpeg
+    teaser: /assets/images/litellm-proxy/teaser.webp
 title: "Streamlining LLM Applications with LiteLLM Proxy: A Comprehensive Guide"
 tags:
     - System Design
 
+categories:
+    - distributed-systems
+description: "This comprehensive guide will delve into the world of LiteLLM Proxy, a crucial component in LLM applications."
+last_modified_at: 2023-12-07
 ---
 
 

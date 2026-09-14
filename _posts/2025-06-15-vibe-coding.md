@@ -12,15 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/vibe-coding/banner.png
+    overlay_image: /assets/images/vibe-coding/banner.webp
+    og_image: /assets/images/vibe-coding/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/vibe-coding/banner.png
+    teaser: /assets/images/vibe-coding/teaser.webp
 title: "Vibe Coding: An In-Depth Analysis of the AI-Driven Development Paradigm"
 tags:
     - AI
-    - Cursor
-    - Vibe Coding
-    - Development
+    - Developer Tools
+    - Software Engineering
+categories:
+    - ai-engineering
+description: "The software development landscape is in the midst of a seismic shift, driven by the exponential progress of generative artificial intelligence."
+last_modified_at: 2025-06-22
 ---
 
 The software development landscape is in the midst of a seismic shift, driven by the exponential progress of generative artificial intelligence. At the epicenter of this transformation is a new, provocative, and intensely debated concept: "Vibe Coding." Coined in early 2025, this term has become a flashpoint for discussions about the future of programming, the role of the developer, and the very nature of creating software. It represents a departure from traditional, line-by-line coding, advocating for a more fluid, conversational, and AI-collaborative workflow. However, its rapid ascent has been met with both fervent enthusiasm and profound skepticism, creating a schism in the development community. To understand the opportunities and perils of this new paradigm, one must first dissect its origins, deconstruct its contested definitions, and take the pulse of a community grappling with its implications.

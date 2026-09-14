@@ -12,16 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/google-workspace-mcp-for-codex/banner.png
+    overlay_image: /assets/images/google-workspace-mcp-for-codex/banner.webp
+    og_image: /assets/images/google-workspace-mcp-for-codex/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/google-workspace-mcp-for-codex/banner.png
+    teaser: /assets/images/google-workspace-mcp-for-codex/teaser.webp
 title: "Connecting Codex to Google Workspace via MCP"
 tags:
-    - Codex
+    - Developer Tools
     - MCP
-    - Google Workspace
-    - Gmail
 
+categories:
+    - infrastructure
+description: "When you work with an AI coding agent like Codex, the real productivity gains come from letting it interact with the systems around your code — not just the…"
 ---
 
 When you work with an AI coding agent like Codex, the real productivity gains come from letting it interact with the systems around your code — not just the code itself. Connecting Codex to Google Workspace via the **Model Context Protocol (MCP)** lets it search Gmail, read messages, download attachments, manage drafts, and access Calendar, Drive, Docs, Sheets, and more — all within a single conversation session.
