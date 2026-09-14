@@ -1,0 +1,42 @@
+{%- comment -%}
+  Local override of the theme's _includes/head.html (minimal-mistakes 4.28.1).
+
+  Only difference from upstream: Font Awesome is pinned to an exact version.
+  Upstream requests `@latest` from the CDN, which means the icon set can change
+  under the site with no commit here -- the same class of problem as an
+  unpinned theme. Bump FA_VERSION deliberately.
+
+  When bumping the pinned theme in _config.yml, re-diff this file against
+  https://raw.githubusercontent.com/mmistakes/minimal-mistakes/<tag>/_includes/head.html
+{%- endcomment -%}
+{% assign locale = include.locale | default: site.locale %}
+{% assign fa_version = "7.3.1" %}
+<meta charset="utf-8">
+
+{% include seo.html locale=locale %}
+
+{% unless site.atom_feed.hide %}
+  <link href="{% if site.atom_feed.path %}{{ site.atom_feed.path }}{% else %}{{ '/feed.xml' | relative_url }}{% endif %}" type="application/atom+xml" rel="alternate" title="{{ site.title }} Feed">
+{% endunless %}
+
+{%- comment %} https://docs.google.com/presentation/d/1rmxwWa9P6_xHqonmh5ONXRS-jPc5XKbnv99Rjkhe04s/present {% endcomment -%}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  {% if site.enable_copy_code_button -%}
+    window.enable_copy_code_button = true;
+  {%- endif %}
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@{{ fa_version }}/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@{{ fa_version }}/css/all.min.css"></noscript>
+
+{% if site.head_scripts %}
+  {% for script in site.head_scripts %}
+    <script src="{{ script | relative_url }}"></script>
+  {% endfor %}
+{% endif %}

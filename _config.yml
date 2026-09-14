@@ -11,7 +11,10 @@
 # https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/#installing-the-theme
 
 # theme                  : "minimal-mistakes-jekyll"
-remote_theme           : "mmistakes/minimal-mistakes"
+# Pinned deliberately: an unpinned remote_theme lets upstream change the
+# site's appearance with no commit here. Bump this tag on purpose, and
+# re-diff _includes/head.html against the same tag when you do.
+remote_theme           : "mmistakes/minimal-mistakes@4.28.1"
 minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
@@ -312,7 +315,7 @@ defaults:
       type: posts
     values:
       layout: single
-      author_profile: true
+      author_profile: false
       read_time: true
       comments: false
       share: false

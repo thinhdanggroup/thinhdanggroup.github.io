@@ -1,0 +1,456 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+search: false
+---
+
+@charset "utf-8";
+
+@import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
+@import "minimal-mistakes"; // main partials
+
+/* ==========================================================================
+   Local overrides
+   --------------------------------------------------------------------------
+   Everything below this line is ours, not the theme's. Written as flat CSS
+   (valid SCSS) so it stays readable and survives theme upgrades.
+   Theme is pinned in _config.yml -- see remote_theme.
+   ========================================================================== */
+
+/* Let the browser style form controls, scrollbars and the like per theme. */
+:root {
+  color-scheme: light dark;
+}
+
+/* --------------------------------------------------------------------------
+   1. Headings: the theme ships line-height 1.0, so any title that wraps has
+      its lines touching. Most of our titles are long enough to wrap.
+   -------------------------------------------------------------------------- */
+.page__title,
+.archive__item-title {
+  line-height: 1.18;
+}
+
+.page__title {
+  /* Avoid a single trailing word on its own line where the browser supports it. */
+  text-wrap: balance;
+}
+
+.page__content h1,
+.page__content h2,
+.page__content h3,
+.page__content h4 {
+  line-height: 1.25;
+}
+
+/* --------------------------------------------------------------------------
+   2. Code: the theme applies body leading (1.8) to code blocks, which makes
+      every listing ~25% taller than it needs to be.
+   -------------------------------------------------------------------------- */
+.highlight pre,
+pre.highlight,
+.highlight code,
+figure.highlight pre {
+  line-height: 1.45;
+}
+
+.page__content pre,
+.page__content code {
+  font-size: 0.8em;
+}
+
+/* Inline code had vertical padding only, so the background hugged the glyphs. */
+.page__content p > code,
+.page__content li > code,
+.page__content td > code,
+.page__content h1 > code,
+.page__content h2 > code,
+.page__content h3 > code,
+.page__content h4 > code {
+  padding: 0.15em 0.35em;
+  border-radius: 3px;
+  /* Must stay wrappable: a long inline snippet in a list item has no scroll
+     container of its own, so `nowrap` here widens the whole page on a phone. */
+  overflow-wrap: break-word;
+}
+
+/* Phone: the theme drops code to 12px, which is below comfortable reading. */
+@media (max-width: 37.5em) {
+  .page__content pre,
+  .page__content code,
+  .highlight pre,
+  .highlight code {
+    font-size: 14px;
+  }
+}
+
+/* Long lines scroll inside the block rather than stretching the page. */
+.highlighter-rouge,
+div.highlight,
+figure.highlight {
+  overflow-x: auto;
+}
+
+/* --------------------------------------------------------------------------
+   3. Reading column: with both sidebars the article got ~45% of a 1440px
+      screen. Posts drop the author rail (see _config.yml) and take the space.
+   -------------------------------------------------------------------------- */
+/* The theme sizes .page as `calc(100% - <rail>)` on the assumption that the
+   author rail still occupies the left column. With author_profile off that
+   left space is simply dead, so reclaim the full width and reserve room on
+   the right for the TOC rail only.
+
+   Note on units: the body font-size here is 22px at these widths, so `em`
+   based max-widths resolve much larger than they look. Measure line length
+   in px and verify with the character count, not by eye. */
+@media (min-width: 64em) {
+  .page--article {
+    width: 100%;
+    padding-right: 300px;
+  }
+
+  .page--article .page__inner-wrap {
+    max-width: 680px; /* ~64 characters; the rail needs its 300px here */
+  }
+}
+
+/* Only once there is genuinely room to spare do we widen the measure and open
+   a real gutter. The TOC rail floats immediately after the text column, so the
+   gap between them is the rail's own left padding -- narrowing the text does
+   not open a gutter, it just moves both left together. The reserved
+   padding-right must cover the rail's 300px width *plus* that padding, or the
+   rail gets squeezed (which is exactly what happens at 1024px). */
+@media (min-width: 80em) {
+  .page--article {
+    padding-right: 380px;
+  }
+
+  .page--article .page__inner-wrap {
+    max-width: 760px; /* ~71 characters at the 22px body size */
+  }
+
+  .page--article .sidebar__right {
+    padding-left: 3.5rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. Table of contents.
+      Desktop: unchanged sticky rail, just quieter so it stops competing with
+      the article. Phone: collapsed behind a summary -- see _layouts/single.html.
+   -------------------------------------------------------------------------- */
+.toc {
+  font-size: 0.75em;
+}
+
+.toc__menu a {
+  font-size: 1em;
+}
+
+.toc__details {
+  border-radius: 4px;
+}
+
+.toc__summary {
+  display: none; /* desktop: the rail is always visible, no toggle needed */
+}
+
+@media (max-width: 63.99em) {
+  .toc__summary {
+    display: block;
+    cursor: pointer;
+    padding: 0.6em 0.9em;
+    font-weight: 700;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    list-style: none;
+  }
+
+  .toc__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .toc__summary::after {
+    content: "＋";
+    float: right;
+    font-weight: 400;
+  }
+
+  .toc__details[open] .toc__summary::after {
+    content: "－";
+  }
+
+  /* A 29-link TOC is taller than a phone screen; cap it and scroll. */
+  .toc__details[open] .toc {
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+
+  .sidebar__right {
+    margin-bottom: 1.5em;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5. Dark mode. The theme's compiled CSS carries literal colours, so these
+      are literal overrides rather than variable swaps.
+   -------------------------------------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+  /* Surfaces */
+  html,
+  body {
+    background-color: #15191c;
+    color: #d7dce0;
+  }
+
+  .masthead,
+  .page__footer,
+  .greedy-nav,
+  .greedy-nav .visible-links,
+  .greedy-nav__toggle,
+  .initial-content,
+  .archive,
+  .page,
+  .page__inner-wrap {
+    background-color: transparent;
+  }
+
+  .masthead {
+    border-bottom-color: #2a3136;
+  }
+
+  .greedy-nav {
+    background-color: #15191c;
+  }
+
+  .greedy-nav a,
+  .greedy-nav .site-title,
+  .greedy-nav__toggle {
+    color: #d7dce0;
+  }
+
+  .greedy-nav .hidden-links {
+    background-color: #1e2429;
+    border-color: #2a3136;
+  }
+
+  .greedy-nav .hidden-links a {
+    color: #d7dce0;
+  }
+
+  .greedy-nav .hidden-links::before {
+    border-bottom-color: #2a3136;
+  }
+
+  /* Type */
+  h1, h2, h3, h4, h5, h6,
+  .page__title,
+  .page__content,
+  .archive__item-title,
+  .archive__item-excerpt,
+  .page__content p,
+  .page__content li,
+  .page__content dd,
+  .sidebar,
+  .author__name {
+    color: #d7dce0;
+  }
+
+  .page__meta,
+  .page__meta-sep,
+  .page__date,
+  .archive__item-excerpt,
+  .author__bio,
+  .author__urls a,
+  .breadcrumbs,
+  .breadcrumbs a,
+  .toc .nav__title {
+    color: #9aa3aa;
+  }
+
+  /* Links */
+  a,
+  .page__content a,
+  .archive__item-title a,
+  .toc__menu a {
+    color: #6fb9d2;
+  }
+
+  a:hover,
+  .page__content a:hover,
+  .archive__item-title a:hover {
+    color: #9ad2e4;
+  }
+
+  .page__footer a,
+  .page__footer-follow a {
+    color: #9aa3aa;
+  }
+
+  .page__footer a:hover {
+    color: #d7dce0;
+  }
+
+  /* Rules, cards and separators */
+  hr,
+  .page__content h2,
+  .page__footer,
+  .archive__item,
+  .taxonomy__section,
+  .page__related,
+  .pagination,
+  .pagination--pager,
+  .toc,
+  .toc__details,
+  .nav__list .nav__items,
+  .sidebar__right {
+    border-color: #2a3136;
+  }
+
+  .page__content h2 {
+    border-bottom-color: #2a3136;
+  }
+
+  .page__footer {
+    border-top-color: #2a3136;
+  }
+
+  /* Table of contents rail */
+  .toc,
+  .toc__details {
+    background-color: #1a2025;
+    border: 1px solid #2a3136;
+  }
+
+  .toc .nav__title {
+    background-color: #232b31;
+    color: #d7dce0;
+  }
+
+  .toc__menu a {
+    border-bottom-color: #2a3136;
+  }
+
+  .toc__menu a:hover {
+    background-color: #232b31;
+    color: #ffffff;
+  }
+
+  .toc__menu .active a {
+    background-color: #2f7d95;
+    color: #ffffff;
+  }
+
+  /* Code */
+  .page__content code,
+  .page__content p > code,
+  .page__content li > code,
+  code.highlighter-rouge {
+    background-color: #232b31;
+    color: #e4c9a1;
+  }
+
+  .highlight,
+  .highlighter-rouge,
+  div.highlight,
+  figure.highlight,
+  .highlight pre,
+  pre.highlight {
+    background-color: #1b2227;
+  }
+
+  .highlight .lineno {
+    color: #6b7580;
+  }
+
+  /* Blockquotes and notices */
+  blockquote,
+  .page__content blockquote {
+    border-left-color: #3d474e;
+    color: #b9c1c7;
+  }
+
+  .notice,
+  .notice--primary,
+  .notice--info,
+  .notice--warning,
+  .notice--success,
+  .notice--danger {
+    background-color: #1e2429;
+    color: #d7dce0;
+  }
+
+  /* Tables */
+  .page__content table {
+    border-color: #2a3136;
+  }
+
+  .page__content th {
+    background-color: #232b31;
+    border-color: #2a3136;
+    color: #d7dce0;
+  }
+
+  .page__content td {
+    border-color: #2a3136;
+  }
+
+  .page__content tbody tr:nth-child(even) {
+    background-color: #1a2025;
+  }
+
+  /* Buttons, search, forms */
+  .btn--inverse {
+    background-color: #232b31;
+    border-color: #2a3136;
+    color: #d7dce0;
+  }
+
+  .search__toggle,
+  .search-content .search-input {
+    color: #d7dce0;
+  }
+
+  .search-content {
+    background-color: #15191c;
+  }
+
+  .search-content .search-input {
+    background-color: transparent;
+    border-bottom-color: #2a3136;
+  }
+
+  .search-content .archive__item-title {
+    color: #d7dce0;
+  }
+
+  input,
+  textarea,
+  select {
+    background-color: #1e2429;
+    border-color: #2a3136;
+    color: #d7dce0;
+  }
+
+  /* Author rail (still shown on non-post pages) */
+  .author__avatar img {
+    border-color: #2a3136;
+  }
+
+  .author__urls {
+    background-color: #1a2025;
+    border-color: #2a3136;
+  }
+
+  .author__urls::before {
+    border-bottom-color: #2a3136;
+  }
+
+  /* Diagrams render as light SVG/PNG; keep them legible without inverting. */
+  .mermaid-diagram,
+  .page__content img[src*="plantuml"] {
+    background-color: #e9edf0;
+    border-radius: 4px;
+    padding: 0.5em;
+  }
+}

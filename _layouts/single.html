@@ -21,7 +21,7 @@ layout: default
 <div id="main" role="main">
   {% include sidebar.html %}
 
-  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+  <article class="page{% if page.toc %} page--article{% endif %} h-entry" itemscope itemtype="https://schema.org/CreativeWork">
     {% if page.title %}<meta itemprop="headline" content="{{ page.title | markdownify | strip_html | strip_newlines | escape_once }}">{% endif %}
     {% if page.excerpt %}<meta itemprop="description" content="{{ page.excerpt | markdownify | strip_html | strip_newlines | escape_once }}">{% endif %}
     {% if page.date %}<meta itemprop="datePublished" content="{{ page.date | date_to_xmlschema }}">{% endif %}
@@ -39,12 +39,29 @@ layout: default
 
       <section class="page__content e-content" itemprop="text">
         {% if page.toc %}
+          {% assign toc_label = page.toc_label | default: site.data.ui-text[site.locale].toc_label | default: "On this page" %}
           <aside class="sidebar__right {% if page.toc_sticky %}sticky{% endif %}">
-            <nav class="toc">
-              <header><h4 class="nav__title"><i class="fas fa-{{ page.toc_icon | default: 'file-alt' }}"></i> {{ page.toc_label | default: site.data.ui-text[site.locale].toc_label | default: "On this page" }}</h4></header>
-              {% include toc.html sanitize=true html=content h_min=1 h_max=6 class="toc__menu" skip_no_ids=true %}
-            </nav>
+            {% comment %}
+              <details> so the phone layout can collapse it. Stacked inline on
+              mobile the contents list is often taller than the screen, which
+              pushed the first paragraph roughly 1.5 screens down the page.
+              Ships open; the inline script below closes it on narrow viewports,
+              so with JS off the behaviour is simply the old always-open rail.
+            {% endcomment %}
+            <details class="toc__details" open>
+              <summary class="toc__summary"><i class="fas fa-{{ page.toc_icon | default: 'file-alt' }}"></i> {{ toc_label }}</summary>
+              <nav class="toc">
+                <header><h4 class="nav__title"><i class="fas fa-{{ page.toc_icon | default: 'file-alt' }}"></i> {{ toc_label }}</h4></header>
+                {% include toc.html sanitize=true html=content h_min=1 h_max=6 class="toc__menu" skip_no_ids=true %}
+              </nav>
+            </details>
           </aside>
+          <script>
+            (function () {
+              var d = document.currentScript.previousElementSibling.querySelector('.toc__details');
+              if (d && window.matchMedia('(max-width: 63.99em)').matches) { d.removeAttribute('open'); }
+            })();
+          </script>
         {% endif %}
         {{ content }}
         {% if page.link %}<div><a href="{{ page.link }}" class="btn btn--primary">{{ site.data.ui-text[site.locale].ext_link_label | default: "Direct Link" }}</a></div>{% endif %}
