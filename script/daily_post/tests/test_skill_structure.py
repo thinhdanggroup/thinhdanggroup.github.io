@@ -45,3 +45,54 @@ def test_reference_files_contain_no_placeholders(name: str):
     text = (REFS / name).read_text(encoding="utf-8")
     for marker in ("TODO", "TBD", "FIXME", "XXX"):
         assert marker not in text, f"{name} still contains {marker}"
+
+
+SKILL_MD = SKILL_DIR / "SKILL.md"
+
+STATUS_TOKENS = ("published", "blocked", "no-topic", "preflight-failed")
+
+
+def test_skill_md_exists():
+    assert SKILL_MD.is_file()
+
+
+def test_skill_md_has_name_and_description_front_matter():
+    import yaml
+
+    text = SKILL_MD.read_text(encoding="utf-8")
+    assert text.startswith("---\n")
+    fm = yaml.safe_load(text.split("---\n")[1])
+    assert fm["name"] == "daily-post"
+    assert len(fm["description"]) > 40
+
+
+def test_skill_md_links_every_reference_file():
+    text = SKILL_MD.read_text(encoding="utf-8")
+    for name in REFERENCE_FILES:
+        assert f"references/{name}" in text, f"SKILL.md never references {name}"
+
+
+def test_skill_md_names_every_script_it_drives():
+    text = SKILL_MD.read_text(encoding="utf-8")
+    for script in ("dupe_check.py", "make_banner.py", "preflight.sh", "queue.py"):
+        assert script in text, f"SKILL.md never invokes {script}"
+
+
+@pytest.mark.parametrize("token", STATUS_TOKENS)
+def test_skill_md_documents_every_status_token(token: str):
+    assert token in SKILL_MD.read_text(encoding="utf-8")
+
+
+def test_skill_md_writes_to_the_status_file_variable():
+    assert "DAILY_POST_STATUS" in SKILL_MD.read_text(encoding="utf-8")
+
+
+def test_skill_md_forbids_interactive_prompts():
+    """The pipeline runs unattended; a question is a hang, not a pause."""
+    text = SKILL_MD.read_text(encoding="utf-8").lower()
+    assert "never ask" in text or "no questions" in text
+
+
+def test_skill_md_states_the_revision_cap():
+    text = SKILL_MD.read_text(encoding="utf-8")
+    assert "two revision" in text.lower() or "2 revision" in text.lower()
