@@ -47,8 +47,8 @@ unless it appears in the ledger.** Write from the ledger, not from recall.
 
 ## Why this matters for Gate 2 as well
 
-The duplicate gate (`gates.md`, Gate 2) reads the ledger too, not just the draft: the
-same primary source often turns up when researching two different angles on the same
-underlying topic, which is itself a signal worth surfacing in that gate's verdict —
-a shared source is not proof of duplication, but it is a prompt to check the argument,
-not just the wording.
+Gate 2's own instructions (`gates.md`) have it read `research.md` alongside the draft
+and the three nearest posts, not just the draft: the same primary source often turns
+up when researching two different angles on the same underlying topic, which is
+itself a signal worth surfacing in that gate's verdict — a shared source is not proof
+of duplication, but it is a prompt to check the argument, not just the wording.

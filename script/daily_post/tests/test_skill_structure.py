@@ -36,8 +36,8 @@ def test_gates_reference_names_all_four_gates():
 
 
 def test_gates_reference_states_the_revision_cap():
-    text = (REFS / "gates.md").read_text(encoding="utf-8")
-    assert "two" in text.lower() or "2" in text
+    text = (REFS / "gates.md").read_text(encoding="utf-8").lower()
+    assert "at most two revision rounds" in text
 
 
 @pytest.mark.parametrize("name", REFERENCE_FILES)

@@ -33,13 +33,24 @@ supporting it.
 **Block on:** any such claim with no ledger line; any claim whose ledger quote does not
 actually support it; any citation link that does not resolve.
 
-Common knowledge in the field needs no ledger line. A specific number always does.
+Common knowledge in the field needs no ledger line. A specific number always does —
+and so does any behavioural claim about a named product, version, or API, even when
+it has no number in it. "TCP retransmits lost segments" is common knowledge and needs
+no ledger line. "JetStream acknowledges a publish before the replica set has fsynced"
+names a specific system and describes specific behaviour of it, so it always needs
+one, exactly like a number would. Do not stretch "common knowledge" to cover a claim
+just because it happens to lack a digit — the test is whether the claim is a general,
+textbook fact anyone in the field would state the same way, not whether it is
+numeric.
 
 ## Gate 2 — Duplicate
 
 Stage 1 already compared titles. This gate compares *arguments*. Read the three
-nearest posts `dupe_check.py` reported and answer: does this draft make a point one of
-them already made?
+nearest posts `dupe_check.py` reported, the draft, and `research.md` (the evidence
+ledger — see `sources.md`), and answer: does this draft make a point one of the three
+nearest posts already made? The ledger is a useful cross-check here: the same primary
+source turning up for two posts is not proof of duplication by itself, but it is a
+prompt to read both arguments closely rather than trust the mechanical score.
 
 **This gate is the semantic backstop for a mechanical check with weak recall, and it
 must judge on argument overlap regardless of what the mechanical score was.** When

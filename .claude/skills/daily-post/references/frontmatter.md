@@ -1,8 +1,10 @@
 # Front matter contract
 
-`script/check_frontmatter.py` enforces every rule below and runs in CI. A post that
-breaks any of them fails the build, so treat this as a hard specification rather
-than a style guide.
+`script/check_frontmatter.py` runs in CI and enforces most rules below; a couple are
+Jekyll/repo convention rather than something the script checks, and are marked as such
+where they appear. Treat this as a hard specification rather than a style guide either
+way — an unenforced convention here is still a rule the pipeline must follow, just one
+whose violation won't be caught by CI.
 
 ## Required shape
 
@@ -44,7 +46,12 @@ Do not repeat them. The author block appears in older posts but is not required.
   so a daily post never has more than one.
 - **`header.overlay_image` and `header.teaser`** — must end in `.webp` and must exist
   on disk. `script/daily_post/make_banner.py` generates both.
-- **Filename** — `_posts/YYYY-MM-DD-slug.md`, no spaces. The slug becomes the URL.
+- **Filename** — `_posts/YYYY-MM-DD-slug.md`. Two different rules live in that one
+  bullet: the **no-spaces** part is CI-enforced (`check_frontmatter.py` fails the
+  build on a space in the filename); the **`YYYY-MM-DD-` date prefix** is Jekyll
+  convention, not checked by that script — Jekyll uses it to derive the post's date,
+  so getting it wrong silently mis-dates or hides the post instead of failing CI. Get
+  both right regardless. The slug becomes the URL.
 
 ## Two traps that break the build
 

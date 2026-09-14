@@ -2,7 +2,9 @@
 
 Rules derived from the existing archive. The voice gate in `gates.md` checks a draft
 against this file, so it must describe what the blog actually sounds like — not a
-generic style guide.
+generic style guide. Daily posts are written in English; the archive's small set of
+legacy Vietnamese posts (e.g. `ai-pair-programing-vn`, `starcoder-vn`) are not a voice
+model for this pipeline.
 
 ## Shape of a daily post
 
