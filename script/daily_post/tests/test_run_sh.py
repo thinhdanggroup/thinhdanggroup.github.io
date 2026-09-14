@@ -186,7 +186,8 @@ def test_a_remote_check_failure_does_not_abort_the_run(fake_repo: Path, stub_bin
 def test_a_concurrent_run_is_blocked_by_the_lock(fake_repo: Path, stub_bin: Path):
     """Two overlapping invocations (cron overlap, or a manual run on top of a
     scheduled one) must not both drive the pipeline in the same working
-    directory."""
+    directory. This pins the genuinely-held-lock case (exit 30) apart from
+    the lock-acquisition-FAILURE case (exit 40, see the test below)."""
     write_stub(
         stub_bin, "claude",
         'touch "$DAILY_POST_REPO/claude-invoked.marker"; echo published > "$DAILY_POST_STATUS"',
@@ -202,3 +203,27 @@ def test_a_concurrent_run_is_blocked_by_the_lock(fake_repo: Path, stub_bin: Path
     finally:
         fcntl.flock(lock_file, fcntl.LOCK_UN)
         lock_file.close()
+
+
+def test_exit_40_when_the_lock_file_cannot_be_opened(fake_repo: Path, stub_bin: Path):
+    """A lock-acquisition FAILURE (permission denied, disk full, fd
+    exhaustion) is a real environment problem, not "another run is already in
+    progress" — it must surface as a precondition failure (40), not be
+    swallowed into the benign "nothing to do" code (30) that operators are
+    told to ignore. Simulated here by making `.git` unwritable so
+    `exec 9>.git/daily-post.lock` cannot create the lock file.
+    """
+    write_stub(
+        stub_bin, "claude",
+        'touch "$DAILY_POST_REPO/claude-invoked.marker"; echo published > "$DAILY_POST_STATUS"',
+    )
+    git_dir = fake_repo / ".git"
+    original_mode = git_dir.stat().st_mode
+    git_dir.chmod(0o555)
+    try:
+        result = run(fake_repo, stub_bin)
+        assert result.returncode == 40, result.stdout + result.stderr
+        assert not (fake_repo / "claude-invoked.marker").exists()
+    finally:
+        # Restore write permission so pytest can clean up tmp_path afterward.
+        git_dir.chmod(original_mode)

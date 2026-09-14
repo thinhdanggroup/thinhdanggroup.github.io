@@ -11,7 +11,8 @@
 #       locally or on origin, or another run currently holds the lock)
 #   40  precondition failed (git/claude/gh/python3/flock missing, not a git
 #       repository, gh unauthenticated, dirty tree, stale master, ruamel.yaml
-#       missing)
+#       missing, lock file could not be opened/locked for a reason other than
+#       another run holding it)
 #   50  pipeline failure (preflight red, or the skill reported nothing)
 #
 # Environment:
@@ -47,11 +48,17 @@ command -v flock >/dev/null 2>&1 || die "flock is not installed; required for th
 # exclusive, non-blocking lock; if another run already holds it, this is the
 # same operator-facing outcome as "already ran today": nothing to do.
 LOCK="$REPO/.git/daily-post.lock"
-exec 9>"$LOCK"
-if ! flock -n 9; then
-  log "another daily-post run is already in progress; nothing to do"
-  exit 30
+if ! exec 9>"$LOCK"; then
+  die "cannot open lock file $LOCK"
 fi
+flock -n 9
+FLOCK_RC=$?
+case "$FLOCK_RC" in
+  0) ;; # acquired, carry on
+  1) log "another daily-post run is already in progress; nothing to do"
+     exit 30 ;;
+  *) die "flock failed (rc=$FLOCK_RC)" ;;
+esac
 
 # --- working tree / remote state --------------------------------------------
 # Distinguish "git command failed" from "git succeeded and reports clean" —
