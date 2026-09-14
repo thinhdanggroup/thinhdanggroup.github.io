@@ -246,3 +246,97 @@ def test_write_is_atomic_no_temp_files_left(tmp_path: Path):
     # Check that no temporary files are left in the directory
     leftover_files = [f for f in os.listdir(tmp_path) if ".topic_queue_tmp_" in f]
     assert len(leftover_files) == 0, f"Leftover temp files found: {leftover_files}"
+
+
+def test_file_permissions_preserved_after_claim(tmp_path: Path):
+    """FINDING 4: File permissions must be preserved after claim()."""
+    p = tmp_path / "topic_queue.yml"
+    queue = """topics:
+  - id: test-topic
+    title: "Test topic"
+    angle: "Test angle"
+    category: databases
+    tags: [Test]
+    status: queued
+"""
+    p.write_text(queue, encoding="utf-8")
+
+    # Set a specific mode on the file
+    os.chmod(p, 0o644)
+    mode_before = oct(os.stat(p).st_mode)[-3:]
+
+    # Call claim()
+    claim(p, "test-topic", on="2026-09-14")
+
+    # Verify the mode is unchanged
+    mode_after = oct(os.stat(p).st_mode)[-3:]
+    assert mode_before == mode_after == "644", f"Mode changed from {mode_before} to {mode_after}"
+
+
+def test_minimal_diff_on_claim(tmp_path: Path):
+    """FINDING 5: claim() should produce a minimal diff touching only the claimed entry."""
+    import difflib
+
+    p = tmp_path / "topic_queue.yml"
+    # Use the actual structure from the real seed file
+    queue = """# Topics for the daily post pipeline.
+#
+# The pipeline steers what gets written.
+topics:
+  - id: first-topic
+    title: "First topic"
+    angle: "First angle"
+    category: databases
+    tags: [PostgreSQL, Performance]
+    status: queued
+
+  - id: second-topic
+    title: "Second topic"
+    angle: "Second angle"
+    category: python
+    tags: [Python, Performance]
+    status: queued
+
+  - id: third-topic
+    title: "Third topic"
+    angle: "Third angle"
+    category: infrastructure
+    tags: [Observability, Performance]
+    status: queued
+"""
+    p.write_text(queue, encoding="utf-8")
+    before = p.read_text(encoding="utf-8")
+
+    # Claim the first topic
+    claim(p, "first-topic", on="2026-09-14")
+    after = p.read_text(encoding="utf-8")
+
+    # Compute unified diff
+    diff_lines = list(difflib.unified_diff(
+        before.splitlines(), after.splitlines(), lineterm='',
+        fromfile='before', tofile='after'
+    ))
+
+    # Count actual content changes (lines starting with + or - but not +++ or ---)
+    content_changes = [
+        line for line in diff_lines
+        if line.startswith(('+', '-')) and not line.startswith(('+++', '---'))
+    ]
+
+    # We expect exactly 3 changes:
+    # - status: queued (removed)
+    # + status: claimed (added)
+    # + claimed_on: '2026-09-14' (added)
+    assert len(content_changes) == 3, (
+        f"Expected 3 content changes, got {len(content_changes)}\n"
+        f"Changes: {content_changes}\n\nFull diff:\n" + "\n".join(diff_lines)
+    )
+
+
+def test_load_topics_raises_queueerror_on_malformed_entry(tmp_path: Path):
+    """FINDING (bonus): Entry that is a bare string raises QueueError, not TypeError."""
+    p = tmp_path / "q.yml"
+    # YAML that parses to a list with a bare string entry
+    p.write_text("topics:\n  - valid entry\n", encoding="utf-8")
+    with pytest.raises(QueueError, match="must be a dict"):
+        load_topics(p)

@@ -56,6 +56,11 @@ def load_topics(path: Path) -> list[Topic]:
     topics: list[Topic] = []
     seen: set[str] = set()
     for idx, entry in enumerate(entries):
+        # Validate entry is a dict, not a bare string or None
+        if not isinstance(entry, dict):
+            raise QueueError(
+                f"entry {idx}: must be a dict, not {type(entry).__name__}"
+            )
         # Validate required fields exist
         if "id" not in entry or not entry["id"]:
             raise QueueError(
@@ -142,11 +147,22 @@ def _write(path: Path, topic_id: str, topic: Topic) -> None:
 
     Loads the existing document (preserving comments, order, and unmodeled keys),
     mutates only the specified entry, writes atomically to a temp file, then swaps.
+    Preserves file permissions and formatting to keep diffs minimal.
     """
-    # Load with round-trip preservation
+    # Capture original file permissions before reading
+    original_mode = None
+    if path.is_file():
+        try:
+            original_mode = os.stat(path).st_mode
+        except OSError:
+            pass
+
+    # Load with round-trip preservation and style matching
     yaml_handler = YAML()
     yaml_handler.preserve_quotes = True
     yaml_handler.default_flow_style = False
+    # Configure indentation to match the source file style
+    yaml_handler.indent(mapping=2, sequence=4, offset=2)
 
     if path.is_file():
         doc = yaml_handler.load(path.read_text(encoding="utf-8"))
@@ -157,11 +173,28 @@ def _write(path: Path, topic_id: str, topic: Topic) -> None:
     topics_list = doc.get("topics") or []
     for entry in topics_list:
         if entry.get("id") == topic_id:
+            # Preserve trailing blank lines: move comment from last key to the new last key
+            # This ensures blank-line separators appear after the entire entry, not within it
+            last_key = list(entry.keys())[-1] if entry else None
+            last_comment = None
+            if last_key and hasattr(entry, "ca") and entry.ca and hasattr(entry.ca, "items"):
+                last_comment = entry.ca.items.get(last_key)
+
+            # Update the fields
             entry["status"] = topic.status
             if topic.claimed_on:
                 entry["claimed_on"] = topic.claimed_on
             if topic.slug:
                 entry["slug"] = topic.slug
+
+            # Move the trailing comment to the new last key to maintain blank-line placement
+            new_last_key = list(entry.keys())[-1]
+            if last_comment and hasattr(entry, "ca") and entry.ca and hasattr(entry.ca, "items"):
+                if last_key != new_last_key:
+                    # Clear comment from old last key
+                    entry.ca.items[last_key] = [None, None, None, None]
+                    # Add it to new last key
+                    entry.ca.items[new_last_key] = last_comment
             break
 
     # Write atomically: write to temp file in same directory, then swap
@@ -171,6 +204,14 @@ def _write(path: Path, topic_id: str, topic: Topic) -> None:
     try:
         with os.fdopen(temp_fd, "w", encoding="utf-8") as f:
             yaml_handler.dump(doc, f)
+
+        # Preserve file permissions: apply original mode to temp file
+        if original_mode is not None:
+            os.chmod(temp_path, original_mode)
+        else:
+            # Default to readable by all, writable by owner (644 in octal)
+            os.chmod(temp_path, 0o644)
+
         os.replace(temp_path, path)
     except Exception:
         # Clean up temp file if something went wrong
