@@ -20,7 +20,7 @@ precondition and fails fast with exit `40` if it is missing.
 | `corpus.py` | Reads `_posts/*.md` into comparable records |
 | `dupe_check.py` | CLI: is this topic a duplicate? Exit 1 means yes |
 | `queue.py` | Read and update `_data/topic_queue.yml` |
-| `make_banner.py` | Pillow-rendered `banner.webp` and `teaser.webp` |
+| `make_banner.py` | SVG-authored `banner.webp`, `teaser.webp` and the `banner.svg` source; falls back to Pillow without `cairosvg` |
 
 `make daily-post-dupe TITLE="..."` exits `1` when the title IS a duplicate — that is
 the answer, not a failure — so `make` prints `Error 1` underneath the
@@ -85,15 +85,43 @@ confinement. Size the trust accordingly — and do not reach for
 rights is the configuration this design was built to avoid. See the root `README.md`
 for what it grants and denies.
 
-## Why standard library only
+## Why standard library only (text)
 
 `scikit-learn` and `numpy` are installed on the target machine but broken
 (`ImportError: numpy.core.multiarray failed to import`). The corpus is ~150 short
 documents, far too small for those dependencies to earn their place, so the TF-IDF
 implementation is hand-rolled in `similarity.py`.
 
-Likewise for images: no `cairosvg`, `rsvg-convert`, ImageMagick, or `cwebp` is present.
-Pillow writes WebP natively and is the only image dependency.
+## Banner rendering
+
+`make_banner.py` has two renderers and picks the first that works:
+
+| Renderer | When | Output |
+| --- | --- | --- |
+| **SVG + `cairosvg`** (preferred) | `import cairosvg` succeeds | `banner.webp`, `teaser.webp`, **and `banner.svg`** — the vector source the rasters were rendered from, shipped next to them in `assets/images/<slug>/` so the art stays editable |
+| **Pillow** (fallback) | `cairosvg` cannot be imported | `banner.webp` and `teaser.webp` only. A note goes to **stderr**, the run continues at exit `0`, and any stale `banner.svg` from an earlier run is removed so the directory never advertises a source that does not match its rasters |
+
+`cairosvg` is listed in `requirements.txt` but is deliberately **optional**: it needs
+`libcairo` at runtime, and a scheduler box may not have it. Losing the nicer artwork
+for a day is a small cost; failing a whole pipeline run over a decorative image is
+not. This is the same class of failure the bundler/`PATH` problem caused, so it is
+handled the same way — degrade and say so, never crash.
+
+SVG is the authoring format because it is far more expressive than Pillow's
+primitives: real radial gradients, multi-stop ramps, per-element opacity, clip paths
+and bezier strokes of varying width. What `cairosvg` 2.9.1 does **not** support, all
+of which fail silently rather than erroring — verified by probe, do not reach for
+them: `feGaussianBlur` (renders unblurred), `feTurbulence` (renders black), `<mask>`
+(ignored), and a gradient paint on a `stroke` (renders nothing).
+
+Both renderers are bound by the same tested contract: no text in the image (the
+theme paints the post's own `h1` on top), byte-identical output for the same
+title/category/slug across processes and `PYTHONHASHSEED` values, visible variation
+between slugs, and WCAG AA (≥ 4.5:1) for white title text under the theme's 50%
+black overlay, for every one of the seven categories.
+
+The remaining tools are still absent: no `rsvg-convert`, no ImageMagick, no `cwebp`.
+Pillow writes WebP natively.
 
 ## Known limitation: duplicate recall
 

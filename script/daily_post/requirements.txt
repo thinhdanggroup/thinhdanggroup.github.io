@@ -1,3 +1,7 @@
 PyYAML
 ruamel.yaml
 Pillow
+# Optional but preferred: make_banner.py authors the banner as SVG and
+# rasterises it with cairosvg. Needs libcairo at runtime; without it the
+# script prints a note to stderr and falls back to the Pillow renderer.
+cairosvg
