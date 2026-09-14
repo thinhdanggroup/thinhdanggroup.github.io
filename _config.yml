@@ -198,7 +198,6 @@ exclude:
   # local tooling and docs -- not site content
   - Makefile
   - script
-  - docs
   - operation.md
   - docker-compose.yml
   - minimal-mistakes-jekyll.gemspec

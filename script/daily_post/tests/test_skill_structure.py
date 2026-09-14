@@ -196,3 +196,118 @@ def test_skill_md_checks_open_prs_before_claiming():
     end = text.index("## Stage 2")
     stage_one = text[start:end]
     assert "gh pr list" in stage_one
+
+
+# --- final-review regression guards -----------------------------------------
+#
+# These are text guards. They prove the instructions SAY the right thing; they
+# cannot prove that an agent following them behaves correctly. That gap is real
+# and is why the mechanical backstops live in run.sh (the publish-boundary
+# check) and in the command form itself (`git clean`, which cannot delete a
+# tracked file no matter what the model substitutes).
+
+
+def test_skill_md_never_uses_rm_rf_on_a_substituted_path():
+    """C1: `rm -rf "assets/images/<slug>"` with a model-filled `<slug>`.
+
+    An empty or stale slug turns that into `rm -rf assets/images/`, destroying
+    the artwork for every published post — unattended, with no confirmation.
+    The replacement is `git clean`, which by construction can only remove
+    untracked files.
+    """
+    text = SKILL_MD.read_text(encoding="utf-8")
+    for block in re.findall(r"```bash\n(.*?)```", text, re.DOTALL):
+        for line in block.splitlines():
+            stripped = line.strip()
+            if stripped.startswith("#"):
+                continue  # a comment saying "never rm -rf" is the fix, not the hazard
+            assert not re.search(r"\brm\s+-[a-zA-Z]*[rR]", stripped), (
+                "a SKILL.md command block issues a recursive rm; use "
+                "`git clean -fdx -- <path>` instead:\n" + line
+            )
+
+
+def test_skill_md_guards_the_slug_before_cleaning_up():
+    """C1: the cleanup path must refuse to run at all on an empty slug."""
+    text = SKILL_MD.read_text(encoding="utf-8")
+    assert 'slug is empty; refusing to clean up' in text
+    assert text.count('[[ -n "$slug" ]]') >= 2, (
+        "both preflight-failed cleanup paths must guard the slug"
+    )
+
+
+def test_skill_md_cleans_generated_images_with_git_clean():
+    """C1: only untracked files may ever be removed by the cleanup."""
+    text = SKILL_MD.read_text(encoding="utf-8")
+    assert text.count('git clean -fdx -- "assets/images/$slug"') == 2
+
+
+def test_skill_md_preserves_the_draft_on_a_preflight_failure():
+    """I6: exit 50 says "investigate", so the draft must survive.
+
+    Deleting the failed draft destroys the only artifact that makes the
+    investigation possible.
+    """
+    text = SKILL_MD.read_text(encoding="utf-8")
+    assert text.count("failed-draft.md") >= 2, (
+        "both preflight-failed paths must keep the draft"
+    )
+    assert "draft kept at .git/daily-post-scratch" in text, (
+        "the log line must name where the draft was kept"
+    )
+
+
+def test_skill_md_creates_the_needs_work_label_before_using_it():
+    """I5: `gh pr edit --add-label needs-work` fails when the label does not
+    exist — and this is the failure-visibility path, the one most likely to
+    fire on day one."""
+    text = SKILL_MD.read_text(encoding="utf-8")
+    label_at = text.index("gh label create needs-work")
+    edit_at = text.index("gh pr edit --add-label needs-work")
+    assert label_at < edit_at, "the label must be created before it is used"
+    assert "--force" in text[label_at:label_at + 120], "label creation must be idempotent"
+    after_edit = text[edit_at:edit_at + 220]
+    assert "||" in after_edit, (
+        "a label failure must not sink an otherwise-good run"
+    )
+
+
+def test_skill_md_does_not_restate_the_word_count_bound():
+    """The bound belongs in voice.md alone; two copies drift."""
+    text = SKILL_MD.read_text(encoding="utf-8")
+    assert "1,000" not in text and "1,500" not in text
+    assert "references/voice.md" in text
+
+
+def test_gate_3_forbids_executing_generated_code():
+    """C2: Gate 3 used to run model-written snippets "in the scratch
+    directory" — i.e. unsandboxed, inside a repo holding push rights and
+    credentials, with the scratch dir under `.git/`. It is static-only now, and
+    the text must not leave that readable as optional.
+    """
+    text = (REFS / "gates.md").read_text(encoding="utf-8")
+    gate_3 = text[text.index("## Gate 3"):text.index("## Gate 4")]
+    lowered = gate_3.lower()
+    assert "never executes" in lowered
+    assert "static analysis only" in lowered
+    for permissive in (
+        "run the snippets",
+        "runnable snippet that errors",
+        "in the scratch directory.",
+        "sandbox where one is feasible",
+    ):
+        assert permissive not in lowered, (
+            f"Gate 3 still tells the agent to execute code: {permissive!r}"
+        )
+    # the parse-only checkers are what replaced execution
+    assert "bash -n" in gate_3 and "py_compile" in gate_3
+
+
+def test_design_spec_and_gate_3_agree_about_execution():
+    """C2: the spec's "sandbox where one is feasible" wording is what got lost
+    in implementation. Spec and gate must now say the same thing."""
+    spec = (
+        REPO / "docs" / "superpowers" / "specs"
+        / "2026-09-14-daily-post-pipeline-design.md"
+    ).read_text(encoding="utf-8")
+    assert "never executes the draft's code" in spec

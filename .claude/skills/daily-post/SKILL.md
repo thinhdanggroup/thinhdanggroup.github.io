@@ -199,7 +199,8 @@ ledger, not from recall. This is what makes Gate 1 possible.
 
 Write `_posts/$(date +%F)-<slug>.md`.
 
-- 1,000–1,500 words, following `references/voice.md`
+- Length, shape and tone per `references/voice.md` — that file is the single
+  source for the word-count bound; do not restate it here, it will drift
 - Front matter per `references/frontmatter.md`, with `header.overlay_image` and
   `header.teaser` pointing at `/assets/images/<slug>/banner.webp` and `teaser.webp`
 - One idea, one worked example, one takeaway
@@ -256,11 +257,25 @@ broken, not the topic:
   from script.daily_post.queue import mark
   mark(Path('_data/topic_queue.yml'), '<topic-id>', 'queued')
   "
+  slug="<slug>"
+  [[ -n "$slug" ]] || { echo "FATAL: slug is empty; refusing to clean up" >&2; exit 1; }
+
   git add _data/topic_queue.yml
   git commit -m "daily-post: return <topic-id> to queued after preflight failure"
   git push origin master || echo "WARNING: push to master failed; see above." >&2
-  rm -f "_posts/$(date +%F)-<slug>.md"
-  rm -rf "assets/images/<slug>"
+
+  # Keep the draft: exit 50 tells the operator to investigate, so the artifact
+  # that makes investigating possible must survive the cleanup.
+  mkdir -p ".git/daily-post-scratch/$(date +%F)"
+  mv "_posts/$(date +%F)-$slug.md" \
+     ".git/daily-post-scratch/$(date +%F)/failed-draft.md"
+  echo "preflight failed; draft kept at .git/daily-post-scratch/$(date +%F)/failed-draft.md" >&2
+
+  # `git clean` can only ever remove UNTRACKED files, so this cannot touch a
+  # committed image no matter what $slug holds. Never use `rm -rf` on a path
+  # built from a substituted value: an empty or stale slug would aim it at the
+  # whole live image archive.
+  git clean -fdx -- "assets/images/$slug"
   echo preflight-failed > "$DAILY_POST_STATUS"
   ```
 
@@ -268,14 +283,22 @@ broken, not the topic:
   this run's draft:
 
   ```bash
-  rm -f "_posts/$(date +%F)-<slug>.md"
-  rm -rf "assets/images/<slug>"
+  slug="<slug>"
+  [[ -n "$slug" ]] || { echo "FATAL: slug is empty; refusing to clean up" >&2; exit 1; }
+
+  # Same rules as above: keep the draft for the operator, and remove generated
+  # images with `git clean` (untracked-only by construction), never `rm -rf`.
+  mkdir -p ".git/daily-post-scratch/$(date +%F)"
+  mv "_posts/$(date +%F)-$slug.md" \
+     ".git/daily-post-scratch/$(date +%F)/failed-draft.md"
+  echo "preflight failed; draft kept at .git/daily-post-scratch/$(date +%F)/failed-draft.md" >&2
+  git clean -fdx -- "assets/images/$slug"
   echo preflight-failed > "$DAILY_POST_STATUS"
   ```
 
 No branch was ever created in this path — preflight runs before any checkout below —
 so `master` is untouched apart from a queue-sourced topic's revert commit above, and
-the tree is clean once the draft and banner are removed.
+the tree is clean once the draft is moved aside and the generated images are cleaned.
 
 **Once preflight is green**, the feature branch carries only the post and its
 images — **never** `_data/topic_queue.yml`; that file's state is committed straight to
@@ -348,7 +371,15 @@ git commit -m "<post title> [needs work]"
 git push -u origin "daily-post/$(date +%F)-<slug>"
 gh pr create --draft --title "<post title> [needs work]" \
   --body "<every gate's full verdict>"
-gh pr edit --add-label needs-work
+
+# The label may not exist yet in this repo; `--force` makes creation idempotent
+# (it creates or updates, and never fails because the label already exists).
+# Neither call may sink an otherwise-good run: the draft PR is already open and
+# already carries the full gate report, which is the part that matters.
+gh label create needs-work --color FBCA04 --force \
+  || echo "WARNING: could not create the needs-work label; continuing" >&2
+gh pr edit --add-label needs-work \
+  || echo "WARNING: could not label the draft PR needs-work; the PR is open and carries the gate report. Continuing." >&2
 ```
 
 Only once the draft PR exists, return to a clean `master` and write the status,
@@ -377,7 +408,8 @@ paths above, in this order:
    `master` using the non-fatal pattern above — never discard a dangling queue-file
    change, it is the durable record of what this run claimed or rejected.
 2. Discard anything else this run touched (an untracked draft post, generated banner
-   assets).
+   assets) with `git clean -fdx -- <explicit path>`, which by construction can only
+   remove untracked files. Never `rm -rf` a path built from a substituted value.
 3. `git checkout master`, then delete any local feature branch this run created
    (`git branch -D daily-post/$(date +%F)-<slug>`).
 4. Write the status token.

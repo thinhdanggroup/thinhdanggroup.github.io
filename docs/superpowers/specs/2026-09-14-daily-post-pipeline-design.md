@@ -137,7 +137,7 @@ Four gates run as **parallel subagents**, each returning a structured verdict
 | --- | --- |
 | **Fact trace** | Any non-obvious claim in the post with no corresponding line in `research.md` |
 | **Duplicate** | Substantial overlap in argument with an existing post, beyond the title-level check in Stage 1 |
-| **Code** | A code block that does not parse; a runnable snippet that fails in a sandbox where one is feasible |
+| **Code** | A code block that does not parse; an API that does not exist in the version the post names; a shell command that would destroy data if pasted. **Static analysis only — this gate never executes the draft's code** (see `references/gates.md`): the pipeline runs unattended in a working directory holding push rights, so running model-written code there is never worth what it would catch. The earlier "runnable snippet that fails in a sandbox where one is feasible" wording is superseded; no sandbox was feasible, and "where feasible" degraded to running it in the repo. |
 | **Voice** | Hedging, listicle padding, filler openings, and the other tells enumerated in `references/voice.md` |
 
 On any block, the findings go back to Stage 3 and the post is revised. **Maximum two revision

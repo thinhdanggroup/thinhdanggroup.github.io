@@ -26,6 +26,37 @@ precondition and fails fast with exit `40` if it is missing.
 the answer, not a failure — so `make` prints `Error 1` underneath the
 `DUPLICATE top score ...` line; read the score line, not the `Error 1`.
 
+## Exit codes
+
+`run.sh`'s header carries the authoritative list; this is the same table the root
+`README.md` shows operators.
+
+| Code | Meaning |
+| --- | --- |
+| `0` | Gates green, PR open |
+| `10` | Blocked after two revisions; draft PR open |
+| `20` | No viable topic after three attempts |
+| `30` | Already ran today — a post or branch for today already exists |
+| `31` | Another run currently holds the lock. Separate from `30` on purpose: `30` is benign, but a `31` that repeats means a previous run hung and is still holding the lock, which silently stops the pipeline |
+| `40` | Precondition failed (missing tool, not a git repo, `gh` unauthenticated, **`master` not checked out**, dirty tree, stale `master`, log dir not creatable, lock unopenable) |
+| `50` | Preflight red, or the skill reported no status |
+| `60` | The skill exceeded `DAILY_POST_TIMEOUT` (default 3600s) and was killed. Deliberately not `30` — a hung run must never report "nothing to do" |
+| `70` | Publish-boundary violation: files other than `_data/topic_queue.yml` landed on local `master`. `run.sh` pushes nothing in this state; inspect `master` by hand |
+
+`run.sh` exports `GIT_TERMINAL_PROMPT=0` and a `BatchMode=yes` `GIT_SSH_COMMAND` so no
+git operation can block on a passphrase or credential prompt, and it reaps
+`.git/daily-post-logs/` and `.git/daily-post-scratch/` entries older than 30 days.
+
+## Permissions
+
+`.claude/settings.json` (repo root) is the allowlist the headless `claude -p` run
+executes under. It is security-relevant — read it before the first run. It is scoped to
+the commands the five stages actually issue. Do not reach for
+`--dangerously-skip-permissions`: the allowlist exists so that nobody has to, and a
+blanket bypass on an unattended run with push rights is the configuration this design
+was built to avoid. See the root `README.md`
+for what it grants and denies.
+
 ## Why standard library only
 
 `scikit-learn` and `numpy` are installed on the target machine but broken

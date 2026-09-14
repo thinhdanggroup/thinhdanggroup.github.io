@@ -8,25 +8,49 @@
 #   10  gates still blocked after two revisions; draft PR open
 #   20  no viable topic after three attempts
 #   30  already ran today; nothing done (post/branch for today already exists,
-#       locally or on origin, or another run currently holds the lock)
-#   40  precondition failed (git/claude/gh/python3/flock missing, not a git
-#       repository, gh unauthenticated, dirty tree, stale master, ruamel.yaml
-#       missing, lock file could not be opened/locked for a reason other than
-#       another run holding it)
+#       locally or on origin)
+#   31  another run currently holds the lock. Distinct from 30 on purpose: 30 is
+#       benign and the operator is told to ignore it, but a lock held run after
+#       run means a previous run hung and is still holding it, which silently
+#       stops the pipeline. Investigate a 31 that repeats.
+#   40  precondition failed (git/claude/gh/python3/flock/timeout missing, not a
+#       git repository, gh unauthenticated, not on master, dirty tree, stale
+#       master, ruamel.yaml missing, log directory not creatable, lock file
+#       could not be opened/locked for a reason other than another run holding it)
 #   50  pipeline failure (preflight red, or the skill reported nothing)
+#   60  the skill exceeded DAILY_POST_TIMEOUT and was killed. Never reported as
+#       30: a hung run that reports "nothing to do" is the pipeline quietly
+#       dying while claiming to be healthy.
+#   70  publish-boundary violation: the run put something other than
+#       _data/topic_queue.yml onto local master. Post content must reach master
+#       only through a reviewed PR. Inspect master before pushing anything.
 #
 # Environment:
 #   DAILY_POST_REPO       repo path (default: two levels up from this script)
 #   DAILY_POST_SKIP_PULL  set to 1 to skip the git pull (tests, offline runs)
+#   DAILY_POST_TIMEOUT    seconds before the skill is killed (default: 3600)
 set -uo pipefail
+
+# The pipeline is unattended: nothing may ever block on an interactive prompt.
+# git over SSH will happily sit forever on a key passphrase or a host-key
+# confirmation, and git over HTTPS on a credential prompt — each one a hang that
+# holds the lock and stops every later run.
+export GIT_TERMINAL_PROMPT=0
+export GIT_SSH_COMMAND="${GIT_SSH_COMMAND:-ssh -o BatchMode=yes -o StrictHostKeyChecking=accept-new}"
 
 REPO="${DAILY_POST_REPO:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 cd "$REPO" || { echo "run.sh: cannot cd to $REPO" >&2; exit 40; }
 
 TODAY="$(date +%F)"
 LOG_DIR="$REPO/.git/daily-post-logs"
+SCRATCH_DIR="$REPO/.git/daily-post-scratch"
 LOG="$LOG_DIR/$TODAY.log"
-mkdir -p "$LOG_DIR"
+# Unchecked, a failure here loses every log line the run would have written —
+# the pipeline then fails silently and invisibly. `log` is not usable yet.
+mkdir -p "$LOG_DIR" || {
+  echo "run.sh: cannot create log directory $LOG_DIR" >&2
+  exit 40
+}
 
 log() { echo "[$(date +%T)] $*" | tee -a "$LOG"; }
 die() { log "PRECONDITION FAILED: $*"; exit 40; }
@@ -41,12 +65,27 @@ command -v python3 >/dev/null 2>&1 || die "python3 is not installed"
 python3 -c "import ruamel.yaml" >/dev/null 2>&1 \
   || die "ruamel.yaml is not installed; pip install -r script/daily_post/requirements.txt"
 command -v flock >/dev/null 2>&1 || die "flock is not installed; required for the concurrency guard"
+command -v timeout >/dev/null 2>&1 || die "timeout is not installed; required to bound the skill invocation"
+
+# The whole pipeline assumes master: it pulls master, pushes queue state to
+# master, and branches off master. On any other branch `git pull --ff-only
+# origin master` fast-forwards whatever is checked out, and every later
+# `git push origin master` pushes that ref instead — silently orphaning the
+# queue commits this run depends on.
+if ! CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD 2>&1)"; then
+  die "cannot determine the current branch: $CURRENT_BRANCH"
+fi
+[[ "$CURRENT_BRANCH" == "master" ]] \
+  || die "master is not checked out (HEAD is on '$CURRENT_BRANCH'); run 'git checkout master' first"
 
 # --- concurrency guard --------------------------------------------------
 # An overlapping cron fire, or a manual run on top of a scheduled one, must not
 # run two pipelines against the same working directory at once. Take an
-# exclusive, non-blocking lock; if another run already holds it, this is the
-# same operator-facing outcome as "already ran today": nothing to do.
+# exclusive, non-blocking lock. A held lock exits 31, NOT 30: "already ran
+# today" (30) is benign and operators are told to ignore it, but a lock that
+# stays held is how a hung run stops the pipeline while every later invocation
+# reports nothing-to-do. The two must be distinguishable from the exit code
+# alone, or a stuck pipeline looks exactly like a healthy idle one.
 LOCK="$REPO/.git/daily-post.lock"
 if ! exec 9>"$LOCK"; then
   die "cannot open lock file $LOCK"
@@ -55,10 +94,19 @@ flock -n 9
 FLOCK_RC=$?
 case "$FLOCK_RC" in
   0) ;; # acquired, carry on
-  1) log "another daily-post run is already in progress; nothing to do"
-     exit 30 ;;
+  1) log "LOCK HELD: another daily-post run still holds $LOCK; nothing done. If this repeats, a previous run is hung — check $LOG_DIR and kill it."
+     exit 31 ;;
   *) die "flock failed (rc=$FLOCK_RC)" ;;
 esac
+
+# --- rotation ---------------------------------------------------------------
+# Logs and scratch dirs live under .git and are never committed, so nothing
+# reaps them. Both paths are fixed literals under a verified git repo — not
+# built from any substituted value.
+find "$LOG_DIR" -maxdepth 1 -type f -mtime +30 -delete 2>/dev/null || true
+if [[ -d "$SCRATCH_DIR" ]]; then
+  find "$SCRATCH_DIR" -mindepth 1 -maxdepth 1 -mtime +30 -exec rm -rf -- {} + 2>/dev/null || true
+fi
 
 # --- working tree / remote state --------------------------------------------
 # Distinguish "git command failed" from "git succeeded and reports clean" —
@@ -108,10 +156,44 @@ STATUS_FILE="$(mktemp)"
 trap 'rm -f "$STATUS_FILE"' EXIT
 export DAILY_POST_STATUS="$STATUS_FILE"
 
-log "invoking the daily-post skill"
-claude -p "/daily-post" >>"$LOG" 2>&1
+# What master points at before the skill runs. Everything the skill adds to
+# local master during the run is the difference between this and master
+# afterwards — that difference is the publish boundary, asserted below.
+if ! MASTER_BEFORE="$(git rev-parse master 2>&1)"; then
+  die "cannot resolve master: $MASTER_BEFORE"
+fi
+
+TIMEOUT_SECS="${DAILY_POST_TIMEOUT:-3600}"
+
+log "invoking the daily-post skill (timeout ${TIMEOUT_SECS}s)"
+timeout "$TIMEOUT_SECS" claude -p "/daily-post" >>"$LOG" 2>&1
 CLAUDE_RC=$?
 log "claude exited $CLAUDE_RC"
+
+if [[ "$CLAUDE_RC" -eq 124 ]]; then
+  log "TIMED OUT: the skill exceeded ${TIMEOUT_SECS}s and was killed. A run that hangs holds the lock, so every later run would exit 31 until this is cleared; see $LOG."
+fi
+
+# --- publish boundary -------------------------------------------------------
+# No post content reaches master except through a reviewed PR. The skill is
+# told that, but "the model reproduced the instructions correctly" is not a
+# control. This is the mechanical backstop: the only path allowed to change on
+# local master during a run is the queue bookkeeping file.
+if ! LANDED="$(git diff --name-only "$MASTER_BEFORE" master 2>&1)"; then
+  log "WARNING: could not check the publish boundary (git diff failed): $LANDED"
+else
+  UNEXPECTED="$(printf '%s\n' "$LANDED" | grep -v '^_data/topic_queue\.yml$' | grep -v '^$')"
+  if [[ -n "$UNEXPECTED" ]]; then
+    log "PUBLISH BOUNDARY VIOLATED: this run put files other than _data/topic_queue.yml onto local master:"
+    log "$UNEXPECTED"
+    log "Post content must reach master only through a reviewed PR. Nothing has been pushed by run.sh; inspect master (git log $MASTER_BEFORE..master) and reset or push deliberately by hand."
+    exit 70
+  fi
+fi
+
+if [[ "$CLAUDE_RC" -eq 124 ]]; then
+  exit 60
+fi
 
 STATUS="$(tr -d '[:space:]' <"$STATUS_FILE" 2>/dev/null)"
 log "pipeline status: ${STATUS:-<none>}"

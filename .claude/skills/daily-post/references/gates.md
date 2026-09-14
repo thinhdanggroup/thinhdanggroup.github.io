@@ -79,15 +79,42 @@ specific way the argument differs.
 
 ## Gate 3 — Code
 
-Extract every code block. Syntax-check each one in its declared language. Run the
-snippets that are runnable without network or credentials, in the scratch directory.
+**This gate never executes the draft's code. Static analysis only.** No snippet from
+the post is run, sourced, imported, evaluated, piped into an interpreter, or executed
+in any other form — not in the scratch directory, not in `/tmp`, not anywhere, not
+even when it "looks harmless" or "obviously has no side effects". This is not a
+default to be relaxed under time pressure or by a future editor tidying the gate up:
+the pipeline runs unattended with a working directory that holds push rights and
+credentials, so running code the model just wrote is the one action this gate must
+never take. A gate that cannot check something without executing it reports that
+limitation in its findings and moves on.
 
-**Block on:** a block that does not parse; a runnable snippet that errors; code
-calling an API that does not exist in the version the post names; a shell command that
-would destroy data if pasted.
+Extract every code block and check each one **statically**:
+
+1. **Parse it in its declared language.** Parse-only checkers are the tool here,
+   because they read the source without running it — `bash -n <file>` for shell,
+   `python3 -m py_compile <file>` for Python, `node --check <file>` for JavaScript,
+   the equivalent parse/typecheck-only mode for anything else. These are permitted
+   precisely because they never execute the snippet; anything that *interprets* the
+   snippet (`bash <file>`, `python3 <file>`, `node <file>`, `eval`, a REPL, a test
+   runner) is forbidden regardless of what it would tell you.
+2. **Check every API against the version the post names**, by reading the
+   documentation for that version — not by calling the API.
+3. **Read every shell command as if it were about to be pasted into a terminal**, and
+   judge the damage it would do there.
+
+**Block on:** a block that does not parse; code calling an API that does not exist in
+the version the post names; a shell command that would destroy data if pasted (an
+unguarded `rm -rf` on a substituted or relative path, a force-push, a `DROP`/`DELETE`
+without a `WHERE`, a `dd` onto a device).
 
 Pseudocode is allowed when labelled as such. Unlabelled pseudocode presented as real
 code is a block.
+
+Because nothing is executed, this gate cannot catch a runtime error in an
+otherwise-parsing snippet. That is the deliberate trade: an uncaught runtime bug in a
+published example costs a correction, and executing model-written code inside a repo
+with push rights costs considerably more.
 
 ## Gate 4 — Voice
 

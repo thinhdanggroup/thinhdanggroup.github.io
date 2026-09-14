@@ -124,6 +124,16 @@ Four quality gates — fact trace, duplicate, code, voice — run after the draf
 all hard blockers. A draft that still fails after two revision rounds gets a **draft**
 PR labeled `needs-work` carrying the gate report rather than being discarded.
 
+**The pipeline pushes to `master` directly — but only bookkeeping.** Queue state
+(`_data/topic_queue.yml`: a topic moving to `claimed`, `rejected`, `published`, or back
+to `queued`) is committed and pushed straight to `master` at the moment it changes.
+That is what stops tomorrow's run picking the topic today's still-open PR already
+covers. **No post content ever reaches `master` this way** — the post and its images
+live only on the `daily-post/<date>-<slug>` branch and arrive on `master` when you
+merge the PR, never before. `run.sh` enforces that mechanically: after the run it
+diffs `master` against where `master` stood beforehand and exits `70` if anything
+other than `_data/topic_queue.yml` landed there.
+
 The skill lives in `.claude/skills/daily-post/`; its scripts live in
 `script/daily_post/`. Scheduling is deliberately not included — wire `run.sh` into
 cron, launchd, or a workflow yourself.
@@ -143,7 +153,24 @@ cron, launchd, or a workflow yourself.
 5. Verify the open-PR check actually works, by running that exact
    `gh pr list --state open --search "daily-post" --json title,headRefName` command in
    the repo and confirming it returns JSON (an empty array is the expected result today)
-6. `make daily-post-test` to confirm the suite is green on your machine
+6. **Read `.claude/settings.json`** — it is the permission allowlist the headless
+   run executes under, and it is the security-relevant file in this pipeline. In
+   headless mode (`claude -p`) nobody can answer a permission prompt, so anything not
+   on the allowlist is denied and the run fails; the file exists so the pipeline works
+   without anyone reaching for a blanket permission bypass. It grants, and only grants:
+   read/search of the repo, writes to `_posts/` and `assets/images/` (plus the scratch
+   dir under `.git/`), edits to `_data/topic_queue.yml`, the specific `git` and `gh`
+   subcommands the five stages run, the `script/daily_post/` scripts and
+   `preflight.sh`, parse-only code checkers (`bash -n`, `python3 -m py_compile`,
+   `node --check`), web search and fetch for research, and subagent dispatch for the
+   gates. It denies `rm -rf`, force-push, `git reset --hard`, `sudo`, `curl`/`wget`,
+   writes to `.claude/` and `script/`, and reads of `.env` and `~/.ssh`. Two things to
+   know before you trust it: `Bash(python3 -c:*)` is the broadest grant in the file —
+   `queue.py` has no CLI entry point, so the skill drives it through `python3 -c`, and
+   that rule cannot be narrowed by command text. And do not add
+   `--dangerously-skip-permissions` anywhere; the allowlist exists precisely so that
+   nobody needs to.
+7. `make daily-post-test` to confirm the suite is green on your machine
 
 ### Exit codes
 
@@ -152,9 +179,12 @@ cron, launchd, or a workflow yourself.
 | `0` | Gates green, PR open | Review and merge |
 | `10` | Blocked after two revisions; draft PR open | Read the gate report |
 | `20` | No viable topic after three attempts | Stock the queue |
-| `30` | Already ran today | Nothing — expected on a double-fire |
-| `40` | Precondition failed (`gh` missing, dirty tree, stale `master`) | Fix the environment |
+| `30` | Already ran today (post or branch for today exists) | Nothing — expected on a double-fire |
+| `31` | Another run holds the lock | Nothing once; **investigate if it repeats** — a hung run holding the lock stops the pipeline |
+| `40` | Precondition failed (`claude`/`gh` missing, not on `master`, dirty tree, stale `master`) | Fix the environment |
 | `50` | Preflight red or the pipeline reported nothing | Check `.git/daily-post-logs/` |
+| `60` | The skill exceeded its timeout (1h, `DAILY_POST_TIMEOUT`) and was killed | Read the log; the run left the lock free |
+| `70` | Publish-boundary violation: something other than `_data/topic_queue.yml` landed on local `master` | **Inspect `master` before pushing.** Nothing was pushed by `run.sh` |
 
 **Requires `gh`**, installed and authenticated — the PR step depends on it.
 

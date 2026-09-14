@@ -186,8 +186,14 @@ def test_a_remote_check_failure_does_not_abort_the_run(fake_repo: Path, stub_bin
 def test_a_concurrent_run_is_blocked_by_the_lock(fake_repo: Path, stub_bin: Path):
     """Two overlapping invocations (cron overlap, or a manual run on top of a
     scheduled one) must not both drive the pipeline in the same working
-    directory. This pins the genuinely-held-lock case (exit 30) apart from
-    the lock-acquisition-FAILURE case (exit 40, see the test below)."""
+    directory. This pins the genuinely-held-lock case (exit 31) apart from
+    the lock-acquisition-FAILURE case (exit 40, see the test below).
+
+    Final-review fix I1: this used to exit 30, the same code as "already ran
+    today" — which the README tells operators to ignore. A hung run holds the
+    lock forever, so every later run exited 30 and the pipeline stopped
+    producing posts while reporting the all-clear. 31 makes a stuck lock
+    visible from the exit code alone."""
     write_stub(
         stub_bin, "claude",
         'touch "$DAILY_POST_REPO/claude-invoked.marker"; echo published > "$DAILY_POST_STATUS"',
@@ -197,9 +203,9 @@ def test_a_concurrent_run_is_blocked_by_the_lock(fake_repo: Path, stub_bin: Path
     try:
         fcntl.flock(lock_file, fcntl.LOCK_EX | fcntl.LOCK_NB)
         result = run(fake_repo, stub_bin)
-        assert result.returncode == 30
+        assert result.returncode == 31, result.stdout + result.stderr
         assert not (fake_repo / "claude-invoked.marker").exists()
-        assert "already" in (result.stdout + result.stderr).lower()
+        assert "lock" in (result.stdout + result.stderr).lower()
     finally:
         fcntl.flock(lock_file, fcntl.LOCK_UN)
         lock_file.close()
@@ -233,3 +239,145 @@ def test_exit_40_when_the_lock_file_cannot_be_opened(fake_repo: Path, stub_bin: 
     finally:
         # Restore write permission so pytest can clean up tmp_path afterward.
         git_dir.chmod(original_mode)
+
+
+# --- final-review regression guards -----------------------------------------
+
+
+def test_exit_40_when_master_is_not_checked_out(fake_repo: Path, stub_bin: Path):
+    """I2: nothing verified which branch was checked out.
+
+    On a feature branch, `git pull --ff-only origin master` fast-forwards the
+    wrong ref and every later `git push origin master` pushes that ref instead,
+    silently orphaning the queue commits. The skill must never be invoked in
+    that state.
+    """
+    write_stub(
+        stub_bin, "claude",
+        'touch "$DAILY_POST_REPO/claude-invoked.marker"; echo published > "$DAILY_POST_STATUS"',
+    )
+    subprocess.run(["git", "checkout", "-q", "-b", "some-feature"], cwd=fake_repo, check=True)
+    result = run(fake_repo, stub_bin)
+    assert result.returncode == 40, result.stdout + result.stderr
+    output = result.stdout + result.stderr
+    assert "master" in output and "some-feature" in output
+    assert not (fake_repo / "claude-invoked.marker").exists()
+
+
+def test_exit_30_for_already_ran_today_is_distinct_from_the_lock_code(
+    fake_repo: Path, stub_bin: Path
+):
+    """I1: "already ran today" and "the lock is held" must not share a code.
+
+    30 is the code operators are told to ignore; a held lock is how a hung run
+    silently stops the pipeline, so the two have to be distinguishable without
+    reading the log.
+    """
+    (fake_repo / "_posts" / f"{TODAY}-already-written.md").write_text("x", encoding="utf-8")
+    subprocess.run(["git", "add", "-A"], cwd=fake_repo, check=True)
+    subprocess.run(["git", "commit", "-qm", "post"], cwd=fake_repo, check=True)
+    assert run(fake_repo, stub_bin).returncode == 30
+
+
+def test_exit_60_when_the_skill_exceeds_the_timeout(fake_repo: Path, stub_bin: Path):
+    """I1: an unbounded `claude` call can hang forever holding the lock.
+
+    The killed run must report a code of its own — never 30, and never 0 via a
+    status file some earlier run left behind.
+    """
+    write_stub(stub_bin, "claude", "sleep 30")
+    result = run(fake_repo, stub_bin, DAILY_POST_TIMEOUT="1")
+    assert result.returncode == 60, result.stdout + result.stderr
+    assert "timed out" in (result.stdout + result.stderr).lower()
+
+
+def test_git_cannot_block_on_an_interactive_prompt(fake_repo: Path, stub_bin: Path):
+    """I1: a passphrase or credential prompt is an unbounded hang.
+
+    `run.sh` must put git into batch mode for everything it and the skill run.
+    """
+    write_stub(
+        stub_bin, "claude",
+        'env > "$DAILY_POST_REPO/env.txt"; echo published > "$DAILY_POST_STATUS"',
+    )
+    run(fake_repo, stub_bin)
+    env = (fake_repo / "env.txt").read_text(encoding="utf-8")
+    assert "GIT_TERMINAL_PROMPT=0" in env
+    assert "BatchMode=yes" in env
+
+
+def test_exit_70_when_post_content_lands_on_master(fake_repo: Path, stub_bin: Path):
+    """I3: the publish boundary needs a mechanical backstop.
+
+    "No post content reaches master unreviewed" cannot rest on the model
+    reproducing its instructions correctly every run. If a post file is
+    committed to master during the run, that must fail loudly.
+    """
+    write_stub(
+        stub_bin, "claude",
+        'set -e\n'
+        'cd "$DAILY_POST_REPO"\n'
+        f'echo body > "_posts/{TODAY}-leaked.md"\n'
+        'git add -A\n'
+        'git commit -qm "leaked a post onto master"\n'
+        'echo published > "$DAILY_POST_STATUS"',
+    )
+    result = run(fake_repo, stub_bin)
+    assert result.returncode == 70, result.stdout + result.stderr
+    output = result.stdout + result.stderr
+    assert "boundary" in output.lower()
+    assert "leaked" in output
+
+
+def test_queue_bookkeeping_on_master_is_allowed(fake_repo: Path, stub_bin: Path):
+    """The counterpart to the test above: queue state is *supposed* to land on
+    master, so the boundary check must not fire on it."""
+    (fake_repo / "_data").mkdir()
+    write_stub(
+        stub_bin, "claude",
+        'set -e\n'
+        'cd "$DAILY_POST_REPO"\n'
+        'echo "topics: []" > _data/topic_queue.yml\n'
+        'git add -A\n'
+        'git commit -qm "daily-post: claim a topic"\n'
+        'echo published > "$DAILY_POST_STATUS"',
+    )
+    result = run(fake_repo, stub_bin)
+    assert result.returncode == 0, result.stdout + result.stderr
+
+
+def test_old_logs_and_scratch_directories_are_rotated(fake_repo: Path, stub_bin: Path):
+    """Logs and scratch dirs live under .git, so nothing else ever reaps them."""
+    import os
+    import time
+
+    old_time = time.time() - 40 * 86400
+    log_dir = fake_repo / ".git" / "daily-post-logs"
+    log_dir.mkdir(parents=True, exist_ok=True)
+    stale_log = log_dir / "2000-01-01.log"
+    stale_log.write_text("old", encoding="utf-8")
+    os.utime(stale_log, (old_time, old_time))
+
+    scratch = fake_repo / ".git" / "daily-post-scratch" / "2000-01-01"
+    scratch.mkdir(parents=True)
+    (scratch / "research.md").write_text("old", encoding="utf-8")
+    os.utime(scratch, (old_time, old_time))
+
+    run(fake_repo, stub_bin)
+    assert not stale_log.exists(), "a 40-day-old log was not rotated"
+    assert not scratch.exists(), "a 40-day-old scratch directory was not rotated"
+    assert (log_dir / f"{TODAY}.log").is_file(), "today's log must survive rotation"
+
+
+def test_exit_40_when_the_log_directory_cannot_be_created(fake_repo: Path, stub_bin: Path):
+    """An unchecked `mkdir -p` means logging silently vanishes — and the log is
+    the only record an unattended run leaves."""
+    (fake_repo / ".git" / "daily-post-logs").mkdir(parents=True, exist_ok=True)
+    # Replace the directory with a regular file so mkdir -p cannot succeed.
+    import shutil
+
+    shutil.rmtree(fake_repo / ".git" / "daily-post-logs")
+    (fake_repo / ".git" / "daily-post-logs").write_text("not a directory", encoding="utf-8")
+    result = run(fake_repo, stub_bin)
+    assert result.returncode == 40, result.stdout + result.stderr
+    assert "log" in (result.stdout + result.stderr).lower()
