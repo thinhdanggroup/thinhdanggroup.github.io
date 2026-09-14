@@ -101,3 +101,48 @@ def test_no_permission_bypass_anywhere_in_the_pipeline():
                 )
             continue
         assert occurrences == 0, f"{path} references --dangerously-skip-permissions"
+
+
+def test_the_ssh_deny_rule_is_not_anchored_to_the_working_directory():
+    """S2: `Read(./**/.ssh/**)` anchors to the working directory, so it never
+    matched `~/.ssh/id_rsa` — the rule read as protection while protecting
+    nothing."""
+    config = json.loads((REPO / ".claude" / "settings.json").read_text(encoding="utf-8"))
+    deny = config["permissions"]["deny"]
+    assert "Read(~/.ssh/**)" in deny
+    assert "Read(./**/.ssh/**)" not in deny
+
+
+def test_the_readmes_do_not_oversell_the_allowlist():
+    """S2: the allowlist guards against accidents. It is not a boundary against
+    a compromised agent — `Bash(python3 -c:*)` is arbitrary Python, `cat`/`grep`
+    read anything (Read() deny rules govern the Read tool, not the shell), and
+    `echo` with a redirect writes outside the Write() confinement. Documenting
+    it as protection an operator can lean on is worse than documenting nothing.
+    """
+    for readme in (REPO / "README.md", REPO / "script" / "daily_post" / "README.md"):
+        text = readme.read_text(encoding="utf-8")
+        assert "not** a security boundary" in text, (
+            f"{readme} does not say the allowlist is not a security boundary"
+        )
+        assert "grants, and only grants" not in text, (
+            f"{readme} still claims the allowlist grants only what it enumerates"
+        )
+
+
+def test_readme_exit_70_mentions_the_remote():
+    """S4: `run.sh` pushes nothing, but the skill pushes during Stages 1 and 5,
+    so "nothing was pushed" invites the wrong conclusion about origin/master."""
+    for readme in (REPO / "README.md", REPO / "script" / "daily_post" / "README.md"):
+        text = readme.read_text(encoding="utf-8")
+        row = [line for line in text.splitlines() if line.startswith("| `70`")]
+        assert row, f"{readme} has no exit-70 row"
+        assert "origin/master" in row[0], (
+            f"{readme}'s exit-70 row does not tell the operator to check the remote"
+        )
+        assert "Nothing was pushed by `run.sh`" not in row[0]
+
+
+def test_readmes_document_exit_71():
+    for readme in (REPO / "README.md", REPO / "script" / "daily_post" / "README.md"):
+        assert "`71`" in readme.read_text(encoding="utf-8"), f"{readme} omits exit 71"

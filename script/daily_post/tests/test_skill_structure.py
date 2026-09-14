@@ -237,9 +237,51 @@ def test_skill_md_guards_the_slug_before_cleaning_up():
 
 
 def test_skill_md_cleans_generated_images_with_git_clean():
-    """C1: only untracked files may ever be removed by the cleanup."""
+    """C1: only untracked files may ever be removed by the cleanup.
+
+    S1: and never `-x`. The generated banner.webp/teaser.webp are untracked but
+    not gitignored, so `-fd` removes them just as well, while `-x` would put
+    every ignored file in range — .env, script/**/credentials.json,
+    script/**/token.json — for any slug that escaped the directory.
+    """
     text = SKILL_MD.read_text(encoding="utf-8")
-    assert text.count('git clean -fdx -- "assets/images/$slug"') == 2
+    assert text.count('git clean -fd -- "assets/images/$slug"') == 2
+    for block in re.findall(r"```bash\n(.*?)```", text, re.DOTALL):
+        for line in block.splitlines():
+            if line.strip().startswith("#"):
+                continue
+            assert "git clean" not in line or "-x" not in line, (
+                "a SKILL.md command block runs `git clean` with -x, putting "
+                "ignored files (.env, credentials) in range:\n" + line
+            )
+    assert "git clean -fdx" not in text, (
+        "SKILL.md still recommends `git clean -fdx` somewhere, including in prose"
+    )
+
+
+def test_skill_md_validates_the_slug_shape_before_cleaning_up():
+    """S1: an empty-check alone is not enough.
+
+    A slug of `../..` escapes assets/images/ and lands on the repo root, where
+    `git clean` reaches this repo's ignored files — .env, credentials.json,
+    token.json, the dev.to and Medium configs. Shape validation makes that
+    impossible by construction rather than by luck; globs, whitespace and path
+    separators go with it.
+    """
+    text = SKILL_MD.read_text(encoding="utf-8")
+    assert text.count('[[ "$slug" =~ ^[a-z0-9-]+$ ]]') == 2, (
+        "both cleanup paths must validate the slug's shape, not just its emptiness"
+    )
+    assert text.count("is not a plain [a-z0-9-] slug") == 2
+
+
+def test_skill_md_failure_handling_forbids_x_and_free_paths():
+    """S1: the prose discard step must carry the same rules as the code."""
+    text = SKILL_MD.read_text(encoding="utf-8")
+    section = text[text.index("## Failure handling"):]
+    assert "git clean -fd -- <literal path>" in section
+    assert "no `-x`" in section
+    assert "assets/images/" in section
 
 
 def test_skill_md_preserves_the_draft_on_a_preflight_failure():
@@ -311,3 +353,70 @@ def test_design_spec_and_gate_3_agree_about_execution():
         / "2026-09-14-daily-post-pipeline-design.md"
     ).read_text(encoding="utf-8")
     assert "never executes the draft's code" in spec
+
+
+def _slug_guard_script() -> str:
+    """The literal guard lines SKILL.md tells the agent to run, lifted out of
+    the document so the test exercises the real text rather than a copy."""
+    text = SKILL_MD.read_text(encoding="utf-8")
+    tail = 'is not a plain [a-z0-9-] slug; refusing to clean up" >&2; exit 1; }'
+    start = text.index('[[ -n "$slug" ]]')
+    end = text.index(tail, start) + len(tail)
+    # The guard sits inside a markdown list item, so every line but the first
+    # carries list indentation; strip it. The `\` continuations survive.
+    guard = "\n".join(line.lstrip() for line in text[start:end].splitlines())
+    return 'set -u\nslug="$1"\n' + guard + '\necho WOULD-CLEAN "assets/images/$slug"\n'
+
+
+@pytest.mark.parametrize(
+    "hostile",
+    [
+        "",           # the original C1 hazard: expands to the whole archive
+        "../..",      # escapes assets/images/ and reaches the repo root
+        "..",
+        "../secrets",
+        ".",
+        "/",
+        "a/b",        # any path separator at all
+        "*",          # a glob
+        "foo bar",    # whitespace
+        "Foo",        # uppercase is not a slug
+        "foo;rm -rf /",
+        "$(whoami)",
+        "foo\ttab",
+    ],
+)
+def test_the_slug_guard_refuses_hostile_values(hostile: str):
+    """S1: the reviewer proved `slug="../.."` escaped assets/images/ and put
+    this repo's ignored files — .env, credentials.json, token.json — inside
+    `git clean`'s range. The guard must refuse anything that is not a plain
+    lowercase slug, before either destructive command runs.
+    """
+    import subprocess
+
+    result = subprocess.run(
+        ["bash", "-c", _slug_guard_script(), "guard", hostile],
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode != 0, (
+        f"the guard accepted a hostile slug {hostile!r}:\n{result.stdout}"
+    )
+    assert "WOULD-CLEAN" not in result.stdout, (
+        f"cleanup would have run for slug {hostile!r}"
+    )
+    assert "refusing to clean up" in result.stderr
+
+
+@pytest.mark.parametrize("good", ["a", "my-post", "post-2026-09-14", "abc123"])
+def test_the_slug_guard_accepts_real_slugs(good: str):
+    """The counterpart: a guard that refused everything would be useless."""
+    import subprocess
+
+    result = subprocess.run(
+        ["bash", "-c", _slug_guard_script(), "guard", good],
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert f"WOULD-CLEAN assets/images/{good}" in result.stdout

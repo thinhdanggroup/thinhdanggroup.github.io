@@ -69,7 +69,7 @@
       "Edit(script/**)",
       "Read(./.env)",
       "Read(./.env.*)",
-      "Read(./**/.ssh/**)"
+      "Read(~/.ssh/**)"
     ]
   }
 }

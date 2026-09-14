@@ -23,7 +23,11 @@
 #       dying while claiming to be healthy.
 #   70  publish-boundary violation: the run put something other than
 #       _data/topic_queue.yml onto local master. Post content must reach master
-#       only through a reviewed PR. Inspect master before pushing anything.
+#       only through a reviewed PR. run.sh pushes nothing itself, but the skill
+#       pushes on its own during Stages 1 and 5 — check origin/master too.
+#   71  the run finished with an unclean working tree. Left in place for
+#       inspection; tomorrow's run would otherwise fail its precondition (40)
+#       a day away from the run that caused it.
 #
 # Environment:
 #   DAILY_POST_REPO       repo path (default: two levels up from this script)
@@ -165,8 +169,12 @@ fi
 
 TIMEOUT_SECS="${DAILY_POST_TIMEOUT:-3600}"
 
-log "invoking the daily-post skill (timeout ${TIMEOUT_SECS}s)"
-timeout "$TIMEOUT_SECS" claude -p "/daily-post" >>"$LOG" 2>&1
+# `-k 60`: SIGTERM, then SIGKILL 60s later, so a child that ignores or traps
+# SIGTERM still dies. `9>&-` closes the lock fd for the child: fd 9 is inherited
+# by default, so an orphaned descendant that outlives the timeout would keep the
+# flock held forever and wedge every later run at exit 31.
+log "invoking the daily-post skill (timeout ${TIMEOUT_SECS}s, SIGKILL 60s after)"
+timeout -k 60 "$TIMEOUT_SECS" claude -p "/daily-post" >>"$LOG" 2>&1 9>&-
 CLAUDE_RC=$?
 log "claude exited $CLAUDE_RC"
 
@@ -186,9 +194,24 @@ else
   if [[ -n "$UNEXPECTED" ]]; then
     log "PUBLISH BOUNDARY VIOLATED: this run put files other than _data/topic_queue.yml onto local master:"
     log "$UNEXPECTED"
-    log "Post content must reach master only through a reviewed PR. Nothing has been pushed by run.sh; inspect master (git log $MASTER_BEFORE..master) and reset or push deliberately by hand."
+    log "Post content must reach master only through a reviewed PR. run.sh itself pushes nothing, but the skill pushes queue state during Stages 1 and 5 — check origin/master as well as local master (git log $MASTER_BEFORE..master), then reset or push deliberately by hand."
     exit 70
   fi
+fi
+
+# --- working tree, after the run --------------------------------------------
+# Every stopping point in the skill is supposed to end on a clean master. When
+# one does not, the damage lands on TOMORROW's run as exit 40 ("working tree is
+# not clean") — a failure with no connection to the run that caused it, a day
+# later. Assert it here instead, while the log that explains it is the one
+# being written.
+if ! POST_STATUS_OUT="$(git status --porcelain 2>&1)"; then
+  log "WARNING: could not check the working tree after the run: $POST_STATUS_OUT"
+elif [[ -n "$POST_STATUS_OUT" ]]; then
+  log "DIRTY TREE AFTER RUN: the skill left uncommitted changes behind:"
+  log "$POST_STATUS_OUT"
+  log "Left in place for inspection. Tomorrow's run will fail its precondition (exit 40) until this is resolved; see $LOG."
+  exit 71
 fi
 
 if [[ "$CLAUDE_RC" -eq 124 ]]; then

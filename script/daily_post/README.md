@@ -41,7 +41,8 @@ the answer, not a failure — so `make` prints `Error 1` underneath the
 | `40` | Precondition failed (missing tool, not a git repo, `gh` unauthenticated, **`master` not checked out**, dirty tree, stale `master`, log dir not creatable, lock unopenable) |
 | `50` | Preflight red, or the skill reported no status |
 | `60` | The skill exceeded `DAILY_POST_TIMEOUT` (default 3600s) and was killed. Deliberately not `30` — a hung run must never report "nothing to do" |
-| `70` | Publish-boundary violation: files other than `_data/topic_queue.yml` landed on local `master`. `run.sh` pushes nothing in this state; inspect `master` by hand |
+| `70` | Publish-boundary violation: files other than `_data/topic_queue.yml` landed on local `master`. `run.sh` pushes nothing itself, but the skill pushes queue state during Stages 1 and 5 — inspect `origin/master` as well as local `master` |
+| `71` | The run finished with an unclean working tree. Left in place for inspection; otherwise it surfaces as tomorrow's exit `40`, a day away from the run that caused it |
 
 `run.sh` exports `GIT_TERMINAL_PROMPT=0` and a `BatchMode=yes` `GIT_SSH_COMMAND` so no
 git operation can block on a passphrase or credential prompt, and it reaps
@@ -50,11 +51,17 @@ git operation can block on a passphrase or credential prompt, and it reaps
 ## Permissions
 
 `.claude/settings.json` (repo root) is the allowlist the headless `claude -p` run
-executes under. It is security-relevant — read it before the first run. It is scoped to
-the commands the five stages actually issue. Do not reach for
-`--dangerously-skip-permissions`: the allowlist exists so that nobody has to, and a
-blanket bypass on an unattended run with push rights is the configuration this design
-was built to avoid. See the root `README.md`
+executes under. Read it before the first run. It is scoped to the commands the five
+stages actually issue.
+
+It is a guard against **accidents**, and the reason nobody has to reach for a blanket
+bypass. It is **not** a security boundary against a compromised or prompt-injected
+agent: `Bash(python3 -c:*)` is arbitrary Python no deny rule inspects, `cat`/`grep`
+read anything the user can read (`Read()` deny rules govern the `Read` tool, not shell
+commands), and `echo` with a redirection writes outside the `Write(_posts/**)`
+confinement. Size the trust accordingly — and do not reach for
+`--dangerously-skip-permissions`: a blanket bypass on an unattended run with push
+rights is the configuration this design was built to avoid. See the root `README.md`
 for what it grants and denies.
 
 ## Why standard library only

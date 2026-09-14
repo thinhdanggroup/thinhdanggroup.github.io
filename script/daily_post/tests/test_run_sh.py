@@ -381,3 +381,47 @@ def test_exit_40_when_the_log_directory_cannot_be_created(fake_repo: Path, stub_
     result = run(fake_repo, stub_bin)
     assert result.returncode == 40, result.stdout + result.stderr
     assert "log" in (result.stdout + result.stderr).lower()
+
+
+def test_exit_71_when_the_run_leaves_the_tree_dirty(fake_repo: Path, stub_bin: Path):
+    """S5: every stopping point in the skill is supposed to end on a clean
+    master. When one does not, the damage otherwise lands on TOMORROW's run as
+    exit 40, a day away from the run that caused it and with a log that says
+    nothing about it. Assert it here, while the explaining log is open.
+    """
+    write_stub(
+        stub_bin, "claude",
+        'set -e\n'
+        'cd "$DAILY_POST_REPO"\n'
+        'echo leftover > stray-uncommitted-file.txt\n'
+        'echo published > "$DAILY_POST_STATUS"',
+    )
+    result = run(fake_repo, stub_bin)
+    assert result.returncode == 71, result.stdout + result.stderr
+    output = result.stdout + result.stderr
+    assert "dirty tree" in output.lower()
+    assert "stray-uncommitted-file.txt" in output
+    # left in place on purpose, so the operator can see what happened
+    assert (fake_repo / "stray-uncommitted-file.txt").exists()
+
+
+def test_the_skill_does_not_inherit_the_lock_file_descriptor(fake_repo: Path, stub_bin: Path):
+    """S3: fd 9 holds the flock and is inherited by children by default. An
+    orphaned descendant that outlives the timeout would keep the lock held
+    forever, wedging every later run at exit 31.
+    """
+    write_stub(
+        stub_bin, "claude",
+        'if [[ -e /proc/self/fd/9 ]]; then echo INHERITED > "$DAILY_POST_REPO/fd9.txt"; '
+        'else echo CLOSED > "$DAILY_POST_REPO/fd9.txt"; fi\n'
+        'echo published > "$DAILY_POST_STATUS"',
+    )
+    run(fake_repo, stub_bin)
+    assert (fake_repo / "fd9.txt").read_text(encoding="utf-8").strip() == "CLOSED"
+
+
+def test_the_timeout_escalates_to_sigkill(fake_repo: Path, stub_bin: Path):
+    """S3: a child that traps or ignores SIGTERM must still die, or the run
+    hangs on past its timeout still holding the lock."""
+    text = RUN_SH.read_text(encoding="utf-8")
+    assert "timeout -k 60" in text, "timeout has no kill-after; SIGTERM can be ignored"

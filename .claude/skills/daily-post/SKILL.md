@@ -259,6 +259,8 @@ broken, not the topic:
   "
   slug="<slug>"
   [[ -n "$slug" ]] || { echo "FATAL: slug is empty; refusing to clean up" >&2; exit 1; }
+  [[ "$slug" =~ ^[a-z0-9-]+$ ]] \
+    || { echo "FATAL: slug '$slug' is not a plain [a-z0-9-] slug; refusing to clean up" >&2; exit 1; }
 
   git add _data/topic_queue.yml
   git commit -m "daily-post: return <topic-id> to queued after preflight failure"
@@ -275,7 +277,14 @@ broken, not the topic:
   # committed image no matter what $slug holds. Never use `rm -rf` on a path
   # built from a substituted value: an empty or stale slug would aim it at the
   # whole live image archive.
-  git clean -fdx -- "assets/images/$slug"
+  #
+  # No `-x`. The generated banner.webp/teaser.webp are untracked but NOT
+  # gitignored, so plain `-fd` removes them. Adding `-x` would also delete
+  # ignored files, and a slug that escaped the directory (`../..`) would then
+  # reach .env, script/**/credentials.json and the rest of this repo's ignored
+  # state. The shape check above is what makes that escape impossible; dropping
+  # `-x` is what keeps the worst case survivable if it ever fails.
+  git clean -fd -- "assets/images/$slug"
   echo preflight-failed > "$DAILY_POST_STATUS"
   ```
 
@@ -285,14 +294,17 @@ broken, not the topic:
   ```bash
   slug="<slug>"
   [[ -n "$slug" ]] || { echo "FATAL: slug is empty; refusing to clean up" >&2; exit 1; }
+  [[ "$slug" =~ ^[a-z0-9-]+$ ]] \
+    || { echo "FATAL: slug '$slug' is not a plain [a-z0-9-] slug; refusing to clean up" >&2; exit 1; }
 
   # Same rules as above: keep the draft for the operator, and remove generated
-  # images with `git clean` (untracked-only by construction), never `rm -rf`.
+  # images with `git clean -fd` — untracked-only by construction, no `-x` so
+  # ignored files (`.env`, credentials) are never in range — never `rm -rf`.
   mkdir -p ".git/daily-post-scratch/$(date +%F)"
   mv "_posts/$(date +%F)-$slug.md" \
      ".git/daily-post-scratch/$(date +%F)/failed-draft.md"
   echo "preflight failed; draft kept at .git/daily-post-scratch/$(date +%F)/failed-draft.md" >&2
-  git clean -fdx -- "assets/images/$slug"
+  git clean -fd -- "assets/images/$slug"
   echo preflight-failed > "$DAILY_POST_STATUS"
   ```
 
@@ -408,8 +420,12 @@ paths above, in this order:
    `master` using the non-fatal pattern above — never discard a dangling queue-file
    change, it is the durable record of what this run claimed or rejected.
 2. Discard anything else this run touched (an untracked draft post, generated banner
-   assets) with `git clean -fdx -- <explicit path>`, which by construction can only
-   remove untracked files. Never `rm -rf` a path built from a substituted value.
+   assets) with `git clean -fd -- <literal path>`, which by construction can only
+   remove untracked files. Three rules, none optional: **no `-x`** (it would put
+   ignored files — `.env`, `script/**/credentials.json` — in range); the path must be
+   a **literal directory under `assets/images/`**, written out in full, never a value
+   built from a substitution and never `.` or the repo root; and never `rm -rf` a path
+   built from a substituted value.
 3. `git checkout master`, then delete any local feature branch this run created
    (`git branch -D daily-post/$(date +%F)-<slug>`).
 4. Write the status token.
