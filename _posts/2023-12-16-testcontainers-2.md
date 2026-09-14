@@ -12,14 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/testcontainers-2/banner.jpeg
+    overlay_image: /assets/images/testcontainers-2/banner.webp
+    og_image: /assets/images/testcontainers-2/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/testcontainers-2/banner.jpeg
+    teaser: /assets/images/testcontainers-2/teaser.webp
 title: "Mastering Unit Testing with Testcontainers: A Comprehensive Guide for Python Developers"
 tags:
-    - Testcontainers
+    - Testing
     - Python
 
+categories:
+    - software-engineering
+description: "This blog post provides a comprehensive guide for Python developers on mastering unit testing with Testcontainers."
+last_modified_at: 2023-12-27
 ---
 
 This blog post provides a comprehensive guide for Python developers on mastering unit testing with Testcontainers. Starting with an introduction to unit testing and the role of Testcontainers, the post dives into a step-by-step guide on writing your first test using Testcontainers. It then discusses how to manage resources in Testcontainers with illustrative code examples. The post also shares best practices for writing tests and highlights common pitfalls and how to avoid them when writing tests with Testcontainers. It further explains how to test an API using Testcontainers, offering a code example for better understanding. The post concludes with a case study on testing a payment API using Testcontainers, providing a detailed walkthrough and code examples. The readers will gain a solid understanding of using Testcontainers for unit testing in Python, making their testing process more efficient and effective.

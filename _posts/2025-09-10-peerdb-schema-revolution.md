@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/peerdb-schema-revolution/banner.png
+    overlay_image: /assets/images/peerdb-schema-revolution/banner.webp
+    og_image: /assets/images/peerdb-schema-revolution/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/peerdb-schema-revolution/banner.png
+    teaser: /assets/images/peerdb-schema-revolution/teaser.webp
 title: "How We Handle Schema Evolution in Real‑Time Data Pipelines with PeerDB"
 tags:
-    - PeerDB
-    - Schema Evolution
+    - Change Data Capture
+    - Database Migration
+categories:
+    - databases
+description: "When your product team renames a column at 2:07 a.m., will your analytics still be green at 2:08? This post is about making sure the answer is “yes.”"
+last_modified_at: 2025-10-25
 ---
 
 _When your product team renames a column at 2:07 a.m., will your analytics still be green at 2:08? This post is about making sure the answer is “yes.”_
@@ -176,6 +181,7 @@ UPDATE public.users SET full_name = first_name || ' ' || last_name;
 
 Use a **Streaming Query** mirror that aliases columns to the _new_ names on the destination:
 
+{% raw %}
 ```sql
 CREATE MIRROR users_transform
   FROM src TO dst FOR
@@ -197,6 +203,7 @@ WITH (
   refresh_interval       = 30
 );
 ```
+{% endraw %}
 
 Now downstream reads from `users_v2`; once everyone migrates, you can retire the old target. (This is also a nice way to keep OLTP tables lean: let PeerDB denormalize and rename on the way out.) ([PeerDB Docs][8])
 
@@ -290,6 +297,7 @@ This gives you visibility to _prove_ that “it’s not stuck.” ([PeerDB Docs]
 
 Let’s wire a small but production‑ready pipeline that’s resilient to schema evolution:
 
+{% raw %}
 ```sql
 -- 1) Peers
 CREATE PEER src FROM POSTGRES  WITH (...);
@@ -332,6 +340,7 @@ WITH (
   refresh_interval       = 5
 );
 ```
+{% endraw %}
 
 What you get:
 

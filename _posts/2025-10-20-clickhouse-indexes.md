@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/clickhouse-indexes/banner.png
+    overlay_image: /assets/images/clickhouse-indexes/banner.webp
+    og_image: /assets/images/clickhouse-indexes/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/clickhouse-indexes/banner.png
+    teaser: /assets/images/clickhouse-indexes/teaser.webp
 title: "ClickHouse: Using Indexes, Projections, and Data Skipping for Speed"
 tags:
     - ClickHouse
     - Data Store
+categories:
+    - databases
+description: "If you’re coming from Postgres or MySQL, “add an index” means “build a structure that points to rows.” ClickHouse stores columns separately and reads them in…"
+last_modified_at: 2025-10-24
 ---
 
 > **TL;DR**

@@ -12,15 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/serverless-vs-containers/banner.jpeg
+    overlay_image: /assets/images/serverless-vs-containers/banner.webp
+    og_image: /assets/images/serverless-vs-containers/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/serverless-vs-containers/banner.jpeg
+    teaser: /assets/images/serverless-vs-containers/teaser.webp
 title: "Comparing Serverless vs. Containers: A Comprehensive Guide"
 tags:
     - Distributed Systems
     - Serverless
-    - Containers
+    - Docker
 
+categories:
+    - distributed-systems
+description: "Explore the differences between serverless and container architectures for your cloud-based applications in this concise blog post."
 ---
 
 Explore the differences between serverless and container architectures for your cloud-based applications in this concise blog post. We'll cover key aspects like architecture, deployment, performance, cost, and security, providing a handy table summarizing the distinctions. Learn how serverless, based on functions-as-a-service, differs from container architecture, managed by developers. Discover deployment methods, performance advantages, cost-effectiveness, and potential security considerations for both options. Simplify your decision-making process with this comprehensive yet brief comparison.

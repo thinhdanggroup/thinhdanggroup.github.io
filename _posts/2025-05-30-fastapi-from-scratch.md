@@ -12,16 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image:  /assets/images/fastapi-from-scratch/banner.png
+    overlay_image:  /assets/images/fastapi-from-scratch/banner.webp
+    og_image: /assets/images/fastapi-from-scratch/og.jpg
     overlay_filter: 0.5
-    teaser:  /assets/images/fastapi-from-scratch/banner.png
+    teaser:  /assets/images/fastapi-from-scratch/teaser.webp
 title: "Building a Modern Python Web Framework from Scratch: An In-Depth Guide"
 tags:
     - Python
-    - FastAPI
-    - ASGI
-    - Web Framework
+    - Web Development
 
+categories:
+    - python
+description: "FastAPI has rapidly gained popularity in the Python ecosystem for its remarkable performance and developer-friendly features."
+last_modified_at: 2025-06-01
 ---
 
 FastAPI has rapidly gained popularity in the Python ecosystem for its remarkable performance and developer-friendly features. It elegantly combines asynchronous capabilities with Python's type hinting system to offer a robust platform for building APIs. But what truly makes FastAPI, and similar modern frameworks, function so effectively? This guide embarks on an investigative journey to construct a simplified FastAPI-like framework from its foundational principles, using pure Python. The goal is not to create a production-ready replacement but to demystify the internal mechanics, providing a deep, practical understanding of how these powerful tools are built.

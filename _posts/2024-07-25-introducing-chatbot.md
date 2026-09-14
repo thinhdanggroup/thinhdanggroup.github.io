@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/introducing-chatbot/banner.jpeg
+    overlay_image: /assets/images/introducing-chatbot/banner.webp
+    og_image: /assets/images/introducing-chatbot/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/introducing-chatbot/banner.jpeg
+    teaser: /assets/images/introducing-chatbot/teaser.webp
 title: "Introducing My Interactive Web Chatbot"
 tags:
-    - chatbot
+    - AI Agents
 
+categories:
+    - ai-engineering
+description: "Today, I’m thrilled to introduce you to my new interactive web chatbot and share the fun journey behind its creation."
+last_modified_at: 2024-09-08
 ---
 
 Today, I’m thrilled to introduce you to my new interactive web chatbot and share the fun journey behind its creation. First, a bit about me—your friendly tech enthusiast—and the chatbot, designed to make your life easier and maybe even crack a joke. Why a chatbot? Because instant support, boosted user engagement, and relief from repetitive tasks are awesome. Plus, AI-driven interactions are today’s digital superheroes. Check out its coolest features: a user-friendly interface, lightning-fast real-time responses, and multi-platform integration. I’ll also give you a peek behind the scenes, featuring awesome tools like Streamlit, Supabase, and a free LLM provider. Finally, I challenge you to try the chatbot yourself. Head to my website, test it out, and prepare to be amazed. If you’re inspired, I’ve got tips to help you build your own. So grab a snack, settle in, and dive into the future of AI technology with me!

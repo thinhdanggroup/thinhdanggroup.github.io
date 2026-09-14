@@ -12,14 +12,16 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/how-a-language-model-learned-to-speak-vietnamese/banner.png
+    overlay_image: /assets/images/how-a-language-model-learned-to-speak-vietnamese/banner.webp
+    og_image: /assets/images/how-a-language-model-learned-to-speak-vietnamese/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/how-a-language-model-learned-to-speak-vietnamese/banner.png
+    teaser: /assets/images/how-a-language-model-learned-to-speak-vietnamese/teaser.webp
 title: "How a Language Model Learned to Speak Vietnamese"
 tags:
-    - llm
-    - tts
-    - vietnamese
+    - LLM
+categories:
+    - ai-engineering
+description: "You've used Google Translate's voice feature. You know the one — you type something, hit the speaker icon, and hear a voice that is technically correct but…"
 ---
 
 You've used Google Translate's voice feature. You know the one — you type something, hit the speaker icon, and hear a voice that is technically correct but somehow deeply wrong. It hits the right phonemes in the right order, but there's no life in it. No rhythm. And if the language is Vietnamese, there's a good chance it mispronounces the tones so badly that the sentence means something completely different from what you typed.

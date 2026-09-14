@@ -12,14 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/type-safe-backend-evolution/banner.png
+    overlay_image: /assets/images/type-safe-backend-evolution/banner.webp
+    og_image: /assets/images/type-safe-backend-evolution/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/type-safe-backend-evolution/banner.png
+    teaser: /assets/images/type-safe-backend-evolution/teaser.webp
 title: "Type-Safe Backend Evolution: Using tRPC, Zod, and OpenAPI 4 to Prevent Silent API Breaks"
 tags:
-    - typescript
-    - zod
-    - tRPC
+    - TypeScript
+    - API Design
+categories:
+    - web-development
+description: "A partner team pings you: “Your user API just started returning 500s when we deploy. We didn’t change anything.”"
+last_modified_at: 2025-11-23
 ---
 
 You’re on call. It’s 2:13 AM.

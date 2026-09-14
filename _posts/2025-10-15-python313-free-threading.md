@@ -12,13 +12,17 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/python313-free-threading/banner.png
+    overlay_image: /assets/images/python313-free-threading/banner.webp
+    og_image: /assets/images/python313-free-threading/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/python313-free-threading/banner.png
+    teaser: /assets/images/python313-free-threading/teaser.webp
 title: "Breaking Down Python 3.13’s Experimental Free‑Threading Mode"
 tags:
-    - Python 3.13
-    - Free-Threading
+    - Python
+categories:
+    - python
+description: "The year the GIL blinked. With Python 3.13, CPython gained an experimental “free‑threading” build that can run threads truly in parallel on multiple cores."
+last_modified_at: 2025-10-25
 ---
 
 _The year the GIL blinked._ With Python 3.13, CPython gained an **experimental “free‑threading” build** that can run threads truly in parallel on multiple cores. If you’ve ever reached for `multiprocessing` as a workaround for CPU‑bound work—or told yourself “threads are great… for I/O”—this is a big deal. In this post, we’ll unpack what “free‑threading” means, how to try it, the caveats, and what changed under the hood to make it possible. ([Python documentation][1])

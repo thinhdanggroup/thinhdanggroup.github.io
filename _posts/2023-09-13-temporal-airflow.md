@@ -12,14 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/temporal_airflow/banner.jpeg
+    overlay_image: /assets/images/temporal_airflow/banner.webp
+    og_image: /assets/images/temporal_airflow/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/temporal_airflow/banner.jpeg
+    teaser: /assets/images/temporal_airflow/teaser.webp
 title: "Temporal vs Airflow: A Comparative Analysis"
 tags:
     - Temporal
-    - Airflow
+    - Data Engineering
 
+categories:
+    - distributed-systems
+description: "In this blog post, we will delve into a comparative analysis of two popular workflow orchestration platforms, Temporal and Airflow."
+last_modified_at: 2023-09-24
 ---
 
 In this blog post, we will delve into a comparative analysis of two popular workflow orchestration platforms, Temporal and Airflow. By understanding their basic concepts, key features, and differences, we will gain a comprehensive overview of these tools. We will then explore the pros and cons of using Temporal and Airflow, providing a balanced view of their advantages and disadvantages. Real-world applications and use cases of Temporal and Airflow will be highlighted to demonstrate their practicality and effectiveness. Finally, we will provide guidance on when to use Temporal and when to use Airflow, and discuss the factors to consider when choosing between the two. This blog post will serve as a valuable resource for anyone looking to make an informed decision on which workflow orchestration platform to use.

@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/scalability/banner.jpeg
+    overlay_image: /assets/images/scalability/banner.webp
+    og_image: /assets/images/scalability/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/scalability/banner.jpeg
+    teaser: /assets/images/scalability/teaser.webp
 title: "Mastering Scalability: Scaling your System to Handle Millions of Users"
 tags:
     - System Design
 
+categories:
+    - distributed-systems
+description: "In the ever-evolving world of software engineering, scalability is a key factor that determines the success of a system."
+last_modified_at: 2023-11-25
 ---
 
 In the ever-evolving world of software engineering, scalability is a key factor that determines the success of a system. This blog post, titled 'Mastering Scalability: Scaling your System to Handle Millions of Users', delves deep into the concept of scalability, its types, and why it is crucial in software engineering. It further explores various strategies to scale your system, their pros and cons, and the considerations to keep in mind when choosing a strategy. Drawing from real-world examples, the post shares insights from companies that have successfully scaled their systems. To equip you with practical knowledge, the post ends with a list of best practices and common pitfalls to avoid when scaling a system. This blog post is a comprehensive guide for anyone looking to understand and implement scalability in their systems.

@@ -12,14 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/why-flyway/banner.jpeg
+    overlay_image: /assets/images/why-flyway/banner.webp
+    og_image: /assets/images/why-flyway/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/why-flyway/banner.jpeg
+    teaser: /assets/images/why-flyway/teaser.webp
 title: "Navigating the Migration Landscape: An In-Depth Look at Flyway"
 tags:
-    - Flyway
     - Database Migration
 
+categories:
+    - databases
+description: "This comprehensive guide explores the world of database migrations and introduces Flyway, a robust tool that simplifies the process."
+last_modified_at: 2024-06-09
 ---
 
 This comprehensive guide explores the world of database migrations and introduces Flyway, a robust tool that simplifies the process. Learn why database migration is crucial in software development, how Flyway addresses common challenges, and its features in detail. Discover practical tips to avoid common pitfalls, how Flyway handles rollbacks, and a comparative analysis with other popular database migration tools, making it easy to choose the best option for your needs.

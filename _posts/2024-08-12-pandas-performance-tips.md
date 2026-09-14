@@ -12,14 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/pandas-performance-tips/banner.jpeg
+    overlay_image: /assets/images/pandas-performance-tips/banner.webp
+    og_image: /assets/images/pandas-performance-tips/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/pandas-performance-tips/banner.jpeg
+    teaser: /assets/images/pandas-performance-tips/teaser.webp
 title: "Boosting Your Pandas Performance: Essential Tips and Techniques"
 tags:
     - Python
     - Pandas
 
+categories:
+    - python
+description: "This article is designed to help you enhance the performance of your data manipulation tasks using Pandas, a powerful Python library."
+last_modified_at: 2024-09-21
 ---
 
 This article is designed to help you enhance the performance of your data manipulation tasks using Pandas, a powerful
@@ -177,7 +182,7 @@ Efficiently handling missing data and optimizing data types can also improve per
 By carefully managing missing data and optimizing data types, you can reduce memory usage and improve the speed of your
 data loading operations.
 
-![Less Memory Usage](/assets/images/pandas-performance-tips/less-mem-more-speed.jpeg)
+![Less Memory Usage](/assets/images/pandas-performance-tips/less-mem-more-speed.webp)
 
 Incorporating these techniques will help you load data more efficiently, setting a solid foundation for further analysis
 and processing in Pandas.
@@ -427,7 +432,7 @@ are all essential strategies for optimizing memory usage in Pandas.
 
 ## Parallel Processing with Pandas
 
-![performance](/assets/images/pandas-performance-tips/parallel-processing.jpeg)
+![performance](/assets/images/pandas-performance-tips/parallel-processing.webp)
 
 Parallel processing can significantly speed up data processing tasks in Pandas. This section will introduce you to
 parallel processing techniques, including using the Dask library, joblib, and multiprocessing. We will explain how to
@@ -589,7 +594,7 @@ processing tasks and handle large datasets more efficiently.
 
 ## Profiling and Benchmarking
 
-![performance](/assets/images/pandas-performance-tips/profiling-benchmarking.jpeg)
+![performance](/assets/images/pandas-performance-tips/profiling-benchmarking.webp)
 
 Profiling and benchmarking are essential for identifying performance bottlenecks and measuring the impact of
 optimization techniques. In this section, we will explore tools and methods for profiling your Pandas code, such

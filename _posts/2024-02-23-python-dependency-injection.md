@@ -12,15 +12,20 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/python-dependency-injection/banner.jpeg
+    overlay_image: /assets/images/python-dependency-injection/banner.webp
+    og_image: /assets/images/python-dependency-injection/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/python-dependency-injection/banner.jpeg
+    teaser: /assets/images/python-dependency-injection/teaser.webp
 title: "Dependency Injection in Python: A Comprehensive Guide"
 tags:
     - Distributed Systems
     - Serverless
-    - Containers
+    - Docker
 
+categories:
+    - distributed-systems
+description: "Dependency injection is a powerful technique that promotes modularity, testability, and maintainability in software development."
+last_modified_at: 2024-08-05
 ---
 
 Dependency injection is a powerful technique that promotes modularity, testability, and maintainability in software development. In this comprehensive guide, we explore the concept of dependency injection, its implementation in Python, and its advantages and disadvantages compared to other languages. We also discuss the challenges and limitations of using dependency injection in Python and provide best practices for its effective application. Additionally, we showcase real-world examples of successful Python projects that utilize dependency injection and delve into the future of this technique, including emerging trends and advancements. Whether you are a seasoned Python developer or new to the language, this guide will provide valuable insights and practical knowledge to help you leverage dependency injection effectively in your Python projects.

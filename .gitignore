@@ -1,42 +1,42 @@
-# Vim
+# Editors
 *~
 *.sw[p_]
-
-# Sublime Text
 *.sublime-project
 *.sublime-workspace
+.vscode/*
+!.vscode/settings.json
+**/.idea/**
 
-# Ruby Gem
+# Ruby / Jekyll
 *.gem
-.bundle
+.bundle/
 Gemfile.lock
-**/vendor/bundle
+vendor/
+_site/
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+_asset_bundler_cache/
+.asset-cache/
 
-# Node.js and NPM
-node_modules
+# Node
+node_modules/
 npm-debug.log*
 package-lock.json
 codekit-config.json
 
-# macOS
-.DS_Store
+# Python tooling in script/
+__pycache__/
+*.pyc
+.venv/
 
-# Jekyll generated files
-.jekyll-cache
-.jekyll-metadata
-.sass-cache
-_asset_bundler_cache
-_site
-vendor
-.jekyll-cache/**
-.bundle/**
-.bundle/config
-
-**/.DS_Store
+# Secrets and local config
 .env
-_site
-.sass-cache
-node_modules
-Gemfile.lock
-**/.idea/**
-__pycache__
+script/**/credentials.json
+script/**/token.json
+script/devto/config.json
+script/medium/config.json
+
+# OS
+.DS_Store
+**/.DS_Store

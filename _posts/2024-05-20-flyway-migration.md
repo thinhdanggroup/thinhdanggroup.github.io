@@ -12,15 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/flyway-migration/banner.jpeg
+    overlay_image: /assets/images/flyway-migration/banner.webp
+    og_image: /assets/images/flyway-migration/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/flyway-migration/banner.jpeg
+    teaser: /assets/images/flyway-migration/teaser.webp
 title: "Efficient Database Migrations in Continuous Deployment with Flyway and Docker"
 tags:
-    - Flyway
-    - Docker
     - Database Migration
+    - Docker
 
+categories:
+    - databases
+description: "This article provides a comprehensive guide on how to leverage Flyway and Docker for efficient database migrations in a continuous deployment environment."
+last_modified_at: 2024-06-09
 ---
 
 This article provides a comprehensive guide on how to leverage Flyway and Docker for efficient database migrations in a continuous deployment environment. It covers the importance of database migrations, how Flyway and Docker can help manage and automate them, and provides practical examples and code snippets for setting up and running migrations. The article also discusses best practices for database migrations and common pitfalls to avoid, making it a valuable resource for developers looking to enhance their skills in database management and continuous deployment.

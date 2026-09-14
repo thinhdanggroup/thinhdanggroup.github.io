@@ -12,15 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image:  /assets/images/fec/banner.jpeg
+    overlay_image:  /assets/images/fec/banner.webp
+    og_image: /assets/images/fec/og.jpg
     overlay_filter: 0.5
-    teaser:  /assets/images/fec/banner.jpeg
+    teaser:  /assets/images/fec/teaser.webp
 title: "Decoding the Digital Lifeline: A Comprehensive Exploration of Forward Error Correction"
 tags:
-    - FEC
-    - Error Correction
-    - Redundancy
+    - WebRTC
+    - Distributed Systems
 
+categories:
+    - web-development
+description: "In the intricate dance of digital information exchange, communication channels are rarely perfect."
+last_modified_at: 2025-05-31
 ---
 
 ## Introduction: Beyond Retransmission - Understanding Forward Error Correction

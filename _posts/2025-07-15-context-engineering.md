@@ -12,15 +12,20 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/context-engineering/banner.png
+    overlay_image: /assets/images/context-engineering/banner.webp
+    og_image: /assets/images/context-engineering/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/context-engineering/banner.png
+    teaser: /assets/images/context-engineering/teaser.webp
 title: "Beyond the Prompt: The Definitive Guide to Context Engineering for Production AI Agents"
 tags:
-    - Context Engineering
-    - Development
-    - AI Agent
+    - LLM
+    - Software Engineering
+    - AI Agents
     - AI
+categories:
+    - ai-engineering
+description: "Consider a common scenario in the world of artificial intelligence: an AI assistant is tasked with scheduling a simple meeting."
+last_modified_at: 2025-07-20
 ---
 
 Consider a common scenario in the world of artificial intelligence: an AI assistant is tasked with scheduling a simple meeting. The "cheap demo" version, built with a simplistic approach, quickly devolves into a frustrating loop. It asks for information it was already given, fails to understand the nuances of the request, and ultimately requires more human effort than it saves. This experience is contrasted sharply by the "magical" one. In this version, the agent seamlessly accesses the user's calendar, understands the professional relationship with the invitee by referencing past emails, identifies them as a key partner from a contact list, and proactively proposes an ideal time slot before sending a perfectly toned invitation.

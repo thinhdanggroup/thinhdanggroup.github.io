@@ -12,15 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image:  /assets/images/webrtc-quality-scoring/banner.jpeg
+    overlay_image:  /assets/images/webrtc-quality-scoring/banner.webp
+    og_image: /assets/images/webrtc-quality-scoring/og.jpg
     overlay_filter: 0.5
-    teaser:  /assets/images/webrtc-quality-scoring/banner.jpeg
+    teaser:  /assets/images/webrtc-quality-scoring/teaser.webp
 title: "Demystifying WebRTC Quality: A Deep Dive into the rtcscore Library and MOS Estimation"
 tags:
     - WebRTC
-    - Quality
-    - MOS
 
+categories:
+    - web-development
+description: "Web Real-Time Communication (WebRTC) has revolutionized how web applications enable direct peer-to-peer interaction, facilitating the streaming of audio…"
+last_modified_at: 2025-05-31
 ---
 
 ## The Quest for Quality: Understanding User Experience in WebRTC

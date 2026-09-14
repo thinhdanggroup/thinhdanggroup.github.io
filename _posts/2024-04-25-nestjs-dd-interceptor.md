@@ -12,14 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/nestjs-dd-interceptor/banner.jpeg
+    overlay_image: /assets/images/nestjs-dd-interceptor/banner.webp
+    og_image: /assets/images/nestjs-dd-interceptor/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/nestjs-dd-interceptor/banner.jpeg
+    teaser: /assets/images/nestjs-dd-interceptor/teaser.webp
 title: "Mastering User Tracking with NestJS and DataDog"
 tags:
-    - Datadog
-    - NestJS
+    - Observability
+    - Node.js
 
+categories:
+    - infrastructure
+description: "This article provides a step-by-step guide on how to implement user tracking in NestJS applications using DataDog."
+last_modified_at: 2024-05-14
 ---
 
 This article provides a step-by-step guide on how to implement user tracking in NestJS applications using DataDog. It covers the basics of NestJS and DataDog, explains the concept of interceptors in NestJS, and shows how to create a custom UserTrackingInterceptor to track user behavior. The guide also covers how to apply and configure the interceptor, test its functionality, and view the tracking data in DataDog. By the end of this article, you will have a comprehensive understanding of user tracking and be able to implement it in your own NestJS applications.

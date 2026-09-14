@@ -12,13 +12,17 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/postgres-as-a-message-bus/banner.png
+    overlay_image: /assets/images/postgres-as-a-message-bus/banner.webp
+    og_image: /assets/images/postgres-as-a-message-bus/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/postgres-as-a-message-bus/banner.png
+    teaser: /assets/images/postgres-as-a-message-bus/teaser.webp
 title: "Postgres as a Message Bus: Implementing Durable Event Queues with LISTEN/NOTIFY and Logical Decoding"
 tags:
-    - postgres
-    - message bus
+    - PostgreSQL
+    - Event-Driven Architecture
+categories:
+    - databases
+description: "You’ve got a small-ish system: a monolith plus a couple of background workers, maybe one or two sidecar services."
 ---
 
 You’ve got a small-ish system: a monolith plus a couple of background workers, maybe one or two sidecar services.

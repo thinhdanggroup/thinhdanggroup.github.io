@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/nodejs-oom/banner.jpeg
+    overlay_image: /assets/images/nodejs-oom/banner.webp
+    og_image: /assets/images/nodejs-oom/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/nodejs-oom/banner.jpeg
+    teaser: /assets/images/nodejs-oom/teaser.webp
 title: "Preventing Out of Memory (OOM) Issues in Node.js Containers"
 tags:
     - Node.js
 
+categories:
+    - web-development
+description: "Out of Memory (OOM) issues are a common problem for Node.js applications running in containers."
+last_modified_at: 2024-04-09
 ---
 
 Out of Memory (OOM) issues are a common problem for Node.js applications running in containers. This blog post provides a comprehensive guide to understanding, diagnosing, and preventing OOM issues in Node.js containers. We'll cover the basics of OOM, how to identify the root cause of OOM issues, and strategies for preventing them from occurring. By following the tips in this blog post, you can help ensure that your Node.js applications run smoothly and efficiently in containers.

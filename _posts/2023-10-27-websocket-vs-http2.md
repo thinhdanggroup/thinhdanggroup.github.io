@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/http2-vs-websocket/banner.jpeg
+    overlay_image: /assets/images/http2-vs-websocket/banner.webp
+    og_image: /assets/images/http2-vs-websocket/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/http2-vs-websocket/banner.jpeg
+    teaser: /assets/images/http2-vs-websocket/teaser.webp
 title: "HTTP/2 vs WebSocket: A Comparative Analysis"
 tags:
     - System Design
 
+categories:
+    - distributed-systems
+description: "This blog post aims to provide a comprehensive comparison between HTTP/2 and WebSocket, two fundamental protocols that power the modern web."
+last_modified_at: 2023-11-26
 ---
 
 This blog post aims to provide a comprehensive comparison between HTTP/2 and WebSocket, two fundamental protocols that power the modern web. We will start by understanding what HTTP/2 and WebSocket are, how they work, and their respective use cases. We will then delve into the key features of each protocol, discussing how HTTP/2's multiplexing, header compression, server push, and stream prioritization can enhance web application performance, and how WebSocket's bidirectional, full-duplex communication, low latency, and high throughput make it ideal for real-time applications. Following this, we will compare the two protocols, discussing their features, advantages, and disadvantages, as well as the scenarios where each would be most advantageous. Finally, we will explore a hybrid approach that combines the best of both protocols. Whether you're a web developer looking to optimize your application's performance, or a tech enthusiast interested in the inner workings of the web, this blog post will provide you with a deep understanding of HTTP/2 and WebSocket.

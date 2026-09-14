@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/serverless/banner.jpeg
+    overlay_image: /assets/images/serverless/banner.webp
+    og_image: /assets/images/serverless/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/serverless/banner.jpeg
+    teaser: /assets/images/serverless/teaser.webp
 title: "Demystifying Serverless Stack: A Comprehensive Guide for Beginners"
 tags:
     - Serverless
 
+categories:
+    - infrastructure
+description: "Dive into the world of serverless architecture with our comprehensive guide for beginners. This blog post will introduce you to the concept of serverless…"
+last_modified_at: 2023-12-11
 ---
 
 

@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/consistency/banner.jpeg
+    overlay_image: /assets/images/consistency/banner.webp
+    og_image: /assets/images/consistency/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/consistency/banner.jpeg
+    teaser: /assets/images/consistency/teaser.webp
 title: "Mastering Consistency Patterns in Distributed Systems"
 tags:
     - System Design
 
+categories:
+    - distributed-systems
+description: "In this blog post, we will explore the concept of consistency patterns in distributed systems."
+last_modified_at: 2023-11-26
 ---
 
 In this blog post, we will explore the concept of consistency patterns in distributed systems. We will discuss what consistency patterns are and why they are crucial in maintaining data integrity across multiple services or components in a distributed system. We will delve into the different types of consistency patterns, including strong consistency, weak consistency, and eventual consistency, providing an in-depth explanation and comparison of each. We will also discuss the trade-offs associated with each consistency pattern and how they can impact system performance. Furthermore, we will cover real-world use cases of consistency patterns, illustrating how they are applied in different scenarios. Finally, we will outline the best practices for implementing consistency patterns and highlight the common anti-patterns to avoid. This post will provide you with a comprehensive understanding of consistency patterns in distributed systems, helping you make informed decisions when designing and implementing your own distributed systems.

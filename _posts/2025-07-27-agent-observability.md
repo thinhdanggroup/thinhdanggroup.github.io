@@ -12,15 +12,17 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/agent-observability/banner.png
+    overlay_image: /assets/images/agent-observability/banner.webp
+    og_image: /assets/images/agent-observability/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/agent-observability/banner.png
+    teaser: /assets/images/agent-observability/teaser.webp
 title: "A Strategic Analysis of the OpenAI Agents, Logfire, and Langfuse Observability Stack"
 tags:
-    - OpenAI Agents
-    - Logfire
-    - Langfuse
-    - OpenTelemetry
+    - AI Agents
+    - Observability
+categories:
+    - ai-engineering
+description: "The field of artificial intelligence is undergoing a profound paradigm shift, moving beyond the era of predictive models into a new age of generative…"
 ---
 
 The field of artificial intelligence is undergoing a profound paradigm shift, moving beyond the era of predictive models into a new age of generative, autonomous systems. LLM-powered agents represent a significant evolution; they are not merely generating content but are stateful systems capable of perceiving context, reasoning, planning, and executing actions to achieve complex goals. This leap towards autonomy, however, introduces an unprecedented level of operational complexity and a new class of risks that challenge traditional software monitoring and management practices.

@@ -12,13 +12,17 @@ author:
 toc: true
 toc_sticky: true
 header:
-  overlay_image: /assets/images/starcoder/starcoder.jpeg
+  overlay_image: /assets/images/starcoder/starcoder.webp
+  og_image: /assets/images/starcoder/og.jpg
   overlay_filter: 0.5 
-  teaser: /assets/images/starcoder/starcoder.jpeg
+  teaser: /assets/images/starcoder/starcoder-teaser.webp
 title:  "Giới thiệu Starcoder: Một mô hình ngôn ngữ lớn cho lập trình"
 tags:
-- starcoder
-- code completion
+    - LLM
+    - Developer Tools
+description: "Bạn có muốn viết code chỉ bằng cách nói ra ý tưởng của mình? Bạn có muốn có một người bạn đồng hành trong lập trình, luôn sẵn sàng giúp đỡ và tư vấn cho bạn?"
+categories:
+    - ai-engineering
 ---
 
 Bạn có muốn viết code chỉ bằng cách nói ra ý tưởng của mình? Bạn có muốn có một người bạn đồng hành trong lập trình, luôn sẵn sàng giúp đỡ và tư vấn cho bạn? Bạn có muốn tận hưởng công nghệ AI tiên tiến nhất trong lĩnh vực code mà không tốn một xu nào? Nếu bạn gật đầu đồng ý, thì hãy cùng tôi khám phá Starcoder, một công cụ hỗ trợ lập trình đột phá.
@@ -133,7 +137,7 @@ Bạn có thể thử giải thích code với Starcoder tại đây.
 
 ## Cách sử dụng Starcoder
 
-![chat](../assets/images/starcoder/starcoder-chat.png)
+![chat](../assets/images/starcoder/starcoder-chat.webp)
 Để sử dụng Starcoder, bạn cần phải chấp nhận điều khoản sử dụng tại hf.co/bigcode/starcoder và đăng nhập với token Hugging Face hub của bạn. Sau đó, bạn có hai cách để sử dụng Starcoder: như một trợ lý kỹ thuật trong một ứng dụng chat hoặc như một tiện ích mở rộng VS Code.
 
 ### Sử dụng Starcoder như một trợ lý kỹ thuật

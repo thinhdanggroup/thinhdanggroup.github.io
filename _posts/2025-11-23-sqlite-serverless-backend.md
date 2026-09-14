@@ -12,13 +12,17 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/sqlite-serverless-backend/banner.png
+    overlay_image: /assets/images/sqlite-serverless-backend/banner.webp
+    og_image: /assets/images/sqlite-serverless-backend/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/sqlite-serverless-backend/banner.png
+    teaser: /assets/images/sqlite-serverless-backend/teaser.webp
 title: "How SQLite Is Powering the New Generation of Serverless Backends"
 tags:
-    - sqlite
-    - serverless
+    - Databases
+    - Serverless
+categories:
+    - databases
+description: "If you’d told me a few years ago that SQLite would be at the center of “planet-scale” serverless architectures, I would’ve assumed you were trolling."
 ---
 
 If you’d told me a few years ago that _SQLite_ would be at the center of “planet-scale” serverless architectures, I would’ve assumed you were trolling.

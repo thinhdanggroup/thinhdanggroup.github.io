@@ -12,12 +12,17 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/self-healing-systems/banner.png
+    overlay_image: /assets/images/self-healing-systems/banner.webp
+    og_image: /assets/images/self-healing-systems/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/self-healing-systems/banner.png
+    teaser: /assets/images/self-healing-systems/teaser.webp
 title: "Self-Healing Systems: When Auto-Scaling Isn’t Enough"
 tags:
-    - auto-scaling
+    - Autoscaling
+description: "Auto-scaling is like hiring more baristas when the coffee line wraps around the block. It absolutely helps with load — more pods, more instances, more…"
+last_modified_at: 2025-11-16
+categories:
+    - infrastructure
 ---
 
 Auto-scaling is like hiring more baristas when the coffee line wraps around the block.

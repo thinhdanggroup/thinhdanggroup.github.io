@@ -12,15 +12,17 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/webrtc-mos/banner.png
+    overlay_image: /assets/images/webrtc-mos/banner.webp
+    og_image: /assets/images/webrtc-mos/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/webrtc-mos/banner.png
+    teaser: /assets/images/webrtc-mos/teaser.webp
 title: "Quantifying Quality: A Deep Dive into the rtcscore Library for WebRTC Mean Opinion Score (MOS) Estimation"
 tags:
     - WebRTC
-    - Quality
-    - MOS
-    - Architecture
+    - System Design
+categories:
+    - web-development
+description: "In the domain of real-time communication, the concept of 'quality' is both paramount and profoundly elusive."
 ---
 
 In the domain of real-time communication, the concept of "quality" is both paramount and profoundly elusive. For developers and architects of WebRTC applications, the challenge lies in translating a user's subjective experience—a clear voice, a smooth video feed, a natural conversation—into objective, measurable, and actionable data. The standard WebRTC

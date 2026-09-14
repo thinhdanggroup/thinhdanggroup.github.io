@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-  overlay_image: /assets/images/github-pages/starcoder.jpeg
+  overlay_image: /assets/images/starcoder/starcoder.webp
+  og_image: /assets/images/starcoder/og.jpg
   overlay_filter: 0.5 
-  teaser: /assets/images/github-pages/banner.jpeg
+  teaser: /assets/images/github-pages/teaser.webp
 title:  "A Guideline to Building Your Blog Using GitHub Pages"
-tags: 
-- Github
+tags:
+    - Developer Tools
 
+description: "Ever thought of creating your own blog? This blog post will guide you through the process of building a blog using GitHub Pages, a platform that allows you…"
+last_modified_at: 2023-08-31
+categories:
+    - infrastructure
 ---
 
 Ever thought of creating your own blog? This blog post will guide you through the process of building a blog using GitHub Pages, a platform that allows you to host and publish webpages for free. I will start from scratch, walking you through the steps of creating a new GitHub repository, configuring your blog, adding content, and customizing the layout and design. I will also explore some popular Jekyll themes that you can use to make your blog look professional and appealing. This blog post will also discuss some best practices for building a blog on GitHub Pages, including tips on optimizing site performance, using custom domains, organizing content, and integrating social media and comments. Finally, I will show you how to leverage the features of GitHub Pages to manage your blog effectively. Whether you're a seasoned blogger or a newbie, this guide will provide you with the knowledge and tools to start your own blog on GitHub Pages.
@@ -91,7 +96,7 @@ In this section, I will showcase some popular Jekyll themes that you can use for
 ### Minimal Mistakes
 
 
-![Minimal Mistakes](/assets/images/github-pages/minimal-mistake.png)
+![Minimal Mistakes](/assets/images/github-pages/minimal-mistake.webp)
 
 [Minimal Mistakes](https://github.com/mmistakes/minimal-mistakes) is a flexible two-column Jekyll theme that's perfect for building personal sites, project landing pages, and blogs. It's designed to be mobile-friendly and includes support for categories, posts, and pages. The theme also includes a number of customizable options, like color schemes and typography, so you can tailor the look of your blog to fit your personal style.
 

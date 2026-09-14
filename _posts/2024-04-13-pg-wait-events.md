@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/pg-wait-events/banner.jpeg
+    overlay_image: /assets/images/pg-wait-events/banner.webp
+    og_image: /assets/images/pg-wait-events/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/pg-wait-events/banner.jpeg
+    teaser: /assets/images/pg-wait-events/teaser.webp
 title: "Decoding Wait Events: A Comprehensive Guide to PostgreSQL Query Optimization"
 tags:
     - PostgreSQL
 
+categories:
+    - databases
+description: "This comprehensive guide delves into the intricacies of wait events in PostgreSQL and their impact on query performance."
+last_modified_at: 2024-05-05
 ---
 
 This comprehensive guide delves into the intricacies of wait events in PostgreSQL and their impact on query performance. It starts by explaining what wait events are and how to interpret them using `pg_stat_activity`. The article then explores the Statistics Collector, providing insights into its configuration and usage for performance analysis. It also discusses connection tracing, wait event analysis, and vacuum monitoring in PostgreSQL. A step-by-step guide on finding and fixing slow queries is provided, along with methods to detect such queries. The article concludes with a case study demonstrating how a simple change can significantly improve query performance. This guide serves as a valuable resource for database administrators, software engineers, and anyone interested in optimizing PostgreSQL performance.

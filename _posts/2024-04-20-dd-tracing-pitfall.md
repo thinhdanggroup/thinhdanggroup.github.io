@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/dd-tracing-pitfall/banner.jpeg
+    overlay_image: /assets/images/dd-tracing-pitfall/banner.webp
+    og_image: /assets/images/dd-tracing-pitfall/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/dd-tracing-pitfall/banner.jpeg
+    teaser: /assets/images/dd-tracing-pitfall/teaser.webp
 title: "Navigating Pitfalls in Datadog Tracing"
 tags:
-    - Datadog
+    - Observability
 
+categories:
+    - infrastructure
+description: "Ready to conquer the world of servers with Datadog? This guide is your treasure map. It's going to help you dodge sneaky pitfalls like hostname detection…"
+last_modified_at: 2024-05-07
 ---
 
 Ready to conquer the world of servers with Datadog? This guide is your treasure map. It's going to help you dodge sneaky pitfalls like hostname detection monsters, tangled webs of proxy configuration, and the ever-so-tricky API key setup puzzles.

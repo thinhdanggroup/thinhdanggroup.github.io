@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/nats-left-nodes/banner.png
+    overlay_image: /assets/images/nats-left-nodes/banner.webp
+    og_image: /assets/images/nats-left-nodes/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/nats-left-nodes/banner.png
+    teaser: /assets/images/nats-left-nodes/teaser.webp
 title: "Bridging the Edge: Using NATS Leaf Nodes to Build Hybrid and Multi-Cloud Systems"
 tags:
-    - nats
+    - NATS
     - distributed messaging
+categories:
+    - distributed-systems
+description: "If you’re running anything remotely serious today, your architecture probably isn’t “just” in one place."
+last_modified_at: 2025-12-04
 ---
 
 If you’re running anything remotely serious today, your architecture probably isn’t “just” in one place.

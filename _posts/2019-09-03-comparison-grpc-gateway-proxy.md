@@ -11,14 +11,19 @@ author:
       url: "https://www.linkedin.com/in/thinh-dang/"
 
 header:
-  overlay_image: /assets/images/grpc-comparison.png
+  overlay_image: /assets/images/grpc-comparison.webp
+  og_image: /assets/images/og.jpg
   overlay_filter: 0.5 
-  teaser: /assets/images/grpc-comparison.png
+  teaser: /assets/images/grpc-comparison-teaser.webp
 toc: true
 toc_sticky: true
 title:  "So sánh grpc gateway với gRPC web"
-tags: 
-- gRPC
+tags:
+    - API Design
+description: "Bạn đang có một service sử dụng gRPC để đảm bảo vấn đề hiệu năng khi giao tiếp. Nhưng rồi một ngày, bạn muốn xây một admin web cho nó nhưng trình duyệt lại…"
+last_modified_at: 2019-09-07
+categories:
+    - web-development
 ---
 
 

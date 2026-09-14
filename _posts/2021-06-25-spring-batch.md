@@ -12,14 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-  overlay_image: assets/images/streaming/spring-batch-banner.png
+  overlay_image: /assets/images/streaming/spring-batch-banner.webp
+  og_image: /assets/images/streaming/og.jpg
   overlay_filter: 0.5 
-  teaser: assets/images/streaming/spring-batch-banner.png
+  teaser: /assets/images/streaming/spring-batch-banner-teaser.webp
 title:  "Spring Batch: Xử lý dữ liệu dạng batch đơn giản"
-tags: 
-- batch processing
-- spring
-- spring batch
+tags:
+    - Data Engineering
+    - Java
+description: "Các bạn đã bao giờ gặp tình cảnh được yêu cầu tính report từ dữ liệu trong database để hỗ trợ cho business."
+last_modified_at: 2023-05-05
+categories:
+    - infrastructure
 ---
 
 Các bạn đã bao giờ gặp tình cảnh được yêu cầu tính report từ dữ liệu trong database để hỗ trợ cho business. Thường thì chúng ta sẽ nghĩ ngay tới giải pháp mì ăn liền là dùng script python với pandas để xử lý đóng csv được xuất từ database. Hoặc một yêu cầu hay gặp hơn, khi chúng ta nâng cấp hệ thống từ version cũ sang version mới thì dữ liệu cần được migrate. Thường thì chúng ta phải từ hiện thực một tool hay script để làm điều này. Nhưng hôm nay, mình giới thiệu các bạn một framework nổi tiếng đó là Spring Batch. Cùng mình bắt đầu phần 2 của series làm quen với Streaming Data nào.

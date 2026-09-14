@@ -12,15 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/multi-agent/banner.png
+    overlay_image: /assets/images/multi-agent/banner.webp
+    og_image: /assets/images/multi-agent/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/multi-agent/banner.png
+    teaser: /assets/images/multi-agent/teaser.webp
 title: "Building Intelligent Multi-Agent Systems with Coordinators"
 tags:
     - AI
-    - Multi-Agent
-    - Development
-    - AI Agent
+    - AI Agents
+    - Software Engineering
+categories:
+    - ai-engineering
+description: "In the rapidly evolving landscape of AI-powered applications, we're seeing a shift from monolithic single-agent systems to sophisticated multi-agent…"
+last_modified_at: 2025-07-19
 ---
 
 In the rapidly evolving landscape of AI-powered applications, we're seeing a shift from monolithic single-agent systems to sophisticated multi-agent architectures. While a single AI agent might seem simpler, complex domains like incident response, customer support, and technical troubleshooting often require specialized expertise that no single agent can effectively provide.

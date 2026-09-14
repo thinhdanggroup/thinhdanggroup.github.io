@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+# GitHub Pages builds the live site itself; this job exists to catch build
+# failures and broken links *before* they reach production.
+jobs:
+  build:
+    name: Build and validate
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - name: Build site
+        run: bundle exec jekyll build --trace
+        env:
+          JEKYLL_ENV: production
+
+      - name: Install HTMLProofer
+        run: gem install html-proofer -v 5.0.9
+
+      # External links are deliberately not checked: third-party sites rate-limit
+      # and go down, which would make CI fail for reasons unrelated to the change.
+      - name: Check internal links and images
+        run: |
+          htmlproofer ./_site \
+            --disable-external \
+            --checks Links,Images,Scripts \
+            --ignore-urls "/^#/" \
+            --no-enforce-https \
+            --swap-urls "^/:/"
+
+  frontmatter:
+    name: Front matter contract
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install pyyaml
+
+      - name: Every post has description, tags, category and a WebP banner
+        run: python script/check_frontmatter.py

@@ -12,14 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/predictive-reinforcement-learning-autoscaling/banner.png
+    overlay_image: /assets/images/predictive-reinforcement-learning-autoscaling/banner.webp
+    og_image: /assets/images/predictive-reinforcement-learning-autoscaling/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/predictive-reinforcement-learning-autoscaling/banner.png
+    teaser: /assets/images/predictive-reinforcement-learning-autoscaling/teaser.webp
 title: "Predictive Scaling 2.0: Using Reinforcement Learning to Optimize Kubernetes Autoscaling Policies"
 tags:
-    - predictive
-    - autoscaling policis
-    - reinforcement learning
+    - Autoscaling
+    - AI
+categories:
+    - infrastructure
+description: "It’s 02:37. Your phone vibrates like it’s trying to tunnel through the nightstand."
+last_modified_at: 2026-01-01
 ---
 
 It’s 02:37. Your phone vibrates like it’s trying to tunnel through the nightstand.

@@ -12,14 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/guide-to-run-deepseek-r1-locally-/banner.jpeg
+    overlay_image: /assets/images/guide-to-run-deepseek-r1-locally-/banner.webp
+    og_image: /assets/images/guide-to-run-deepseek-r1-locally-/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/guide-to-run-deepseek-r1-locally-/banner.jpeg
+    teaser: /assets/images/guide-to-run-deepseek-r1-locally-/teaser.webp
 title: "Running Deepseek R1 Locally: A Comprehensive Guide"
 tags:
-    - DeepSeek R1
-    - Ollama
+    - LLM
 
+categories:
+    - ai-engineering
+description: "This article provides a step-by-step guide on how to run Deepseek R1, an advanced reasoning model, on your local machine."
+last_modified_at: 2025-01-28
 ---
 
 This article provides a step-by-step guide on how to run Deepseek R1, an advanced reasoning model, on your local machine. Deepseek R1 is designed to enhance tasks involving math, code, and logic using reinforcement learning, and is available in various versions to suit different needs. The guide begins with an introduction to Deepseek R1 and its open-source nature, which supports the research community by offering versatile tools for developers and researchers.

@@ -12,12 +12,17 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/python313-upgrade-guide/banner.png
+    overlay_image: /assets/images/python313-upgrade-guide/banner.webp
+    og_image: /assets/images/python313-upgrade-guide/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/python313-upgrade-guide/banner.png
+    teaser: /assets/images/python313-upgrade-guide/teaser.webp
 title: "Should You Upgrade to Python 3.13? Here’s What You’ll Gain (and Lose)"
 tags:
-    - Python 3.13
+    - Python
+categories:
+    - python
+description: "Python 3.13 shipped on October 7, 2024, and it’s not just another point release. It brings a brand‑new interactive interpreter, experimental free‑threading…"
+last_modified_at: 2025-10-25
 ---
 
 Python 3.13 shipped on **October 7, 2024**, and it’s not just another point release. It brings a brand‑new interactive interpreter, experimental **free‑threading** (yes, that “no‑GIL” you’ve heard about), an experimental JIT you can build in, and a batch of pragmatic standard‑library and typing improvements. It also **removes** a long‑deprecated set of “dead batteries,” the `2to3` tool, and a handful of lesser‑used APIs. In short: there’s a lot to love—but a few sharp edges you’ll want to account for. ([Python documentation][1])

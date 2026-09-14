@@ -12,14 +12,16 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/ebpf-observability/banner.png
+    overlay_image: /assets/images/ebpf-observability/banner.webp
+    og_image: /assets/images/ebpf-observability/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/ebpf-observability/banner.png
+    teaser: /assets/images/ebpf-observability/teaser.webp
 title: "Tracing the Future: Using eBPF for Low-Overhead Observability in Cloud-Native Systems"
 tags:
-    - eBPF
-    - observability
-    - tracing
+    - Observability
+categories:
+    - infrastructure
+description: "Modern production systems are like busy airports: thousands of “flights” (requests) landing and taking off across microservices, queues, and databases."
 ---
 
 Modern production systems are like busy airports: thousands of “flights” (requests) landing and taking off across microservices, queues, and databases. When a storm rolls in—latency spikes, error rates climb—you need air-traffic-controller-level visibility without shutting down the runway to install new cameras.

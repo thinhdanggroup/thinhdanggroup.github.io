@@ -12,14 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/function_calling/banner.jpeg
+    overlay_image: /assets/images/function_calling/banner.webp
+    og_image: /assets/images/function_calling/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/function_calling/banner.jpeg
+    teaser: /assets/images/function_calling/teaser.webp
 title: "Demystifying Function Calling in OpenAI: An In-Depth Guide"
 tags:
-    - OpenAI
-    - Function Calling
+    - LLM
 
+categories:
+    - ai-engineering
+description: "In this blog post, we delve into the concept of function calling in OpenAI, a feature that has been revolutionizing the way developers interact with GPT…"
+last_modified_at: 2023-09-02
 ---
 
 In this blog post, we delve into the concept of function calling in OpenAI, a feature that has been revolutionizing the

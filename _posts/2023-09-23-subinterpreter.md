@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/subinterpreter/banner.jpeg
+    overlay_image: /assets/images/subinterpreter/banner.webp
+    og_image: /assets/images/subinterpreter/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/subinterpreter/banner.jpeg
+    teaser: /assets/images/subinterpreter/teaser.webp
 title: "Python 3.12 Subinterpreters: A New Era of Concurrency"
 tags:
     - Python
 
+categories:
+    - python
+description: "This blog post will introduce you to the exciting new feature in Python 3.12 - Subinterpreters."
+last_modified_at: 2023-12-19
 ---
 
 This blog post will introduce you to the exciting new feature in Python 3.12 - Subinterpreters. We'll start by explaining what subinterpreters are, their history, and how they compare to threads, processes, and greenlets. From there, we'll delve into why subinterpreters were introduced, discussing the limitations of the Global Interpreter Lock (GIL) and how subinterpreters can improve performance and concurrency in Python. We'll then provide a step-by-step guide on how to use the Subinterpreters API to create, run code in, share data between, and destroy subinterpreters. We'll also provide real-world examples of how subinterpreters can be used to improve performance and security in applications. Finally, we'll discuss the future of subinterpreters, including the proposed PEP 554, and their potential to revolutionize Python's concurrency model. Whether you're a seasoned Python developer or just starting out, this post will give you a comprehensive understanding of Python 3.12 subinterpreters and their potential impact on the Python ecosystem.

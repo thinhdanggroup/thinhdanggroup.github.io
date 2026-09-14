@@ -12,16 +12,20 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/nestjs-e2e-docker/banner.jpeg
+    overlay_image: /assets/images/nestjs-e2e-docker/banner.webp
+    og_image: /assets/images/nestjs-e2e-docker/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/nestjs-e2e-docker/banner.jpeg
+    teaser: /assets/images/nestjs-e2e-docker/teaser.webp
 title: "Mastering End-to-End Testing in NestJS with TypeScript and Docker"
 tags:
-    - NestJS
-    - NodeJS
-    - E2E Testing
+    - Node.js
+    - Testing
     - Docker
 
+categories:
+    - web-development
+description: "This article is a step-by-step guide to mastering end-to-end testing in NestJS applications using TypeScript."
+last_modified_at: 2024-06-08
 ---
 
 This article is a step-by-step guide to mastering end-to-end testing in NestJS applications using TypeScript. It covers the importance of E2E testing, setting up the testing environment, and writing and running E2E tests. The article also provides unique insights into testing scenarios involving PostgreSQL and Redis databases, including the Cache Aside pattern. Whether you're a beginner or an experienced developer, this article offers valuable knowledge and best practices to ensure the reliability and robustness of your NestJS applications.

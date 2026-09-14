@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/availability/banner.jpeg
+    overlay_image: /assets/images/availability/banner.webp
+    og_image: /assets/images/availability/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/availability/banner.jpeg
+    teaser: /assets/images/availability/teaser.webp
 title: "Mastering Availability Patterns in Distributed Systems: A Comprehensive Guide"
 tags:
     - System Design
 
+categories:
+    - distributed-systems
+description: "In the world of distributed systems, availability is a critical factor. It refers to the ability of a system to be accessible and operational, ensuring that…"
+last_modified_at: 2023-11-26
 ---
 
 In the world of distributed systems, availability is a critical factor. It refers to the ability of a system to be accessible and operational, ensuring that users can access the resources and services provided by the system at any given time. This blog post will delve into the complex world of availability patterns in distributed systems. We will explore different availability patterns, such as active-active, active-passive, failover, replication, sharding, and load balancing. We will guide you on how to implement these patterns, discussing the necessary steps, tools, and technologies, as well as the challenges you might face. Furthermore, we will explain how to test these patterns, discussing the importance of testing, types of tests, and best practices. Finally, we will discuss the best practices and common anti-patterns in distributed systems availability. This comprehensive guide aims to equip you with the knowledge and skills to master availability patterns in distributed systems, enhancing your system's reliability and user experience.

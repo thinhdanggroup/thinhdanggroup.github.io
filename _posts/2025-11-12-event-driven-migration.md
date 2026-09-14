@@ -12,14 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/event-driven-migration/banner.png
+    overlay_image: /assets/images/event-driven-migration/banner.webp
+    og_image: /assets/images/event-driven-migration/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/event-driven-migration/banner.png
+    teaser: /assets/images/event-driven-migration/teaser.webp
 title: "Zero‑Downtime Schema Evolution: Event‑Driven Migration with Debezium and Temporal"
 tags:
-    - event-driven migration
-    - debezium
-    - temporal
+    - Event-Driven Architecture
+    - Change Data Capture
+    - Temporal
+categories:
+    - distributed-systems
+description: "Changing a live database is like moving furniture while the party is still going. Someone always needs a chair; someone else is standing exactly where you…"
+last_modified_at: 2025-11-15
 ---
 
 > As microservices mature, schema evolution and migration reliability are critical—this post dives deep into combining Debezium change streams with Temporal workflows to ensure database changes are atomic (in effect) and reversible.

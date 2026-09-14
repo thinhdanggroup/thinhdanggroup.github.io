@@ -12,13 +12,17 @@ author:
 toc: true
 toc_sticky: true
 header:
-  overlay_image: /assets/images/prompt_engineering/banner.jpeg
+  overlay_image: /assets/images/prompt_engineering/banner.webp
+  og_image: /assets/images/prompt_engineering/og.jpg
   overlay_filter: 0.5 
-  teaser: /assets/images/prompt_engineering/banner.jpeg
+  teaser: /assets/images/prompt_engineering/teaser.webp
 title:  "Prompt Engineering"
-tags: 
-- AGI
-- prompt engineering
+tags:
+    - LLM
+description: "Welcome to this blog where I'll be your guide into the fascinating world of prompt engineering!"
+last_modified_at: 2023-08-20
+categories:
+    - ai-engineering
 ---
 
 Welcome to this blog where I'll be your guide into the fascinating world of prompt engineering! This emerging field is changing the way we interact with AI systems and I'm excited to share its ins and outs with you. I'll explore how prompt engineering plays a crucial role in content generation, the process it involves, and what it's like to be a prompt engineer. I'll also see how it stacks up against traditional content generation methods. 

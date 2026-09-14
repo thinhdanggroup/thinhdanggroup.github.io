@@ -12,14 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/essential-cache-concepts/banner.jpeg
+    overlay_image: /assets/images/essential-cache-concepts/banner.webp
+    og_image: /assets/images/essential-cache-concepts/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/essential-cache-concepts/banner.jpeg
+    teaser: /assets/images/essential-cache-concepts/teaser.webp
 title: "10 Cache Concepts Every Programmer Should Know"
 tags:
-    - xxx
-    - yyy 
+    - Caching
+    - System Design
 
+description: "Caching is a powerful technique that can significantly improve the performance and scalability of applications."
+last_modified_at: 2024-09-03
+categories:
+    - databases
 ---
 
 Caching is a powerful technique that can significantly improve the performance and scalability of applications. This blog post will guide you through the essential caching concepts every programmer should know. Starting with an introduction to caching, we'll explore client-side caching methods like browser cache and service workers, which enhance user experience by reducing load times and enabling offline access. We'll then dive into server-side caching techniques such as page, fragment, and object caching to optimize server performance. The article will also cover database caching methods like query and row-level caching to improve database efficiency. Application-level caching will be discussed, focusing on data and computational caching to boost application performance. Distributed caching will be explained for its role in enhancing scalability and reliability. Content Delivery Networks (CDNs) will be highlighted for their ability to reduce latency by storing static files close to users. We'll delve into cache replacement policies like LRU, MRU, and LFU to manage cached data effectively. Hierarchical caching will be covered to balance speed and capacity. Cache invalidation techniques will be discussed to ensure data consistency. Finally, we'll explore caching patterns such as write-through, write-behind, and write-around to optimize your caching strategy. By understanding and implementing these caching concepts, you can enhance your application's efficiency and user experience, staying ahead in your programming journey.
@@ -360,7 +365,7 @@ def generate_report(report_id):
 
 In this example, the report is cached for 86400 seconds (24 hours). When a user requests the report, the application first checks the cache. If the report is not in the cache, it generates the report and stores the result in the cache for future requests.
 
-![computational-caching](/assets/images/essential-cache-concepts/computational-caching.mmd.svg)
+![computational-caching](/assets/images/essential-cache-concepts/computional-caching.mmd.svg)
 
 By caching the results of expensive computations, the application can serve these results quickly and reduce the computational load.
 

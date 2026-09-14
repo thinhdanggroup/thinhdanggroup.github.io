@@ -12,14 +12,16 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/airflow-prefect-dagster/banner.png
+    overlay_image: /assets/images/airflow-prefect-dagster/banner.webp
+    og_image: /assets/images/airflow-prefect-dagster/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/airflow-prefect-dagster/banner.png
+    teaser: /assets/images/airflow-prefect-dagster/teaser.webp
 title: "Comparing Workflow Architectures: Prefect vs. Dagster vs. Airflow"
 tags:
-    - Prefect
-    - Dagster
-    - Airflow
+    - Data Engineering
+categories:
+    - infrastructure
+description: "What really happens when you “schedule a job”? If you’ve ever pushed a button in a nice UI and watched a pipeline spring to life, you’ve probably felt the…"
 ---
 
 _What really happens when you “schedule a job”?_ If you’ve ever pushed a button in a nice UI and watched a pipeline spring to life, you’ve probably felt the orchestration black box humming underneath. This post opens that box. We’ll compare **Prefect**, **Dagster**, and **Apache Airflow** from an architectural point of view—how each models work, launches it, watches it, and keeps the whole operation upright when a single task decides to go cliff-diving.

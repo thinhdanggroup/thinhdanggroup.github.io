@@ -12,14 +12,19 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/testcontainers-nodejs/banner.jpeg
+    overlay_image: /assets/images/testcontainers-nodejs/banner.webp
+    og_image: /assets/images/testcontainers-nodejs/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/testcontainers-nodejs/banner.jpeg
+    teaser: /assets/images/testcontainers-nodejs/teaser.webp
 title: "A Comprehensive Guide to Testcontainers for Node.js"
 tags:
-    - Testcontainers
+    - Testing
     - Node.js
 
+categories:
+    - software-engineering
+description: "Testcontainers is a valuable tool for Node.js developers to write reliable and maintainable tests."
+last_modified_at: 2024-03-17
 ---
 
 Testcontainers is a valuable tool for Node.js developers to write reliable and maintainable tests. It provides a consistent and isolated testing environment, enabling developers to identify and fix issues early on. With its advanced features and growing popularity, Testcontainers for Node.js is expected to continue playing a significant role in the future of software testing.

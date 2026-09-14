@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-  overlay_image: /assets/images/ngrok/banner.png
+  overlay_image: /assets/images/ngrok/banner.webp
+  og_image: /assets/images/ngrok/og.jpg
   overlay_filter: 0.5 
-  teaser: /assets/images/ngrok/banner.png
+  teaser: /assets/images/ngrok/teaser.webp
 title:  "Hướng dẫn public service lên internet với ngrok và docker-compose"
 author: thinhda
-tags: 
-- ngrok
+tags:
+    - Developer Tools
+description: "Nếu bạn đang muốn public service chạy ở máy local ra mạng internet, hoặc là một ssh server hay ftp server thì Ngrok là một giải pháp hoàn hảo cho vấn đề này."
+last_modified_at: 2021-07-26
+categories:
+    - infrastructure
 ---
 
 Nếu bạn đang muốn public service chạy ở máy local ra mạng internet, hoặc là một ssh server hay ftp server thì Ngrok là một giải pháp hoàn hảo cho vấn đề này.

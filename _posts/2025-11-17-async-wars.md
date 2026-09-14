@@ -12,14 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/async-wars/banner.png
+    overlay_image: /assets/images/async-wars/banner.webp
+    og_image: /assets/images/async-wars/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/async-wars/banner.png
+    teaser: /assets/images/async-wars/teaser.webp
 title: "Async Wars: Comparing Python’s Free-Threaded Future vs Node.js Event Loop at Scale"
 tags:
-    - async
+    - Concurrency
+    - Python
+    - Node.js
+categories:
     - python
-    - nodejs
+description: "If you’ve ever stood in a noisy data-center (or, more likely, a noisy Slack channel) debating “Django vs."
 ---
 
 If you’ve ever stood in a noisy data-center (or, more likely, a noisy Slack channel) debating “Django vs. Node,” you already know how quickly the conversation collapses into the same two claims:

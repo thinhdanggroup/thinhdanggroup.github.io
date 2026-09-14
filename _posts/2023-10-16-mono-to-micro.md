@@ -12,13 +12,18 @@ author:
 toc: true
 toc_sticky: true
 header:
-    overlay_image: /assets/images/mono_micro/banner.jpeg
+    overlay_image: /assets/images/mono_micro/banner.webp
+    og_image: /assets/images/mono_micro/og.jpg
     overlay_filter: 0.5
-    teaser: /assets/images/mono_micro/banner.jpeg
+    teaser: /assets/images/mono_micro/teaser.webp
 title: "Navigating the Migration from Monolithic to Microservices Architecture"
 tags:
     - System Design
 
+categories:
+    - distributed-systems
+description: "This blog post provides an in-depth guide on migrating from Monolithic to Microservices Architecture."
+last_modified_at: 2023-11-15
 ---
 
 This blog post provides an in-depth guide on migrating from Monolithic to Microservices Architecture. It starts with defining the two architectures and their key differences, pros, and cons. The post then delves into the reasons for migrating, such as increased scalability, flexibility, resilience, and speed. A step-by-step guide to migration is provided, from planning and identifying the services to designing, building, integrating, testing, deploying, monitoring, managing, and optimizing the services. The benefits of migrating, including increased scalability, flexibility, resilience, faster deployment, independent development and technology diversity, distributed development, fault isolation, support for growth and expansion, improved customer experience, and innovation and speed, are discussed. The post concludes by identifying the challenges in migrating and providing best practices to overcome these challenges. Whether you're an experienced software engineer or a beginner looking to understand more about microservices, this post offers valuable insights and practical steps to navigate the migration process.
