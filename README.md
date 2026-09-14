@@ -143,8 +143,23 @@ cron, launchd, or a workflow yourself.
 ### Before the first run
 
 1. `make install` — provides `bundle`, which full (non-`--fast`) preflight needs;
-   Stage 5 always runs full preflight, so skipping this surfaces as a confusing
-   exit-`50` preflight failure on your first real run
+   Stage 5 always runs full preflight, so skipping this surfaces as an exit-`50`
+   preflight failure on your first real run.
+
+   **Then check that `bundle` is on the `PATH` your scheduler will use.** Bundler
+   commonly installs into the *user gem directory*, which an interactive shell puts on
+   `PATH` and cron does not — so `bundle` works when you test by hand and is missing
+   when the scheduled run fires. Confirm with `command -v bundle`, and if a scheduled
+   run cannot find it, export the gem dir at the top of the cron entry or wrapper:
+
+   ```bash
+   export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+   ```
+
+   `preflight.sh` reports this case as exit `2` ("the environment cannot run the
+   checks") rather than exit `1` ("a check failed"), and the skill treats the two
+   differently: on a `2` the post was never checked, so the draft and the topic's
+   `claimed` state are preserved untouched instead of being rolled back.
 2. `pip install -r script/daily_post/requirements.txt`
 3. Install `claude` (the Claude Code CLI) — it is the first thing `run.sh` checks for,
    before `gh`, and it invokes it headless as `claude -p "/daily-post"`. Confirm a
@@ -193,10 +208,10 @@ cron, launchd, or a workflow yourself.
 | `30` | Already ran today (post or branch for today exists) | Nothing — expected on a double-fire |
 | `31` | Another run holds the lock | Nothing once; **investigate if it repeats** — a hung run holding the lock stops the pipeline |
 | `40` | Precondition failed (`claude`/`gh` missing, not on `master`, dirty tree, stale `master`) | Fix the environment |
-| `50` | Preflight red or the pipeline reported nothing | Check `.git/daily-post-logs/` |
+| `50` | Preflight red or the pipeline reported nothing | Check `.git/daily-post-logs/`. A preflight exit `2` lands here too: that one means the environment could not run the checks (bundler missing or not on `PATH`), the post was never checked, and the draft plus the topic claim were left intact for a re-run |
 | `60` | The skill exceeded its timeout (1h, `DAILY_POST_TIMEOUT`) and was killed | Read the log; the run left the lock free |
 | `70` | Publish-boundary violation: something other than `_data/topic_queue.yml` landed on local `master` | **Inspect `master` — and `origin/master`.** `run.sh` pushes nothing itself, but the skill pushes queue state during Stages 1 and 5, so the remote may already have it |
-| `71` | The run left the working tree dirty | Inspect and resolve; left in place on purpose, and tomorrow's run would otherwise fail its precondition a day later |
+| `71` | The run left the working tree dirty | Inspect and resolve; left in place on purpose, and tomorrow's run would otherwise fail its precondition a day later. **A preflight exit `2` lands here on purpose**: the environment could not run the checks, so the finished draft is kept in the tree rather than discarded — fix the environment, re-run preflight on the kept draft, or move it aside deliberately |
 
 **Requires `gh`**, installed and authenticated — the PR step depends on it.
 

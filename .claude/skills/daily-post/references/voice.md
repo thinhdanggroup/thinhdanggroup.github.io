@@ -34,6 +34,25 @@ than the 2,000–3,300 word flagship posts, without being thinner in substance.
   post makes more than one distinct claim worth restating; otherwise go straight from
   the last body section into "Further reading".
 
+### What counts toward the word count
+
+The 1,000–1,500 range counts **prose words only**. Excluded, because
+none of them is writing the reader reads as prose:
+
+- the YAML front matter block;
+- fenced code blocks, in full, fences included — a post with a long worked example is
+  not thereby a long post;
+- the closing link list — everything from the final "Further reading" / "Further
+  Reading & References" / "References" heading to the end of the file.
+
+Everything else counts, including headings, prose inside list items, and inline code
+spans. This definition is the single source for the bound: `gates.md`'s Gate 4
+measures against it and nothing else, and two runs must never be able to disagree
+about whether a draft is in range. **A draft already inside the range is finished on
+this axis** — do not compress correct prose to land nearer some midpoint. Squeezing
+a passing draft is exactly the churn that produces the bland, hedged writing the
+gates exist to prevent.
+
 ## Register
 
 Direct and technical, second person ("your control plane", "you end up copy-pasting"),

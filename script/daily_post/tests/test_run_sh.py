@@ -99,15 +99,46 @@ def test_exit_30_when_a_branch_for_today_already_exists(fake_repo: Path, stub_bi
     assert run(fake_repo, stub_bin).returncode == 30
 
 
-def test_exit_40_when_gh_is_missing(fake_repo: Path, stub_bin: Path):
-    """Relies on the real PATH having no `gh` — true on this machine.
+@pytest.fixture
+def path_without_gh(tmp_path: Path) -> Path:
+    """A PATH directory mirroring the real PATH with `gh` removed.
+
+    This test used to rely on the machine's real PATH simply having no `gh`,
+    which is a fact about one laptop rather than about run.sh: it started
+    failing the moment `gh` was installed — and `gh` is a prerequisite of the
+    very pipeline under test, so installing it is the expected state. Mirroring
+    the PATH keeps `git`, `python3`, `flock` and `timeout` reachable (dropping
+    them would make run.sh die on a *different* precondition and pass this test
+    for the wrong reason) while making `gh` genuinely absent.
+    """
+    shim = tmp_path / "path-without-gh"
+    shim.mkdir()
+    for directory in os.environ.get("PATH", "").split(os.pathsep):
+        if not directory or not os.path.isdir(directory):
+            continue
+        for entry in os.scandir(directory):
+            link = shim / entry.name
+            if entry.name == "gh" or os.path.lexists(link):
+                continue
+            try:
+                link.symlink_to(entry.path)
+            except OSError:
+                pass
+    assert not os.path.lexists(shim / "gh")
+    return shim
+
+
+def test_exit_40_when_gh_is_missing(
+    fake_repo: Path, stub_bin: Path, path_without_gh: Path
+):
+    """run.sh must hard-fail with 40 when `gh` cannot be found.
 
     Do not override PATH to just `stub_bin`: that also hides `git`, and run.sh
     then fails on the git precondition instead of the gh one.
     """
     (stub_bin / "gh").unlink()
-    result = run(fake_repo, stub_bin)
-    assert result.returncode == 40
+    result = run(fake_repo, stub_bin, PATH=f"{stub_bin}{os.pathsep}{path_without_gh}")
+    assert result.returncode == 40, result.stdout + result.stderr
     assert "gh" in (result.stdout + result.stderr)
 
 

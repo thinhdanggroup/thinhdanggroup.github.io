@@ -23,6 +23,13 @@ in the tree, does not fail loudly today — it silently turns tomorrow's run int
 failure (exit 40) or bases tomorrow's post on today's abandoned branch. Every stopping
 point below says explicitly how to leave the tree clean; none of that is optional.
 
+**One deliberate exception**, and only one: a preflight that exits `2` because the
+*environment* cannot run the checks (Stage 5). There the finished draft is kept in the
+tree on purpose, `run.sh` reports the dirty tree as exit `71`, and that loudness is
+the point — the machine is broken, an operator has to fix it before any run can
+succeed, and throwing away a good post to keep the tree tidy would be the worse
+trade.
+
 ### Queue bookkeeping and master
 
 **Queue state is pipeline bookkeeping and lives on `master`. Post content lives in the
@@ -128,6 +135,13 @@ If this call fails (a transient GitHub API or network problem), log it and conti
 — a missing guard is not a reason to abort the run; treat the candidate as if no open
 PR matched it, the same way `run.sh` itself logs a warning and falls back to its
 local checks when `git ls-remote` fails.
+
+**When the check was skipped or failed, the claim below is still written.** Skipping
+the check is not a reason to skip the claim, and the two omissions are not
+symmetrical: a missing guard makes a duplicate topic *possible*, while a missing claim
+makes one *likely*, because the queue would still read `queued` and nothing would then
+stop tomorrow's run choosing this very topic again. Proceed to the claim exactly as if
+the check had run and matched nothing.
 
 Compare the candidate's title and angle against the open PRs' titles by judgement,
 not a literal string match — a differently-worded PR covering the same underlying
@@ -238,14 +252,52 @@ python3 script/daily_post/make_banner.py \
   --title "<title>" --category <category> --slug <slug>
 ```
 
-Run preflight — exactly what CI runs — via `script/daily_post/preflight.sh`:
+Run preflight — exactly what CI runs — via `script/daily_post/preflight.sh`, and
+**read its exit code**, which distinguishes a broken post from a broken machine:
 
 ```bash
 script/daily_post/preflight.sh
+echo "preflight exit code: $?"
 ```
 
-**If preflight is red:** fix what it reports and run it again. Never push a branch
-that CI will reject. If it is still red after one fix, this run's own output was
+| Exit | Meaning | What it says about this run's post |
+| --- | --- | --- |
+| `0` | Green | The post passed every check. Continue below. |
+| `1` | Red — a check ran and failed | The post is implicated. |
+| `2` | Environment — the checks could not run at all | **Nothing.** The post was never checked. |
+
+**If preflight exits 2 (environment):** the post is *not* implicated — bundler is
+missing or not on `PATH`, or `bundle exec jekyll` is not runnable, so no check ever
+formed an opinion about the draft. Treat this run's work as intact and leave it
+exactly where it is:
+
+- **Do not** revert the topic to `queued`. It stays `claimed`, which is correct: the
+  work exists and nobody should re-pick the topic.
+- **Do not** move the draft aside, and do not clean the generated images. The draft
+  stays at `_posts/$(date +%F)-<slug>.md` so that re-running preflight on a fixed
+  machine picks up exactly where this run stopped.
+- Log plainly what happened, then write the status token — the operator still has to
+  fix the machine, so this is not a success:
+
+  ```bash
+  echo "preflight could not run: the ENVIRONMENT is broken, not the post. The draft
+  at _posts/$(date +%F)-<slug>.md and the topic's 'claimed' state are both intact and
+  deliberately untouched. Fix the environment (usually: 'make install', or put the
+  user gem dir on PATH with
+  export PATH=\"\$(ruby -e 'print Gem.user_dir')/bin:\$PATH\") and re-run preflight." >&2
+  echo preflight-failed > "$DAILY_POST_STATUS"
+  ```
+
+  Then stop, leaving `master` checked out. No branch was created on this path and no
+  queue commit is owed, so the only uncommitted things in the tree are this run's own
+  draft and images, kept on purpose. `run.sh` will see that and report exit `71`
+  (dirty tree) rather than `50`; that is the intended outcome here — the log carries
+  the ENVIRONMENT message above, and the operator has to fix the machine before the
+  next run can work anyway. This is the one exception to the clean-tree rule stated at
+  the top of this file.
+
+**If preflight exits 1 (red):** fix what it reports and run it again. Never push a
+branch that CI will reject. If it is still red after one fix, this run's own output was
 broken, not the topic:
 
 - **If the topic came from the queue**, return it to `queued` so a future run
@@ -325,7 +377,7 @@ operator note under "Failure handling".)
 open the PR *first* — nothing below writes to `master` until the PR exists:
 
 ```bash
-git checkout -b "daily-post/$(date +%F)-<slug>"
+git switch -c "daily-post/$(date +%F)-<slug>"
 git add "_posts/$(date +%F)-<slug>.md" "assets/images/<slug>"
 git commit -m "<post title>"
 git push -u origin "daily-post/$(date +%F)-<slug>"
@@ -336,7 +388,7 @@ Only now that the PR exists, return to `master`, and — **if the topic came fro
 queue** — mark it published there, commit, and push:
 
 ```bash
-git checkout master
+git switch master
 python3 -c "
 from pathlib import Path
 from script.daily_post.queue import mark
@@ -354,7 +406,7 @@ queue entry for it — and just return to `master`, clean up the branch, and wri
 status:
 
 ```bash
-git checkout master
+git switch master
 git branch -D "daily-post/$(date +%F)-<slug>" 2>/dev/null || true
 echo published > "$DAILY_POST_STATUS"
 ```
@@ -377,7 +429,7 @@ entry to begin with. Either way, branch, commit the post and its images only, an
 open the draft PR first:
 
 ```bash
-git checkout -b "daily-post/$(date +%F)-<slug>"
+git switch -c "daily-post/$(date +%F)-<slug>"
 git add "_posts/$(date +%F)-<slug>.md" "assets/images/<slug>"
 git commit -m "<post title> [needs work]"
 git push -u origin "daily-post/$(date +%F)-<slug>"
@@ -398,7 +450,7 @@ Only once the draft PR exists, return to a clean `master` and write the status,
 exactly as on the green path:
 
 ```bash
-git checkout master
+git switch master
 git branch -D "daily-post/$(date +%F)-<slug>" 2>/dev/null || true
 echo blocked > "$DAILY_POST_STATUS"
 ```
@@ -426,7 +478,7 @@ paths above, in this order:
    a **literal directory under `assets/images/`**, written out in full, never a value
    built from a substitution and never `.` or the repo root; and never `rm -rf` a path
    built from a substituted value.
-3. `git checkout master`, then delete any local feature branch this run created
+3. `git switch master`, then delete any local feature branch this run created
    (`git branch -D daily-post/$(date +%F)-<slug>`).
 4. Write the status token.
 

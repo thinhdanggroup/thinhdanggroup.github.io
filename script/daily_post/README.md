@@ -15,7 +15,7 @@ precondition and fails fast with exit `40` if it is missing.
 | File | Responsibility |
 | --- | --- |
 | `run.sh` | Daily entry point: preconditions, idempotency, exit codes, logging |
-| `preflight.sh` | Front matter + jekyll build + htmlproofer, exactly as CI runs them |
+| `preflight.sh` | Front matter + jekyll build + htmlproofer, exactly as CI runs them. `0` green, `1` a check failed, `2` the environment cannot run the checks |
 | `similarity.py` | TF-IDF and cosine, standard library only |
 | `corpus.py` | Reads `_posts/*.md` into comparable records |
 | `dupe_check.py` | CLI: is this topic a duplicate? Exit 1 means yes |
@@ -39,14 +39,35 @@ the answer, not a failure — so `make` prints `Error 1` underneath the
 | `30` | Already ran today — a post or branch for today already exists |
 | `31` | Another run currently holds the lock. Separate from `30` on purpose: `30` is benign, but a `31` that repeats means a previous run hung and is still holding the lock, which silently stops the pipeline |
 | `40` | Precondition failed (missing tool, not a git repo, `gh` unauthenticated, **`master` not checked out**, dirty tree, stale `master`, log dir not creatable, lock unopenable) |
-| `50` | Preflight red, or the skill reported no status |
+| `50` | Preflight red (`preflight.sh` exit `1` or `2`), or the skill reported no status. On a `2` the environment is broken, not the post: the draft and the topic's `claimed` state are deliberately preserved — fix the machine and re-run |
 | `60` | The skill exceeded `DAILY_POST_TIMEOUT` (default 3600s) and was killed. Deliberately not `30` — a hung run must never report "nothing to do" |
 | `70` | Publish-boundary violation: files other than `_data/topic_queue.yml` landed on local `master`. `run.sh` pushes nothing itself, but the skill pushes queue state during Stages 1 and 5 — inspect `origin/master` as well as local `master` |
-| `71` | The run finished with an unclean working tree. Left in place for inspection; otherwise it surfaces as tomorrow's exit `40`, a day away from the run that caused it |
+| `71` | The run finished with an unclean working tree. Left in place for inspection; otherwise it surfaces as tomorrow's exit `40`, a day away from the run that caused it. A `preflight.sh` exit `2` reaches the operator this way rather than as `50`: the draft is deliberately kept in the tree, so the tree is deliberately dirty |
 
 `run.sh` exports `GIT_TERMINAL_PROMPT=0` and a `BatchMode=yes` `GIT_SSH_COMMAND` so no
 git operation can block on a passphrase or credential prompt, and it reaps
 `.git/daily-post-logs/` and `.git/daily-post-scratch/` entries older than 30 days.
+
+## preflight.sh exit codes
+
+`preflight.sh` distinguishes a broken post from a broken machine, because the skill
+acts on them differently:
+
+| Code | Meaning | What Stage 5 does |
+| --- | --- | --- |
+| `0` | Green — every check ran and passed | Branch, PR, publish |
+| `1` | Red — a check ran and failed (front matter, jekyll build, htmlproofer) | The post is implicated: a queue-sourced topic goes back to `queued` and the draft is moved aside to `.git/daily-post-scratch/` |
+| `2` | Environment — the checks could not run at all (python3 or bundler missing/not on `PATH`, `bundle exec jekyll` not runnable) | **Nothing is undone.** The post was never checked, so the draft and the topic's `claimed` state are both left exactly as they are; the run still writes `preflight-failed` so the operator investigates |
+
+The `2` path exists because the commonest environment failure is invisible: bundler
+installed into the user gem directory, which an interactive shell has on `PATH` and
+cron does not. Without a distinct code, that shows up as an ordinary red preflight —
+and a good, finished post gets silently discarded. Put the gem dir on `PATH` before
+running under a scheduler:
+
+```bash
+export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+```
 
 ## Permissions
 

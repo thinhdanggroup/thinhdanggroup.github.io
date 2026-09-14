@@ -120,9 +120,53 @@ with push rights costs considerably more.
 
 Check the draft against `references/voice.md`.
 
-**Block on:** any pattern in that file's "Hard blocks" section; a post outside
-1,000–1,500 words; a missing worked example; a closing section that summarises without
-concluding.
+### Length
+
+`voice.md` owns the word-count range **and** the definition of what counts toward it
+(its "What counts toward the word count" section). Do not restate either here and do
+not invent a counting rule of your own — an unstated convention is how one run ends up
+compressing prose another run would have passed.
+
+Measure it mechanically, so two runs cannot disagree. This counter implements
+`voice.md`'s definition exactly: front matter dropped, fenced code blocks dropped,
+everything from the closing link-list heading onward dropped.
+
+````bash
+python3 - "_posts/<date>-<slug>.md" <<'COUNT'
+import sys
+
+CLOSING = {"further reading", "further reading & references", "references"}
+lines = open(sys.argv[1], encoding="utf-8").read().splitlines()
+
+i = 0
+if lines and lines[0].strip() == "---":              # YAML front matter
+    i = 1
+    while i < len(lines) and lines[i].strip() != "---":
+        i += 1
+    i += 1
+
+words, in_code = 0, False
+for line in lines[i:]:
+    s = line.strip()
+    if s.startswith("```") or s.startswith("~~~"):    # fenced code block
+        in_code = not in_code
+        continue
+    if in_code:
+        continue
+    if s.startswith("#") and s.lstrip("#").strip().lower() in CLOSING:
+        break                                        # the closing link list
+    words += len(line.split())
+print(words)
+COUNT
+````
+
+Report that number in the verdict, passing or blocking, so the writer never has to
+guess which rule was applied. A draft already inside the range is in range: **do not
+ask for compression that only moves it around inside the bound.**
+
+**Block on:** any pattern in `voice.md`'s "Hard blocks" section; a prose-word count
+outside the range `voice.md` sets, measured as above; a missing worked example; a
+closing section that summarises without concluding.
 
 Do not block on dry humor or strong opinions — those are in-voice, and stripping them
 produces exactly the prose this gate exists to prevent.
