@@ -1,0 +1,48 @@
+import shutil
+import subprocess
+from pathlib import Path
+
+import pytest
+
+REPO = Path(__file__).resolve().parents[3]
+PREFLIGHT = REPO / "script" / "daily_post" / "preflight.sh"
+
+
+def run_preflight(*args: str) -> subprocess.CompletedProcess:
+    return subprocess.run(
+        [str(PREFLIGHT), *args], cwd=REPO, capture_output=True, text=True
+    )
+
+
+def test_preflight_script_exists_and_is_executable():
+    assert PREFLIGHT.is_file()
+    assert PREFLIGHT.stat().st_mode & 0o111, "preflight.sh must be chmod +x"
+
+
+def test_fast_mode_passes_on_the_clean_repo():
+    result = run_preflight("--fast")
+    assert result.returncode == 0, result.stdout + result.stderr
+
+
+def test_fast_mode_fails_on_a_post_that_breaks_the_contract():
+    """A post with no description must make preflight red."""
+    bad = REPO / "_posts" / "2099-01-01-preflight-self-test.md"
+    bad.write_text(
+        '---\ntitle: "Preflight self test"\ntags:\n    - Python\n'
+        "categories:\n    - python\n---\n\nBody.\n",
+        encoding="utf-8",
+    )
+    try:
+        result = run_preflight("--fast")
+        assert result.returncode != 0
+        assert "description" in (result.stdout + result.stderr)
+    finally:
+        bad.unlink()
+
+
+@pytest.mark.slow
+def test_full_preflight_builds_the_site():
+    if shutil.which("bundle") is None:
+        pytest.skip("bundler not installed")
+    result = run_preflight()
+    assert result.returncode == 0, result.stdout[-4000:] + result.stderr[-4000:]
