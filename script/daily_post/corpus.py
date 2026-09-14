@@ -1,0 +1,70 @@
+#!/usr/bin/env python3
+"""Read `_posts/*.md` into records the dedupe check can compare against.
+
+Deliberately reads the posts themselves rather than `blog_posts.json`: that export
+carries only title, tags, and date, and goes stale the moment `make generate` has
+not been run since the last post.
+"""
+from __future__ import annotations
+
+import re
+from dataclasses import dataclass
+from pathlib import Path
+
+import yaml
+
+FM_RE = re.compile(r"^---\s*\n(.*?\n)---\s*\n", re.S)
+H2_RE = re.compile(r"^##\s+(.+?)\s*$", re.M)
+DATED_NAME_RE = re.compile(r"^\d{4}-\d{2}-\d{2}-(.+)$")
+
+
+@dataclass(frozen=True)
+class Post:
+    slug: str
+    title: str
+    description: str
+    headings: tuple[str, ...]
+    path: Path
+
+    @property
+    def text(self) -> str:
+        """The fields worth comparing a candidate topic against."""
+        return " ".join([self.title, self.description, *self.headings])
+
+
+def load_posts(posts_dir: Path) -> list[Post]:
+    """Every parseable post. Unparseable files are skipped, not fatal.
+
+    A single malformed post must never take down the daily run.
+    """
+    posts: list[Post] = []
+    for path in sorted(posts_dir.glob("*.md")):
+        post = _read_post(path)
+        if post is not None:
+            posts.append(post)
+    return posts
+
+
+def _read_post(path: Path) -> Post | None:
+    text = path.read_text(encoding="utf-8")
+    match = FM_RE.match(text)
+    if not match:
+        return None
+    try:
+        fm = yaml.safe_load(match.group(1)) or {}
+    except yaml.YAMLError:
+        return None
+    if not isinstance(fm, dict):
+        return None
+
+    body = text[match.end():]
+    name_match = DATED_NAME_RE.match(path.stem)
+    slug = name_match.group(1) if name_match else path.stem
+
+    return Post(
+        slug=slug,
+        title=str(fm.get("title") or ""),
+        description=str(fm.get("description") or ""),
+        headings=tuple(H2_RE.findall(body)),
+        path=path,
+    )
