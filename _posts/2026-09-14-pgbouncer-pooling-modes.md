@@ -35,6 +35,26 @@ pool after client disconnects." Transaction pooling releases it "after transacti
 finishes." Statement pooling releases it "after query finishes," and "Transactions
 spanning multiple statements are disallowed in this mode."
 
+The difference is one question asked at three different moments — when does this
+server connection go back in the pool?
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant P as PgBouncer
+    participant B as Server connection
+    C->>P: connect
+    P->>B: lease a server connection
+    C->>P: SELECT 1
+    B-->>C: result
+    Note over P,B: statement mode hands it back here
+    C->>P: BEGIN / UPDATE / COMMIT
+    B-->>C: result
+    Note over P,B: transaction mode hands it back here
+    C->>P: disconnect
+    Note over P,B: session mode hands it back here
+```
+
 Read those as a contract, not a performance knob. In session mode, a client's session
 state — `SET search_path`, a prepared statement, a temp table, an advisory lock — lives
 as long as its connection, which is what every Postgres driver assumes. In transaction
@@ -78,6 +98,26 @@ def run_reconciliation(dsn: str) -> None:
         finally:
             with conn.cursor() as cur:
                 cur.execute("SELECT pg_advisory_unlock(%s)", (JOB_KEY,))
+```
+
+Traced through the pool, the lock and its release never meet:
+
+```mermaid
+sequenceDiagram
+    participant W as Reconciliation job
+    participant P as PgBouncer in transaction mode
+    participant A as Backend A
+    participant D as Backend D
+    W->>P: pg_try_advisory_lock(918273)
+    P->>A: runs here
+    A-->>W: true, lock now held on A
+    Note over P,A: transaction ends, A returns to the pool
+    W->>P: reconcile, many separate transactions
+    Note over P,D: each one may land on a different backend
+    W->>P: pg_advisory_unlock(918273)
+    P->>D: runs here
+    D-->>W: false plus a WARNING, no lock to release
+    Note over A: A still holds 918273 for up to server_lifetime
 ```
 
 Under session pooling this is fine. Under transaction pooling each `execute` is its own
