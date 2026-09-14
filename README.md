@@ -111,6 +111,10 @@ make daily-post-preflight   # what CI runs, locally
 make daily-post-dupe TITLE="A candidate title"   # check a topic against the archive
 ```
 
+`daily-post-dupe` exits `1` when the title IS a duplicate — that is the answer, not a
+failure — so `make` prints `Error 1` underneath the `DUPLICATE top score ...` line;
+read the score line above it, not the `Error 1`.
+
 Topics come from `_data/topic_queue.yml`. The pipeline takes the first entry with
 `status: queued`, marks it `claimed`, and writes it; when the queue is dry it discovers
 a topic from the web instead. **Keeping that file stocked is how you steer what gets
@@ -126,13 +130,20 @@ cron, launchd, or a workflow yourself.
 
 ### Before the first run
 
-1. `pip install -r script/daily_post/requirements.txt`
-2. Install and authenticate `gh` (`gh auth login`) — `run.sh` hard-fails with exit `40`
+1. `make install` — provides `bundle`, which full (non-`--fast`) preflight needs;
+   Stage 5 always runs full preflight, so skipping this surfaces as a confusing
+   exit-`50` preflight failure on your first real run
+2. `pip install -r script/daily_post/requirements.txt`
+3. Install `claude` (the Claude Code CLI) — it is the first thing `run.sh` checks for,
+   before `gh`, and it invokes it headless as `claude -p "/daily-post"`. Confirm a
+   headless invocation (`claude -p "..."`) actually completes without prompting on
+   your machine before trusting a scheduled run.
+4. Install and authenticate `gh` (`gh auth login`) — `run.sh` hard-fails with exit `40`
    without it
-3. Verify the open-PR check actually works, by running that exact
+5. Verify the open-PR check actually works, by running that exact
    `gh pr list --state open --search "daily-post" --json title,headRefName` command in
    the repo and confirming it returns JSON (an empty array is the expected result today)
-4. `make daily-post-test` to confirm the suite is green on your machine
+6. `make daily-post-test` to confirm the suite is green on your machine
 
 ### Exit codes
 

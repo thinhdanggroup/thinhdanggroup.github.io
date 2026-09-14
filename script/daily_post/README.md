@@ -22,6 +22,10 @@ precondition and fails fast with exit `40` if it is missing.
 | `queue.py` | Read and update `_data/topic_queue.yml` |
 | `make_banner.py` | Pillow-rendered `banner.webp` and `teaser.webp` |
 
+`make daily-post-dupe TITLE="..."` exits `1` when the title IS a duplicate — that is
+the answer, not a failure — so `make` prints `Error 1` underneath the
+`DUPLICATE top score ...` line; read the score line, not the `Error 1`.
+
 ## Why standard library only
 
 `scikit-learn` and `numpy` are installed on the target machine but broken
