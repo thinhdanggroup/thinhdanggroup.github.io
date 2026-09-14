@@ -13,7 +13,8 @@ topics:
     angle: "pgbouncer's three pooling modes, what each one breaks, and how to pick"
     category: databases
     tags: [PostgreSQL, Performance]
-    status: queued
+    status: claimed
+    claimed_on: '2026-09-14'
 
   - id: python-free-threading
     title: "Free-threaded Python on a real workload"
