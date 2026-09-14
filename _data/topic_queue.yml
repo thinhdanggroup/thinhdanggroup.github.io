@@ -1,0 +1,30 @@
+# Topics for the daily post pipeline.
+#
+# The pipeline takes the first entry with `status: queued`, marks it `claimed`,
+# and writes it. When the queue is dry it discovers a topic from the web instead,
+# so keeping entries here is how you steer what gets written.
+#
+# status: queued | claimed | published | rejected
+# category: one of ai-engineering, databases, distributed-systems, infrastructure,
+#           python, software-engineering, web-development
+topics:
+  - id: pg-connection-pooling
+    title: "Postgres connection pooling under sustained load"
+    angle: "pgbouncer's three pooling modes, what each one breaks, and how to pick"
+    category: databases
+    tags: [PostgreSQL, Performance]
+    status: queued
+
+  - id: python-free-threading
+    title: "Free-threaded Python on a real workload"
+    angle: "Measuring what GIL removal actually buys on a CPU-bound service"
+    category: python
+    tags: [Python, Performance]
+    status: queued
+
+  - id: otel-span-cardinality
+    title: "The span attribute that blew up your observability bill"
+    angle: "Why high-cardinality attributes cost more than high span volume"
+    category: infrastructure
+    tags: [Observability, Performance]
+    status: queued
