@@ -23,6 +23,40 @@ in the tree, does not fail loudly today — it silently turns tomorrow's run int
 failure (exit 40) or bases tomorrow's post on today's abandoned branch. Every stopping
 point below says explicitly how to leave the tree clean; none of that is optional.
 
+### Queue bookkeeping and master
+
+**Queue state is pipeline bookkeeping and lives on `master`. Post content lives in the
+PR.** Every transition `queue.py` writes to `_data/topic_queue.yml` — a claim, a
+rejection, a publish, a revert back to `queued` — is committed and pushed straight to
+`master` at the point it happens, never bundled into a feature branch. A feature branch
+carries the post and its images and nothing else.
+
+This is what makes Stage 1's claim actually stop a second run from picking the same
+topic: if the claim only ever lived on a feature branch, `master` would still read
+`queued` until a human merges that branch's PR, and tomorrow's run — which starts from
+`master`, not from any open PR — would pick the very same topic again, research and
+write it a second time, and open a second PR for it. That repeats every day the first
+PR stays open. Pushing the claim to `master` immediately is what closes that gap.
+
+Every one of these pushes uses the same non-fatal pattern — a failed push here is
+bookkeeping trouble, not a reason to fail a run that did its real work:
+
+```bash
+git add _data/topic_queue.yml
+git commit -m "<what changed, e.g. 'daily-post: claim <topic-id>'>"
+if ! git push origin master; then
+  echo "WARNING: push to master failed (network or branch protection); the commit
+  stands locally and a future successful run will push it. Until it does, this
+  claim/rejection/publish mark is not durable and the topic could be picked again
+  by another run." >&2
+fi
+```
+
+A failed push there is never a reason to abort the run or change the status token:
+finish the stage you were in and write the token the run actually earned. The
+warning above is what tells the operator, from the log, why a topic might get
+attempted twice while that push keeps failing.
+
 Read these before starting:
 
 - `references/frontmatter.md` — the contract CI enforces
@@ -59,8 +93,9 @@ python3 script/daily_post/dupe_check.py --title "<title>" --angle "<angle>" --js
 Exit 1 means duplicate.
 
 - **If the rejected candidate came from the queue** (it has a topic id), mark it
-  `rejected` immediately, before moving on — via `script/daily_post/queue.py` —
-  so `next_queued()` never hands the same known duplicate back on a future run:
+  `rejected` immediately, before moving on — via `script/daily_post/queue.py` — then
+  commit and push that to `master` right away, using the non-fatal pattern above, so
+  `next_queued()` never hands the same known duplicate back on a future run:
 
   ```bash
   python3 -c "
@@ -68,30 +103,23 @@ Exit 1 means duplicate.
   from script.daily_post.queue import mark
   mark(Path('_data/topic_queue.yml'), '<topic-id>', 'rejected')
   "
+  git add _data/topic_queue.yml
+  git commit -m "daily-post: mark <topic-id> rejected"
+  git push origin master || echo "WARNING: push to master failed; see above." >&2
   ```
 
 - **If the rejected candidate was discovered** (the queue was dry, so it has no queue
-  entry), there is nothing to mark in the queue file — just try the next one.
+  entry), there is nothing to mark or commit — just try the next one.
 
 Move to the next queue item or discover another candidate. **After three rejected
-candidates in total, write `no-topic` to `$DAILY_POST_STATUS` and stop.** Before
-stopping, if any `mark(..., 'rejected')` call above actually changed
-`_data/topic_queue.yml`, commit and push that change **directly to `master`** — no
-branch, no PR; this is queue bookkeeping, not post content — so the rejection persists
-for tomorrow's run and the tree is left clean behind it:
+candidates in total, write `no-topic` to `$DAILY_POST_STATUS` and stop.** Nothing
+further needs committing here — every rejection that touched the queue file was
+already pushed to `master` as it happened.
 
-```bash
-git add _data/topic_queue.yml
-git commit -m "daily-post: mark rejected topics from $(date +%F)"
-git push origin master
-echo no-topic > "$DAILY_POST_STATUS"
-```
-
-Skip that commit if `_data/topic_queue.yml` has no changes (every rejection this run
-was a discovered candidate, never a queue entry).
-
-Once a candidate passes, claim it immediately — before any research — so a second run
-today cannot pick the same topic, again via `script/daily_post/queue.py`:
+Once a candidate passes, claim it immediately — before any research — via
+`script/daily_post/queue.py`, then commit and push that to `master` right away, the
+same way, so a second run today (or tomorrow, while this run's eventual PR is still
+open) cannot pick the same topic:
 
 ```bash
 python3 -c "
@@ -99,6 +127,9 @@ from pathlib import Path
 from script.daily_post.queue import claim
 claim(Path('_data/topic_queue.yml'), '<topic-id>', on='$(date +%F)')
 "
+git add _data/topic_queue.yml
+git commit -m "daily-post: claim <topic-id>"
+git push origin master || echo "WARNING: push to master failed; see above." >&2
 ```
 
 Keep the `dupe_check` JSON and carry its nearest matches forward to Gate 2 **even when
@@ -175,30 +206,34 @@ script/daily_post/preflight.sh
 ```
 
 **If preflight is red:** fix what it reports and run it again. Never push a branch
-that CI will reject. If it is still red after one fix, stop **without** ever creating
-a branch — nothing has been committed yet at this point, so returning to a clean
-`master` just means discarding this run's uncommitted work:
+that CI will reject. If it is still red after one fix, this run's own output was
+broken, not the topic — return the topic to `queued` so a future run retries it,
+make that durable on `master`, and discard this run's draft:
 
 ```bash
-git checkout -- _data/topic_queue.yml
+python3 -c "
+from pathlib import Path
+from script.daily_post.queue import mark
+mark(Path('_data/topic_queue.yml'), '<topic-id>', 'queued')
+"
+git add _data/topic_queue.yml
+git commit -m "daily-post: return <topic-id> to queued after preflight failure"
+git push origin master || echo "WARNING: push to master failed; see above." >&2
 rm -f "_posts/$(date +%F)-<slug>.md"
 rm -rf "assets/images/<slug>"
 echo preflight-failed > "$DAILY_POST_STATUS"
 ```
 
-This puts the claimed topic back to `queued` on disk (discarding Stage 1's `claim()`),
-so a future run can retry it once the underlying preflight problem is fixed, rather
-than leaving it stuck `claimed` forever with no PR to review. Any topics rejected
-earlier in this same run are discarded too — an acceptable cost, since preflight
-failures are environmental, not topic-specific, and a discarded rejection just costs
-one retry attempt on a future run, not correctness.
+No branch was ever created in this path — preflight runs before any checkout below —
+so `master` is untouched apart from the commit above, and the tree is clean once the
+draft and banner are removed.
 
-**Once preflight is green**, commit and open the PR. The two outcomes below differ in
-one thing — whether `mark()` runs before the commit — because the queue file must be
-committed in its **final** state, not the state Stage 1 left it in:
+**Once preflight is green**, the feature branch carries only the post and its
+images — **never** `_data/topic_queue.yml`; that file's state is committed straight to
+`master` instead, as described above:
 
-**Gates green:** mark the topic published — via `script/daily_post/queue.py` — *before*
-staging anything, then commit, push, and open the PR:
+**Gates green:** mark the topic published and push that to `master` *before*
+branching:
 
 ```bash
 python3 -c "
@@ -206,8 +241,16 @@ from pathlib import Path
 from script.daily_post.queue import mark
 mark(Path('_data/topic_queue.yml'), '<topic-id>', 'published', slug='<slug>')
 "
+git add _data/topic_queue.yml
+git commit -m "daily-post: publish <topic-id>"
+git push origin master || echo "WARNING: push to master failed; see above." >&2
+```
+
+Then branch, commit the post and its images only, and open the PR:
+
+```bash
 git checkout -b "daily-post/$(date +%F)-<slug>"
-git add "_posts/$(date +%F)-<slug>.md" "assets/images/<slug>" _data/topic_queue.yml
+git add "_posts/$(date +%F)-<slug>.md" "assets/images/<slug>"
 git commit -m "<post title>"
 git push -u origin "daily-post/$(date +%F)-<slug>"
 gh pr create --title "<post title>" --body "<summary + sources used>"
@@ -226,14 +269,14 @@ The branch still lives on `origin` for the open PR; deleting only the local copy
 what keeps `run.sh`'s own `daily-post/<date>-*` idempotency check meaningful for a
 genuine second run.
 
-**Gates still blocked after two revision rounds:** the topic must stay `claimed` —
-that is already its status from Stage 1's `claim()`, so do **not** call `mark()`
-again here. Commit exactly what is already on disk, in the same order (nothing writes
-to the queue file between the claim and this commit):
+**Gates still blocked after two revision rounds:** the topic's queue state is already
+durable on `master` — Stage 1's `claim()` was committed and pushed there directly, and
+nothing between then and now changes it, so there is nothing new to push. Branch,
+commit the post and its images only, and open the draft PR:
 
 ```bash
 git checkout -b "daily-post/$(date +%F)-<slug>"
-git add "_posts/$(date +%F)-<slug>.md" "assets/images/<slug>" _data/topic_queue.yml
+git add "_posts/$(date +%F)-<slug>.md" "assets/images/<slug>"
 git commit -m "<post title> [needs work]"
 git push -u origin "daily-post/$(date +%F)-<slug>"
 gh pr create --draft --title "<post title> [needs work]" \
@@ -259,9 +302,9 @@ explain what happened in the transcript, and stop. Never leave the status file e
 `run.sh` reports that as exit 50, which is indistinguishable from a crash.
 
 Before stopping on any error, return the tree to a clean `master` the same way as the
-paths above: if `_data/topic_queue.yml` was legitimately updated this run (a
-`rejected` mark), commit and push that directly to `master`; otherwise discard
-whatever this run touched (`git checkout -- _data/topic_queue.yml`, remove any
-untracked draft or banner files, delete any local feature branch this run created).
-Never leave `master` dirty or checked out on a feature branch — that silently breaks
-tomorrow's run instead of failing loudly today.
+paths above: if `_data/topic_queue.yml` is still modified relative to `HEAD` (a claim
+or rejection that has not yet been committed), commit and push it directly to `master`
+using the non-fatal pattern above; discard anything else this run touched (an
+untracked draft post, generated banner assets); delete any local feature branch this
+run created. Never leave `master` dirty or checked out on a feature branch — that
+silently breaks tomorrow's run instead of failing loudly today.

@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 
 import pytest
@@ -129,3 +130,34 @@ def test_skill_md_marks_duplicate_queue_topics_rejected():
     end = text.index("## Stage 2")
     stage_one = text[start:end]
     assert "rejected" in stage_one
+
+
+def test_skill_md_states_queue_state_lives_on_master():
+    """SKILL.md must state the rule that queue bookkeeping is committed to
+    master directly, never left stranded on an unmerged feature branch.
+
+    Regression guard for Task 9 fix round 2, Finding 4: a claim that only ever
+    lands on the feature branch leaves master reading `queued`, so tomorrow's
+    run picks the same topic again while today's PR is still open.
+    """
+    text = SKILL_MD.read_text(encoding="utf-8")
+    assert "Queue state is pipeline bookkeeping and lives on" in text
+
+
+def test_skill_md_feature_branch_never_stages_the_queue_file():
+    """No `git checkout -b "daily-post/...` code block may also stage
+    `_data/topic_queue.yml` — that file's state must be committed straight to
+    master, never bundled into the feature branch alongside the post.
+
+    Regression guard for Task 9 fix round 2, Finding 4: bundling the queue
+    mutation into the feature-branch commit is exactly what let a claim sit
+    unmerged on a branch while master kept reading the topic as `queued`.
+    """
+    text = SKILL_MD.read_text(encoding="utf-8")
+    branch_blocks = re.findall(r"```bash\n(.*?)```", text, re.DOTALL)
+    branch_blocks = [b for b in branch_blocks if 'git checkout -b "daily-post/' in b]
+    assert branch_blocks, "no feature-branch code block found to check"
+    for block in branch_blocks:
+        assert "topic_queue.yml" not in block, (
+            "a feature-branch code block still stages topic_queue.yml:\n" + block
+        )
