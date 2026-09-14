@@ -96,3 +96,36 @@ def test_skill_md_forbids_interactive_prompts():
 def test_skill_md_states_the_revision_cap():
     text = SKILL_MD.read_text(encoding="utf-8")
     assert "two revision" in text.lower() or "2 revision" in text.lower()
+
+
+def test_skill_md_returns_to_clean_master():
+    """Every terminal path must leave the checkout on master, branch cleaned up.
+
+    Regression guard for Task 9 fix round 1, Finding 1 (critical): a run that
+    stops on a feature branch silently breaks the next day's run.
+    """
+    text = SKILL_MD.read_text(encoding="utf-8")
+    assert "git checkout master" in text
+    assert "git branch -D" in text
+
+
+def test_skill_md_defines_concrete_scratch_path():
+    """`research.md` must live at a resolved path, not just 'the scratch directory'.
+
+    Regression guard for Task 9 fix round 1, Finding 2: gate subagents cannot find
+    an unresolved path.
+    """
+    assert "daily-post-scratch" in SKILL_MD.read_text(encoding="utf-8")
+
+
+def test_skill_md_marks_duplicate_queue_topics_rejected():
+    """A duplicate that came from the queue must be marked `rejected`, in Stage 1.
+
+    Regression guard for Task 9 fix round 1, Finding 3: otherwise `next_queued()`
+    hands back the same known-duplicate topic on every future run.
+    """
+    text = SKILL_MD.read_text(encoding="utf-8")
+    start = text.index("## Stage 1")
+    end = text.index("## Stage 2")
+    stage_one = text[start:end]
+    assert "rejected" in stage_one
