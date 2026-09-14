@@ -99,15 +99,33 @@ def test_skill_md_states_the_revision_cap():
     assert "two revision" in text.lower() or "2 revision" in text.lower()
 
 
-def test_skill_md_returns_to_clean_master():
-    """Every terminal path must leave the checkout on master, branch cleaned up.
+def test_skill_md_returns_to_clean_master_on_every_pr_path():
+    """Both the published and blocked paths must independently return to a
+    clean master — not just somewhere in the file once.
 
     Regression guard for Task 9 fix round 1, Finding 1 (critical): a run that
-    stops on a feature branch silently breaks the next day's run.
+    stops on a feature branch silently breaks the next day's run. Strengthened
+    in fix round 3, Finding 8: the original version of this test only checked
+    that the phrases appeared *somewhere*, so deleting the cleanup from one
+    path while leaving the other in place would still have passed. This scans
+    each path's own section independently, the same technique already used by
+    test_skill_md_feature_branch_never_stages_the_queue_file.
     """
     text = SKILL_MD.read_text(encoding="utf-8")
-    assert "git checkout master" in text
-    assert "git branch -D" in text
+    green_start = text.index("**Gates green:**")
+    blocked_start = text.index("**Gates still blocked")
+    stage_5_end = text.index("## Failure handling")
+    sections = {
+        "published": text[green_start:blocked_start],
+        "blocked": text[blocked_start:stage_5_end],
+    }
+    for name, section in sections.items():
+        assert "git checkout master" in section, (
+            f"the {name} path never returns to master"
+        )
+        assert "git branch -D" in section, (
+            f"the {name} path never deletes the local feature branch"
+        )
 
 
 def test_skill_md_defines_concrete_scratch_path():
