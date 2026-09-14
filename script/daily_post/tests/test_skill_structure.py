@@ -523,3 +523,111 @@ def test_gate_4_defers_to_voice_md_for_the_bound():
     gate_4 = text[text.index("## Gate 4"):]
     assert "voice.md" in gate_4
     assert "python3" in gate_4, "Gate 4 must give a concrete way to count"
+
+
+# --- diagrams -------------------------------------------------------------------
+
+def test_voice_md_has_a_diagrams_section():
+    text = (REFS / "voice.md").read_text(encoding="utf-8")
+    assert "## Diagrams" in text
+
+
+def test_voice_md_says_when_a_diagram_earns_its_place():
+    """The rule has to be a test the writer can apply, not "add a picture"."""
+    diagrams = _voice_diagrams_section()
+    lowered = diagrams.lower()
+    assert "more than one actor" in lowered
+    assert "timing or ordering" in lowered
+
+
+def test_voice_md_says_when_not_to_draw_one():
+    """Without the negative case this section manufactures decorative diagrams."""
+    lowered = _voice_diagrams_section().lower()
+    assert "table" in lowered, "voice.md does not rule out diagramming a comparison"
+    assert "single-actor and linear" in lowered
+    assert "no ordering or state" in lowered
+    assert "worse than none" in lowered
+
+
+def test_voice_md_gives_the_diagram_mechanics_and_says_there_is_no_flag():
+    diagrams = _voice_diagrams_section()
+    assert "```mermaid" in diagrams
+    assert "10.6.1" in diagrams
+    assert "no front matter flag" in diagrams.lower(), (
+        "a writer who invents a front matter flag ships a post that never renders"
+    )
+
+
+def test_voice_md_is_honest_that_diagrams_are_a_new_convention():
+    """One post in 146 has one. Implying an existing house style would be a lie."""
+    lowered = _voice_diagrams_section().lower()
+    assert "new convention" in lowered
+
+
+def test_voice_md_states_the_accessibility_expectation():
+    lowered = _voice_diagrams_section().lower()
+    assert "screen reader" in lowered
+    assert "svg" in lowered
+
+
+def _voice_diagrams_section() -> str:
+    text = (REFS / "voice.md").read_text(encoding="utf-8")
+    start = text.index("## Diagrams")
+    return text[start:text.index("\n## ", start + 1)]
+
+
+def test_gate_3_validates_mermaid_via_the_existing_allowlisted_script():
+    """A new script would need a permission-allowlist entry only the owner can add,
+    so the check lives in the one preflight already runs."""
+    text = (REFS / "gates.md").read_text(encoding="utf-8")
+    gate_3 = text[text.index("## Gate 3"):text.index("## Gate 4")]
+    assert "check_frontmatter.py" in gate_3
+    assert "mermaid" in gate_3.lower()
+
+
+def test_gate_3_stays_static_only_for_diagrams_too():
+    """Shelling out to mermaid-cli would put node on the pipeline's PATH-critical
+    path — the exact failure mode bundler already caused."""
+    text = (REFS / "gates.md").read_text(encoding="utf-8")
+    gate_3 = text[text.index("## Gate 3"):text.index("## Gate 4")]
+    lowered = gate_3.lower()
+    assert "mermaid-cli" in lowered and "not" in lowered
+    assert "error box" in lowered, "the gate must say why a bad diagram matters"
+
+
+def test_gate_4_blocks_on_a_warranted_diagram_that_is_absent():
+    text = (REFS / "gates.md").read_text(encoding="utf-8")
+    gate_4 = text[text.index("## Gate 4"):]
+    lowered = gate_4.lower()
+    assert "two or more components" in lowered
+    assert "state machine" in lowered
+
+
+def test_gate_4_carries_the_escape_clause():
+    """Without it this gate manufactures filler diagrams, which is the
+    'converges on blandness' failure the file already warns about."""
+    text = (REFS / "gates.md").read_text(encoding="utf-8")
+    gate_4 = text[text.index("## Gate 4"):]
+    lowered = gate_4.lower()
+    assert "escape clause" in lowered
+    assert "not a finding" in lowered
+    assert "single-actor" in lowered and "linear" in lowered
+
+
+def test_gate_4_leaves_diagram_syntax_to_gate_3():
+    """Two gates checking the same thing disagree; the mechanical one wins."""
+    text = (REFS / "gates.md").read_text(encoding="utf-8")
+    gate_4 = text[text.index("## Gate 4"):]
+    assert "Gate 3 owns that" in gate_4
+
+
+def test_skill_md_stage_3_points_at_voice_md_for_diagrams():
+    """Stage 3 points; voice.md owns. A second copy of the rule drifts."""
+    text = SKILL_MD.read_text(encoding="utf-8")
+    stage_3 = text[text.index("## Stage 3"):text.index("## Stage 4")]
+    assert "diagram" in stage_3.lower()
+    assert "voice.md" in stage_3
+    for restated in ("sequenceDiagram", "```mermaid", "10.6.1"):
+        assert restated not in stage_3, (
+            f"Stage 3 restates {restated!r}; voice.md owns the diagram rules"
+        )

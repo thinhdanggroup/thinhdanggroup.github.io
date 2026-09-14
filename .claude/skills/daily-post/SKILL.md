@@ -219,6 +219,10 @@ Write `_posts/$(date +%F)-<slug>.md`.
   `header.teaser` pointing at `/assets/images/<slug>/banner.webp` and `teaser.webp`
 - One idea, one worked example, one takeaway
 - Wrap any code fence containing `{{` or `{%` in `{% raw %}` … `{% endraw %}`
+- Include a diagram where `references/voice.md`'s "Diagrams" section says one
+  earns its place, and leave it out where that section says it does not — that
+  file owns the rule, the mechanics and the accessibility expectation; do not
+  restate any of it here
 
 ## Stage 4 — Review
 

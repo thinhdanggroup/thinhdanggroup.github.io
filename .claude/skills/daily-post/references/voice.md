@@ -53,6 +53,80 @@ this axis** — do not compress correct prose to land nearer some midpoint. Sque
 a passing draft is exactly the churn that produces the bland, hedged writing the
 gates exist to prevent.
 
+## Diagrams
+
+A diagram is not decoration and not a default. It earns its place when the post's
+central mechanism is **timing or ordering across more than one actor** — something
+prose can only describe serially, leaving the reader to reassemble the shape in their
+head.
+
+The worked reference is the PgBouncer pooling-modes post, which carries two Mermaid
+sequence diagrams. The first shows the same client/proxy/backend exchange three times
+over, marking the one moment each pool mode hands the server connection back; the
+difference between the modes *is* a difference in timing, and three `Note over` lines
+on one timeline say it in a way three paragraphs cannot. The second traces an advisory
+lock landing on backend A and its unlock arriving at backend D — two events, four
+participants, and a gap between them that is the entire bug. Both pass the test: the
+reader gets something from the picture that the prose around it cannot hand them.
+
+**Do not draw one when:**
+
+- **A table already handles it.** A comparison across options and attributes is a
+  table. A diagram of a comparison is a table with worse alignment.
+- **The process is single-actor and linear.** "Parse, validate, write, return" inside
+  one component is a sentence or a numbered list, not a flowchart. Boxes and arrows
+  add nothing to a sequence that has no concurrency, no handoff and no branching.
+- **The concept has no ordering or state at all.** A definition, a taxonomy, a set of
+  tradeoffs — there is nothing to place on an axis.
+
+A decorative diagram is worse than none: it costs the reader attention, interrupts the
+argument, and returns nothing. One diagram in a daily post is usually the ceiling, and
+zero is a perfectly good number.
+
+### Mechanics
+
+Fence the diagram as `mermaid` and that is all — the theme
+(`_includes/head/custom.html`) auto-detects `pre code.language-mermaid` and loads
+Mermaid 10.6.1 from the CDN on demand. **There is no front matter flag.** PlantUML
+works identically via a `plantuml` fence.
+
+````markdown
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant P as PgBouncer
+    C->>P: connect
+    Note over C,P: the moment that differs between modes
+```
+````
+
+This is a **new convention** — one post in the 146-post archive carries a diagram
+today, and that one is a pre-rendered SVG rather than a fence. There is no house style
+to match, so these rules are the house style.
+
+Three constraints, each of which `script/check_frontmatter.py` now enforces (a bad
+block renders as a visible error box on the live page, which no other check catches):
+
+- The first real line must declare a diagram type Mermaid 10.6.1 supports —
+  `sequenceDiagram`, `flowchart`, `stateDiagram-v2` and the rest of that release's
+  set. A type added in Mermaid 11 is an error box here.
+- **Indent with spaces, never tabs.** Mermaid's parser is whitespace-sensitive.
+- **No Liquid inside the fence.** `{{ ... }}` and `{% ... %}` are evaluated by Jekyll
+  before Mermaid ever sees them, and `{% raw %}` does not rescue a diagram — rewrite
+  the labels without braces.
+
+A Mermaid fence is a fenced code block, so it does not count toward the word bound
+above, exactly like a code snippet.
+
+### Alt text and captions
+
+Mermaid renders to inline SVG, which a screen reader will read as nothing useful. The
+prose around the diagram must therefore carry the same information the picture does —
+introduce what it shows before it, and state the conclusion after it, so a reader who
+never sees the SVG loses nothing but the convenience. Give the diagram a one-line lead
+("Traced through the pool, the lock and its release never meet:") rather than dropping
+it into the page unannounced.
+
 ## Register
 
 Direct and technical, second person ("your control plane", "you end up copy-pasting"),

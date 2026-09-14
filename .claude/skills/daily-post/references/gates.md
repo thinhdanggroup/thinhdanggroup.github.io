@@ -111,6 +111,27 @@ without a `WHERE`, a `dd` onto a device).
 Pseudocode is allowed when labelled as such. Unlabelled pseudocode presented as real
 code is a block.
 
+**Diagrams are checked here too, and statically, by the same rule.** A Mermaid
+block is source that a browser parses, and a block Mermaid cannot parse ships as a
+visible red error box where the diagram should be — the Jekyll build succeeds and
+htmlproofer sees a perfectly good `<pre><code>`, so nothing else in the pipeline
+notices. The check is already written and already runs:
+
+```bash
+python3 script/check_frontmatter.py
+```
+
+`preflight.sh` runs it in Stage 5 and CI runs it on every push, so this gate does not
+need to invoke anything new — it needs to read that output and treat a Mermaid finding
+as a block like any other. It validates every ```` ```mermaid ```` fence structurally:
+non-empty, a first real line declaring a diagram type Mermaid 10.6.1 actually supports,
+no tab characters (the parser is whitespace-sensitive), and no Liquid (Jekyll would eat
+it first). It deliberately does **not** shell out to `mermaid-cli`, because that would
+put `node` on the pipeline's critical path — a tool being installed but not on `PATH`
+is exactly how bundler turned a good post into a false failure.
+
+**Block on:** any Mermaid finding from that script.
+
 Because nothing is executed, this gate cannot catch a runtime error in an
 otherwise-parsing snippet. That is the deliberate trade: an uncaught runtime bug in a
 published example costs a correction, and executing model-written code inside a repo
@@ -164,9 +185,33 @@ Report that number in the verdict, passing or blocking, so the writer never has 
 guess which rule was applied. A draft already inside the range is in range: **do not
 ask for compression that only moves it around inside the bound.**
 
+### Diagrams
+
+`voice.md`'s "Diagrams" section owns the rule; this gate applies it in both directions.
+
+**Block on a warranted diagram that is absent:** the post's central mechanism is an
+interaction ordered across two or more components, or a state machine, and the draft
+describes it only in prose. That is the case `voice.md` says a diagram is for — the
+reader is being asked to rebuild a timeline in their head from a serial description.
+
+**Escape clause, and it is not optional.** When the mechanism is genuinely single-actor
+and linear — one component, no handoff, no concurrency, no branching — prose is the
+correct form and the absence of a diagram is **not a finding**. The same goes for a
+comparison a table already carries, and for a concept with no ordering or state at all.
+Do not reach for this block because a post merely *could* have a picture; demanding
+filler diagrams is the same "converges on blandness" failure this file warns about at
+the top, just drawn in boxes and arrows. Say in the verdict which shape you judged the
+mechanism to be, so the writer can disagree with the judgement rather than the demand.
+
+**Block on a diagram that is present but decorative** for exactly the same reason: it
+costs the reader attention and returns nothing.
+
+**Do not block on the diagram's syntax** — Gate 3 owns that, mechanically.
+
 **Block on:** any pattern in `voice.md`'s "Hard blocks" section; a prose-word count
 outside the range `voice.md` sets, measured as above; a missing worked example; a
-closing section that summarises without concluding.
+closing section that summarises without concluding; a warranted diagram that is
+absent, subject to the escape clause above.
 
 Do not block on dry humor or strong opinions — those are in-voice, and stripping them
 produces exactly the prose this gate exists to prevent.
