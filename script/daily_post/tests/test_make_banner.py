@@ -105,7 +105,8 @@ def test_banner_contains_no_baked_in_text(tmp_path: Path):
     assert list(sig.parameters) == ["title", "category", "out_dir"]
 
 
-def test_darkened_banner_clears_wcag_aa_in_the_title_zone(tmp_path: Path):
+@pytest.mark.parametrize("category", sorted(CATEGORY_COLORS))
+def test_darkened_banner_clears_wcag_aa_in_the_title_zone(tmp_path: Path, category: str):
     """Simulate the theme's `overlay_filter: 0.5` (a 50% black layer) and confirm
     white text would still read at WCAG AA (>= 4.5:1) against the busiest plausible
     pixel in the zone where page__title/page__lead actually render: the vertical
@@ -115,9 +116,13 @@ def test_darkened_banner_clears_wcag_aa_in_the_title_zone(tmp_path: Path):
     anywhere in the zone, combined into one hypothetical pixel) as a conservative
     upper bound on brightness, rather than sampling -- this can only overstate the
     true worst pixel's luminance, never understate it, so a pass here is safe.
+
+    Parametrized over every category in CATEGORY_COLORS: a gradient change to any
+    one category's end colour must not silently drop it below the WCAG AA floor for
+    the white title the theme paints on top.
     """
     banner, _ = render_banner(
-        "Postgres connection pooling under sustained load", "web-development", tmp_path
+        "Postgres connection pooling under sustained load", category, tmp_path
     )
     with Image.open(banner) as im:
         w, h = im.size

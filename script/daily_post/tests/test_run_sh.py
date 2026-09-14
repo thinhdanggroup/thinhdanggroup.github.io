@@ -205,6 +205,7 @@ def test_a_concurrent_run_is_blocked_by_the_lock(fake_repo: Path, stub_bin: Path
         lock_file.close()
 
 
+@pytest.mark.skipif(os.geteuid() == 0, reason="root ignores permission bits")
 def test_exit_40_when_the_lock_file_cannot_be_opened(fake_repo: Path, stub_bin: Path):
     """A lock-acquisition FAILURE (permission denied, disk full, fd
     exhaustion) is a real environment problem, not "another run is already in
@@ -212,6 +213,11 @@ def test_exit_40_when_the_lock_file_cannot_be_opened(fake_repo: Path, stub_bin: 
     swallowed into the benign "nothing to do" code (30) that operators are
     told to ignore. Simulated here by making `.git` unwritable so
     `exec 9>.git/daily-post.lock` cannot create the lock file.
+
+    Skipped under a root-run CI: root ignores permission bits, so the
+    unwritable-directory condition cannot be reproduced and this test would
+    otherwise fail rather than silently pass. Failing loudly is better than a
+    false green, so this guard is a portability fix, not a correctness one.
     """
     write_stub(
         stub_bin, "claude",

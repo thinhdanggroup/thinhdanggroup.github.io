@@ -24,20 +24,31 @@ def test_fast_mode_passes_on_the_clean_repo():
     assert result.returncode == 0, result.stdout + result.stderr
 
 
-def test_fast_mode_fails_on_a_post_that_breaks_the_contract():
+@pytest.fixture
+def broken_post():
+    """Writes into the REAL `_posts/` directory (an isolated `tmp_path` cannot be
+    used here: `script/check_frontmatter.py` hardcodes `POSTS = REPO / "_posts"`
+    with no override flag). Registering teardown before the file is ever created
+    means it is removed whether the test passes, fails, or raises — including an
+    interrupt, which would otherwise strand this file in the repo and break
+    check_frontmatter.py, preflight, CI, and the daily pipeline until someone
+    deletes it by hand.
+    """
+    path = REPO / "_posts" / "2099-01-01-preflight-self-test.md"
+    yield path
+    path.unlink(missing_ok=True)
+
+
+def test_fast_mode_fails_on_a_post_that_breaks_the_contract(broken_post: Path):
     """A post with no description must make preflight red."""
-    bad = REPO / "_posts" / "2099-01-01-preflight-self-test.md"
-    bad.write_text(
+    broken_post.write_text(
         '---\ntitle: "Preflight self test"\ntags:\n    - Python\n'
         "categories:\n    - python\n---\n\nBody.\n",
         encoding="utf-8",
     )
-    try:
-        result = run_preflight("--fast")
-        assert result.returncode != 0
-        assert "description" in (result.stdout + result.stderr)
-    finally:
-        bad.unlink()
+    result = run_preflight("--fast")
+    assert result.returncode != 0
+    assert "description" in (result.stdout + result.stderr)
 
 
 @pytest.mark.slow

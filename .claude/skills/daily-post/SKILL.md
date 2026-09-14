@@ -370,12 +370,20 @@ explain what happened in the transcript, and stop. Never leave the status file e
 `run.sh` reports that as exit 50, which is indistinguishable from a crash.
 
 Before stopping on any error, return the tree to a clean `master` the same way as the
-paths above: if `_data/topic_queue.yml` is still modified relative to `HEAD` (a claim
-or rejection that has not yet been committed), commit and push it directly to `master`
-using the non-fatal pattern above; discard anything else this run touched (an
-untracked draft post, generated banner assets); delete any local feature branch this
-run created. Never leave `master` dirty or checked out on a feature branch — that
-silently breaks tomorrow's run instead of failing loudly today.
+paths above, in this order:
+
+1. If `_data/topic_queue.yml` is still modified relative to `HEAD` (a claim or
+   rejection that has not yet been committed), commit and push it directly to
+   `master` using the non-fatal pattern above — never discard a dangling queue-file
+   change, it is the durable record of what this run claimed or rejected.
+2. Discard anything else this run touched (an untracked draft post, generated banner
+   assets).
+3. `git checkout master`, then delete any local feature branch this run created
+   (`git branch -D daily-post/$(date +%F)-<slug>`).
+4. Write the status token.
+
+Never leave `master` dirty or checked out on a feature branch — that silently breaks
+tomorrow's run instead of failing loudly today.
 
 **Operator note — a topic stranded `claimed`.** Because `claimed` is written early and
 durably (Stage 1), a run that dies mid-flight after that point but before Stage 5

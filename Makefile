@@ -103,3 +103,20 @@ devto-optimize-image:
 		exit 1; \
 	fi
 	./script/devto/optimize_image.sh $(IMAGE)
+
+# Daily post pipeline
+daily-post:
+	./script/daily_post/run.sh
+
+daily-post-test:
+	python3 -m pytest script/daily_post/tests -v
+
+daily-post-preflight:
+	./script/daily_post/preflight.sh
+
+daily-post-dupe:
+	@if [ -z "$(TITLE)" ]; then \
+		echo 'Usage: make daily-post-dupe TITLE="Your candidate title"'; \
+		exit 1; \
+	fi
+	python3 script/daily_post/dupe_check.py --title "$(TITLE)"
