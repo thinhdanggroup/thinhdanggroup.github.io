@@ -146,13 +146,32 @@ fi
 # A branch may have been pushed and then deleted locally (or created by a run
 # on another machine); check origin too. A network hiccup here must not kill
 # an otherwise-healthy run — log a warning and fall back to the local checks.
-if REMOTE_BRANCH_OUT="$(git ls-remote --heads origin "daily-post/$TODAY-*" 2>&1)"; then
+#
+# stderr is kept OUT of the value that decides "a branch exists". `git
+# ls-remote` exits 0 with empty stdout when nothing matches, but still writes
+# transport chatter to stderr — ssh's "Permanently added ... to the list of
+# known hosts" is the usual one, and it recurs on every single connection
+# wherever UserKnownHostsFile is /dev/null rather than only on first contact.
+# Captured with 2>&1 that warning reads as a branch listing, so every run exits
+# 30 and the pipeline stops dead behind the one code operators are explicitly
+# told to ignore. Keep the text for the failure path; never let it vote.
+REMOTE_ERR="$(mktemp)" || die "cannot create a temp file for the origin branch check"
+if REMOTE_BRANCH_OUT="$(git ls-remote --heads origin "daily-post/$TODAY-*" 2>"$REMOTE_ERR")"; then
+  REMOTE_CHECK_OK=1
+else
+  REMOTE_CHECK_OK=0
+  REMOTE_BRANCH_OUT=""
+fi
+REMOTE_ERR_TEXT="$(cat "$REMOTE_ERR" 2>/dev/null)"
+rm -f "$REMOTE_ERR"
+
+if [[ "$REMOTE_CHECK_OK" -eq 1 ]]; then
   if [[ -n "$REMOTE_BRANCH_OUT" ]]; then
     log "a daily-post branch for $TODAY already exists on origin; nothing to do"
     exit 30
   fi
 else
-  log "WARNING: could not check origin for existing daily-post branches (continuing): $REMOTE_BRANCH_OUT"
+  log "WARNING: could not check origin for existing daily-post branches (continuing): $REMOTE_ERR_TEXT"
 fi
 
 # --- run the pipeline -------------------------------------------------------
