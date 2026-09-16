@@ -31,4 +31,5 @@ topics:
     angle: "Why high-cardinality attributes cost more than high span volume"
     category: infrastructure
     tags: [Observability, Performance]
-    status: queued
+    status: claimed
+    claimed_on: '2026-09-16'
