@@ -31,5 +31,6 @@ topics:
     angle: "Why high-cardinality attributes cost more than high span volume"
     category: infrastructure
     tags: [Observability, Performance]
-    status: claimed
+    status: published
     claimed_on: '2026-09-16'
+    slug: otel-span-cardinality
