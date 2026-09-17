@@ -166,8 +166,10 @@ async def rpc(http: httpx.AsyncClient, url: str, method: str,
                # support both. The SSE branch is omitted here for brevity.
                "Accept": "application/json, text/event-stream"}
     if name is not None:
-        # Mirrored so proxies can route without parsing the body. It must match
-        # params["name"] exactly or the server answers -32020 HeaderMismatch.
+        # Mirrored so proxies can route without parsing the body. The server
+        # compares it against params["name"] and answers -32020 HeaderMismatch
+        # on a mismatch. A name outside the header-safe ASCII set is carried as
+        # =?base64?...?= instead, which the server decodes before comparing.
         headers["Mcp-Name"] = name
     body = {"jsonrpc": "2.0", "id": next(_ids), "method": method,
             "params": {**params, "_meta": _meta()}}
@@ -256,10 +258,14 @@ the machine. When a task needs a human — an approval gate, a confirmation — 
 `input_required` and surfaces the request," and the client answers "via `tasks/update` —
 no second connection or unsolicited server-to-client messages required."
 
-That inverts something most agent frameworks assume. Elicitation used to be a server
-pushing a request down an open stream at a moment of its choosing. Now it is a field you
-find in a response you asked for, whenever you happen to ask. A human approval that sits
-untouched for two hours costs you one open connection: zero.
+That inverts something most agent frameworks assume, and the inversion is not the Tasks
+extension's doing — it is core to `2026-07-28`. Through `2025-11-25` a server could push a
+request down an open SSE stream at a moment of its choosing. Under MRTR (SEP-2322),
+"server-to-client interactions (sampling, elicitation, list-roots) are embedded as input
+requests inside an `InputRequiredResult` ... not delivered as separate requests on this or
+any other stream." Inside a task, you collect them from `tasks/get` — a field in a
+response you asked for, whenever you happen to ask. A human approval that sits untouched
+for two hours costs you one open connection: zero.
 
 ## What it costs you
 
@@ -277,7 +283,8 @@ floor either way.
 
 And the migration is not free. Tasks first shipped as an experimental *core* feature in
 `2025-11-25`; it is now an optional extension with a different lifecycle, and "anyone who
-shipped against the `2025-11-25` experimental Tasks API will need to migrate." The
+shipped against the `2025-11-25` experimental Tasks API will need to migrate to the new
+lifecycle." The
 underlying protocol change is "wire-incompatible in both directions," which is why
 `2025-11-25` and earlier are now formally called *legacy*, and a dual-era server may
 serve both eras concurrently on one endpoint.
