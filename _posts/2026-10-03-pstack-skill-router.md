@@ -50,7 +50,9 @@ The replacement is `poteto-mode`, a 2,749-word SKILL.md that the README calls "a
 
 ## I tested the router against description matching
 
-The cold open is a claim, so I measured it. I ran it in Claude Code, whose docs define the same field the same way: it stops the model "from automatically loading this skill". The fixture is two skills that both answer "check on PR X", each printing which one fired:
+**The short version: without a router, the agent picked the wrong skill in 89 of 90 trials, and the router made it pick the right one every time.**
+
+Two skills both claim "check on PR 123. anything outstanding?". `pr-status` plays the editor's built-in, the one we don't want. `babysit` plays the pack's own skill, the one we do want, and its description nearly repeats the user's words. Each skill only prints its own name, so the reply shows which one ran. I used Claude Code, which defines the flag the same way as Cursor.
 
 ```bash
 cd "$(mktemp -d)"  # empty dir, so no other project skills load
@@ -77,23 +79,28 @@ claude -p "check on PR 123. anything outstanding?" --model sonnet \
   --output-format json | jq -r .result
 ```
 
+I ran four setups. **A** changes nothing. **B** hides `babysit` with `disable-model-invocation: true` and adds no router. **C** hides `babysit` and adds a manual-only `pack-mode` router, invoked as `/pack-mode check on PR 123. anything outstanding?`, whose one trigger says to read `.claude/skills/babysit/SKILL.md` with the Read tool and follow it exactly: "Do not use the pr-status skill, whose description matches the same words." **D** is a control, A with the two descriptions swapped. Ten trials per setup per model, on Claude Code 2.1.288:
 
-The router arm (C) marks `babysit` manual-only and adds a manual-only `pack-mode` router whose one trigger reads: PR-status request → read `.claude/skills/babysit/SKILL.md` with the Read tool and follow it exactly. "Do not use the pr-status skill, whose description matches the same words." Its prompt is `/pack-mode check on PR 123. anything outstanding?`. Ten trials per arm per model, on Claude Code 2.1.288:
-
-| Arm | Sonnet | Haiku | Opus |
+| Setup | Sonnet | Haiku | Opus |
 | --- | --- | --- | --- |
 | A. Both skills auto-load | pr-status 10/10 | pr-status 10/10 | pr-status 10/10 |
 | B. `babysit` manual-only, no router | pr-status 10/10 | pr-status 10/10 | pr-status 10/10 |
 | C. Router with an explicit trigger | babysit 10/10 | babysit 10/10 | babysit 10/10 |
 | D. A, with the two descriptions swapped | pr-status 10/10 | pr-status 10/10 | pr-status 9/10 |
 
-Arms A and C, prompt to skill:
+Setups A and C, prompt to skill:
 
 ![Description matching sends the prompt to pr-status; the router sends it to babysit](/assets/images/pstack-skill-router/skill-routing.svg)
 
-Arm D changed my mind. With the trigger phrases swapped onto `pr-status`, the choice barely moved: in this fixture the name beat the description, so polishing the pack's description would not have rescued it. Arm B shows the flag alone just removes your skill from the contest. Only the router changed the outcome.
+**A: the pack's skill never won,** even though its description nearly repeated the request.
 
-Sonnet's per-trial cost was identical after trial one in every arm, so its ten trials are one answer repeated, not a rate. It is a toy fixture in Claude Code, not Cursor, and all 120 trials cost $1.18.
+**D says why.** With the descriptions swapped, `pr-status` still won 29 of 30. The description was not driving the choice. My guess is the name, since `pr-status` sounds like "check on PR". Either way, a better description would not have rescued `babysit`.
+
+**B: hiding a skill is not routing.** The flag only takes `babysit` out of the contest, so `pr-status` wins by default.
+
+**C: only an explicit rule fixed it**, 10 of 10 on every model.
+
+Sonnet's per-trial cost was identical after trial one in every setup, so its ten trials are one answer repeated, not a rate. It is a toy fixture in Claude Code, not Cursor, and all 120 trials cost $1.18.
 
 ## Three fan-out skills that differ only after the agents return
 
@@ -101,24 +108,11 @@ Sonnet's per-trial cost was identical after trial one in every arm, so its ten t
 
 | Skill | Who runs | What comes back | Merge rule |
 | --- | --- | --- | --- |
-| `interrogate` | One read-only reviewer per configured model, same prompt and rubric | Findings on a diff | Findings from 2+ models are "highest signal"; the lead sorts each into act on, consider, noted, dismissed. "Do NOT auto-apply changes." |
-| `arena` | N candidates on the same task; the rubric is hidden from them | Competing artifacts plus rationales | A cross-judge, preferably from a different model family, scores the rubric; the parent picks one base and grafts the best parts of the losers in by hand |
-| `swarm` | N cloud workers on slices, races, or both | `PASS`, `ISSUES` or `BLOCKED` with evidence | The race rule (`first pass`, `rank all`, `best-of`) is declared before spawning; a result missing its SHAs is rerun once, and "a gap does not count as a pass" |
+| `interrogate` | One read-only reviewer per model, same prompt | Findings on a diff | Findings from 2+ models are "highest signal"; nothing is auto-applied |
+| `arena` | N candidates; the rubric is hidden from them | Competing artifacts | A cross-judge scores them; the parent picks a base and grafts by hand |
+| `swarm` | N cloud workers on slices or races | `PASS`, `ISSUES` or `BLOCKED` | The race rule is declared before spawning; "a gap does not count as a pass" |
 
-Two rules matter most. Interrogate gets its diversity from "model diversity, not assigned personas", since one model playing three roles keeps one set of blind spots. And arena refuses to average: when candidates "wildly diverge, Phase A was under-specified. Reframe and re-run".
-
-The models come from one always-applied rule that `/setup-pstack` writes at `~/.cursor/rules/pstack-models.mdc`. An excerpt of its default shape:
-
-```text
-# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
-judgment and prose: claude-opus-5-5-max
-hardest tasks: claude-opus-5-5-max
-arena cross-judge pool: claude-opus-5-5-max, gpt-5.6-sol-max, grok-4.7-xhigh-fast
-swarm workers: grok-4.7-xhigh-fast
-interrogate reviewers: claude-opus-5-5-max, gpt-5.6-sol-max, grok-4.7-xhigh-fast
-```
-
-For panel roles "the list length sets the count", so a fourth model in `interrogate reviewers` is a fourth reviewer.
+The models come from `~/.cursor/rules/pstack-models.mdc`, which `/setup-pstack` writes. For panel roles "the list length sets the count", so a fourth model on its `interrogate reviewers` line is a fourth reviewer.
 
 ## Rules the agent kept breaking became scripts
 

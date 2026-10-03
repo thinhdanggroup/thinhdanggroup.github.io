@@ -430,10 +430,10 @@ svg[data-preset="editorial"][data-animation="trace"] [data-animate="node"] { ani
 
         <!-- Swimlanes -->
         <rect data-graph-role="structural-frame" data-composition-frame-kind="lane" data-composition-frame-id="lane-0" x="40" y="52" width="1086" height="104" rx="10" class="c-lane" stroke-width="1"/>
-        <text x="54" y="74" class="t-dim" font-size="10" font-weight="600">01 / Description matching (arm A)</text>
+        <text x="54" y="74" class="t-dim" font-size="10" font-weight="600">01 / Description matching (setup A)</text>
 
         <rect data-graph-role="structural-frame" data-composition-frame-kind="lane" data-composition-frame-id="lane-1" x="40" y="176" width="1086" height="104" rx="10" class="c-lane" stroke-width="1"/>
-        <text x="54" y="198" class="t-dim" font-size="10" font-weight="600">02 / pstack-style router (arm C)</text>
+        <text x="54" y="198" class="t-dim" font-size="10" font-weight="600">02 / pstack-style router (setup C)</text>
 
         <!-- Phase headers -->
         <line x1="87" y1="35" x2="179" y2="35" class="a-default" stroke-width="1.1"/>
@@ -461,8 +461,8 @@ svg[data-preset="editorial"][data-animation="trace"] [data-animate="node"] { ani
         <path data-edge-from="c_read" data-edge-to="c_out" data-edge-label="follow" data-edge-key="5" data-edge-id="c3" data-composition-routing="workflow-v2-auto" data-edge-role="" data-composition-points="681.2,243;742.4000000000001,243" d="M 681.2 243 L 742.4000000000001 243" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
 
         <!-- Nodes -->
-        <g id="node-a_prompt" data-node-id="a_prompt" data-node-label="Plain prompt" tabindex="0" role="button" aria-label="Focus Plain prompt, check on PR 123, Description matching (arm A) › Prompt" aria-pressed="false" data-node-kind="external" data-node-sublabel="check on PR 123" data-node-context="Description matching (arm A) › Prompt">
-          <title>Plain prompt · check on PR 123 · Description matching (arm A) › Prompt</title>
+        <g id="node-a_prompt" data-node-id="a_prompt" data-node-label="Plain prompt" tabindex="0" role="button" aria-label="Focus Plain prompt, check on PR 123, Description matching (setup A) › Prompt" aria-pressed="false" data-node-kind="external" data-node-sublabel="check on PR 123" data-node-context="Description matching (setup A) › Prompt">
+          <title>Plain prompt · check on PR 123 · Description matching (setup A) › Prompt</title>
           <rect x="48" y="93" width="170" height="52" rx="6" class="c-mask"/>
           <rect x="48" y="93" width="170" height="52" rx="6" class="c-external" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="external" class="semantic-sigil s-external" transform="translate(54 99) scale(0.6875)">
@@ -473,8 +473,8 @@ svg[data-preset="editorial"][data-animation="trace"] [data-animate="node"] { ani
           <text x="133" y="131" class="t-muted" font-size="8" text-anchor="middle">check on PR 123</text>
         </g>
 
-        <g id="node-a_list" data-node-id="a_list" data-node-label="Skill listing" tabindex="0" role="button" aria-label="Focus Skill listing, names + descriptions, Description matching (arm A) › Model judgment › Skill selection" aria-pressed="false" data-node-kind="backend" data-node-sublabel="names + descriptions" data-node-context="Description matching (arm A) › Model judgment › Skill selection">
-          <title>Skill listing · names + descriptions · Description matching (arm A) › Model judgment › Skill selection</title>
+        <g id="node-a_list" data-node-id="a_list" data-node-label="Skill listing" tabindex="0" role="button" aria-label="Focus Skill listing, names + descriptions, Description matching (setup A) › Model judgment › Skill selection" aria-pressed="false" data-node-kind="backend" data-node-sublabel="names + descriptions" data-node-context="Description matching (setup A) › Model judgment › Skill selection">
+          <title>Skill listing · names + descriptions · Description matching (setup A) › Model judgment › Skill selection</title>
           <rect x="256" y="93" width="170" height="52" rx="6" class="c-mask"/>
           <rect x="256" y="93" width="170" height="52" rx="6" class="c-backend" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(262 99) scale(0.6875)">
@@ -484,19 +484,19 @@ svg[data-preset="editorial"][data-animation="trace"] [data-animate="node"] { ani
           <text x="341" y="131" class="t-muted" font-size="8" text-anchor="middle">names + descriptions</text>
         </g>
 
-        <g id="node-a_pick" data-node-id="a_pick" data-node-label="Model picks" tabindex="0" role="button" aria-label="Focus Model picks, name beat description, Description matching (arm A) › Model judgment › Skill selection" aria-pressed="false" data-node-kind="backend" data-node-sublabel="name beat description" data-node-context="Description matching (arm A) › Model judgment › Skill selection">
-          <title>Model picks · name beat description · Description matching (arm A) › Model judgment › Skill selection</title>
+        <g id="node-a_pick" data-node-id="a_pick" data-node-label="Model picks" tabindex="0" role="button" aria-label="Focus Model picks, model's own choice, Description matching (setup A) › Model judgment › Skill selection" aria-pressed="false" data-node-kind="backend" data-node-sublabel="model's own choice" data-node-context="Description matching (setup A) › Model judgment › Skill selection">
+          <title>Model picks · model's own choice · Description matching (setup A) › Model judgment › Skill selection</title>
           <rect x="511.20000000000005" y="93" width="170" height="52" rx="6" class="c-mask"/>
           <rect x="511.20000000000005" y="93" width="170" height="52" rx="6" class="c-backend" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(517.2 99) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
           <text data-node-label="" x="596.2" y="114" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Model picks</text>
-          <text x="596.2" y="131" class="t-muted" font-size="8" text-anchor="middle">name beat description</text>
+          <text x="596.2" y="131" class="t-muted" font-size="8" text-anchor="middle">model's own choice</text>
         </g>
 
-        <g id="node-a_out" data-node-id="a_out" data-node-label="pr-status runs" tabindex="0" role="button" aria-label="Focus pr-status runs, built-in stand-in · 30/30, Description matching (arm A) › Skill that runs" aria-pressed="false" data-node-kind="security" data-node-sublabel="built-in stand-in · 30/30" data-node-context="Description matching (arm A) › Skill that runs">
-          <title>pr-status runs · built-in stand-in · 30/30 · Description matching (arm A) › Skill that runs</title>
+        <g id="node-a_out" data-node-id="a_out" data-node-label="pr-status runs" tabindex="0" role="button" aria-label="Focus pr-status runs, built-in stand-in · 30/30, Description matching (setup A) › Skill that runs" aria-pressed="false" data-node-kind="security" data-node-sublabel="built-in stand-in · 30/30" data-node-context="Description matching (setup A) › Skill that runs">
+          <title>pr-status runs · built-in stand-in · 30/30 · Description matching (setup A) › Skill that runs</title>
           <rect x="742.4000000000001" y="93" width="170" height="52" rx="6" class="c-mask"/>
           <rect x="742.4000000000001" y="93" width="170" height="52" rx="6" class="c-security" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="security" class="semantic-sigil s-security" transform="translate(748.4000000000001 99) scale(0.6875)">
@@ -507,8 +507,8 @@ svg[data-preset="editorial"][data-animation="trace"] [data-animate="node"] { ani
           <text x="827.4000000000001" y="131" class="t-muted" font-size="8" text-anchor="middle">built-in stand-in · 30/30</text>
         </g>
 
-        <g id="node-c_prompt" data-node-id="c_prompt" data-node-label="/pack-mode prompt" tabindex="0" role="button" aria-label="Focus /pack-mode prompt, explicit invoke, pstack-style router (arm C) › Prompt" aria-pressed="false" data-node-kind="external" data-node-sublabel="explicit invoke" data-node-context="pstack-style router (arm C) › Prompt">
-          <title>/pack-mode prompt · explicit invoke · pstack-style router (arm C) › Prompt</title>
+        <g id="node-c_prompt" data-node-id="c_prompt" data-node-label="/pack-mode prompt" tabindex="0" role="button" aria-label="Focus /pack-mode prompt, explicit invoke, pstack-style router (setup C) › Prompt" aria-pressed="false" data-node-kind="external" data-node-sublabel="explicit invoke" data-node-context="pstack-style router (setup C) › Prompt">
+          <title>/pack-mode prompt · explicit invoke · pstack-style router (setup C) › Prompt</title>
           <rect x="48" y="217" width="170" height="52" rx="6" class="c-mask"/>
           <rect x="48" y="217" width="170" height="52" rx="6" class="c-external" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="external" class="semantic-sigil s-external" transform="translate(54 223) scale(0.6875)">
@@ -519,8 +519,8 @@ svg[data-preset="editorial"][data-animation="trace"] [data-animate="node"] { ani
           <text x="133" y="255" class="t-muted" font-size="8" text-anchor="middle">explicit invoke</text>
         </g>
 
-        <g id="node-c_router" data-node-id="c_router" data-node-label="Router skill" tabindex="0" role="button" aria-label="Focus Router skill, manual-only · triggers, pstack-style router (arm C) › Author's explicit rule › Skill selection" aria-pressed="false" data-node-kind="backend" data-node-sublabel="manual-only · triggers" data-node-context="pstack-style router (arm C) › Author's explicit rule › Skill selection">
-          <title>Router skill · manual-only · triggers · pstack-style router (arm C) › Author's explicit rule › Skill selection</title>
+        <g id="node-c_router" data-node-id="c_router" data-node-label="Router skill" tabindex="0" role="button" aria-label="Focus Router skill, manual-only · triggers, pstack-style router (setup C) › Author's explicit rule › Skill selection" aria-pressed="false" data-node-kind="backend" data-node-sublabel="manual-only · triggers" data-node-context="pstack-style router (setup C) › Author's explicit rule › Skill selection">
+          <title>Router skill · manual-only · triggers · pstack-style router (setup C) › Author's explicit rule › Skill selection</title>
           <rect x="256" y="217" width="170" height="52" rx="6" class="c-mask"/>
           <rect x="256" y="217" width="170" height="52" rx="6" class="c-backend" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(262 223) scale(0.6875)">
@@ -530,8 +530,8 @@ svg[data-preset="editorial"][data-animation="trace"] [data-animate="node"] { ani
           <text x="341" y="255" class="t-muted" font-size="8" text-anchor="middle">manual-only · triggers</text>
         </g>
 
-        <g id="node-c_read" data-node-id="c_read" data-node-label="babysit SKILL.md" tabindex="0" role="button" aria-label="Focus babysit SKILL.md, manual-only · read by path, pstack-style router (arm C) › Author's explicit rule › Skill selection" aria-pressed="false" data-node-kind="database" data-node-sublabel="manual-only · read by path" data-node-context="pstack-style router (arm C) › Author's explicit rule › Skill selection">
-          <title>babysit SKILL.md · manual-only · read by path · pstack-style router (arm C) › Author's explicit rule › Skill selection</title>
+        <g id="node-c_read" data-node-id="c_read" data-node-label="babysit SKILL.md" tabindex="0" role="button" aria-label="Focus babysit SKILL.md, manual-only · read by path, pstack-style router (setup C) › Author's explicit rule › Skill selection" aria-pressed="false" data-node-kind="database" data-node-sublabel="manual-only · read by path" data-node-context="pstack-style router (setup C) › Author's explicit rule › Skill selection">
+          <title>babysit SKILL.md · manual-only · read by path · pstack-style router (setup C) › Author's explicit rule › Skill selection</title>
           <rect x="511.20000000000005" y="217" width="170" height="52" rx="6" class="c-mask"/>
           <rect x="511.20000000000005" y="217" width="170" height="52" rx="6" class="c-database" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(517.2 223) scale(0.6875)">
@@ -542,8 +542,8 @@ svg[data-preset="editorial"][data-animation="trace"] [data-animate="node"] { ani
           <text x="596.2" y="255" class="t-muted" font-size="8" text-anchor="middle">manual-only · read by path</text>
         </g>
 
-        <g id="node-c_out" data-node-id="c_out" data-node-label="babysit runs" tabindex="0" role="button" aria-label="Focus babysit runs, pack skill · 30/30, pstack-style router (arm C) › Skill that runs" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="pack skill · 30/30" data-node-context="pstack-style router (arm C) › Skill that runs">
-          <title>babysit runs · pack skill · 30/30 · pstack-style router (arm C) › Skill that runs</title>
+        <g id="node-c_out" data-node-id="c_out" data-node-label="babysit runs" tabindex="0" role="button" aria-label="Focus babysit runs, pack skill · 30/30, pstack-style router (setup C) › Skill that runs" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="pack skill · 30/30" data-node-context="pstack-style router (setup C) › Skill that runs">
+          <title>babysit runs · pack skill · 30/30 · pstack-style router (setup C) › Skill that runs</title>
           <rect x="742.4000000000001" y="217" width="170" height="52" rx="6" class="c-mask"/>
           <rect x="742.4000000000001" y="217" width="170" height="52" rx="6" class="c-frontend" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(748.4000000000001 223) scale(0.6875)">
