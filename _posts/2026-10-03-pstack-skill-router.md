@@ -1,6 +1,6 @@
 ---
-title: "pstack Turns Off Skill Auto-Loading for 46 of Its 47 Skills"
-description: "How Cursor's pstack plugin swaps description-matched skill loading for one router, three fan-out skills with different merge rules, and checker scripts."
+title: "Cursor Agent Picking the Wrong Skill? How pstack Routes Around It"
+description: "Tested 120 times in Claude Code: without a router, agents picked the wrong skill in 89 of 90 trials; a pstack-style router fixed it every time. How it works and how to copy it."
 tags:
     - AI Agents
     - Developer Tools
