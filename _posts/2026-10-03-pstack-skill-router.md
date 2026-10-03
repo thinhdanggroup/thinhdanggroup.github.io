@@ -88,9 +88,11 @@ I ran four setups. **A** changes nothing. **B** hides `babysit` with `disable-mo
 | C. Router with an explicit trigger | babysit 10/10 | babysit 10/10 | babysit 10/10 |
 | D. A, with the two descriptions swapped | pr-status 10/10 | pr-status 10/10 | pr-status 9/10 |
 
-Setups A and C, prompt to skill:
+Setups A and C, traced:
 
-![Description matching sends the prompt to pr-status; the router sends it to babysit](/assets/images/pstack-skill-router/skill-routing.svg)
+<iframe src="/assets/htmls/pstack-skill-routing.html" title="Skill routing, setups A and C" loading="lazy" style="width:100%;height:460px;border:1px solid #ddd;border-radius:8px"></iframe>
+
+[Open full size](/assets/htmls/pstack-skill-routing.html)
 
 **A: the pack's skill never won,** even though its description nearly repeated the request.
 
