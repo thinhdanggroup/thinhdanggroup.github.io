@@ -77,6 +77,7 @@ claude -p "check on PR 123. anything outstanding?" --model sonnet \
   --output-format json | jq -r .result
 ```
 
+
 The router arm (C) marks `babysit` manual-only and adds a manual-only `pack-mode` router whose one trigger reads: PR-status request → read `.claude/skills/babysit/SKILL.md` with the Read tool and follow it exactly. "Do not use the pr-status skill, whose description matches the same words." Its prompt is `/pack-mode check on PR 123. anything outstanding?`. Ten trials per arm per model, on Claude Code 2.1.288:
 
 | Arm | Sonnet | Haiku | Opus |
@@ -86,13 +87,17 @@ The router arm (C) marks `babysit` manual-only and adds a manual-only `pack-mode
 | C. Router with an explicit trigger | babysit 10/10 | babysit 10/10 | babysit 10/10 |
 | D. A, with the two descriptions swapped | pr-status 10/10 | pr-status 10/10 | pr-status 9/10 |
 
+Arms A and C, prompt to skill:
+
+![Description matching sends the prompt to pr-status; the router sends it to babysit](/assets/images/pstack-skill-router/skill-routing.svg)
+
 Arm D changed my mind. With the trigger phrases swapped onto `pr-status`, the choice barely moved: in this fixture the name beat the description, so polishing the pack's description would not have rescued it. Arm B shows the flag alone just removes your skill from the contest. Only the router changed the outcome.
 
-Sonnet's per-trial cost was identical after the first trial in every arm, so its ten trials are closer to one answer repeated than a rate. It is a toy fixture in Claude Code, not Cursor, and all 120 trials cost $1.18.
+Sonnet's per-trial cost was identical after trial one in every arm, so its ten trials are one answer repeated, not a rate. It is a toy fixture in Claude Code, not Cursor, and all 120 trials cost $1.18.
 
 ## Three fan-out skills that differ only after the agents return
 
-`interrogate`, `arena` and `swarm` all spawn their agents in one message, with models taken from one config file. What separates them is the contract for merging what comes back.
+`interrogate`, `arena` and `swarm` all spawn agents in one message, with models from one config file. They differ in how they merge results.
 
 | Skill | Who runs | What comes back | Merge rule |
 | --- | --- | --- | --- |
@@ -125,7 +130,7 @@ pstack's principle **encode lessons in structure** says to turn a repeated corre
 
 ## What it costs
 
-A 2,749-word router is a fixed context cost before any work happens. Manual-only skills mean nothing fires unless you invoke the router, so a session where you forget `/poteto-mode` gets none of it. And the router is one person's taste, made executable — which is why pstack ships `/automate-me` to draft your own `-mode` skill from your transcripts.
+A 2,749-word router is a fixed context cost before any work happens. Manual-only skills mean nothing fires unless you invoke the router, so a session where you forget `/poteto-mode` gets none of it. And the router is one person's taste, made executable; pstack's `/automate-me` drafts your own router.
 
 If you maintain a skill pack, the takeaway is concrete. Count how many of your skills auto-load. Keep that set to the ones a user would ask for by name before anything else is running, move the rest behind one router with explicit triggers, and every time you correct the agent twice for the same thing, write the check instead of the third sentence.
 
