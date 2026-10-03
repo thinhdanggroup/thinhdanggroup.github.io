@@ -36,7 +36,7 @@ grep -L '^disable-model-invocation: true' skills/*/SKILL.md
 
 That prints 47 skills, 46 manual-only, and exactly one auto-loadable file — `skills/setup-pstack/SKILL.md`, the installer that writes the model config. Everything else, including the twenty-three single-principle skills and the router itself, is invisible to description matching.
 
-Run the same block on whatever skill pack you have installed. If the answer is "everything auto-loads", then routing in your setup is the agent's judgment over a pile of one-line descriptions, and every new skill you add is a new chance for a collision like the babysit one.
+Run the same block on your own skill pack. If everything auto-loads, routing is the agent's judgment over names and one-line descriptions, and every new skill is another chance at a babysit-style collision.
 
 ## One router does the picking instead
 
@@ -44,13 +44,51 @@ The replacement is `poteto-mode`, a 2,749-word SKILL.md that the README calls "a
 
 **It maps situations to skills explicitly.** The top of the file is a trigger table written as arrows: "Contested design → the **interrogate** skill (multi-model adversarial) before shipping." "Before review → the **no-comments** skill." Parallel fan-out goes to **swarm**, and design bakeoffs go to **arena**. Each arrow is a decision made once by the author, not re-guessed by the agent from description text on every prompt.
 
-**It indexes the principles inline and makes reading them checkable.** All twenty-three principles appear in the router as one-line entries, each naming when it applies. **Attack the Premise**, for example, applies when "Two or more fixes that share one premise have failed the same gate." The full rule lives in a leaf skill the agent must open: "Read the leaf skill in full for any principle you apply." Then comes the line I would steal first: "Cite only principles whose leaf SKILL.md you read this session." The agent's reply names the principle and the choice it changed, and a citation without a read is a rule violation you can spot in the transcript.
-
-Inlining the index is itself one of the principles. **Guard the context window** says "Templates and references used on every invocation belong in the skill file, not in separate files that cost a read each time." The index is read on every task, so it lives in the router. The full principle is read only when it applies, so it lives in a leaf.
+**It indexes the principles inline and makes reading them checkable.** All twenty-three principles appear in the router as one-line entries, each naming when it applies. **Attack the Premise**, for example, applies when "Two or more fixes that share one premise have failed the same gate." The full rule lives in a leaf skill the agent must open: "Read the leaf skill in full for any principle you apply." Then comes the line I would steal first: "Cite only principles whose leaf SKILL.md you read this session." A citation without a read is a violation you can spot in the transcript.
 
 **It turns playbooks into a todo list the agent cannot quietly shorten.** There are twenty-three playbooks (bug fix, perf, babysit, shipping, autonomous run and so on). The router's rule: "Open a todolist whose first items are the matched playbook's steps, copied in verbatim." A step the agent decides to skip "stays in the list with a one-line `skip: <reason>`." Skipping is allowed. Skipping silently is not.
 
-Subagents get the same treatment. pstack ships a `poteto-agent` subagent type whose whole job is to read the router in full before working, because, in the README's words, "substituting `generalPurpose` skips that read and drifts."
+## I tested the router against description matching
+
+The cold open is a claim, so I measured it. I ran it in Claude Code, whose docs define the same field the same way: it stops the model "from automatically loading this skill". The fixture is two skills that both answer "check on PR X", each printing which one fired:
+
+```bash
+cd "$(mktemp -d)"  # empty dir, so no other project skills load
+mkdir -p .claude/skills/pr-status .claude/skills/babysit
+cat > .claude/skills/pr-status/SKILL.md <<'EOF'
+---
+name: pr-status
+description: "Check on a pull request: CI status, review comments, merge conflicts, anything outstanding on a PR."
+---
+Your entire reply must be exactly this one line: ROUTED: pr-status
+EOF
+cat > .claude/skills/babysit/SKILL.md <<'EOF'
+---
+name: babysit
+description: "Use for 'check on PR X', 'anything outstanding on X', 'babysit this', 'get it green'. Drives a PR to merge-ready."
+---
+Your entire reply must be exactly this one line: ROUTED: babysit
+EOF
+
+# One trial. --setting-sources project keeps user-level skills and plugins out.
+claude -p "check on PR 123. anything outstanding?" --model sonnet \
+  --setting-sources project --no-session-persistence --max-turns 6 \
+  --disallowedTools "Bash Edit Write WebFetch WebSearch Agent NotebookEdit" \
+  --output-format json | jq -r .result
+```
+
+The router arm (C) marks `babysit` manual-only and adds a manual-only `pack-mode` router whose one trigger reads: PR-status request → read `.claude/skills/babysit/SKILL.md` with the Read tool and follow it exactly. "Do not use the pr-status skill, whose description matches the same words." Its prompt is `/pack-mode check on PR 123. anything outstanding?`. Ten trials per arm per model, on Claude Code 2.1.288:
+
+| Arm | Sonnet | Haiku | Opus |
+| --- | --- | --- | --- |
+| A. Both skills auto-load | pr-status 10/10 | pr-status 10/10 | pr-status 10/10 |
+| B. `babysit` manual-only, no router | pr-status 10/10 | pr-status 10/10 | pr-status 10/10 |
+| C. Router with an explicit trigger | babysit 10/10 | babysit 10/10 | babysit 10/10 |
+| D. A, with the two descriptions swapped | pr-status 10/10 | pr-status 10/10 | pr-status 9/10 |
+
+Arm D changed my mind. With the trigger phrases swapped onto `pr-status`, the choice barely moved: in this fixture the name beat the description, so polishing the pack's description would not have rescued it. Arm B shows the flag alone just removes your skill from the contest. Only the router changed the outcome.
+
+Sonnet's per-trial cost was identical after the first trial in every arm, so its ten trials are closer to one answer repeated than a rate. It is a toy fixture in Claude Code, not Cursor, and all 120 trials cost $1.18.
 
 ## Three fan-out skills that differ only after the agents return
 
@@ -62,7 +100,7 @@ Subagents get the same treatment. pstack ships a `poteto-agent` subagent type wh
 | `arena` | N candidates on the same task; the rubric is hidden from them | Competing artifacts plus rationales | A cross-judge, preferably from a different model family, scores the rubric; the parent picks one base and grafts the best parts of the losers in by hand |
 | `swarm` | N cloud workers on slices, races, or both | `PASS`, `ISSUES` or `BLOCKED` with evidence | The race rule (`first pass`, `rank all`, `best-of`) is declared before spawning; a result missing its SHAs is rerun once, and "a gap does not count as a pass" |
 
-Two rules in that table look small and will save you a bad week. Interrogate's diversity comes from models, not prompts: "The adversarial signal comes from model diversity, not assigned personas." Three copies of one model told to be "the security reviewer" and "the skeptic" share the same blind spots. And arena refuses to average: "When N candidates wildly diverge, Phase A was under-specified. Reframe and re-run rather than averaging the divergence." Divergence there means the task was badly framed, not that the answers need blending.
+Two rules matter most. Interrogate gets its diversity from "model diversity, not assigned personas", since one model playing three roles keeps one set of blind spots. And arena refuses to average: when candidates "wildly diverge, Phase A was under-specified. Reframe and re-run".
 
 The models come from one always-applied rule that `/setup-pstack` writes at `~/.cursor/rules/pstack-models.mdc`. An excerpt of its default shape:
 
@@ -75,21 +113,19 @@ swarm workers: grok-4.7-xhigh-fast
 interrogate reviewers: claude-opus-5-5-max, gpt-5.6-sol-max, grok-4.7-xhigh-fast
 ```
 
-For panel roles "the list length sets the count", so adding a fourth model to `interrogate reviewers` adds a fourth reviewer without touching the skill. My read of why `setup-pstack` is the one skill left auto-loadable: it is the only one you would plausibly ask for in plain English before anything else is configured.
+For panel roles "the list length sets the count", so a fourth model in `interrogate reviewers` is a fourth reviewer.
 
 ## Rules the agent kept breaking became scripts
 
-pstack's principle **encode lessons in structure** says to turn a repeated correction into "a lint, metadata flag, runtime check, or script instead of more text", because "agents copy whatever the surrounding code already does and a weaker guard becomes the next template." The plugin follows it in at least three places.
+pstack's principle **encode lessons in structure** says to turn a repeated correction into "a lint, metadata flag, runtime check, or script instead of more text", because "agents copy whatever the surrounding code already does and a weaker guard becomes the next template." The plugin follows it in at least two places, and I ran both against bad input.
 
-`check-plan.mjs` validates a multi-PR plan before it reaches a human. It fails the file on long dashes, curly quotes and mid-sentence colons — the router's reply rules ban the first and the last as well — and on structure: every PR section needs the sub-blocks `Depends on.` through `Merge.` in order, and its live-verification block needs lanes numbered 1 to 10, each naming a screenshot and a pass predicate. It exits non-zero on any problem, and step 6 of the multi-phase-plan playbook is "fix every line it prints".
+`check-plan.mjs` validates a multi-PR plan before it reaches a human. It fails the file on long dashes, curly quotes and mid-sentence colons — the router's reply rules ban the first and the last as well — and on structure: every PR section needs the sub-blocks `Depends on.` through `Merge.` in order, and its live-verification block needs lanes numbered 1 to 10, each naming a screenshot and a pass predicate. Fed a three-line plan with one long dash and one mid-sentence colon, it printed six problems, each with `file:line`, and exited 1. Step 6 of the multi-phase-plan playbook is "fix every line it prints".
 
-`log.sh` is the helper behind **show-me-your-work**, a TSV decision log for unattended runs. Its non-obvious job is security: it prefixes any cell starting with `=`, `+`, `-` or `@` with a quote, because the log gets opened in spreadsheets and its evidence column holds PR titles and generated text.
-
-**Comment Sicko** is a read-only subagent that hunts comments and marks the code behind them `MUST KILL` for a rename or refactor. It says of itself, "I never write application code." Making the reviewer read-only is a structural guarantee, not a request.
+`log.sh` is the helper behind **show-me-your-work**, a TSV decision log for unattended runs. Its non-obvious job is security: it prefixes any cell starting with `=`, `+`, `-` or `@` with a quote, because the log gets opened in spreadsheets and its evidence column holds PR titles and generated text. An evidence cell of `=HYPERLINK(...)` came out as `'=HYPERLINK(...)`. So did `-1 regressions`, which a spreadsheet would now read as text, not a number. That is the right trade for an audit log, but it is a trade.
 
 ## What it costs
 
-None of this is free. A 2,749-word router is read at the start of every rigorous task, which is a fixed context cost before any work happens. Manual-only skills also mean nothing fires unless the router or you invoke it — the README is explicit that you use `/poteto-mode` "whenever you're doing anything that requires rigor", and a session where you forget gets none of it. And the router is one person's taste, made executable. pstack knows this, and ships `/automate-me`, which "mines your recent transcripts" to draft your own `-mode` skill.
+A 2,749-word router is a fixed context cost before any work happens. Manual-only skills mean nothing fires unless you invoke the router, so a session where you forget `/poteto-mode` gets none of it. And the router is one person's taste, made executable — which is why pstack ships `/automate-me` to draft your own `-mode` skill from your transcripts.
 
 If you maintain a skill pack, the takeaway is concrete. Count how many of your skills auto-load. Keep that set to the ones a user would ask for by name before anything else is running, move the rest behind one router with explicit triggers, and every time you correct the agent twice for the same thing, write the check instead of the third sentence.
 
@@ -105,3 +141,4 @@ If you maintain a skill pack, the takeaway is concrete. Count how many of your s
 - [pstack `show-me-your-work` `log.sh`](https://github.com/cursor/plugins/blob/main/pstack/skills/show-me-your-work/scripts/log.sh)
 - [pstack principle: encode lessons in structure](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-encode-lessons-in-structure/SKILL.md)
 - [Cursor docs: Agent Skills](https://cursor.com/docs/context/skills)
+- [Claude Code docs: Skills](https://code.claude.com/docs/en/skills)
