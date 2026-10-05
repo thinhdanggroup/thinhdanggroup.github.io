@@ -20,7 +20,7 @@ The architecture diagram in your README is a PNG someone exported from a whitebo
 
 ## The design decision: the agent writes JSON, never SVG
 
-Archify is an agent skill for Claude Code, Cursor, Codex CLI and OpenCode (`npx skills add tt-a1i/archify -g`). It draws five kinds of diagram: architecture, workflow, sequence, data flow and lifecycle. The output is one self-contained HTML file with inline SVG, zoom, route tracing and dark/light themes.
+Archify is an agent skill for Claude Code, Cursor, Codex CLI and OpenCode (`npx skills add tt-a1i/archify -g`). It draws five diagram types, each output as one self-contained HTML file with inline SVG.
 
 The structural choice that explains the rest is in the README's own list: **"Typed JSON IR — every renderer-backed mode has a schema and reproducible source."** The agent never draws. It writes a JSON file of components, connections and boundaries, and archify's renderer turns that into SVG. Between the two sits a set of validators: schema, layout, label clearance, desktop readability and, when you ask for it, source evidence. A failure comes back as one JSON object with a stable rule code, the exact subject, measured evidence and a list of `supportedFixes`. The agent is told to apply only those fixes, and to report the gap if an issue survives two focused repairs and one evidence-based retry.
 
@@ -51,9 +51,9 @@ The setup: I took the architecture example archify ships (`web-app.architecture.
 | `<script>alert(1)</script>` as a label | 1 | label wider than its 120px box |
 | `<img src=x onerror=alert(1)>` as a sublabel | 0 | pass |
 
-The structural rows are what you would hope a linter catches, and the messages name the exact edge, id or boundary. That precision is what lets an agent repair one neighbourhood of the JSON instead of regenerating the whole diagram.
+Most structural rows name their exact subject. That precision is what lets an agent repair one neighbourhood of the JSON instead of regenerating the whole diagram.
 
-The far-away database is the interesting one. Nothing about it is *invalid*. The JSON is well formed and every edge resolves. Archify rejected it because the diagram would be 5,200 units wide, which would shrink its 8px labels to about 2px on a 1,346px desktop budget, below its 6px floor. It checks the diagram a reader will actually see, not just the data.
+The far-away database is the interesting one. The JSON passes the schema and every edge resolves. Archify rejected it because the diagram would be 5,200 units wide, which would shrink its 8px labels to about 2px on a 1,346px desktop budget, below its 6px floor. It checks the diagram a reader will actually see, not just the data.
 
 The `<script>` label was rejected for its width, not its content, which is a lucky outcome rather than a defence. So I kept the `<img onerror>` payload, which fit, and ran it through the full `finalize` pipeline, which passed. The output file contains `&lt;img src=x onerror=alert(1)&gt;`, escaped. Loaded in Chromium, clicking the node, searching for it with `/` and opening the `?` guide fired no dialog and created no `<img>` element. The payload showed up as text.
 
@@ -67,13 +67,25 @@ Commit the JSON next to the code and the diagram becomes reviewable. `archify co
 - changing Redis's port in its sublabel came back as `changed`, classified `semantic`;
 - adding a worker-to-Postgres edge came back as `added`, classified `topology`.
 
+Combined into one PR, the three edits render like this; switch between Before, Delta and After at the top of the frame:
+
+<iframe src="/assets/htmls/architecture-diagrams-as-code-archify-pr-delta.html" title="Architecture Delta for a sample PR" loading="lazy" style="width:100%;height:760px;border:1px solid #ddd;border-radius:8px"></iframe>
+
+[Open full size](/assets/htmls/architecture-diagrams-as-code-archify-pr-delta.html)
+
 That split is what a reviewer needs. A PR that only tidies the layout should not look like a PR that gives a worker direct database access. The receipt is also honest about its limits: "Authored Architecture IR only; no runtime impact, causality, risk, or mergeability is inferred." It diffs what someone *wrote down*, not what the system does.
 
 ## Use 2: a repository map that cites its sources
 
 For a diagram of real code, each component can carry up to three `sources` (path, line, end line), and `meta.repository` pins a 40-character commit. Run validation with `--repo-root` and archify checks each citation against the committed bytes at that revision.
 
-I built a two-file Git repository and cited it seven ways. A correct citation passed. Five bad ones were rejected, each with a message naming the problem: a line past the end of the file (`requests line 40, but app/db.py has 2 lines`), a missing file, a file that exists only in the working tree, a path escaping the repo (`../../secret.txt`) and an unknown revision. The missing file and the working-tree-only file share one code, `repository-evidence/file-missing`, because both are absent at the pinned commit. Validation also refused to run at all until the fixture repo had an `origin` remote.
+Pointed at real code, it looks like this: archify's own deliver path, with every box citing the lines at commit `73aaa06` that back it. Each `SRC` badge opens those lines on GitHub:
+
+<iframe src="/assets/htmls/architecture-diagrams-as-code-archify-repo-map.html" title="archify deliver path, source-backed" loading="lazy" style="width:100%;height:620px;border:1px solid #ddd;border-radius:8px"></iframe>
+
+[Open full size](/assets/htmls/architecture-diagrams-as-code-archify-repo-map.html)
+
+I built a two-file Git repository and cited it seven ways. A correct citation passed. Five bad ones were rejected, each with a message naming the problem: a line past the end of the file (`requests line 40, but app/db.py has 2 lines`), a missing file, a file that exists only in the working tree, a path escaping the repo (`../../secret.txt`) and an unknown revision. The missing file and the working-tree-only file share one code, `repository-evidence/file-missing`, because both are absent at the pinned commit.
 
 Then the seventh citation, and the important limit. I pointed the PostgreSQL node at line 1 of `app/api.py`, which is `from fastapi import FastAPI`. **It passed.** Archify proves a citation *exists* at the pinned commit; it cannot prove the cited line says what the node claims. A source-backed diagram is a diagram whose claims are easy to check, not a diagram that has been checked. Someone still has to click `SRC 1` and read.
 
@@ -128,15 +140,13 @@ node ~/.claude/skills/archify/bin/archify.mjs validate architecture docs/archite
 
 ## Use 4: send it to people who will never open your repo
 
-The output is one HTML file that opens without archify installed, and stable links restore a view: `#focus=api&reach=downstream`, `#route=web~db`, `#lens=backend~database`. That suits an incident retro, where you link "the path the bad request took" instead of describing it, or a runbook a support team reads. The README's community examples go as far as travel planning and contract review. The escaping test above is what makes me comfortable embedding one in a page I host. The iframe in this post is one.
+The output is one HTML file that opens without archify installed, and stable links restore a view: <a href="/assets/htmls/architecture-diagrams-as-code-archify-repo-map.html#focus=commit" data-proofer-ignore>this link</a> opens the map above focused on the commit step. That suits an incident retro, where you link "the path the bad request took" instead of describing it, or a runbook a support team reads. The escaping test above is what makes me comfortable embedding one in a page I host. Each iframe in this post is one.
 
 ## Where it gets it wrong
 
 The `guide` command, which recommends a diagram type for a plain-English question, is keyword matching. I gave it ten scenarios and it picked the type I expected for seven. Every one of its five high-confidence answers matched. All three misses were an order status flow, an OAuth code flow and Kubernetes pod phases; each came back `confidence: low` with no matched signals and defaulted to `architecture`. Treat a low-confidence answer as "no idea", which is what it is.
 
 The checks also cannot replace judgement about content. The validators know a box is too far away or a line number does not exist. They do not know that your agent invented a queue. Archify's repository-authoring guide tells the agent to trace call sites and to "never turn a label, package description, or config value into an unobserved service or behavior." That is an instruction to the model, not a check the CLI runs.
-
-And it is not a drawing tool: the README rules out WYSIWYG editing, general-purpose auto-layout and automatic Mermaid parsing.
 
 ## What to do with it
 
