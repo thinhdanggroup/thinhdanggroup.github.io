@@ -8,6 +8,13 @@
 # category: one of ai-engineering, databases, distributed-systems, infrastructure,
 #           python, software-engineering, web-development
 topics:
+  - id: cheap-oversight-black-box-agents
+    title: "Cheap Oversight for Black-Box Agents"
+    angle: "Practical, low-cost techniques for monitoring and constraining LLM agents when you cannot inspect their internals — covering output validation, sandboxing, budget tripwires, and anomaly detection"
+    category: ai-engineering
+    tags: [AI, Agents, LLM, Safety]
+    status: queued
+
   - id: pg-connection-pooling
     title: "Postgres connection pooling under sustained load"
     angle: "pgbouncer's three pooling modes, what each one breaks, and how to pick"
