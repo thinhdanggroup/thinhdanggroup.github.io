@@ -176,6 +176,9 @@ The executor collects `before` and `after` snapshots for the auditor. It does no
 
 ```python
 class Auditor:
+    def __init__(self, sandbox: pathlib.Path):
+        self.sandbox = sandbox
+
     def check(
         self,
         plan: TaskPlan,
@@ -184,9 +187,10 @@ class Auditor:
         after: dict[str, str],
     ) -> list[str]:
         violations = []
-        changed = {p for p in after if after[p] != before.get(p)}
+        # new files count as changed — they were not in the pre-run snapshot
+        changed = {p for p in after if after[p] != before.get(p, "")} | (after.keys() - before.keys())
         expected_writes = {
-            str(step.params["path"])
+            str((self.sandbox / step.params["path"]).resolve())
             for step in plan.steps
             if step.tool == "write_file"
         }
