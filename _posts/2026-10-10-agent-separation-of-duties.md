@@ -121,37 +121,61 @@ The planner outputs a `TaskPlan`. Nothing downstream reads unstructured text fro
 ### Policy gate
 
 ```python
+import pathlib
+import re
+from enum import Enum
+
 ALLOWED_TOOLS = {"read_file", "write_file", "run_test", "search_web"}
 MAX_WRITE_BYTES = 64_000
-INJECTION_PATTERNS = [b"ignore previous", b"system prompt", b"<|im_start|>"]
+INJECTION_PATTERNS = ["ignore previous", "system prompt", "<|im_start|>"]
+
+class Violation(Enum):
+    TOOL_NOT_ALLOWED = "tool_not_allowed"
+    PATH_OUTSIDE_SANDBOX = "path_outside_sandbox"
+    WRITE_TOO_LARGE = "write_too_large"
+    INJECTION_PATTERN = "injection_pattern"
+
+def normalize(text: str) -> str:
+    return re.sub(r"\s+", " ", text).lower()
 
 class PolicyGate:
-    def check(self, plan: TaskPlan) -> list[str]:
+    def __init__(self, sandbox: pathlib.Path):
+        self.sandbox = sandbox.resolve()
+
+    def check(self, plan: TaskPlan) -> list[tuple[int, Violation]]:
         violations = []
         for i, step in enumerate(plan.steps):
             if step.tool not in ALLOWED_TOOLS:
-                violations.append(f"step {i}: tool '{step.tool}' not in allowlist")
+                violations.append((i, Violation.TOOL_NOT_ALLOWED))
                 continue
+            if "path" in step.params:
+                target = (self.sandbox / str(step.params["path"])).resolve()
+                if not target.is_relative_to(self.sandbox):
+                    violations.append((i, Violation.PATH_OUTSIDE_SANDBOX))
             if step.tool == "write_file":
                 content = str(step.params.get("content", "")).encode()
                 if len(content) > MAX_WRITE_BYTES:
-                    violations.append(f"step {i}: write exceeds {MAX_WRITE_BYTES} bytes")
-                for pat in INJECTION_PATTERNS:
-                    if pat in content.lower():
-                        violations.append(f"step {i}: injection pattern detected")
+                    violations.append((i, Violation.WRITE_TOO_LARGE))
+            # every string parameter is untrusted, not just file content
+            text = normalize(" ".join(str(v) for v in step.params.values()))
+            if any(pat in text for pat in INJECTION_PATTERNS):
+                violations.append((i, Violation.INJECTION_PATTERN))
         return violations
 ```
 
-The gate is a function, not a model call. It runs in microseconds and cannot be talked out of its result.
+The gate is a function, not a model call. It runs in microseconds and cannot be talked out of its result. It returns violation codes rather than explanations, so the planner learns *which* rule a step broke but gets no prose to iterate a bypass against. Path containment is the check that matters most: without it, a plan can write to `../../etc/passwd` and every other rule passes.
+
+The injection patterns are a speed bump, not a defence. Whitespace normalization stops `ignore  previous` from slipping through, but a substring blocklist will always lose to paraphrase. The allowlist and the path check carry the real weight.
 
 ### Executor with pre/post snapshots
 
 ```python
-import hashlib, pathlib
+import hashlib
 
 def snapshot(paths: list[pathlib.Path]) -> dict[str, str]:
+    # resolve so keys match the auditor's resolved plan paths
     return {
-        str(p): hashlib.sha256(p.read_bytes()).hexdigest()
+        str(p.resolve()): hashlib.sha256(p.read_bytes()).hexdigest()
         for p in paths if p.exists()
     }
 
@@ -187,8 +211,11 @@ class Auditor:
         after: dict[str, str],
     ) -> list[str]:
         violations = []
-        # new files count as changed — they were not in the pre-run snapshot
-        changed = {p for p in after if after[p] != before.get(p, "")} | (after.keys() - before.keys())
+        # union of both snapshots: catches modified, created, and deleted files
+        changed = {
+            p for p in before.keys() | after.keys()
+            if before.get(p) != after.get(p)
+        }
         expected_writes = {
             str((self.sandbox / step.params["path"]).resolve())
             for step in plan.steps
@@ -200,7 +227,7 @@ class Auditor:
         return violations
 ```
 
-Any file that changed but was not in the approved plan is a violation. The auditor does not care why it changed — if it was not planned, it should not have changed.
+Any file that changed, appeared, or disappeared without being in the approved plan is a violation. Deletions matter: an auditor that only inspects files still present after the run will never notice an attacker removing one. The auditor does not care why it changed — if it was not planned, it should not have changed.
 
 ## Trade-offs
 
