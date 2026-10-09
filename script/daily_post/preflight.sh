@@ -83,7 +83,7 @@ if ! bundle exec jekyll --version >/dev/null 2>&1; then
 fi
 
 echo "==> jekyll build"
-if ! JEKYLL_ENV=production bundle exec jekyll build --trace; then
+if ! JEKYLL_ENV=production RUBYOPT="-E utf-8" bundle exec jekyll build --trace; then
   echo "preflight: RED — the jekyll build failed. The environment is fine; this is a" >&2
   echo "problem with the post or the site content." >&2
   exit 1
