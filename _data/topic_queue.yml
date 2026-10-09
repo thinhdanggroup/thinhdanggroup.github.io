@@ -8,6 +8,13 @@
 # category: one of ai-engineering, databases, distributed-systems, infrastructure,
 #           python, software-engineering, web-development
 topics:
+  - id: agent-separation-of-duties
+    title: "Agent Separation of Duties: The Architecture That Dropped Attack Success from 98% to 7%"
+    angle: "How externalizing four roles — planner, policy gate, executor, and auditor — outside the model creates a security boundary that prompt injection and jailbreak attacks cannot cross; includes a concrete implementation sketch and the empirical result that drove the design"
+    category: ai-engineering
+    tags: [AI, Agents, Security, LLM]
+    status: queued
+
   - id: cheap-oversight-black-box-agents
     title: "Cheap Oversight for Black-Box Agents"
     angle: "Practical, low-cost techniques for monitoring and constraining LLM agents when you cannot inspect their internals — covering output validation, sandboxing, budget tripwires, and anomaly detection"
