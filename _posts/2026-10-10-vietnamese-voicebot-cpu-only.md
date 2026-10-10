@@ -20,6 +20,10 @@ The caller says "cho tôi đặt bàn bốn người tối mai lúc sáu giờ" 
 
 **vi-voicebot** is a restaurant receptionist that answers in Vietnamese and runs entirely on one CPU: Silero VAD, a 30M-parameter Zipformer ASR, an intent state machine, a small Ollama model, and Piper TTS, all local. On an Intel Core Ultra 7 265H with 32 GB RAM and no GPU, booking turns start speaking 0.02–0.30 s after the caller stops. The trick isn't a faster model. It's two rules: **the LLM only runs when nothing cheaper can decide**, and **when it runs, it must never re-read what it has already seen**.
 
+The whole system: speech in along the top row, the reply back along the bottom.
+
+![vi-voicebot architecture: VAD, ASR, dialog router and skills in; splitter and Piper TTS out](/assets/images/vietnamese-voicebot-cpu-only/architecture.webp)
+
 ## The LLM is the slowest and least trustworthy part, so route around it
 
 On this machine Ollama reads prompts at 109 tok/s with default threads (170 tok/s tuned) and generates at 23–34 tok/s. An LLM intent classifier costs 0.6–2 s per turn. That's fine for "which dish is best?" and terrible for "yes, that's right."
@@ -40,7 +44,7 @@ The second half of the split matters more than the latency. Bookings, availabili
 
 That rule was learned the obvious way: before the menu skill existed, the model cheerfully invented a price for a vegetarian dish. Tool calling was rejected on purpose — small models are unreliable tool callers.
 
-The booking skill does the boring things a model would get creatively wrong. It validates party size against the largest table and the time against opening hours. When the slot is full it offers the two nearest free times on a 30-minute grid. `book()` re-checks availability inside a lock and transaction before inserting, so a table taken between "still free" and "yes, confirm" gets a new question instead of a double booking. Two turns in a row with no progress hand the call to a human callback.
+The booking skill does the boring things a model would get creatively wrong. When the slot is full it offers the two nearest free times on a 30-minute grid. `book()` re-checks availability inside a lock and transaction before inserting, so a table taken between "still free" and "yes, confirm" gets a new question instead of a double booking. Two turns in a row with no progress hand the call to a human callback.
 
 ## Prompt-cache discipline on a slow CPU
 
@@ -115,7 +119,7 @@ By the time a question reaches the model, everything except the caller's last se
 
 - **Ollama's JSON-schema output with a bare root `{"enum": [...]}` returned wrong intent labels** — 0/10. Wrapping the same enum in an object, `{"type": "object", "properties": {"intent": {"enum": [...]}}}`, got 10/10.
 - **Putting every state's instructions in the system prompt made replies ~0.7 s faster and dropped intent accuracy from 10/10 to 3/10.** A state's prompt is now injected into the user turn once, the first time the LLM answers in that state.
-- **Thread count matters more than core count.** Six threads, one per performance core, ran 1.5× faster than the default; 14 threads made generation about 10× slower (2.4 tok/s).
+- **Fewer threads were faster.** Six threads, one per performance core, ran 1.5× faster than the default; 14 threads made generation about 10× slower (2.4 tok/s).
 - **The Ollama service on this machine set a 32k context**, putting qwen3:1.7b at 4.95 GB. With `num_ctx` 2048 — plenty for a phone call — it's around 1.6 GB.
 
 ## Vietnamese speech is a text problem first
@@ -139,7 +143,7 @@ One observability gotcha: each call is a Langfuse session and each turn a trace,
 ## Where it falls short
 
 - **The default ASR model is CC BY-NC-ND** — non-commercial. It has to be replaced before anyone sells this.
-- **Browser only.** There's no phone line yet, and without browser echo cancellation, barge-in needs another answer.
+- **Browser only.** There's no phone line yet.
 - **Small LLMs slip in Vietnamese**, qwen3:0.6b especially. "Mấy giờ rồi?" (what time is it?) gets the opening hours.
 - **Concurrency beyond one call is estimated, not load-tested**, and the memory plateau over long uptime isn't verified.
 
