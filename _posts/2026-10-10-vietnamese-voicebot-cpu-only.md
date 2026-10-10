@@ -115,7 +115,7 @@ By the time a question reaches the model, everything except the caller's last se
 
 - **Ollama's JSON-schema output with a bare root `{"enum": [...]}` returned wrong intent labels** — 0/10. Wrapping the same enum in an object, `{"type": "object", "properties": {"intent": {"enum": [...]}}}`, got 10/10.
 - **Putting every state's instructions in the system prompt made replies ~0.7 s faster and dropped intent accuracy from 10/10 to 3/10.** A state's prompt is now injected into the user turn once, the first time the LLM answers in that state.
-- **Thread count matters more than core count.** Six threads, one per performance core, ran 1.5× faster than the default; using every core made generation about 10× slower.
+- **Thread count matters more than core count.** Six threads, one per performance core, ran 1.5× faster than the default; 14 threads made generation about 10× slower (2.4 tok/s).
 - **The Ollama service on this machine set a 32k context**, putting qwen3:1.7b at 4.95 GB. With `num_ctx` 2048 — plenty for a phone call — it's around 1.6 GB.
 
 ## Vietnamese speech is a text problem first
