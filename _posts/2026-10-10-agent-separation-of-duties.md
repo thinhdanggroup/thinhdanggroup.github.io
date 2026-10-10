@@ -1,6 +1,6 @@
 ---
 title: "Agent Separation of Duties: The Architecture That Dropped Attack Success from 98% to 7%"
-description: "A new preprint externalizes four roles — planner, policy gate, executor, auditor — outside the model itself, cutting prompt-injection attack success from 98.3% to 7.7%. Here is what the design looks like and how to build it."
+description: "A preprint moves four roles — planner, policy gate, executor, auditor — outside the model, cutting prompt-injection attack success from 98.3% to 7.7%. Here is how to build it."
 tags:
     - AI Agents
     - Security
