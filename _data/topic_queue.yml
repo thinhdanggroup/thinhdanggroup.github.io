@@ -27,8 +27,9 @@ topics:
       budget tripwires, and anomaly detection"
     category: ai-engineering
     tags: [AI, Agents, LLM, Safety]
-    status: claimed
+    status: published
     claimed_on: '2026-10-25'
+    slug: cheap-oversight-black-box-agents
 
   - id: pg-connection-pooling
     title: "Postgres connection pooling under sustained load"
