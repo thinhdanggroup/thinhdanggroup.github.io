@@ -65,5 +65,6 @@ topics:
       and aiohttp, which enable br whenever brotli is importable"
     category: python
     tags: [Python, Security]
-    status: claimed
+    status: published
     claimed_on: '2026-10-25'
+    slug: brotli-optional-decoder
