@@ -42,3 +42,7 @@ script/medium/config.json
 
 # Subagent-driven development scratch (ledger, briefs, review packages)
 .superpowers/
+
+# Claude Code tool scratch dirs
+.archify/
+.playwright-mcp/
