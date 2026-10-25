@@ -57,3 +57,13 @@ topics:
     status: published
     claimed_on: '2026-09-16'
     slug: otel-span-cardinality
+
+  - id: brotli-http2shell
+    title: "Your HTTP client decodes Brotli because a package happened to be installed"
+    angle: "CVE-2026-111497: an unchecked boolean return in Brotli's block-switch
+      decoder becomes an out-of-bounds write reachable from urllib3, requests, httpx
+      and aiohttp, which enable br whenever brotli is importable"
+    category: python
+    tags: [Python, Security]
+    status: claimed
+    claimed_on: '2026-10-25'
