@@ -52,7 +52,8 @@
       "Bash(grep:*)",
       "Bash(rg:*)",
       "Bash(date:*)",
-      "Bash(echo:*)"
+      "Bash(echo:*)",
+      "Edit(.claude/skills/**)"
     ],
     "deny": [
       "Bash(rm -rf:*)",
@@ -63,13 +64,13 @@
       "Bash(sudo:*)",
       "Bash(curl:*)",
       "Bash(wget:*)",
-      "Write(.claude/**)",
-      "Edit(.claude/**)",
       "Write(script/**)",
       "Edit(script/**)",
       "Read(./.env)",
       "Read(./.env.*)",
-      "Read(~/.ssh/**)"
+      "Read(~/.ssh/**)",
+      "Edit(.claude/settings.json)",
+      "Edit(.claude/settings.local.json)"
     ]
   }
 }
