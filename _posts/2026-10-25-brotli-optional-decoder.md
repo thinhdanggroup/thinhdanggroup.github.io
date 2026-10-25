@@ -108,7 +108,19 @@ server.shutdown()
 
 On httpx 0.28.1 and requests 2.32.3 (urllib3 2.2.3), both clients send `gzip, deflate` and both print the decoded sentence. Swap that harmless body for a crafted stream and an unpatched decoder is doing the writing.
 
-The source advisory's exposure test is blunt: "You're exposed if any environment has Brotli 1.2.0 or earlier or brotlicffi 1.2.0.x installed." My own reading of where that bites hardest is any Python process that fetches URLs it does not control — webhook delivery, link previews, scrapers, feed readers, anything that follows a redirect.
+The source advisory's exposure test is blunt: "You're exposed if any environment has Brotli 1.2.0 or earlier or brotlicffi 1.2.0.x installed." Where it bites hardest, in my reading, is code that fetches URLs it does not control.
+
+## What an attack would look like
+
+No exploitation in the wild had been reported as of October 22, so what follows is a hypothetical, built only from the mechanism above. It deliberately stops at *where* attacker bytes enter; how to craft the malformed stream is not something this post covers.
+
+Say your SaaS lets customers register a webhook URL, and a worker POSTs events to it with `requests`. An attacker signs up and registers `https://hooks.attacker.example/in`. It resolves, speaks TLS and answers `200` — nothing looks hostile.
+
+The attack is in the reply. Your worker never asked for Brotli; the attacker's server answers with `Content-Encoding: br` anyway and a body built to trigger the block-switch bug. urllib3 sees the header, finds `brotli` importable, and hands the body to the vulnerable decoder. Your worker does not even have to read the reply: without `stream=True`, `Session.send` touches `r.content` before returning, and `.content` streams the raw body with `decode_content=True`. The decoder runs inside the `requests.post()` call itself — fire-and-forget code included.
+
+From there Node.js's own list of outcomes applies — "a crash, disclosure of process memory, or remote code execution" — inside your webhook worker, the process holding database credentials, webhook signing keys and API tokens. The attacker spent one sign-up and one HTTP server.
+
+The same shape fits link previews and feed readers. The attacker never reaches into your network; your code reaches out to them and politely decompresses whatever comes back.
 
 ## Find out what your interpreter will actually do
 
