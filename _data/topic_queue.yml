@@ -68,3 +68,14 @@ topics:
     status: published
     claimed_on: '2026-10-25'
     slug: brotli-optional-decoder
+
+  - id: llm-formal-verification-loop
+    title: "Claude proved 123 libraries can't crash: the generate-and-check loop behind it"
+    angle: "Anthropic and Theorem turned OSS-Fuzz targets into Rocq theorems about
+      RISC-V binaries and had Claude prove, patch and re-prove them; the application
+      pattern is an LLM producer judged by a checker, where the spec is the real
+      product and patches must be audited against reward hacking"
+    category: ai-engineering
+    tags: [LLM, AI Agents, Security, Testing]
+    status: claimed
+    claimed_on: '2026-10-25'
