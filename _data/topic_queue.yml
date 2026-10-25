@@ -81,3 +81,14 @@ topics:
     status: published
     claimed_on: '2026-10-25'
     slug: llm-formal-verification-loop
+
+  - id: ralph-to-goal
+    title: "Ralph to /goal: how the bash one-liner became a product feature"
+    angle: "Huntley's while-true Ralph loop (fresh context, one item per loop, specs,
+      backpressure) versus Claude Code /loop and /goal and Codex /goal: what each
+      productization kept and lost, especially fresh context and deterministic checks
+      versus a transcript-only LLM judge"
+    category: ai-engineering
+    tags: [LLM, AI Agents, Developer Tools]
+    status: claimed
+    claimed_on: '2026-10-25'
