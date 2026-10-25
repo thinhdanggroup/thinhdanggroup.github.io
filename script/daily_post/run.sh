@@ -45,6 +45,26 @@ export GIT_SSH_COMMAND="${GIT_SSH_COMMAND:-ssh -o BatchMode=yes -o StrictHostKey
 REPO="${DAILY_POST_REPO:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 cd "$REPO" || { echo "run.sh: cannot cd to $REPO" >&2; exit 40; }
 
+# Load repo-local secrets (CLAUDE_CODE_OAUTH_TOKEN) if present, without
+# overriding anything already exported by the caller. This matters when
+# run.sh is invoked via a Bash tool call from inside a *running* Claude Code
+# session (e.g. the agi-telephony-agent Slack bot driving this pipeline): the
+# nested `claude -p` call below does not reliably inherit CLAUDE_CODE_OAUTH_TOKEN
+# from that parent session's own process environment, so it falls back to the
+# on-disk login, which fails with a misleading "OAuth session expired and
+# could not be refreshed" even though the parent session is authenticated
+# fine. A plain cron/terminal invocation with a working on-disk login is
+# unaffected either way.
+if [[ -f "$REPO/.env" ]]; then
+  _daily_post_prior_token="${CLAUDE_CODE_OAUTH_TOKEN:-}"
+  set -a
+  # shellcheck disable=SC1091
+  source "$REPO/.env"
+  set +a
+  [[ -n "$_daily_post_prior_token" ]] && CLAUDE_CODE_OAUTH_TOKEN="$_daily_post_prior_token"
+  unset _daily_post_prior_token
+fi
+
 TODAY="$(date +%F)"
 LOG_DIR="$REPO/.git/daily-post-logs"
 SCRATCH_DIR="$REPO/.git/daily-post-scratch"
