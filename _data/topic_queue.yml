@@ -90,5 +90,6 @@ topics:
       versus a transcript-only LLM judge"
     category: ai-engineering
     tags: [LLM, AI Agents, Developer Tools]
-    status: claimed
+    status: published
     claimed_on: '2026-10-25'
+    slug: ralph-to-goal
