@@ -20,11 +20,14 @@ commentary. A blog post summarising a release is not a source — the release no
 
 Scan, in this order, and stop as soon as a candidate survives the duplicate check:
 
-1. Hacker News front page and `news.ycombinator.com/best`, last 48 hours.
-2. GitHub releases for projects already covered in the archive — a major version is
+1. A broad, unscoped Google web search for notable recent technical developments —
+   not restricted to one beat, and not Search Console or Trends data; plain web/news
+   search results only.
+2. Hacker News front page and `news.ycombinator.com/best`, last 48 hours.
+3. GitHub releases for projects already covered in the archive — a major version is
    usually worth a post.
-3. arXiv listings in cs.DC, cs.SE, cs.CL from the last week.
-4. Engineering blogs from teams operating at scale.
+4. arXiv listings in cs.DC, cs.SE, cs.CL from the last week.
+5. Engineering blogs from teams operating at scale.
 
 A candidate is viable when it is **specific** (a mechanism, not a category), **fresh**
 (the reader could not have read this a year ago), and **checkable** (primary sources

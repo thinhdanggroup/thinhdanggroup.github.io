@@ -30,11 +30,14 @@ year's answer. Send independent searches **in the same turn** so they run in par
 Follow the order in `.claude/skills/daily-post/references/sources.md` ("Discovery when
 the queue is dry"). The fast path that works:
 
-1. `WebFetch https://news.ycombinator.com/best` with a prompt asking for every title +
+1. An `extended` `WebSearch` for a broad Google web search of notable recent technical
+   developments — unscoped, run first to maximize net width before narrowing to the
+   beats below.
+2. `WebFetch https://news.ycombinator.com/best` with a prompt asking for every title +
    URL and which ones are technical — one call covers the front page.
-2. In the same turn, an `extended` search for recent release notes in the blog's beats
+3. In the same turn, an `extended` search for recent release notes in the blog's beats
    and one for recent arXiv listings.
-3. For each promising hit, `WebFetch` the story itself and ask for the mechanism,
+4. For each promising hit, `WebFetch` the story itself and ask for the mechanism,
    versions, dates and verbatim quotes — never judge a topic by its headline.
 
 A viable candidate is **specific** (a mechanism, not a category), **fresh**, and
