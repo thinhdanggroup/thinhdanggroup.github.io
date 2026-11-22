@@ -48,6 +48,54 @@ def test_reference_files_contain_no_placeholders(name: str):
         assert marker not in text, f"{name} still contains {marker}"
 
 
+# --- discovery: Google web search as a standing first step -----------------
+
+WEB_RESEARCH_SKILL_MD = REPO / ".claude" / "skills" / "web-research" / "SKILL.md"
+
+
+def _numbered_list_items(section: str) -> list[str]:
+    # Joins each item's continuation lines (those not starting a new "N. ")
+    # into one string, so multi-line items are matched in full.
+    matches = list(re.finditer(r"^\d+\.\s+(.*(?:\n(?!\d+\.\s).*)*)", section, re.M))
+    return [" ".join(m.group(1).split()) for m in matches]
+
+
+def _sources_md_discovery_items() -> list[str]:
+    text = (REFS / "sources.md").read_text(encoding="utf-8")
+    start = text.index("## Discovery when the queue is dry")
+    end = text.index("\n## ", start + 1)
+    section = text[start:end]
+    return _numbered_list_items(section)
+
+
+def _web_research_discover_items() -> list[str]:
+    text = WEB_RESEARCH_SKILL_MD.read_text(encoding="utf-8")
+    start = text.index("## 2. Discover")
+    end = text.index("\n## ", start + 1)
+    section = text[start:end]
+    return _numbered_list_items(section)
+
+
+def test_sources_md_discovery_lists_google_search_first():
+    items = _sources_md_discovery_items()
+    assert "google" in items[0].lower()
+    assert "search" in items[0].lower()
+    assert "hacker news" in items[1].lower()
+
+
+def test_sources_md_google_step_does_not_mention_search_console_or_trends():
+    google_step = _sources_md_discovery_items()[0]
+    assert "Search Console" not in google_step
+    assert "Trends" not in google_step
+
+
+def test_web_research_skill_discover_step_matches_sources_md_order():
+    items = _web_research_discover_items()
+    assert "google" in items[0].lower()
+    assert "search" in items[0].lower()
+    assert "news.ycombinator.com/best" in items[1]
+
+
 SKILL_MD = SKILL_DIR / "SKILL.md"
 
 STATUS_TOKENS = ("published", "blocked", "no-topic", "preflight-failed")
