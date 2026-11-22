@@ -53,12 +53,19 @@ def test_reference_files_contain_no_placeholders(name: str):
 WEB_RESEARCH_SKILL_MD = REPO / ".claude" / "skills" / "web-research" / "SKILL.md"
 
 
+def _numbered_list_items(section: str) -> list[str]:
+    # Joins each item's continuation lines (those not starting a new "N. ")
+    # into one string, so multi-line items are matched in full.
+    matches = list(re.finditer(r"^\d+\.\s+(.*(?:\n(?!\d+\.\s).*)*)", section, re.M))
+    return [" ".join(m.group(1).split()) for m in matches]
+
+
 def _sources_md_discovery_items() -> list[str]:
     text = (REFS / "sources.md").read_text(encoding="utf-8")
     start = text.index("## Discovery when the queue is dry")
     end = text.index("\n## ", start + 1)
     section = text[start:end]
-    return re.findall(r"^\d+\.\s+(.*)$", section, re.M)
+    return _numbered_list_items(section)
 
 
 def _web_research_discover_items() -> list[str]:
@@ -66,7 +73,7 @@ def _web_research_discover_items() -> list[str]:
     start = text.index("## 2. Discover")
     end = text.index("\n## ", start + 1)
     section = text[start:end]
-    return re.findall(r"^\d+\.\s+(.*)$", section, re.M)
+    return _numbered_list_items(section)
 
 
 def test_sources_md_discovery_lists_google_search_first():

@@ -21,8 +21,8 @@ commentary. A blog post summarising a release is not a source — the release no
 Scan, in this order, and stop as soon as a candidate survives the duplicate check:
 
 1. A broad, unscoped Google web search for notable recent technical developments —
-   not restricted to one beat, and not Search Console or Trends data; plain web/news
-   search results only.
+   not restricted to one beat, and not an analytics or trending-queries signal; plain
+   web/news search results only.
 2. Hacker News front page and `news.ycombinator.com/best`, last 48 hours.
 3. GitHub releases for projects already covered in the archive — a major version is
    usually worth a post.
